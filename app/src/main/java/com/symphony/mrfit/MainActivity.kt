@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
 
         /* Change this section merge conflict */
         val greeting = findViewById<TextView>(R.id.helloTextView)
-        greeting.text = "Hello Nik"
+        greeting.text = "Hello Nik, again"
         /* Change this section merge conflict */
     }
 }
