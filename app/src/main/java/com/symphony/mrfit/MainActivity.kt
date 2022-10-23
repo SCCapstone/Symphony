@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         greeting.text = "I am trying again"
         gretting.text = "Hi"
         greeting.text = "Hi Lauren"
+        gretting.text = "Creating an issue"
         /* Change this section merge conflict */
 
 
