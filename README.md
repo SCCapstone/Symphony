@@ -66,4 +66,5 @@ Explain how to run the automated tests.
 # Authors
 
 Esam Sartawi: esartawi@email.sc.edu
+
 Nicole Calderon: ngc2@email.sc.edu
