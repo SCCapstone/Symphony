@@ -2,6 +2,7 @@
 
 Description: This is a workout app that will allow users to track their progress in the gym. It will also allow users to share workouts with friends and create workout templates.
 
+Style Guide: https://developer.android.com/kotlin/style-guide
 
 ## External Requirements
 
