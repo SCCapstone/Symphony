@@ -62,6 +62,6 @@ Esam Sartawi: esartawi@email.sc.edu
 
 Nicole Calderon: ngc2@email.sc.edu
 
-Nikolas Melendez:
+Nikolas Melendez: melendn@email.sc.edu
 
 Lauren Hadlow:
