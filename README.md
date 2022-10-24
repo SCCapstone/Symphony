@@ -1,7 +1,6 @@
 # MRFIT
 
-This first paragraph should be a short description of the app. You can add links
-to your wiki pages that have more detailed descriptions.
+Description: This is a workout app that will allow users to track their progress in the gym. It will also allow users to share workouts with friends and create workout templates.
 
 Your audience for the Readme.md are other developers who are joining your team.
 Specifically, the file should contain detailed instructions that any developer
@@ -68,3 +67,7 @@ Explain how to run the automated tests.
 Esam Sartawi: esartawi@email.sc.edu
 
 Nicole Calderon: ngc2@email.sc.edu
+
+Nikolas Melendez:
+
+Lauren Hadlow:
