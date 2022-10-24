@@ -64,4 +64,4 @@ Nicole Calderon: ngc2@email.sc.edu
 
 Nikolas Melendez: melendn@email.sc.edu
 
-Lauren Hadlow: lhadlow@email.sc.edu
+Lauren Hadlow: lhadlow@email.sc.edu & lehadlow@gmail.com
