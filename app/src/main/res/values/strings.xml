@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MrFit</string>
+    <string name="invalid_email">Not a valid email</string>
+    <string name="invalid_password">Not a valid password</string>
+    <string name="welcome">Welcome</string>
+    <string name="login_message">Log In to MrFit</string>
 </resources>
