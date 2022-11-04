@@ -17,6 +17,7 @@ class LoginViewModel: ViewModel() {
 
     fun login(username: String, password: String) {
         // TODO: Add Firebase Autherization
+        _loginResult.value = LoginResult(success = true)
     }
 
     fun loginDataChanged(email: String, password: String) {

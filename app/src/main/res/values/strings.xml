@@ -3,5 +3,10 @@
     <string name="invalid_email">Not a valid email</string>
     <string name="invalid_password">Not a valid password</string>
     <string name="welcome">Welcome</string>
-    <string name="login_message">Log In to MrFit</string>
+    <string name="login_title">Log In to MrFit</string>
+    <string name="login_message">New User?</string>
+    <string name="login_to_register">Register!</string>
+    <string name="register_title">Register for MrFit</string>
+    <string name="register_message">Returning User?</string>
+    <string name="register_to_login">Log In!</string>
 </resources>

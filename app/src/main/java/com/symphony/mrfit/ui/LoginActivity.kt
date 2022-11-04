@@ -22,6 +22,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -34,6 +35,7 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
 
+        // TODO: Change so errors only show after an incorrect input
         // Observe the form and update accordingly
         loginViewModel.loginForm.observe(this, Observer {
             val loginState = it ?: return@Observer
@@ -56,17 +58,12 @@ class LoginActivity : AppCompatActivity() {
             if (loginResult.error != null) {
                 Toast.makeText(
                     applicationContext,
-                    "Get fucker nerd",
+                    "Login attempt failed",
                     Toast.LENGTH_LONG
                 ).show()
                 showLoginFailed(loginResult.error)
             }
             if (loginResult.success != null) {
-                Toast.makeText(
-                    applicationContext,
-                    "Spinny door go WhEeEeEeEe",
-                    Toast.LENGTH_LONG
-                ).show()
                 updateUiWithUser()
             }
             setResult(Activity.RESULT_OK)
@@ -100,16 +97,16 @@ class LoginActivity : AppCompatActivity() {
                 }
                 false
             }
+        }
 
-            login.setOnClickListener {
-                loginViewModel.login(email.text.toString(), password.text.toString())
-            }
+        login.setOnClickListener {
+            loginViewModel.login(email.text.toString(), password.text.toString())
         }
     }
 
     private fun updateUiWithUser() {
         val welcome = getString(R.string.welcome)
-        // TODO : initiate successful logged in experience
+        // TODO : Navigate to the Home screen
         Toast.makeText(
             applicationContext,
             "$welcome [USER]",
