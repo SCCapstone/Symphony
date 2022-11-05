@@ -16,6 +16,10 @@ import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
 import com.symphony.mrfit.databinding.ActivityLoginBinding
 
+/**
+ * Screen for returning users to log in to an existing account
+ */
+
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
@@ -32,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.loginPassword
         val login = binding.loginButton
 
+        // Connect to the view model to process input data
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
 
@@ -64,7 +69,7 @@ class LoginActivity : AppCompatActivity() {
                 showLoginFailed(loginResult.error)
             }
             if (loginResult.success != null) {
-                updateUiWithUser()
+                gotoHomeScreen()
             }
             setResult(Activity.RESULT_OK)
 
@@ -104,7 +109,8 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUiWithUser() {
+    // After a successful login, go to the home screen
+    private fun gotoHomeScreen() {
         val welcome = getString(R.string.welcome)
         // TODO : Navigate to the Home screen
         Toast.makeText(

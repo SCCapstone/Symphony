@@ -16,6 +16,10 @@ import com.symphony.mrfit.data.register.RegisterViewModel
 import com.symphony.mrfit.data.register.RegisterViewModelFactory
 import com.symphony.mrfit.databinding.ActivityRegisterBinding
 
+/**
+ * Screen for a new user to register ana ccount
+ */
+
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var registerViewModel: RegisterViewModel
