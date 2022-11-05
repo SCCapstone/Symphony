@@ -10,14 +10,22 @@ import java.util.*
  */
 
 class LoginRepository {
+    // in-memory cache of the loggedInUser object
+    var user: LoggedInUser? = null
+        private set
+
     fun login(email: String, password: String): Boolean {
         // TODO: Add Firebase Authentication
         val fakeUser = User(UUID.randomUUID().toString(), "Jane Doe")
-        val fakeLog = LoggedInUser(fakeUser)
+        this.user = LoggedInUser(fakeUser)
         return true
     }
 
     fun logout(){
         // TODO: Handle logout
+    }
+
+    fun getUsername(): String {
+        return user!!.name
     }
 }

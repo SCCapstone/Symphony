@@ -17,8 +17,6 @@ import com.symphony.mrfit.R
 
 class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() {
 
-    private lateinit var auth: FirebaseAuth
-
     private val _loginForm = MutableLiveData<LoginForm>()
     val loginForm: LiveData<LoginForm> = _loginForm
 
@@ -31,11 +29,10 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
 
         if (result) {
             _loginResult.value =
-                LoginResult(success = true)
+                LoginResult(success = loginRepository.getUsername())
         } else {
             _loginResult.value = LoginResult(error = R.string.login_failed)
         }
-        _loginResult.value = LoginResult(success = true)
     }
 
     // Update the login form after it has been changed

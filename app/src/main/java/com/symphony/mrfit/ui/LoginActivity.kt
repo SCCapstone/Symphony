@@ -12,6 +12,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.symphony.mrfit.R
+import com.symphony.mrfit.data.login.LoginResult
 import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
 import com.symphony.mrfit.databinding.ActivityLoginBinding
@@ -69,7 +70,7 @@ class LoginActivity : AppCompatActivity() {
                 showLoginFailed(loginResult.error)
             }
             if (loginResult.success != null) {
-                gotoHomeScreen()
+                gotoHomeScreen(loginResult)
             }
             setResult(Activity.RESULT_OK)
 
@@ -110,12 +111,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     // After a successful login, go to the home screen
-    private fun gotoHomeScreen() {
+    private fun gotoHomeScreen(model: LoginResult) {
         val welcome = getString(R.string.welcome)
+        val user = model.success
         // TODO : Navigate to the Home screen
         Toast.makeText(
             applicationContext,
-            "$welcome [USER]",
+            "$welcome $user",
             Toast.LENGTH_LONG
         ).show()
     }
