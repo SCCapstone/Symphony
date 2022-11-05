@@ -12,9 +12,14 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.symphony.mrfit.R
+import com.symphony.mrfit.data.login.LoginResult
 import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
 import com.symphony.mrfit.databinding.ActivityLoginBinding
+
+/**
+ * Screen for returning users to log in to an existing account
+ */
 
 class LoginActivity : AppCompatActivity() {
 
@@ -32,6 +37,7 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.loginPassword
         val login = binding.loginButton
 
+        // Connect to the view model to process input data
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
 
@@ -64,7 +70,7 @@ class LoginActivity : AppCompatActivity() {
                 showLoginFailed(loginResult.error)
             }
             if (loginResult.success != null) {
-                updateUiWithUser()
+                gotoHomeScreen(loginResult)
             }
             setResult(Activity.RESULT_OK)
 
@@ -104,12 +110,14 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUiWithUser() {
+    // After a successful login, go to the home screen
+    private fun gotoHomeScreen(model: LoginResult) {
         val welcome = getString(R.string.welcome)
+        val user = model.success
         // TODO : Navigate to the Home screen
         Toast.makeText(
             applicationContext,
-            "$welcome [USER]",
+            "$welcome $user",
             Toast.LENGTH_LONG
         ).show()
     }

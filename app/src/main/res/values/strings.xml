@@ -9,4 +9,5 @@
     <string name="register_title">Register for MrFit</string>
     <string name="register_message">Returning User?</string>
     <string name="register_to_login">Log In!</string>
+    <string name="login_failed">Could not complete login</string>
 </resources>

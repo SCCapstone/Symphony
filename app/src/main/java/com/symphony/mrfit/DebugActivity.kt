@@ -8,6 +8,12 @@ import com.symphony.mrfit.databinding.ActivityDebugBinding
 import com.symphony.mrfit.ui.LoginActivity
 import com.symphony.mrfit.ui.RegisterActivity
 
+/**
+ * Menu for instantly navigating to any page for debug and testing
+ * To add a new link, make a button in the layout, connect to the binding
+ * and attach a setOnClickListener. Copy/Paste existing examples if needed.
+ */
+
 class DebugActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDebugBinding
