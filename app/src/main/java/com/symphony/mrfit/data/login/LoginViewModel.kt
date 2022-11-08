@@ -1,17 +1,13 @@
 package com.symphony.mrfit.data.login
 
-import android.content.ContentValues
-import android.util.Log
 import android.util.Patterns
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
 import com.symphony.mrfit.R
 
 /**
- * Class for talking between the UI and the data repository
+ * Class for talking between the Login UI and the data repository
  * NOTE: View should never deal with data directly, only through LiveData objects
  */
 
@@ -35,7 +31,7 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
         }
     }
 
-    // Update the login form after it has been changed
+    // Update the login form after the user has input data
     fun loginDataChanged(email: String, password: String) {
         if (!isUSerNameValid(email)) {
             _loginForm.value = LoginForm(emailError = R.string.invalid_email)

@@ -1,7 +1,6 @@
 package com.symphony.mrfit.ui
 
 import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,6 +8,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.symphony.mrfit.R
@@ -40,14 +40,15 @@ class LoginActivity : AppCompatActivity() {
         val login = binding.loginButton
 
         // Connect to the view model to process input data
-        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
-            .get(LoginViewModel::class.java)
+        loginViewModel = ViewModelProvider(
+            this, LoginViewModelFactory())[LoginViewModel::class.java]
 
         // TODO: Change so errors only show after an incorrect input
         // Observe the form and update accordingly
         loginViewModel.loginForm.observe(this, Observer {
             val loginState = it ?: return@Observer
 
+            // TODO: Disable the button from the start? Or check validation in repo
             // Disable login button until all fields are valid
             login.isEnabled = loginState.isDataValid
 
@@ -120,6 +121,8 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
+    // TODO: Learn how to read why login failed and output relevant message
+    // Example: Password was incorrect or no account that matched a given email
     private fun showLoginFailed(@StringRes errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
