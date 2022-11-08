@@ -1,6 +1,7 @@
 package com.symphony.mrfit.ui
 
 import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,7 +9,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.symphony.mrfit.R
@@ -25,13 +25,11 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var activity: LoginActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
 
-        activity = this
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -40,15 +38,14 @@ class LoginActivity : AppCompatActivity() {
         val login = binding.loginButton
 
         // Connect to the view model to process input data
-        loginViewModel = ViewModelProvider(
-            this, LoginViewModelFactory())[LoginViewModel::class.java]
+        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
+            .get(LoginViewModel::class.java)
 
         // TODO: Change so errors only show after an incorrect input
         // Observe the form and update accordingly
         loginViewModel.loginForm.observe(this, Observer {
             val loginState = it ?: return@Observer
 
-            // TODO: Disable the button from the start? Or check validation in repo
             // Disable login button until all fields are valid
             login.isEnabled = loginState.isDataValid
 
@@ -65,12 +62,20 @@ class LoginActivity : AppCompatActivity() {
             val loginResult = it ?: return@Observer
 
             if (loginResult.error != null) {
+                Toast.makeText(
+                    applicationContext,
+                    "Login attempt failed",
+                    Toast.LENGTH_LONG
+                ).show()
                 showLoginFailed(loginResult.error)
             }
             if (loginResult.success != null) {
                 gotoHomeScreen(loginResult)
             }
             setResult(Activity.RESULT_OK)
+
+            //Complete and destroy login activity once successful
+            finish()
         })
 
         email.afterTextChanged {
@@ -92,7 +97,6 @@ class LoginActivity : AppCompatActivity() {
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
                         loginViewModel.login(
-                            activity,
                             email.text.toString(),
                             password.text.toString()
                         )
@@ -102,7 +106,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         login.setOnClickListener {
-            loginViewModel.login(activity, email.text.toString(), password.text.toString())
+            loginViewModel.login(email.text.toString(), password.text.toString())
         }
     }
 
@@ -116,13 +120,8 @@ class LoginActivity : AppCompatActivity() {
             "$welcome $user",
             Toast.LENGTH_LONG
         ).show()
-
-        //Complete and destroy login activity once successful
-        finish()
     }
 
-    // TODO: Learn how to read why login failed and output relevant message
-    // Example: Password was incorrect or no account that matched a given email
     private fun showLoginFailed(@StringRes errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }

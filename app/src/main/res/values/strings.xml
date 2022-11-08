@@ -10,6 +10,4 @@
     <string name="register_message">Returning User?</string>
     <string name="register_to_login">Log In!</string>
     <string name="login_failed">Could not complete login</string>
-    <string name="invalid_confirm">Must match Password</string>
-    <string name="register_failed">Could not complete registration</string>
 </resources>
