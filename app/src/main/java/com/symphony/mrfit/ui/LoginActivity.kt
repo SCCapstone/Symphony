@@ -25,11 +25,13 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var activity: LoginActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
 
+        activity = this
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -62,20 +64,12 @@ class LoginActivity : AppCompatActivity() {
             val loginResult = it ?: return@Observer
 
             if (loginResult.error != null) {
-                Toast.makeText(
-                    applicationContext,
-                    "Login attempt failed",
-                    Toast.LENGTH_LONG
-                ).show()
                 showLoginFailed(loginResult.error)
             }
             if (loginResult.success != null) {
                 gotoHomeScreen(loginResult)
             }
             setResult(Activity.RESULT_OK)
-
-            //Complete and destroy login activity once successful
-            finish()
         })
 
         email.afterTextChanged {
@@ -97,6 +91,7 @@ class LoginActivity : AppCompatActivity() {
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
                         loginViewModel.login(
+                            activity,
                             email.text.toString(),
                             password.text.toString()
                         )
@@ -106,7 +101,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         login.setOnClickListener {
-            loginViewModel.login(email.text.toString(), password.text.toString())
+            loginViewModel.login(activity, email.text.toString(), password.text.toString())
         }
     }
 
@@ -120,6 +115,9 @@ class LoginActivity : AppCompatActivity() {
             "$welcome $user",
             Toast.LENGTH_LONG
         ).show()
+
+        //Complete and destroy login activity once successful
+        finish()
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {

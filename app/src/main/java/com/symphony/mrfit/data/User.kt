@@ -6,7 +6,7 @@ package com.symphony.mrfit.data
 
 data class User(
     val userID: String,
-    val name: String,
+    val name: String?,
     val age: Int? = null,
     val weight: Float? = null,
     val height: Float? = null,

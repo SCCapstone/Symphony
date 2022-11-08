@@ -24,8 +24,8 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
     val loginResult: LiveData<LoginResult> = _loginResult
 
     // Tell the repository to attempt to login and return the result
-    fun login(email: String, password: String) {
-        val result = loginRepository.login(email, password)
+    fun login(activity: android.app.Activity, email: String, password: String) {
+        val result = loginRepository.login(activity, email, password)
 
         if (result) {
             _loginResult.value =
