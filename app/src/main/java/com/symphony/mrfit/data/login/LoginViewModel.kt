@@ -1,13 +1,17 @@
 package com.symphony.mrfit.data.login
 
 import android.util.Patterns
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.symphony.mrfit.R
 
-class LoginViewModel: ViewModel() {
+/**
+ * Class for talking between the Login UI and the data repository
+ * NOTE: View should never deal with data directly, only through LiveData objects
+ */
+
+class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() {
 
     private val _loginForm = MutableLiveData<LoginForm>()
     val loginForm: LiveData<LoginForm> = _loginForm
@@ -15,11 +19,19 @@ class LoginViewModel: ViewModel() {
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 
-    fun login(username: String, password: String) {
-        // TODO: Add Firebase Autherization
-        _loginResult.value = LoginResult(success = true)
+    // Tell the repository to attempt to login and return the result
+    fun login(activity: android.app.Activity, email: String, password: String) {
+        val result = loginRepository.login(activity, email, password)
+
+        if (result) {
+            _loginResult.value =
+                LoginResult(success = loginRepository.getUsername())
+        } else {
+            _loginResult.value = LoginResult(error = R.string.login_failed)
+        }
     }
 
+    // Update the login form after the user has input data
     fun loginDataChanged(email: String, password: String) {
         if (!isUSerNameValid(email)) {
             _loginForm.value = LoginForm(emailError = R.string.invalid_email)

@@ -1,6 +1,6 @@
 package com.symphony.mrfit.data.register
 
 data class RegisterResult(
-    val success: Boolean? = null,
+    val success: String? = null,
     val error: Int? = null
 )
