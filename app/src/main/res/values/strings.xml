@@ -12,4 +12,5 @@
     <string name="login_failed">Could not complete login</string>
     <string name="invalid_confirm">Must match Password</string>
     <string name="register_failed">Could not complete registration</string>
+    <string name="forgot_password">Forgot your password?</string>
 </resources>

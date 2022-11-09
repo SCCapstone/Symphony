@@ -9,9 +9,9 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.symphony.mrfit.R
-import com.symphony.mrfit.data.register.RegisterResult
-import com.symphony.mrfit.data.register.RegisterViewModel
-import com.symphony.mrfit.data.register.RegisterViewModelFactory
+import com.symphony.mrfit.data.login.LoginResult
+import com.symphony.mrfit.data.login.LoginViewModel
+import com.symphony.mrfit.data.login.LoginViewModelFactory
 import com.symphony.mrfit.databinding.ActivityRegisterBinding
 
 /**
@@ -20,7 +20,7 @@ import com.symphony.mrfit.databinding.ActivityRegisterBinding
 
 class RegisterActivity : AppCompatActivity() {
 
-    private lateinit var registerViewModel: RegisterViewModel
+    private lateinit var registerViewModel: LoginViewModel
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var activity: RegisterActivity
 
@@ -38,7 +38,7 @@ class RegisterActivity : AppCompatActivity() {
 
         // Connect to the view model to process input data
         registerViewModel = ViewModelProvider(
-            this, RegisterViewModelFactory())[RegisterViewModel::class.java]
+            this, LoginViewModelFactory())[LoginViewModel::class.java]
 
         // TODO: Change so errors only show after an incorrect input
         // Observe the form and update accordingly
@@ -65,9 +65,19 @@ class RegisterActivity : AppCompatActivity() {
             val registerResult = it ?: return@Observer
 
             if (registerResult.error != null) {
+                Toast.makeText(
+                    applicationContext,
+                    "Registration failed",
+                    Toast.LENGTH_LONG
+                ).show()
                 showRegisterFailed(registerResult.error)
             }
             if (registerResult.success != null) {
+                Toast.makeText(
+                    applicationContext,
+                    "Registration successful",
+                    Toast.LENGTH_LONG
+                ).show()
                 gotoHomeScreen(registerResult)
             }
             setResult(Activity.RESULT_OK)
@@ -132,7 +142,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     // After a successful login, go to the home screen
-    private fun gotoHomeScreen(model: RegisterResult) {
+    private fun gotoHomeScreen(model: LoginResult) {
         val welcome = getString(R.string.welcome)
         val user = model.success
         // TODO : Navigate to the Home screen
@@ -147,7 +157,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     // TODO: Learn how to read why registration failed and output relevant message
-    // Example: Email address already in account or just server-side error
+    // Example: Email address already in use or just server-side error
     private fun showRegisterFailed(@StringRes errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
