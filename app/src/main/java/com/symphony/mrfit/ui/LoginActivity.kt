@@ -11,7 +11,9 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.FirebaseUser
 import com.symphony.mrfit.R
+import com.symphony.mrfit.data.LoggedInUser
 import com.symphony.mrfit.data.login.LoginResult
 import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
@@ -73,6 +75,21 @@ class LoginActivity : AppCompatActivity() {
             setResult(Activity.RESULT_OK)
         })
 
+        // Observe if the currently logged in user becomes populated
+        loginViewModel.loggedInUser.observe(this, Observer {
+            val loggedInUser = it ?: return@Observer
+
+            if (loggedInUser.displayName != null) {
+                Toast.makeText(
+                    applicationContext,
+                    "Registration successful",
+                    Toast.LENGTH_LONG
+                ).show()
+                gotoHomeScreen(loggedInUser)
+            }
+            setResult(Activity.RESULT_OK)
+        })
+
         email.afterTextChanged {
             loginViewModel.loginDataChanged(
                 email.text.toString(),
@@ -110,6 +127,21 @@ class LoginActivity : AppCompatActivity() {
     private fun gotoHomeScreen(model: LoginResult) {
         val welcome = getString(R.string.welcome)
         val user = model.success
+        // TODO : Navigate to the Home screen
+        Toast.makeText(
+            applicationContext,
+            "$welcome $user",
+            Toast.LENGTH_LONG
+        ).show()
+
+        //Complete and destroy login activity once successful
+        finish()
+    }
+
+    // After a successful login, go to the home screen
+    private fun gotoHomeScreen(model: FirebaseUser) {
+        val welcome = getString(R.string.welcome)
+        val user = model.displayName
         // TODO : Navigate to the Home screen
         Toast.makeText(
             applicationContext,

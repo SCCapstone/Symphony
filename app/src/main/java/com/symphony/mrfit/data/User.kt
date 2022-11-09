@@ -6,13 +6,13 @@ package com.symphony.mrfit.data
 
 data class User(
     val userID: String,
-    val name: String?,
-    val age: Int? = null,
-    val weight: Float? = null,
-    val height: Float? = null,
-    val visibility: Int = 0, // 0 = Private, 1 = Friends, 2 = Public
-    val goals: ArrayList<Goal>? = null,
-    val friends: ArrayList<String>? = null,
-    val savedTemplates: ArrayList<Int>? = null,
-    val posts: ArrayList<Post>? = null
+    var name: String?,
+    var age: Int? = null,
+    var weight: Float? = null,
+    var height: Float? = null,
+    var visibility: Int = 0, // 0 = Private, 1 = Friends, 2 = Public
+    var goals: ArrayList<Goal>? = null,
+    var friends: ArrayList<String>? = null,
+    var savedTemplates: ArrayList<Int>? = null,
+    var posts: ArrayList<Post>? = null
 )

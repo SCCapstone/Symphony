@@ -1,11 +1,17 @@
 package com.symphony.mrfit.data.login
 
+import android.content.ContentValues
+import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseUser
 import com.symphony.mrfit.R
+import com.symphony.mrfit.data.LoggedInUser
 import com.symphony.mrfit.data.register.RegisterForm
+import kotlinx.coroutines.launch
 
 /**
  * Class for talking between the Login UI and the data repository
@@ -26,28 +32,19 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
     private val _registerResult = MutableLiveData<LoginResult>()
     val registerResult: LiveData<LoginResult> = _registerResult
 
+    private val _loggedInUser = MutableLiveData<FirebaseUser>()
+    val loggedInUser: LiveData<FirebaseUser> = _loggedInUser
+
     // Tell the repository to attempt to login to an existing account and return the result
     fun login(activity: android.app.Activity, email: String, password: String) {
-        val result = loginRepository.login(activity, email, password)
-
-        if (result) {
-            _loginResult.value =
-                LoginResult(success = loginRepository.getUsername())
-        } else {
-            _loginResult.value = LoginResult(error = R.string.login_failed)
-        }
+        viewModelScope.launch { loginRepository.login(activity, email, password, _loggedInUser) }
+        Log.d(ContentValues.TAG, "doneWithLoginAttempt")
     }
 
     // Tell the repository to attempt to register a new account and return the result
     fun register(activity: android.app.Activity, email: String, password: String) {
-        val result = loginRepository.register(activity, email, password)
-
-        if (result) {
-            _registerResult.value =
-                LoginResult(success = loginRepository.getUsername())
-        } else {
-            _registerResult.value = LoginResult(error = R.string.register_failed)
-        }
+        viewModelScope.launch { loginRepository.register(activity, email, password, _loggedInUser) }
+        Log.d(ContentValues.TAG, "doneWithRegisterAttempt")
     }
 
     // Update the login form after the user has input data

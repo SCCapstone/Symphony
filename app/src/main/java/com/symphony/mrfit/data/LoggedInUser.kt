@@ -6,13 +6,13 @@ package com.symphony.mrfit.data
 
 data class LoggedInUser(val user: User){
     val userID = user.userID
-    val name = user.name
-    val age = user.age
-    val weight = user.weight
-    val height = user.height
-    val visibility = user.visibility // 0 = Private, 1 = Friends, 2 = Public
-    val goals = user.goals
-    val friends = user.friends
-    val savedTemplates = user.savedTemplates
-    val posts = user.posts
+    var name = user.name
+    var age = user.age
+    var weight = user.weight
+    var height = user.height
+    var visibility = user.visibility // 0 = Private, 1 = Friends, 2 = Public
+    var goals = user.goals
+    var friends = user.friends
+    var savedTemplates = user.savedTemplates
+    var posts = user.posts
 }
