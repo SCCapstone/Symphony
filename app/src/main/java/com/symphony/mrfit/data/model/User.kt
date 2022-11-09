@@ -1,4 +1,4 @@
-package com.symphony.mrfit.data
+package com.symphony.mrfit.data.model
 
 /**
  * Data class for a User object

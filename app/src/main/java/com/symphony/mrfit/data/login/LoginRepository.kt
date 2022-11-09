@@ -10,8 +10,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
-import com.symphony.mrfit.data.LoggedInUser
-import com.symphony.mrfit.data.User
+import com.symphony.mrfit.data.model.LoggedInUser
+import com.symphony.mrfit.data.model.User
 
 /**
  * Class for handling User Authentication through Firebase
@@ -37,13 +37,14 @@ class LoginRepository {
                     currentUser = LoggedInUser(User(firebaseUser!!.uid, firebaseUser.displayName))
                     successfulLogin(user, firebaseUser)
                 } else {
-                    // If sign in fails
+                    // If sign in fails, display a message to the user and tell ViewModel why
                     Log.w(ContentValues.TAG, "signInWithEmail:failure", task.exception)
                     Toast.makeText(
                         activity.baseContext,
-                        "Registration failed",
+                        "Login failed",
                         Toast.LENGTH_LONG
                     ).show()
+                    user.value = LoggedInUser(User(userID = "ERROR", name = "Thingyboom go pop"))
                 }
             }
     }
@@ -54,20 +55,21 @@ class LoginRepository {
         auth = Firebase.auth
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
+                    // Registration success, populate a new user
                     Log.d(ContentValues.TAG, "createUserWithEmail:success")
                     val firebaseUser = auth.currentUser
                     currentUser = LoggedInUser(User(firebaseUser!!.uid, firebaseUser.email))
                     makeUsername()
                     successfulLogin(user, firebaseUser)
                 } else {
-                    // If sign in fails, display a message to the user.
+                    // If registration fails, display a message to the user and tell ViewModel why
                     Log.w(ContentValues.TAG, "createUserWithEmail:failure", task.exception)
                     Toast.makeText(
                         activity.baseContext,
                         "Registration failed",
                         Toast.LENGTH_LONG
                     ).show()
+                    user.value = LoggedInUser(User(userID = "ERROR", name = "Thingyboom go pop"))
                 }
             }
     }
@@ -84,6 +86,7 @@ class LoginRepository {
     private fun makeUsername() {
         val delim = currentUser!!.name!!.indexOf('@')
         currentUser!!.name = currentUser!!.name!!.substring(0, delim)
+        Log.w(ContentValues.TAG, "setNameTo${currentUser?.name}")
     }
 
     // TODO: Separate displayName update from LiveData update

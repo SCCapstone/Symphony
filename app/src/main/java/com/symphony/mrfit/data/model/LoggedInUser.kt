@@ -1,10 +1,10 @@
-package com.symphony.mrfit.data
+package com.symphony.mrfit.data.model
 
 /**
  * Data class for keeping track of the currently logged in User
  */
 
-data class LoggedInUser(val user: User){
+data class LoggedInUser (val user: User){
     val userID = user.userID
     var name = user.name
     var age = user.age

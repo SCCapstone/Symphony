@@ -1,7 +1,9 @@
 package com.symphony.mrfit.ui
 
 import android.app.Activity
+import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -9,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.symphony.mrfit.R
-import com.symphony.mrfit.data.LoggedInUser
+import com.symphony.mrfit.data.model.LoggedInUser
 import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
 import com.symphony.mrfit.databinding.ActivityRegisterBinding
@@ -83,19 +85,17 @@ class RegisterActivity : AppCompatActivity() {
             }
             setResult(Activity.RESULT_OK)
         })
-
          */
 
         // Observe if the currently logged in user becomes populated
         registerViewModel.loggedInUser.observe(this, Observer {
             val loggedInUser = it ?: return@Observer
 
-            if (loggedInUser.name != null) {
-                Toast.makeText(
-                    applicationContext,
-                    "Registration successful",
-                    Toast.LENGTH_LONG
-                ).show()
+            if (loggedInUser.userID == "ERROR" && loggedInUser.name != null) {
+                Log.d(ContentValues.TAG, "UIThinksLoginFailed")
+                showRegisterFailed(loggedInUser.name!!)
+            } else if (loggedInUser.userID != "ERROR" && loggedInUser.name != null) {
+                Log.d(ContentValues.TAG, "UIThinksLoginSuccess")
                 gotoHomeScreen(loggedInUser)
             }
             setResult(Activity.RESULT_OK)
@@ -177,6 +177,9 @@ class RegisterActivity : AppCompatActivity() {
     // TODO: Learn how to read why registration failed and output relevant message
     // Example: Email address already in use or just server-side error
     private fun showRegisterFailed(@StringRes errorString: Int) {
+        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+    }
+    private fun showRegisterFailed(errorString: String) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
 

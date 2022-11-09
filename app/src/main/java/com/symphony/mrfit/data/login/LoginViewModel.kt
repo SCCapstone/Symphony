@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.symphony.mrfit.R
-import com.symphony.mrfit.data.LoggedInUser
+import com.symphony.mrfit.data.model.LoggedInUser
 import kotlinx.coroutines.launch
 
 /**

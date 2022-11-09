@@ -1,9 +1,11 @@
 package com.symphony.mrfit.ui
 
 import android.app.Activity
+import android.content.ContentValues
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
@@ -12,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.symphony.mrfit.R
-import com.symphony.mrfit.data.LoggedInUser
+import com.symphony.mrfit.data.model.LoggedInUser
 import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
 import com.symphony.mrfit.databinding.ActivityLoginBinding
@@ -73,19 +75,17 @@ class LoginActivity : AppCompatActivity() {
             }
             setResult(Activity.RESULT_OK)
         })
-
          */
 
         // Observe if the currently logged in user becomes populated
         loginViewModel.loggedInUser.observe(this, Observer {
             val loggedInUser = it ?: return@Observer
 
-            if (loggedInUser.name != null) {
-                Toast.makeText(
-                    applicationContext,
-                    "Login successful",
-                    Toast.LENGTH_LONG
-                ).show()
+            if (loggedInUser.userID == "ERROR" && loggedInUser.name != null) {
+                Log.d(ContentValues.TAG, "UIThinksLoginFailed")
+                showLoginFailed(loggedInUser.name!!)
+            } else if (loggedInUser.name != null) {
+                Log.d(ContentValues.TAG, "UIThinksLoginSuccess")
                 gotoHomeScreen(loggedInUser)
             }
             setResult(Activity.RESULT_OK)
@@ -142,6 +142,9 @@ class LoginActivity : AppCompatActivity() {
     // TODO: Learn how to read why login failed and output relevant message
     // Example: Password was incorrect or no account that matched a given email
     private fun showLoginFailed(@StringRes errorString: Int) {
+        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+    }
+    private fun showLoginFailed(errorString: String) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
 
