@@ -1,4 +1,4 @@
-package com.symphony.mrfit.data.register
+package com.symphony.mrfit.data.login
 
 /**
  * Data validation class for the register form

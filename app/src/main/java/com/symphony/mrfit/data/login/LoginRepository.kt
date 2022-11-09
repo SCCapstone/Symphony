@@ -12,8 +12,6 @@ import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 import com.symphony.mrfit.data.LoggedInUser
 import com.symphony.mrfit.data.User
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.tasks.await
 
 /**
  * Class for handling User Authentication through Firebase
@@ -27,7 +25,7 @@ class LoginRepository {
     var currentUser: LoggedInUser? = null
         private set
 
-    fun login(activity: android.app.Activity, email: String, password: String, user: MutableLiveData<FirebaseUser>) {
+    fun login(activity: android.app.Activity, email: String, password: String, user: MutableLiveData<LoggedInUser>) {
         Log.d(ContentValues.TAG, "signingIntoAccount:$email")
         // Initialize Firebase Auth
         auth = Firebase.auth
@@ -36,8 +34,7 @@ class LoginRepository {
                     // Sign in success, set the current user
                     Log.d(ContentValues.TAG, "signInWithEmail:success")
                     val firebaseUser = auth.currentUser
-                    user.value = firebaseUser
-                    currentUser = LoggedInUser(User(firebaseUser!!.uid, firebaseUser.email))
+                    currentUser = LoggedInUser(User(firebaseUser!!.uid, firebaseUser.displayName))
                     successfulLogin(user, firebaseUser)
                 } else {
                     // If sign in fails
@@ -51,7 +48,7 @@ class LoginRepository {
             }
     }
 
-    fun register(activity: android.app.Activity, email: String, password: String, user: MutableLiveData<FirebaseUser>) {
+    fun register(activity: android.app.Activity, email: String, password: String, user: MutableLiveData<LoggedInUser>) {
         Log.d(ContentValues.TAG, "makingAccount:$email")
         // Initialize Firebase Auth
         auth = Firebase.auth
@@ -60,7 +57,6 @@ class LoginRepository {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(ContentValues.TAG, "createUserWithEmail:success")
                     val firebaseUser = auth.currentUser
-                    user.value = firebaseUser
                     currentUser = LoggedInUser(User(firebaseUser!!.uid, firebaseUser.email))
                     makeUsername()
                     successfulLogin(user, firebaseUser)
@@ -90,7 +86,8 @@ class LoginRepository {
         currentUser!!.name = currentUser!!.name!!.substring(0, delim)
     }
 
-    private fun successfulLogin(user: MutableLiveData<FirebaseUser>, firebaseUser: FirebaseUser) {
+    // TODO: Separate displayName update from LiveData update
+    private fun successfulLogin(user: MutableLiveData<LoggedInUser>, firebaseUser: FirebaseUser) {
         val profileUpdates = userProfileChangeRequest {
             displayName = currentUser!!.name
         }
@@ -99,7 +96,7 @@ class LoginRepository {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(ContentValues.TAG, "User profile updated.")
-                    user.value = firebaseUser
+                    user.value = currentUser
                 }
             }
 

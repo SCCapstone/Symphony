@@ -7,10 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseUser
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.LoggedInUser
-import com.symphony.mrfit.data.register.RegisterForm
 import kotlinx.coroutines.launch
 
 /**
@@ -32,8 +30,8 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
     private val _registerResult = MutableLiveData<LoginResult>()
     val registerResult: LiveData<LoginResult> = _registerResult
 
-    private val _loggedInUser = MutableLiveData<FirebaseUser>()
-    val loggedInUser: LiveData<FirebaseUser> = _loggedInUser
+    private val _loggedInUser = MutableLiveData<LoggedInUser>()
+    val loggedInUser: LiveData<LoggedInUser> = _loggedInUser
 
     // Tell the repository to attempt to login to an existing account and return the result
     fun login(activity: android.app.Activity, email: String, password: String) {

@@ -11,10 +11,8 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.auth.FirebaseUser
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.LoggedInUser
-import com.symphony.mrfit.data.login.LoginResult
 import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
 import com.symphony.mrfit.databinding.ActivityLoginBinding
@@ -62,6 +60,7 @@ class LoginActivity : AppCompatActivity() {
             }
         })
 
+        /*
         // Observe the result of attempting to log in
         loginViewModel.loginResult.observe(this, Observer {
             val loginResult = it ?: return@Observer
@@ -75,14 +74,16 @@ class LoginActivity : AppCompatActivity() {
             setResult(Activity.RESULT_OK)
         })
 
+         */
+
         // Observe if the currently logged in user becomes populated
         loginViewModel.loggedInUser.observe(this, Observer {
             val loggedInUser = it ?: return@Observer
 
-            if (loggedInUser.displayName != null) {
+            if (loggedInUser.name != null) {
                 Toast.makeText(
                     applicationContext,
-                    "Registration successful",
+                    "Login successful",
                     Toast.LENGTH_LONG
                 ).show()
                 gotoHomeScreen(loggedInUser)
@@ -124,24 +125,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     // After a successful login, go to the home screen
-    private fun gotoHomeScreen(model: LoginResult) {
+    private fun gotoHomeScreen(model: LoggedInUser) {
         val welcome = getString(R.string.welcome)
-        val user = model.success
-        // TODO : Navigate to the Home screen
-        Toast.makeText(
-            applicationContext,
-            "$welcome $user",
-            Toast.LENGTH_LONG
-        ).show()
-
-        //Complete and destroy login activity once successful
-        finish()
-    }
-
-    // After a successful login, go to the home screen
-    private fun gotoHomeScreen(model: FirebaseUser) {
-        val welcome = getString(R.string.welcome)
-        val user = model.displayName
+        val user = model.name
         // TODO : Navigate to the Home screen
         Toast.makeText(
             applicationContext,
