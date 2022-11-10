@@ -39,7 +39,7 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
      */
     fun login(activity: android.app.Activity, email: String, password: String) {
         viewModelScope.launch { loginRepository.login(activity, email, password, _loggedInUser) }
-        Log.d(ContentValues.TAG, "doneWithLoginAttempt")
+        Log.d(ContentValues.TAG, "Done with login attempt")
     }
 
     /**
@@ -47,7 +47,7 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
      */
     fun register(activity: android.app.Activity, email: String, password: String) {
         viewModelScope.launch { loginRepository.register(activity, email, password, _loggedInUser) }
-        Log.d(ContentValues.TAG, "doneWithRegisterAttempt")
+        Log.d(ContentValues.TAG, "Done with registration attempt")
     }
 
     /**

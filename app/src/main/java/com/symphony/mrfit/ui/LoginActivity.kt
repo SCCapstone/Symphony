@@ -89,10 +89,10 @@ class LoginActivity : AppCompatActivity() {
             val user = it ?: return@Observer
 
             if (user.userID == "ERROR" && user.name != null) {
-                Log.d(ContentValues.TAG, "UIThinksLoginFailed")
+                Log.d(ContentValues.TAG, "UI things login failed")
                 showLoginFailed(user.name!!)
             } else if (user.name != null) {
-                Log.d(ContentValues.TAG, "UIThinksLoginSuccess")
+                Log.d(ContentValues.TAG, "UI thinks login succeeded")
                 gotoHomeScreen(user)
             }
             setResult(Activity.RESULT_OK)

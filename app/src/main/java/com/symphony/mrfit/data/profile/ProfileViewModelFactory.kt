@@ -1,9 +1,7 @@
-package com.symphony.mrfit.data
+package com.symphony.mrfit.data.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.symphony.mrfit.data.login.LoginRepository
-import com.symphony.mrfit.data.login.LoginViewModel
 
 class ProfileViewModelFactory : ViewModelProvider.Factory {
 

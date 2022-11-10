@@ -1,5 +1,8 @@
 package com.symphony.mrfit.data.model
 
+import android.graphics.Bitmap
+import android.media.Image
+
 /**
  * Data class for a User object
  */

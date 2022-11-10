@@ -1,21 +1,20 @@
 package com.symphony.mrfit.ui
 
+import android.content.ContentValues
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.symphony.mrfit.R
-import com.symphony.mrfit.data.ProfileViewModel
-import com.symphony.mrfit.data.ProfileViewModelFactory
+import com.symphony.mrfit.data.profile.ProfileViewModel
+import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.data.login.LoginRepository
-import com.symphony.mrfit.data.login.LoginViewModel
-import com.symphony.mrfit.data.login.LoginViewModelFactory
 import com.symphony.mrfit.data.model.User
-import com.symphony.mrfit.databinding.ActivityRegisterBinding
 import com.symphony.mrfit.databinding.ActivityUserProfileBinding
 
 class UserProfileActivity : AppCompatActivity() {
@@ -34,7 +33,8 @@ class UserProfileActivity : AppCompatActivity() {
         binding = ActivityUserProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
         profileViewModel = ViewModelProvider(
-            this, ProfileViewModelFactory())[ProfileViewModel::class.java]
+            this, ProfileViewModelFactory()
+        )[ProfileViewModel::class.java]
 
         /**
          * Declare variables
@@ -56,6 +56,7 @@ class UserProfileActivity : AppCompatActivity() {
          */
         profileViewModel.fetchCurrentUser()
         profileViewModel.loggedInUser.observe(this, Observer {
+            Log.d(ContentValues.TAG, "Populating Profile screen with values from current user")
             val loggedInUser = it ?: return@Observer
 
             name.text = loggedInUser.name
