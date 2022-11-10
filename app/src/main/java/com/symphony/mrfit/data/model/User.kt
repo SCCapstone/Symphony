@@ -8,8 +8,8 @@ import android.media.Image
  */
 
 data class User(
-    val userID: String,
-    var name: String?,
+    val userID: String = "",
+    var name: String? = null,
     var age: Int? = null,
     var height: Int? = null,
     var weight: Double? = null,
@@ -19,3 +19,5 @@ data class User(
     var savedTemplates: ArrayList<Int>? = null,
     var posts: ArrayList<Post>? = null
 )
+
+

@@ -81,25 +81,6 @@ class LoginRepository {
         // TODO: Handle logout
     }
 
-    fun getUsername(): String? {
-        return currentUser?.name
-    }
-
-    /**
-     * If registering a new user, set a default username
-     */
-    private fun makeUsername() {
-        val delim = currentUser!!.name!!.indexOf('@')
-        currentUser!!.name = currentUser!!.name!!.substring(0, delim)
-        Log.w(ContentValues.TAG, "New user's name is ${currentUser?.name}")
-    }
-
-    private fun addNewUser(user: MutableLiveData<User>) {
-        // TODO: Add a new user to the database
-        Log.d(ContentValues.TAG, "Telling repo to add ${currentUser?.name} to the database")
-        userRepository.addNewUser(user)
-    }
-
     /**
      * After a successful registration, update the LiveData
      * TODO: Separate displayName update from LiveData update
@@ -137,5 +118,24 @@ class LoginRepository {
                 }
             }
 
+    }
+
+    fun getUsername(): String? {
+        return currentUser?.name
+    }
+
+    /**
+     * If registering a new user, set a default username
+     */
+    private fun makeUsername() {
+        val delim = currentUser!!.name!!.indexOf('@')
+        currentUser!!.name = currentUser!!.name!!.substring(0, delim)
+        Log.w(ContentValues.TAG, "New user's name is ${currentUser?.name}")
+    }
+
+    private fun addNewUser(user: MutableLiveData<User>) {
+        // TODO: Add a new user to the database
+        Log.d(ContentValues.TAG, "Telling repo to add ${currentUser?.name} to the database")
+        userRepository.addNewUser(user)
     }
 }
