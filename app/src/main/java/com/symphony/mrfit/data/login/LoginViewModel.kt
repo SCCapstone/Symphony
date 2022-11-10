@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.model.LoggedInUser
+import com.symphony.mrfit.data.model.User
 import kotlinx.coroutines.launch
 
 /**
@@ -30,22 +31,28 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
     private val _registerResult = MutableLiveData<LoginResult>()
     val registerResult: LiveData<LoginResult> = _registerResult
 
-    private val _loggedInUser = MutableLiveData<LoggedInUser>()
-    val loggedInUser: LiveData<LoggedInUser> = _loggedInUser
+    private val _loggedInUser = MutableLiveData<User>()
+    val user: LiveData<User> = _loggedInUser
 
-    // Tell the repository to attempt to login to an existing account and return the result
+    /**
+     * Tell the repository to attempt to login to an existing account and return the result
+     */
     fun login(activity: android.app.Activity, email: String, password: String) {
         viewModelScope.launch { loginRepository.login(activity, email, password, _loggedInUser) }
         Log.d(ContentValues.TAG, "doneWithLoginAttempt")
     }
 
-    // Tell the repository to attempt to register a new account and return the result
+    /**
+     * Tell the repository to attempt to register a new account and return the result
+     */
     fun register(activity: android.app.Activity, email: String, password: String) {
         viewModelScope.launch { loginRepository.register(activity, email, password, _loggedInUser) }
         Log.d(ContentValues.TAG, "doneWithRegisterAttempt")
     }
 
-    // Update the login form after the user has input data
+    /**
+     * Update the login form after the user has input data
+     */
     fun loginDataChanged(email: String, password: String) {
         if (!isUSerNameValid(email)) {
             _loginForm.value = LoginForm(emailError = R.string.invalid_email)
@@ -56,7 +63,9 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
         }
     }
 
-    // Update the registration form after the user has input data
+    /**
+     * Update the registration form after the user has input data
+     */
     fun registerDataChanged(email: String, password: String, confirm: String) {
         if (!isUSerNameValid(email)) {
             _registerForm.value = RegisterForm(emailError = R.string.invalid_email)
@@ -69,7 +78,9 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
         }
     }
 
-    // TODO: Add more email validation
+    /**
+     * TODO: Add more email validation
+     */
     private fun isUSerNameValid(email: String): Boolean {
         return if (email.contains('@')) {
             Patterns.EMAIL_ADDRESS.matcher(email).matches()
@@ -78,7 +89,9 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
         }
     }
 
-    // TODO: Add more password validation
+    /**
+     * TODO: Add more password validation
+     */
     private fun isPasswordValid(password: String): Boolean {
         return password.length > 5
     }

@@ -10,7 +10,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
-import com.symphony.mrfit.data.model.LoggedInUser
 import com.symphony.mrfit.data.model.User
 
 /**
@@ -22,10 +21,12 @@ class LoginRepository {
     private lateinit var auth: FirebaseAuth
 
     // in-memory cache of the loggedInUser object
-    var currentUser: LoggedInUser? = null
-        private set
+    private var currentUser: User? = null
 
-    fun login(activity: android.app.Activity, email: String, password: String, user: MutableLiveData<LoggedInUser>) {
+    /**
+     * Attempt to login the user though Firebase User Auth
+     */
+    fun login(activity: android.app.Activity, email: String, password: String, user: MutableLiveData<User>) {
         Log.d(ContentValues.TAG, "signingIntoAccount:$email")
         // Initialize Firebase Auth
         auth = Firebase.auth
@@ -34,7 +35,7 @@ class LoginRepository {
                     // Sign in success, set the current user
                     Log.d(ContentValues.TAG, "signInWithEmail:success")
                     val firebaseUser = auth.currentUser
-                    currentUser = LoggedInUser(User(firebaseUser!!.uid, firebaseUser.displayName))
+                    currentUser = User(firebaseUser!!.uid, firebaseUser.displayName)
                     successfulLogin(user, firebaseUser)
                 } else {
                     // If sign in fails, display a message to the user and tell ViewModel why
@@ -44,12 +45,15 @@ class LoginRepository {
                         "Login failed",
                         Toast.LENGTH_LONG
                     ).show()
-                    user.value = LoggedInUser(User(userID = "ERROR", name = "Thingyboom go pop"))
+                    user.value = User("ERROR", "Thingyboom go pop")
                 }
             }
     }
 
-    fun register(activity: android.app.Activity, email: String, password: String, user: MutableLiveData<LoggedInUser>) {
+    /**
+     * Attempt to register the user though Firebase User Auth
+     */
+    fun register(activity: android.app.Activity, email: String, password: String, user: MutableLiveData<User>) {
         Log.d(ContentValues.TAG, "makingAccount:$email")
         // Initialize Firebase Auth
         auth = Firebase.auth
@@ -58,7 +62,7 @@ class LoginRepository {
                     // Registration success, populate a new user
                     Log.d(ContentValues.TAG, "createUserWithEmail:success")
                     val firebaseUser = auth.currentUser
-                    currentUser = LoggedInUser(User(firebaseUser!!.uid, firebaseUser.email))
+                    currentUser = User(firebaseUser!!.uid, firebaseUser.email)
                     makeUsername()
                     successfulLogin(user, firebaseUser)
                 } else {
@@ -69,7 +73,7 @@ class LoginRepository {
                         "Registration failed",
                         Toast.LENGTH_LONG
                     ).show()
-                    user.value = LoggedInUser(User(userID = "ERROR", name = "Thingyboom go pop"))
+                    user.value = User( "ERROR", "Thingyboom go pop")
                 }
             }
     }
@@ -82,15 +86,24 @@ class LoginRepository {
         return currentUser?.name
     }
 
-    // If registering a new user, set a default username
+    /**
+     * If registering a new user, set a default username
+     */
     private fun makeUsername() {
         val delim = currentUser!!.name!!.indexOf('@')
         currentUser!!.name = currentUser!!.name!!.substring(0, delim)
         Log.w(ContentValues.TAG, "setNameTo${currentUser?.name}")
     }
 
-    // TODO: Separate displayName update from LiveData update
-    private fun successfulLogin(user: MutableLiveData<LoggedInUser>, firebaseUser: FirebaseUser) {
+    private fun addNewUser() {
+        // TODO: Add a new user to the database
+    }
+
+    /**
+     * After a successful registration, update the LiveData
+     * TODO: Separate displayName update from LiveData update
+     */
+    private fun successfulLogin(user: MutableLiveData<User>, firebaseUser: FirebaseUser) {
         val profileUpdates = userProfileChangeRequest {
             displayName = currentUser!!.name
         }

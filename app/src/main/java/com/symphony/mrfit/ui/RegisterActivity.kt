@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.symphony.mrfit.R
-import com.symphony.mrfit.data.model.LoggedInUser
+import com.symphony.mrfit.data.model.User
 import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
 import com.symphony.mrfit.databinding.ActivityRegisterBinding
@@ -38,12 +38,16 @@ class RegisterActivity : AppCompatActivity() {
         val confirm = binding.confirmPassword
         val register = binding.registerButton
 
-        // Connect to the view model to process input data
+        /**
+         * Connect to the view model to process input data
+         */
         registerViewModel = ViewModelProvider(
             this, LoginViewModelFactory())[LoginViewModel::class.java]
 
-        // TODO: Change so errors only show after an incorrect input
-        // Observe the form and update accordingly
+        /**
+         * Observe the form and update accordingly
+         * TODO: Change so errors only show after an incorrect input
+         */
         registerViewModel.registerForm.observe(this, Observer {
             val registerState = it ?: return@Observer
 
@@ -87,16 +91,18 @@ class RegisterActivity : AppCompatActivity() {
         })
          */
 
-        // Observe if the currently logged in user becomes populated
-        registerViewModel.loggedInUser.observe(this, Observer {
-            val loggedInUser = it ?: return@Observer
+        /**
+         * Observe if the currently logged in user becomes populated
+         */
+        registerViewModel.user.observe(this, Observer {
+            val user = it ?: return@Observer
 
-            if (loggedInUser.userID == "ERROR" && loggedInUser.name != null) {
+            if (user.userID == "ERROR" && user.name != null) {
                 Log.d(ContentValues.TAG, "UIThinksLoginFailed")
-                showRegisterFailed(loggedInUser.name!!)
-            } else if (loggedInUser.userID != "ERROR" && loggedInUser.name != null) {
+                showRegisterFailed(user.name!!)
+            } else if (user.userID != "ERROR" && user.name != null) {
                 Log.d(ContentValues.TAG, "UIThinksLoginSuccess")
-                gotoHomeScreen(loggedInUser)
+                gotoHomeScreen(user)
             }
             setResult(Activity.RESULT_OK)
         })
@@ -159,8 +165,10 @@ class RegisterActivity : AppCompatActivity() {
 
     }
 
-    // After a successful login, go to the home screen
-    private fun gotoHomeScreen(model: LoggedInUser) {
+    /**
+     * After a successful login, go to the home screen
+     */
+    private fun gotoHomeScreen(model: User) {
         val welcome = getString(R.string.welcome)
         val user = model.name
         // TODO : Navigate to the Home screen
@@ -174,8 +182,10 @@ class RegisterActivity : AppCompatActivity() {
         finish()
     }
 
-    // TODO: Learn how to read why registration failed and output relevant message
-    // Example: Email address already in use or just server-side error
+    /**
+     * Example: Email address already in use or just server-side error
+     * TODO: Learn how to read why registration failed and output relevant message
+     */
     private fun showRegisterFailed(@StringRes errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }

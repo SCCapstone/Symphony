@@ -14,4 +14,6 @@
     <string name="register_failed">Could not complete registration</string>
     <string name="forgot_password">Forgot your password?</string>
     <string name="profile_edit">Edit</string>
+    <string name="height_value">%s inches</string>
+    <string name="weight_value">%s lb.</string>
 </resources>

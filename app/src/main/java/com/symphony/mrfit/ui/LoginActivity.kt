@@ -17,6 +17,7 @@ import com.symphony.mrfit.R
 import com.symphony.mrfit.data.model.LoggedInUser
 import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
+import com.symphony.mrfit.data.model.User
 import com.symphony.mrfit.databinding.ActivityLoginBinding
 
 /**
@@ -41,12 +42,16 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.loginPassword
         val login = binding.loginButton
 
-        // Connect to the view model to process input data
+        /**
+         * Connect to the view model to process input data
+         */
         loginViewModel = ViewModelProvider(
             this, LoginViewModelFactory())[LoginViewModel::class.java]
 
-        // TODO: Change so errors only show after an incorrect input
-        // Observe the form and update accordingly
+        /**
+         * Observe the form and update accordingly
+         * TODO: Change so errors only show after an incorrect input
+         */
         loginViewModel.loginForm.observe(this, Observer {
             val loginState = it ?: return@Observer
 
@@ -77,16 +82,18 @@ class LoginActivity : AppCompatActivity() {
         })
          */
 
-        // Observe if the currently logged in user becomes populated
-        loginViewModel.loggedInUser.observe(this, Observer {
-            val loggedInUser = it ?: return@Observer
+        /**
+         * Observe if the currently logged in user becomes populated
+         */
+        loginViewModel.user.observe(this, Observer {
+            val user = it ?: return@Observer
 
-            if (loggedInUser.userID == "ERROR" && loggedInUser.name != null) {
+            if (user.userID == "ERROR" && user.name != null) {
                 Log.d(ContentValues.TAG, "UIThinksLoginFailed")
-                showLoginFailed(loggedInUser.name!!)
-            } else if (loggedInUser.name != null) {
+                showLoginFailed(user.name!!)
+            } else if (user.name != null) {
                 Log.d(ContentValues.TAG, "UIThinksLoginSuccess")
-                gotoHomeScreen(loggedInUser)
+                gotoHomeScreen(user)
             }
             setResult(Activity.RESULT_OK)
         })
@@ -124,8 +131,10 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    // After a successful login, go to the home screen
-    private fun gotoHomeScreen(model: LoggedInUser) {
+    /**
+     * After a successful login, go to the home screen
+     */
+    private fun gotoHomeScreen(model: User) {
         val welcome = getString(R.string.welcome)
         val user = model.name
         // TODO : Navigate to the Home screen
@@ -139,8 +148,10 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
-    // TODO: Learn how to read why login failed and output relevant message
-    // Example: Password was incorrect or no account that matched a given email
+    /**
+     * TODO: Learn how to read why login failed and output relevant message
+     * Example: Password was incorrect or no account that matched a given email
+     */
     private fun showLoginFailed(@StringRes errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
