@@ -77,8 +77,10 @@ class LoginRepository {
             }
     }
 
-    fun passwordRecovery() {
-        val email = auth.currentUser!!.email!!
+    /**
+     * Send a password recovery email to a given email
+     */
+    fun passwordRecovery(email: String) {
 
         Firebase.auth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->

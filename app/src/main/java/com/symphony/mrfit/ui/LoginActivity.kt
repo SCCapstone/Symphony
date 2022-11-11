@@ -140,7 +140,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         reset.setOnClickListener {
-            //loginViewModel.passwordRecovery()
+            loginViewModel.passwordRecovery(email.text.toString())
             Toast.makeText(
                 applicationContext,
                 getString(R.string.recovery_email_sent, email.text.toString()),

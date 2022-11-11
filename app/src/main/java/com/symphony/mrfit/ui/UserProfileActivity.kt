@@ -82,10 +82,13 @@ class UserProfileActivity : AppCompatActivity() {
 
         logout.setOnClickListener {
             loginViewModel.logout()
+            finish()
         }
 
+        // TODO: Add an "Are you sure?" popup box when delete button is pressed
         delete.setOnClickListener {
             loginViewModel.delete()
+            finish()
         }
     }
 
