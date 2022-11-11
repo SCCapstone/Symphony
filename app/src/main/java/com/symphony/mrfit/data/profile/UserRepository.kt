@@ -77,7 +77,15 @@ class UserRepository {
 
     }
 
+    /**
+     * Only called when a user is being deleted, remove their document from Firestore
+     */
     fun removeUser() {
-        Log.d(ContentValues.TAG, "Removing User from Firestore")
+        val user = auth.currentUser!!
+        Log.d(ContentValues.TAG, "Removing User ${user.uid} from Firestore")
+        database.collection("users").document(user.uid)
+            .delete()
+            .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot successfully deleted!") }
+            .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error deleting document", e) }
     }
 }

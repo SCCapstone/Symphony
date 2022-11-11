@@ -35,7 +35,7 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
     val user: LiveData<User> = _loggedInUser
 
     /**
-     * Tell the repository to attempt to login to an existing account and return the result
+     * Tell the repository to attempt to login to an existing account
      */
     fun login(activity: android.app.Activity, email: String, password: String) {
         viewModelScope.launch { loginRepository.login(activity, email, password, _loggedInUser) }
@@ -43,11 +43,35 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
     }
 
     /**
-     * Tell the repository to attempt to register a new account and return the result
+     * Tell the repository to attempt to register a new account
      */
     fun register(activity: android.app.Activity, email: String, password: String) {
         viewModelScope.launch { loginRepository.register(activity, email, password, _loggedInUser) }
         Log.d(ContentValues.TAG, "Done with registration attempt")
+    }
+
+    /**
+     * Tell the repository to attempt to register a new account
+     */
+    fun passwordRecovery() {
+        viewModelScope.launch { loginRepository.passwordRecovery() }
+        Log.d(ContentValues.TAG, "Done with password recovery attempt")
+    }
+
+    /**
+     * Tell the repository to attempt to logout the current user
+     */
+    fun logout() {
+        viewModelScope.launch { loginRepository.logout() }
+        Log.d(ContentValues.TAG, "Done with logout attempt")
+    }
+
+    /**
+     * Tell the repository to attempt to delete the current user from Auth and the Database
+     */
+    fun delete() {
+        viewModelScope.launch { loginRepository.delete() }
+        Log.d(ContentValues.TAG, "Done with deletion attempt")
     }
 
     /**

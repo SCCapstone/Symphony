@@ -37,7 +37,7 @@ class LoginRepository {
                     Log.d(ContentValues.TAG, "Sign in with email: success")
                     val firebaseUser = auth.currentUser
                     currentUser = User(firebaseUser!!.uid, firebaseUser.displayName)
-                    successfulLogin(user, firebaseUser)
+                    successfulLogin(user)
                 } else {
                     // If sign in fails, display a message to the user and tell ViewModel why
                     Log.w(ContentValues.TAG, "Sign in with email: failure", task.exception)
@@ -77,27 +77,46 @@ class LoginRepository {
             }
     }
 
+    fun passwordRecovery() {
+        val email = auth.currentUser!!.email!!
+
+        Firebase.auth.sendPasswordResetEmail(email)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d(ContentValues.TAG, "Email sent.")
+                }
+            }
+    }
+
+    /**
+     * Logout the user from Firebase Auth
+     */
     fun logout(){
-        // TODO: Handle logout
+        Log.d(ContentValues.TAG, "Attempting to log out user")
+        auth.signOut()
+    }
+
+    /**
+     * Say goodbye to our lovely user. Remove them from Auth and Database
+     */
+    fun delete(){
+        val user = auth.currentUser!!
+
+        userRepository.removeUser()
+
+        user.delete()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d(ContentValues.TAG, "User account deleted.")
+                }
+            }
     }
 
     /**
      * After a successful registration, update the LiveData
-     * TODO: Separate displayName update from LiveData update
      */
-    private fun successfulLogin(user: MutableLiveData<User>, firebaseUser: FirebaseUser) {
-        val profileUpdates = userProfileChangeRequest {
-            displayName = currentUser!!.name
-        }
-
-        firebaseUser.updateProfile(profileUpdates)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(ContentValues.TAG, "User profile updated.")
-                    user.value = currentUser
-                }
-            }
-
+    private fun successfulLogin(user: MutableLiveData<User>) {
+        userRepository.getCurrentUser(user)
     }
 
     /**
@@ -120,10 +139,6 @@ class LoginRepository {
 
     }
 
-    fun getUsername(): String? {
-        return currentUser?.name
-    }
-
     /**
      * If registering a new user, set a default username
      */
@@ -134,7 +149,6 @@ class LoginRepository {
     }
 
     private fun addNewUser(user: MutableLiveData<User>) {
-        // TODO: Add a new user to the database
         Log.d(ContentValues.TAG, "Telling repo to add ${currentUser?.name} to the database")
         userRepository.addNewUser(user)
     }

@@ -2,6 +2,7 @@ package com.symphony.mrfit.ui
 
 import android.app.Activity
 import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -41,6 +42,8 @@ class LoginActivity : AppCompatActivity() {
         val email = binding.loginEmail
         val password = binding.loginPassword
         val login = binding.loginButton
+        val register = binding.toRegisterTextView
+        val reset = binding.resetPasswordTextView
 
         /**
          * Connect to the view model to process input data
@@ -128,6 +131,21 @@ class LoginActivity : AppCompatActivity() {
 
         login.setOnClickListener {
             loginViewModel.login(activity, email.text.toString(), password.text.toString())
+        }
+
+        register.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        reset.setOnClickListener {
+            //loginViewModel.passwordRecovery()
+            Toast.makeText(
+                applicationContext,
+                getString(R.string.recovery_email_sent, email.text.toString()),
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 

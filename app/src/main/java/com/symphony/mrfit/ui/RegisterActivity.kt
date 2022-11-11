@@ -2,6 +2,7 @@ package com.symphony.mrfit.ui
 
 import android.app.Activity
 import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.EditorInfo
@@ -37,6 +38,7 @@ class RegisterActivity : AppCompatActivity() {
         val password = binding.registerPassword
         val confirm = binding.confirmPassword
         val register = binding.registerButton
+        val login = binding.toLoginTextView
 
         /**
          * Connect to the view model to process input data
@@ -161,6 +163,12 @@ class RegisterActivity : AppCompatActivity() {
 
         register.setOnClickListener {
             registerViewModel.register(activity, email.text.toString(), password.text.toString())
+        }
+
+        login.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
     }

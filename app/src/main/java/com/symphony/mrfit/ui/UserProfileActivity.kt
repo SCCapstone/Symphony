@@ -14,11 +14,14 @@ import com.symphony.mrfit.R
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.data.login.LoginRepository
+import com.symphony.mrfit.data.login.LoginViewModel
+import com.symphony.mrfit.data.login.LoginViewModelFactory
 import com.symphony.mrfit.data.model.User
 import com.symphony.mrfit.databinding.ActivityUserProfileBinding
 
 class UserProfileActivity : AppCompatActivity() {
 
+    private lateinit var loginViewModel: LoginViewModel
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityUserProfileBinding
@@ -35,9 +38,12 @@ class UserProfileActivity : AppCompatActivity() {
         profileViewModel = ViewModelProvider(
             this, ProfileViewModelFactory()
         )[ProfileViewModel::class.java]
+        loginViewModel = ViewModelProvider(
+            this, LoginViewModelFactory()
+        )[LoginViewModel::class.java]
 
         /**
-         * Declare variables
+         * Declare lots of variables
          */
         val user = auth.currentUser
         val edit = binding.editProfileButton
@@ -45,6 +51,8 @@ class UserProfileActivity : AppCompatActivity() {
         val achievements = binding.achievementsButton
         val history = binding.historyButton
         val progress = binding.progressButton
+        val logout = binding.logoutButton
+        val delete = binding.deleteButton
         val name = binding.profileNameTextView
         val age = binding.ageValueTextView
         val height = binding.heightValueTextView
@@ -70,6 +78,14 @@ class UserProfileActivity : AppCompatActivity() {
         edit.setOnClickListener {
             val intent = Intent(this, EditProfileActivity::class.java)
             startActivity(intent)
+        }
+
+        logout.setOnClickListener {
+            loginViewModel.logout()
+        }
+
+        delete.setOnClickListener {
+            loginViewModel.delete()
         }
     }
 

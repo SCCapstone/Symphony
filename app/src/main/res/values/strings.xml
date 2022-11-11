@@ -20,4 +20,5 @@
     <string name="label_age">Age:</string>
     <string name="label_height">Height:</string>
     <string name="label_weight">Weight:</string>
+    <string name="recovery_email_sent">A recovery email has been sent to %s</string>
 </resources>

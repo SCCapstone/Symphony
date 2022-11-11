@@ -31,6 +31,7 @@ class EditProfileActivity : AppCompatActivity() {
         /**
          * Update the user's profile with any information provided
          * If a field was empty, it is treated as null and will not be updated
+         * Should probably move some of this logic into the ProfileViewModel
          */
         binding.saveChangesButton.setOnClickListener {
             var newName: String? = null
