@@ -1,3 +1,9 @@
+/*
+ * Created by Team Symphony 11/10/22, 11:39 PM
+ * Copyright (c) 2022 . All rights reserved.
+ * Last modified 11/10/22, 11:38 PM
+ */
+
 package com.symphony.mrfit
 
 import android.content.Intent
@@ -7,6 +13,7 @@ import android.view.View
 import com.symphony.mrfit.databinding.ActivityDebugBinding
 import com.symphony.mrfit.ui.LoginActivity
 import com.symphony.mrfit.ui.RegisterActivity
+import com.symphony.mrfit.ui.UserProfileActivity
 
 /**
  * Menu for instantly navigating to any page for debug and testing
@@ -26,6 +33,7 @@ class DebugActivity : AppCompatActivity() {
 
         val login = binding.debugLogin
         val register = binding.debugRegister
+        val profile = binding.debugUserProfile
 
         login.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
@@ -34,6 +42,11 @@ class DebugActivity : AppCompatActivity() {
 
         register.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+
+        profile.setOnClickListener {
+            val intent = Intent(this, UserProfileActivity::class.java)
             startActivity(intent)
         }
     }

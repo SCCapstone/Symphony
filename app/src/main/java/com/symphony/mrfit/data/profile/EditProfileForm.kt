@@ -4,9 +4,8 @@
  * Last modified 11/10/22, 11:38 PM
  */
 
-package com.symphony.mrfit.data.login
+package com.symphony.mrfit.data.profile
 
-data class LoginResult(
-    val success: String? = null,
-    val error: Int? = null
+data class EditProfileForm(
+    val isDataValid: Boolean = false
 )

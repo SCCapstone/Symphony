@@ -1,3 +1,9 @@
+<!--
+  ~ Created by Team Symphony 11/10/22, 11:39 PM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 11/10/22, 11:38 PM
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.MrFit" parent="Theme.MaterialComponents.DayNight.DarkActionBar">

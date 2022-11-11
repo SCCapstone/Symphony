@@ -4,18 +4,18 @@
  * Last modified 11/10/22, 11:38 PM
  */
 
-package com.symphony.mrfit.data.login
+package com.symphony.mrfit.data.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-class LoginViewModelFactory : ViewModelProvider.Factory {
+class ProfileViewModelFactory : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
-            return LoginViewModel(
-                loginRepository = LoginRepository()
+        if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
+            return ProfileViewModel(
+                userRepository = UserRepository()
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

@@ -1,23 +1,38 @@
+/*
+ * Created by Team Symphony 11/10/22, 11:39 PM
+ * Copyright (c) 2022 . All rights reserved.
+ * Last modified 11/10/22, 11:38 PM
+ */
+
 package com.symphony.mrfit.ui
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.ContentValues
+import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
+import android.util.DisplayMetrics
 import android.util.Log
+import android.view.View
+import android.view.Window
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.symphony.mrfit.R
-import com.symphony.mrfit.data.model.LoggedInUser
 import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
+import com.symphony.mrfit.data.model.User
 import com.symphony.mrfit.databinding.ActivityLoginBinding
+
 
 /**
  * Screen for returning users to log in to an existing account
@@ -40,13 +55,19 @@ class LoginActivity : AppCompatActivity() {
         val email = binding.loginEmail
         val password = binding.loginPassword
         val login = binding.loginButton
+        val register = binding.toRegisterTextView
+        val reset = binding.resetPasswordTextView
 
-        // Connect to the view model to process input data
+        /**
+         * Connect to the view model to process input data
+         */
         loginViewModel = ViewModelProvider(
             this, LoginViewModelFactory())[LoginViewModel::class.java]
 
-        // TODO: Change so errors only show after an incorrect input
-        // Observe the form and update accordingly
+        /**
+         * Observe the form and update accordingly
+         * TODO: Change so errors only show after an incorrect input
+         */
         loginViewModel.loginForm.observe(this, Observer {
             val loginState = it ?: return@Observer
 
@@ -77,16 +98,18 @@ class LoginActivity : AppCompatActivity() {
         })
          */
 
-        // Observe if the currently logged in user becomes populated
-        loginViewModel.loggedInUser.observe(this, Observer {
-            val loggedInUser = it ?: return@Observer
+        /**
+         * Observe if the currently logged in user becomes populated
+         */
+        loginViewModel.user.observe(this, Observer {
+            val user = it ?: return@Observer
 
-            if (loggedInUser.userID == "ERROR" && loggedInUser.name != null) {
-                Log.d(ContentValues.TAG, "UIThinksLoginFailed")
-                showLoginFailed(loggedInUser.name!!)
-            } else if (loggedInUser.name != null) {
-                Log.d(ContentValues.TAG, "UIThinksLoginSuccess")
-                gotoHomeScreen(loggedInUser)
+            if (user.userID == "ERROR" && user.name != null) {
+                Log.d(ContentValues.TAG, "UI things login failed")
+                showLoginFailed(user.name!!)
+            } else if (user.name != null) {
+                Log.d(ContentValues.TAG, "UI thinks login succeeded")
+                gotoHomeScreen(user)
             }
             setResult(Activity.RESULT_OK)
         })
@@ -122,10 +145,22 @@ class LoginActivity : AppCompatActivity() {
         login.setOnClickListener {
             loginViewModel.login(activity, email.text.toString(), password.text.toString())
         }
+
+        register.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        reset.setOnClickListener {
+            resetAlert(reset)
+        }
     }
 
-    // After a successful login, go to the home screen
-    private fun gotoHomeScreen(model: LoggedInUser) {
+    /**
+     * After a successful login, go to the home screen
+     */
+    private fun gotoHomeScreen(model: User) {
         val welcome = getString(R.string.welcome)
         val user = model.name
         // TODO : Navigate to the Home screen
@@ -139,8 +174,10 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
-    // TODO: Learn how to read why login failed and output relevant message
-    // Example: Password was incorrect or no account that matched a given email
+    /**
+     * TODO: Learn how to read why login failed and output relevant message
+     * Example: Password was incorrect or no account that matched a given email
+     */
     private fun showLoginFailed(@StringRes errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
@@ -148,8 +185,36 @@ class LoginActivity : AppCompatActivity() {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
 
+    private fun resetAlert(view: View) {val builder = AlertDialog.Builder(this)
+        builder.setTitle(R.string.reset_alert_title)
+        builder.setMessage(R.string.reset_alert_message)
 
-}/**
+        val input = EditText(this)
+        input.hint = "Email"
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setView(input)
+
+        builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+            loginViewModel.passwordReset(input.text.toString())
+            Toast.makeText(
+                applicationContext,
+                getString(R.string.reset_email_sent, input.text.toString()),
+                Toast.LENGTH_LONG
+            ).show()
+            Toast.makeText(applicationContext,
+                android.R.string.yes, Toast.LENGTH_SHORT).show()
+        }
+
+        builder.setNegativeButton(android.R.string.no) { dialog, which ->
+            Toast.makeText(applicationContext,
+                android.R.string.no, Toast.LENGTH_SHORT).show()
+        }
+        builder.show()
+    }
+
+}
+
+/**
  * Extension function to simplify setting an afterTextChanged action to EditText components.
  */
 fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
