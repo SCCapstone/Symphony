@@ -22,7 +22,7 @@ class UserRepository {
      * Pull the currently logged in user's profile from Firestore
      */
     fun getCurrentUser(_loggedInUser: MutableLiveData<User>) {
-        Log.d(ContentValues.TAG, "Retrieving User from Firestore")
+        Log.d(ContentValues.TAG, "Retrieving User ${auth.currentUser!!.uid} from Firestore")
         val doc = auth.currentUser!!.uid
         val docRef = database.collection("users").document(doc)
         docRef.get().addOnSuccessListener { documentSnapshot ->
@@ -39,15 +39,16 @@ class UserRepository {
     newAge: Int?,
     newHeight: Int?,
     newWeight: Double?) {
-        Log.d(ContentValues.TAG, "Updating User in Firestore")
-        newName?.let {_loggedInUser.value = User(name = newName)}
-        newAge?.let {_loggedInUser.value = User(age = newAge)}
-        newHeight?.let {_loggedInUser.value = User(height = newHeight)}
-        newWeight?.let {_loggedInUser.value = User(weight = newWeight)}
+        val uid = auth.currentUser!!.uid
+        Log.d(ContentValues.TAG, "Updating User $uid in Firestore")
+        newName?.let {_loggedInUser.value?.name = newName}
+        newAge?.let {_loggedInUser.value?.age = newAge}
+        newHeight?.let {_loggedInUser.value?.height = newHeight}
+        newWeight?.let {_loggedInUser.value?.weight = newWeight}
 
         val user = _loggedInUser.value
         if (user != null) {
-            database.collection("users").document(user.userID).set(user)
+            database.collection("users").document(uid).set(user)
                 .addOnSuccessListener {
                     Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
                 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.symphony.mrfit.data.model.User
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(private val userRepository: UserRepository): ViewModel() {
@@ -17,6 +18,10 @@ class ProfileViewModel(private val userRepository: UserRepository): ViewModel() 
     }
 
     fun updateCurrentUser(name: String?, age: Int?, height: Int?, weight: Double?){
-        userRepository.updateCurrentUser(_loggedInUser, name, age, height, weight)
+        viewModelScope.launch {
+            userRepository.getCurrentUser(_loggedInUser) // Remove this later, only for debugging
+            delay(1000)
+            userRepository.updateCurrentUser(_loggedInUser, name, age, height, weight)
+        }
     }
 }
