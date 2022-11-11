@@ -53,9 +53,9 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
     /**
      * Tell the repository to attempt to register a new account
      */
-    fun passwordRecovery(email: String) {
-        viewModelScope.launch { loginRepository.passwordRecovery(email) }
-        Log.d(ContentValues.TAG, "Done with password recovery attempt")
+    fun passwordReset(email: String) {
+        viewModelScope.launch { loginRepository.passwordReset(email) }
+        Log.d(ContentValues.TAG, "Done with password reset attempt")
     }
 
     /**

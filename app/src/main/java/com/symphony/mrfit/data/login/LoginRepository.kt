@@ -78,10 +78,9 @@ class LoginRepository {
     }
 
     /**
-     * Send a password recovery email to a given email
+     * Send a password reset to a given email
      */
-    fun passwordRecovery(email: String) {
-
+    fun passwordReset(email: String) {
         Firebase.auth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {

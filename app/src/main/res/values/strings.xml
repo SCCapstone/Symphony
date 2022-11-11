@@ -20,5 +20,7 @@
     <string name="label_age">Age:</string>
     <string name="label_height">Height:</string>
     <string name="label_weight">Weight:</string>
-    <string name="recovery_email_sent">A recovery email has been sent to %s</string>
+    <string name="reset_email_sent">A recovery email has been sent to %s</string>
+    <string name="reset_alert_message">Please enter an email address to send a password reset request to, and give it a moment to arrive</string>
+    <string name="reset_alert_title">Forgot Password</string>
 </resources>
