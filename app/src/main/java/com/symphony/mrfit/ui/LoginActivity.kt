@@ -7,19 +7,13 @@
 package com.symphony.mrfit.ui
 
 import android.app.Activity
-import android.app.Dialog
-import android.content.ContentValues
-import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.*
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
-import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
-import android.view.Window
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.annotation.StringRes
@@ -27,6 +21,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.identity.SignInClient
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
@@ -43,6 +40,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
     private lateinit var activity: LoginActivity
+    private lateinit var oneTapClient: SignInClient
+    private lateinit var signInRequest: BeginSignInRequest
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -54,7 +53,8 @@ class LoginActivity : AppCompatActivity() {
 
         val email = binding.loginEmail
         val password = binding.loginPassword
-        val login = binding.loginButton
+        val emailLogin = binding.loginButton
+        val googleLogin = binding.googleButton
         val register = binding.toRegisterTextView
         val reset = binding.resetPasswordTextView
 
@@ -73,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
 
             // TODO: Disable the button from the start? Or check validation in repo
             // Disable login button until all fields are valid
-            login.isEnabled = loginState.isDataValid
+            emailLogin.isEnabled = loginState.isDataValid
 
             if (loginState.emailError != null) {
                 email.error = getString(loginState.emailError)
@@ -114,6 +114,43 @@ class LoginActivity : AppCompatActivity() {
             setResult(Activity.RESULT_OK)
         })
 
+        /**
+         * Google Sign In client
+         */
+        oneTapClient = Identity.getSignInClient(this)
+        signInRequest = BeginSignInRequest.builder()
+            .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
+                .setSupported(true)
+                .build())
+            .setGoogleIdTokenRequestOptions(
+                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                    .setSupported(true)
+                    // Your server's client ID, not your Android client ID.
+                    .setServerClientId(getString(R.string.google_client_id))
+                    // Only show accounts previously used to sign in.
+                    .setFilterByAuthorizedAccounts(true)
+                    .build())
+            // Automatically sign in when exactly one credential is retrieved.
+            .setAutoSelectEnabled(true)
+            .build()
+
+        oneTapClient.beginSignIn(signInRequest)
+            .addOnSuccessListener(this) { result ->
+                try {
+                    startIntentSenderForResult(
+                        result.pendingIntent.intentSender, 2,
+                        null, 0, 0, 0, null)
+                } catch (e: IntentSender.SendIntentException) {
+                    Log.e(ContentValues.TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
+                }
+            }
+            .addOnFailureListener(this) { e ->
+                // No saved credentials found. Launch the One Tap sign-up flow, or
+                // do nothing and continue presenting the signed-out UI.
+                Log.d(ContentValues.TAG, e.localizedMessage)
+            }
+
+
         email.afterTextChanged {
             loginViewModel.loginDataChanged(
                 email.text.toString(),
@@ -142,7 +179,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        login.setOnClickListener {
+        emailLogin.setOnClickListener {
             loginViewModel.login(activity, email.text.toString(), password.text.toString())
         }
 
