@@ -6,7 +6,6 @@
 
 package com.symphony.mrfit.data.login
 
-
 import android.content.ContentValues
 import android.util.Log
 import android.widget.Toast
@@ -25,23 +24,30 @@ import com.symphony.mrfit.data.profile.UserRepository
 
 class LoginRepository {
 
-    // Initialize Firebase Auth and database repository
-    private var auth: FirebaseAuth = Firebase.auth
+    // Initialize Auth tools and database repository
+    private var firebaseAuth: FirebaseAuth = Firebase.auth
     private var userRepository: UserRepository = UserRepository()
 
     // in-memory cache of the loggedInUser object
     private var currentUser: User? = null
 
     /**
+     * Attempt to login the user through Google Auth
+     */
+    fun googleLogin(activity: android.app.Activity) {
+    }
+
+
+    /**
      * Attempt to login the user though Firebase User Auth
      */
-    fun login(activity: android.app.Activity, email: String, password: String, user: MutableLiveData<User>) {
+    fun firebaseLogin(activity: android.app.Activity, email: String, password: String, user: MutableLiveData<User>) {
         Log.d(ContentValues.TAG, "Signing in to account: $email")
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(activity) { task ->
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, set the current user
                     Log.d(ContentValues.TAG, "Sign in with email: success")
-                    val firebaseUser = auth.currentUser
+                    val firebaseUser = firebaseAuth.currentUser
                     currentUser = User(firebaseUser!!.uid, firebaseUser.displayName)
                     successfulLogin(user)
                 } else {
@@ -52,7 +58,7 @@ class LoginRepository {
                         "Login failed",
                         Toast.LENGTH_LONG
                     ).show()
-                    user.value = User("ERROR", "Thingyboom go pop")
+                    user.value = User("ERROR", "Authentication rejected Login")
                 }
             }
     }
@@ -62,11 +68,11 @@ class LoginRepository {
      */
     fun register(activity: android.app.Activity, email: String, password: String, user: MutableLiveData<User>) {
         Log.d(ContentValues.TAG, "Making account: $email")
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity) { task ->
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     // Registration success, populate a new user
                     Log.d(ContentValues.TAG, "Create user with email: success")
-                    val firebaseUser = auth.currentUser
+                    val firebaseUser = firebaseAuth.currentUser
                     currentUser = User(firebaseUser!!.uid, firebaseUser.email)
                     makeUsername()
                     successfulRegistration(user, firebaseUser)
@@ -78,7 +84,7 @@ class LoginRepository {
                         "Registration failed",
                         Toast.LENGTH_LONG
                     ).show()
-                    user.value = User( "ERROR", "Thingyboom go pop")
+                    user.value = User( "ERROR", "Authentication rejected Register")
                 }
             }
     }
@@ -100,14 +106,18 @@ class LoginRepository {
      */
     fun logout(){
         Log.d(ContentValues.TAG, "Attempting to log out user")
-        auth.signOut()
+        firebaseAuth.signOut()
+
+        /**
+         * TODO: Add logout for Google and Meta
+         */
     }
 
     /**
      * Say goodbye to our lovely user. Remove them from Auth and Database
      */
     fun delete(){
-        val user = auth.currentUser!!
+        val user = firebaseAuth.currentUser!!
 
         userRepository.removeUser()
 

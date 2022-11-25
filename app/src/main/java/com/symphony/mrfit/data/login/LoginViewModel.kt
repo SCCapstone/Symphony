@@ -14,7 +14,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.symphony.mrfit.R
-import com.symphony.mrfit.data.model.LoggedInUser
 import com.symphony.mrfit.data.model.User
 import kotlinx.coroutines.launch
 
@@ -43,9 +42,16 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
     /**
      * Tell the repository to attempt to login to an existing account
      */
-    fun login(activity: android.app.Activity, email: String, password: String) {
-        viewModelScope.launch { loginRepository.login(activity, email, password, _loggedInUser) }
-        Log.d(ContentValues.TAG, "Done with login attempt")
+    fun emailLogin(activity: android.app.Activity, email: String, password: String) {
+        viewModelScope.launch { loginRepository.firebaseLogin(activity, email, password, _loggedInUser) }
+        Log.d(ContentValues.TAG, "Done with email login attempt")
+    }
+
+    /**
+     * Tell the repository to attempt to login through google
+     */
+    fun googleLogin() {
+        Log.d(ContentValues.TAG, "Done with email login attempt")
     }
 
     /**
