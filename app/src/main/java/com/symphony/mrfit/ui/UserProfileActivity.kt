@@ -8,21 +8,21 @@ package com.symphony.mrfit.ui
 
 import android.content.ContentValues
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.symphony.mrfit.R
-import com.symphony.mrfit.data.profile.ProfileViewModel
-import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.data.login.LoginRepository
 import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
 import com.symphony.mrfit.data.model.User
+import com.symphony.mrfit.data.profile.ProfileViewModel
+import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityUserProfileBinding
 
 class UserProfileActivity : AppCompatActivity() {

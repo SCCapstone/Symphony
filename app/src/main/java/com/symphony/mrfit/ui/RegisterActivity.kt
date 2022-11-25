@@ -18,9 +18,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.symphony.mrfit.R
-import com.symphony.mrfit.data.model.User
 import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
+import com.symphony.mrfit.data.model.User
 import com.symphony.mrfit.databinding.ActivityRegisterBinding
 
 /**
@@ -45,75 +45,6 @@ class RegisterActivity : AppCompatActivity() {
         val confirm = binding.confirmPassword
         val register = binding.registerButton
         val login = binding.toLoginTextView
-
-        /**
-         * Connect to the view model to process input data
-         */
-        registerViewModel = ViewModelProvider(
-            this, LoginViewModelFactory())[LoginViewModel::class.java]
-
-        /**
-         * Observe the form and update accordingly
-         * TODO: Change so errors only show after an incorrect input
-         */
-        registerViewModel.registerForm.observe(this, Observer {
-            val registerState = it ?: return@Observer
-
-            // TODO: Disable the button from the start? Or check validation in repo
-            // Disable register button until all fields are valid
-            register.isEnabled = registerState.isDataValid
-
-            if (registerState.emailError != null) {
-                email.error = getString(registerState.emailError)
-            }
-            if (registerState.passwordError != null) {
-                password.error = getString(registerState.passwordError)
-            }
-            if (registerState.confirmError != null) {
-                confirm.error = getString(registerState.confirmError)
-            }
-        })
-
-        /*
-        // Observe the result of attempting to log in
-        registerViewModel.registerResult.observe(this, Observer {
-            val registerResult = it ?: return@Observer
-
-            if (registerResult.error != null) {
-                Toast.makeText(
-                    applicationContext,
-                    "Registration failed",
-                    Toast.LENGTH_LONG
-                ).show()
-                showRegisterFailed(registerResult.error)
-            }
-            if (registerResult.success != null) {
-                Toast.makeText(
-                    applicationContext,
-                    "Registration successful",
-                    Toast.LENGTH_LONG
-                ).show()
-                gotoHomeScreen(registerResult)
-            }
-            setResult(Activity.RESULT_OK)
-        })
-         */
-
-        /**
-         * Observe if the currently logged in user becomes populated
-         */
-        registerViewModel.user.observe(this, Observer {
-            val user = it ?: return@Observer
-
-            if (user.userID == "ERROR" && user.name != null) {
-                Log.d(ContentValues.TAG, "UI thinks registration failed")
-                showRegisterFailed(user.name!!)
-            } else if (user.userID != "ERROR" && user.name != null) {
-                Log.d(ContentValues.TAG, "UI things registration succeeded")
-                gotoHomeScreen(user)
-            }
-            setResult(Activity.RESULT_OK)
-        })
 
         email.afterTextChanged {
             registerViewModel.registerDataChanged(
@@ -177,6 +108,49 @@ class RegisterActivity : AppCompatActivity() {
             finish()
         }
 
+        /**
+         * Connect to the view model to process input data
+         */
+        registerViewModel = ViewModelProvider(
+            this, LoginViewModelFactory())[LoginViewModel::class.java]
+
+        /**
+         * Observe the form and update accordingly
+         * TODO: Change so errors only show after an incorrect input
+         */
+        registerViewModel.registerForm.observe(this, Observer {
+            val registerState = it ?: return@Observer
+
+            // TODO: Disable the button from the start? Or check validation in repo
+            // Disable register button until all fields are valid
+            register.isEnabled = registerState.isDataValid
+
+            if (registerState.emailError != null) {
+                email.error = getString(registerState.emailError)
+            }
+            if (registerState.passwordError != null) {
+                password.error = getString(registerState.passwordError)
+            }
+            if (registerState.confirmError != null) {
+                confirm.error = getString(registerState.confirmError)
+            }
+        })
+
+        /**
+         * Observe if the currently logged in user becomes populated
+         */
+        registerViewModel.user.observe(this, Observer {
+            val user = it ?: return@Observer
+
+            if (user.userID == "ERROR" && user.name != null) {
+                Log.d(ContentValues.TAG, "UI thinks registration failed")
+                showRegisterFailed(user.name!!)
+            } else if (user.userID != "ERROR" && user.name != null) {
+                Log.d(ContentValues.TAG, "UI things registration succeeded")
+                gotoHomeScreen(user)
+            }
+            setResult(Activity.RESULT_OK)
+        })
     }
 
     /**

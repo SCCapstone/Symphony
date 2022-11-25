@@ -10,14 +10,11 @@ import android.content.ContentValues
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
-import com.symphony.mrfit.R
 import com.symphony.mrfit.data.model.User
 import com.symphony.mrfit.data.profile.UserRepository
 
@@ -110,6 +107,10 @@ class LoginRepository {
     fun logout(){
         Log.d(ContentValues.TAG, "Attempting to log out user")
         firebaseAuth.signOut()
+
+        /**
+         * TODO: Add logout for Google and Meta
+         */
     }
 
     /**

@@ -30,7 +30,7 @@
     <string name="reset_alert_message">Please enter an email address to send a password reset request to, and give it a moment to arrive</string>
     <string name="reset_alert_title">Forgot Password</string>
     <string name="google_client_id">876037032436-a3e9qhm47smke0n2duem9fgb45sgiidk.apps.googleusercontent.com</string>
-    <string name="facebook_app_id">1234</string>
-    <string name="fb_login_protocol_scheme">fb1234</string>
-    <string name="facebook_client_token">56789</string>
+    <string name="facebook_app_id">1282611015641916</string>
+    <string name="fb_login_protocol_scheme">fb1282611015641916</string>
+    <string name="facebook_client_token">55d764848b923fd2eb5519986f8db733</string>
 </resources>

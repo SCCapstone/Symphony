@@ -8,8 +8,10 @@ package com.symphony.mrfit.ui
 
 import android.app.Activity
 import android.app.PendingIntent
-import android.content.*
+import android.content.ContentValues
 import android.content.ContentValues.TAG
+import android.content.Intent
+import android.content.IntentSender
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
@@ -17,7 +19,8 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.*
+import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
@@ -69,8 +72,6 @@ class LoginActivity : AppCompatActivity() {
     }
     private lateinit var callbackManager: CallbackManager
 
-    // Variables for Facebook Sign In
-
     private var database: FirebaseFirestore = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,8 +89,6 @@ class LoginActivity : AppCompatActivity() {
         val metaLogin = binding.metaButton
         val register = binding.toRegisterTextView
         val reset = binding.resetPasswordTextView
-
-        // Configure Facebook Sign In
 
         /**
          * TODO: Split into MVVM model
@@ -123,62 +122,6 @@ class LoginActivity : AppCompatActivity() {
 
         // Initialize Firebase Auth
         auth = Firebase.auth
-
-        /**
-         * Connect to the view model to process input data
-         */
-        loginViewModel = ViewModelProvider(
-            this, LoginViewModelFactory())[LoginViewModel::class.java]
-
-        /**
-         * Observe the form and update accordingly
-         * TODO: Change so errors only show after an incorrect input
-         */
-        loginViewModel.loginForm.observe(this, Observer {
-            val loginState = it ?: return@Observer
-
-            // TODO: Disable the button from the start? Or check validation in repo
-            // Disable login button until all fields are valid
-            emailLogin.isEnabled = loginState.isDataValid
-
-            if (loginState.emailError != null) {
-                email.error = getString(loginState.emailError)
-            }
-            if (loginState.passwordError != null) {
-                password.error = getString(loginState.passwordError)
-            }
-        })
-
-        /*
-        // Observe the result of attempting to log in
-        loginViewModel.loginResult.observe(this, Observer {
-            val loginResult = it ?: return@Observer
-
-            if (loginResult.error != null) {
-                showLoginFailed(loginResult.error)
-            }
-            if (loginResult.success != null) {
-                gotoHomeScreen(loginResult)
-            }
-            setResult(Activity.RESULT_OK)
-        })
-         */
-
-        /**
-         * Observe if the currently logged in user becomes populated
-         */
-        loginViewModel.user.observe(this, Observer {
-            val user = it ?: return@Observer
-
-            if (user.userID == "ERROR" && user.name != null) {
-                Log.d(ContentValues.TAG, "UI things login failed")
-                showLoginFailed(user.name!!)
-            } else if (user.name != null) {
-                Log.d(ContentValues.TAG, "UI thinks login succeeded")
-                gotoHomeScreen(user)
-            }
-            setResult(Activity.RESULT_OK)
-        })
 
         email.afterTextChanged {
             loginViewModel.loginDataChanged(
@@ -226,6 +169,47 @@ class LoginActivity : AppCompatActivity() {
         reset.setOnClickListener {
             resetAlert(reset)
         }
+
+        /**
+         * Connect to the view model to process input data
+         */
+        loginViewModel = ViewModelProvider(
+            this, LoginViewModelFactory())[LoginViewModel::class.java]
+
+        /**
+         * Observe the form and update accordingly
+         * TODO: Change so errors only show after an incorrect input
+         */
+        loginViewModel.loginForm.observe(this, Observer {
+            val loginState = it ?: return@Observer
+
+            // TODO: Disable the button from the start? Or check validation in repo
+            // Disable login button until all fields are valid
+            emailLogin.isEnabled = loginState.isDataValid
+
+            if (loginState.emailError != null) {
+                email.error = getString(loginState.emailError)
+            }
+            if (loginState.passwordError != null) {
+                password.error = getString(loginState.passwordError)
+            }
+        })
+
+        /**
+         * Observe if the currently logged in user becomes populated
+         */
+        loginViewModel.user.observe(this, Observer {
+            val user = it ?: return@Observer
+
+            if (user.userID == "ERROR" && user.name != null) {
+                Log.d(TAG, "UI things login failed")
+                showLoginFailed(user.name!!)
+            } else if (user.name != null) {
+                Log.d(TAG, "UI thinks login succeeded")
+                gotoHomeScreen(user)
+            }
+            setResult(Activity.RESULT_OK)
+        })
     }
 
     /**
@@ -263,10 +247,10 @@ class LoginActivity : AppCompatActivity() {
                     val newUser = User(userID = user!!.uid, name = user.displayName)
                     database.collection("users").document(newUser.userID).set(newUser)
                         .addOnSuccessListener {
-                            Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
+                            Log.d(TAG, "DocumentSnapshot successfully written!")
                         }
                         .addOnFailureListener {
-                                e -> Log.w(ContentValues.TAG, "Error writing document", e)
+                                e -> Log.w(TAG, "Error writing document", e)
                         }
                     gotoHomeScreen(newUser)
                 } else {
@@ -326,7 +310,7 @@ class LoginActivity : AppCompatActivity() {
     }
     // endregion Google Sign In
 
-    // Handle Meta Sign In
+    // Handle Meta Sign In, move this to the repository later
     private fun handleFacebookAccessToken(token: AccessToken) {
         Log.d(TAG, "handleFacebookAccessToken:$token")
 
@@ -355,6 +339,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
     }
+
     /**
      * After a successful login, go to the home screen
      */
@@ -392,7 +377,7 @@ class LoginActivity : AppCompatActivity() {
         input.inputType = InputType.TYPE_CLASS_TEXT
         builder.setView(input)
 
-        builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+        builder.setPositiveButton(android.R.string.ok) { dialog, which ->
             loginViewModel.passwordReset(input.text.toString())
             Toast.makeText(
                 applicationContext,
@@ -400,12 +385,12 @@ class LoginActivity : AppCompatActivity() {
                 Toast.LENGTH_LONG
             ).show()
             Toast.makeText(applicationContext,
-                android.R.string.yes, Toast.LENGTH_SHORT).show()
+                android.R.string.ok, Toast.LENGTH_SHORT).show()
         }
 
-        builder.setNegativeButton(android.R.string.no) { dialog, which ->
+        builder.setNegativeButton(android.R.string.cancel) { dialog, which ->
             Toast.makeText(applicationContext,
-                android.R.string.no, Toast.LENGTH_SHORT).show()
+                android.R.string.cancel, Toast.LENGTH_SHORT).show()
         }
         builder.show()
     }
