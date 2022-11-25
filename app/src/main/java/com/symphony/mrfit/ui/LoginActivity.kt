@@ -7,7 +7,9 @@
 package com.symphony.mrfit.ui
 
 import android.app.Activity
+import android.app.PendingIntent
 import android.content.*
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
@@ -16,19 +18,32 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.*
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.common.api.ApiException
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
 import com.symphony.mrfit.data.model.User
 import com.symphony.mrfit.databinding.ActivityLoginBinding
+import java.sql.Types.NULL
 
 
 /**
@@ -42,6 +57,16 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var activity: LoginActivity
     private lateinit var oneTapClient: SignInClient
     private lateinit var signInRequest: BeginSignInRequest
+
+    private lateinit var auth: FirebaseAuth
+
+    private lateinit var signInClient: SignInClient
+
+    private val signInLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+        handleSignInResult(result.data)
+    }
+
+    private var database: FirebaseFirestore = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -57,6 +82,12 @@ class LoginActivity : AppCompatActivity() {
         val googleLogin = binding.googleButton
         val register = binding.toRegisterTextView
         val reset = binding.resetPasswordTextView
+
+        // Configure Google Sign In
+        signInClient = Identity.getSignInClient(this)
+
+        // Initialize Firebase Auth
+        auth = Firebase.auth
 
         /**
          * Connect to the view model to process input data
@@ -114,43 +145,6 @@ class LoginActivity : AppCompatActivity() {
             setResult(Activity.RESULT_OK)
         })
 
-        /**
-         * Google Sign In client
-         */
-        oneTapClient = Identity.getSignInClient(this)
-        signInRequest = BeginSignInRequest.builder()
-            .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
-                .setSupported(true)
-                .build())
-            .setGoogleIdTokenRequestOptions(
-                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-                    .setSupported(true)
-                    // Your server's client ID, not your Android client ID.
-                    .setServerClientId(getString(R.string.google_client_id))
-                    // Only show accounts previously used to sign in.
-                    .setFilterByAuthorizedAccounts(true)
-                    .build())
-            // Automatically sign in when exactly one credential is retrieved.
-            .setAutoSelectEnabled(true)
-            .build()
-
-        oneTapClient.beginSignIn(signInRequest)
-            .addOnSuccessListener(this) { result ->
-                try {
-                    startIntentSenderForResult(
-                        result.pendingIntent.intentSender, 2,
-                        null, 0, 0, 0, null)
-                } catch (e: IntentSender.SendIntentException) {
-                    Log.e(ContentValues.TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
-                }
-            }
-            .addOnFailureListener(this) { e ->
-                // No saved credentials found. Launch the One Tap sign-up flow, or
-                // do nothing and continue presenting the signed-out UI.
-                Log.d(ContentValues.TAG, e.localizedMessage)
-            }
-
-
         email.afterTextChanged {
             loginViewModel.loginDataChanged(
                 email.text.toString(),
@@ -169,7 +163,7 @@ class LoginActivity : AppCompatActivity() {
             setOnEditorActionListener { _, actionId, _ ->
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
+                        loginViewModel.emailLogin(
                             activity,
                             email.text.toString(),
                             password.text.toString()
@@ -180,7 +174,12 @@ class LoginActivity : AppCompatActivity() {
         }
 
         emailLogin.setOnClickListener {
-            loginViewModel.login(activity, email.text.toString(), password.text.toString())
+            loginViewModel.emailLogin(activity, email.text.toString(), password.text.toString())
+        }
+
+        googleLogin.setOnClickListener {
+            signIn()
+            loginViewModel.googleLogin()
         }
 
         register.setOnClickListener {
@@ -193,6 +192,105 @@ class LoginActivity : AppCompatActivity() {
             resetAlert(reset)
         }
     }
+
+    /**
+     * TODO: Split below section into MVVM model
+     */
+    private fun handleSignInResult(data: Intent?) {
+        // Result returned from launching the Sign In PendingIntent
+        try {
+            // Google Sign In was successful, authenticate with Firebase
+            val credential = signInClient.getSignInCredentialFromIntent(data)
+            val idToken = credential.googleIdToken
+            if (idToken != null) {
+                Log.d(TAG, "firebaseAuthWithGoogle: ${credential.id}")
+                firebaseAuthWithGoogle(idToken)
+            } else {
+                // Shouldn't happen.
+                Log.d(TAG, "No ID token!")
+            }
+        } catch (e: ApiException) {
+            // Google Sign In failed, update UI appropriately
+            Log.w(TAG, "Google sign in failed", e)
+        }
+    }
+
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        Log.d(TAG, "signInWithCredential:attempt")
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener() { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "signInWithCredential:success")
+                    val user = auth.currentUser
+                    val newUser = User(userID = user!!.uid, name = user.displayName)
+                    database.collection("users").document(newUser.userID).set(newUser)
+                        .addOnSuccessListener {
+                            Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
+                        }
+                        .addOnFailureListener {
+                                e -> Log.w(ContentValues.TAG, "Error writing document", e)
+                        }
+                    gotoHomeScreen(newUser)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "signInWithCredential:failure", task.exception)
+                    //val view = binding.mainLayout
+                    //Snackbar.make(, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+    }
+
+    private fun signIn() {
+        val signInRequest = GetSignInIntentRequest.builder()
+            .setServerClientId(getString(R.string.default_web_client_id))
+            .build()
+
+        signInClient.getSignInIntent(signInRequest)
+            .addOnSuccessListener { pendingIntent ->
+                launchSignIn(pendingIntent)
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "Google Sign-in failed", e)
+            }
+    }
+
+    private fun oneTapSignIn() {
+        // Configure One Tap UI
+        val oneTapRequest = BeginSignInRequest.builder()
+            .setGoogleIdTokenRequestOptions(
+                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                    .setSupported(true)
+                    .setServerClientId(getString(R.string.default_web_client_id))
+                    .setFilterByAuthorizedAccounts(true)
+                    .build()
+            )
+            .build()
+
+        // Display the One Tap UI
+        signInClient.beginSignIn(oneTapRequest)
+            .addOnSuccessListener { result ->
+                launchSignIn(result.pendingIntent)
+            }
+            .addOnFailureListener { e ->
+                // No saved credentials found. Launch the One Tap sign-up flow, or
+                // do nothing and continue presenting the signed-out UI.
+            }
+    }
+
+    private fun launchSignIn(pendingIntent: PendingIntent) {
+        try {
+            val intentSenderRequest = IntentSenderRequest.Builder(pendingIntent)
+                .build()
+            signInLauncher.launch(intentSenderRequest)
+        } catch (e: IntentSender.SendIntentException) {
+            Log.e(TAG, "Couldn't start Sign In: ${e.localizedMessage}")
+        }
+    }
+    /**
+     * TODO: Split above section into MVVM model
+     */
 
     /**
      * After a successful login, go to the home screen

@@ -42,9 +42,16 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
     /**
      * Tell the repository to attempt to login to an existing account
      */
-    fun login(activity: android.app.Activity, email: String, password: String) {
+    fun emailLogin(activity: android.app.Activity, email: String, password: String) {
         viewModelScope.launch { loginRepository.firebaseLogin(activity, email, password, _loggedInUser) }
-        Log.d(ContentValues.TAG, "Done with login attempt")
+        Log.d(ContentValues.TAG, "Done with email login attempt")
+    }
+
+    /**
+     * Tell the repository to attempt to login through google
+     */
+    fun googleLogin() {
+        Log.d(ContentValues.TAG, "Done with email login attempt")
     }
 
     /**
