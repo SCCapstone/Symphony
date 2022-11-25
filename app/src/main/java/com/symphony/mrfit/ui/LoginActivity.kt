@@ -23,15 +23,19 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
-import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
@@ -43,7 +47,6 @@ import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
 import com.symphony.mrfit.data.model.User
 import com.symphony.mrfit.databinding.ActivityLoginBinding
-import java.sql.Types.NULL
 
 
 /**
@@ -58,13 +61,15 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var oneTapClient: SignInClient
     private lateinit var signInRequest: BeginSignInRequest
 
+    // Variables for Google and Meta Sign In
     private lateinit var auth: FirebaseAuth
-
     private lateinit var signInClient: SignInClient
-
     private val signInLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
         handleSignInResult(result.data)
     }
+    private lateinit var callbackManager: CallbackManager
+
+    // Variables for Facebook Sign In
 
     private var database: FirebaseFirestore = Firebase.firestore
 
@@ -80,8 +85,38 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.loginPassword
         val emailLogin = binding.loginButton
         val googleLogin = binding.googleButton
+        val metaLogin = binding.metaButton
         val register = binding.toRegisterTextView
         val reset = binding.resetPasswordTextView
+
+        // Configure Facebook Sign In
+
+        /**
+         * TODO: Split into MVVM model
+         */
+        // region Meta Sign In
+        // Initialize Facebook Login button
+        callbackManager = CallbackManager.Factory.create()
+
+        metaLogin.setPermissions("email", "public_profile")
+        metaLogin.registerCallback(callbackManager, object :
+            FacebookCallback<LoginResult> {
+            override fun onSuccess(loginResult: LoginResult) {
+                Log.d(TAG, "facebook:onSuccess:$loginResult")
+                handleFacebookAccessToken(loginResult.accessToken)
+            }
+
+            override fun onCancel() {
+                Log.d(TAG, "facebook:onCancel")
+                // updateUI(null)
+            }
+
+            override fun onError(error: FacebookException) {
+                Log.d(TAG, "facebook:onError", error)
+                // updateUI(null)
+            }
+        })
+        // endregion Meta Sign In
 
         // Configure Google Sign In
         signInClient = Identity.getSignInClient(this)
@@ -194,8 +229,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     /**
-     * TODO: Split below section into MVVM model
+     * TODO: Split into MVVM model
      */
+    // region Google Sign In
     private fun handleSignInResult(data: Intent?) {
         // Result returned from launching the Sign In PendingIntent
         try {
@@ -288,10 +324,37 @@ class LoginActivity : AppCompatActivity() {
             Log.e(TAG, "Couldn't start Sign In: ${e.localizedMessage}")
         }
     }
-    /**
-     * TODO: Split above section into MVVM model
-     */
+    // endregion Google Sign In
 
+    // Handle Meta Sign In
+    private fun handleFacebookAccessToken(token: AccessToken) {
+        Log.d(TAG, "handleFacebookAccessToken:$token")
+
+        val credential = FacebookAuthProvider.getCredential(token.token)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "signInWithCredential:success")
+                    val user = auth.currentUser
+                    val newUser = User(userID = user!!.uid, name = user.displayName)
+                    database.collection("users").document(newUser.userID).set(newUser)
+                        .addOnSuccessListener {
+                            Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
+                        }
+                        .addOnFailureListener {
+                                e -> Log.w(ContentValues.TAG, "Error writing document", e)
+                        }
+                    gotoHomeScreen(newUser)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "signInWithCredential:failure", task.exception)
+                    Toast.makeText(applicationContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show()
+                    //updateUI(null)
+                }
+            }
+    }
     /**
      * After a successful login, go to the home screen
      */
