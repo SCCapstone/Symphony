@@ -10,6 +10,7 @@ import android.content.ContentValues
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -111,6 +112,8 @@ class LoginRepository {
         /**
          * TODO: Add logout for Google and Meta
          */
+        // signInClient.signOut() // Google
+        // LoginManager.getInstance().logOut() // Facebook
     }
 
     /**

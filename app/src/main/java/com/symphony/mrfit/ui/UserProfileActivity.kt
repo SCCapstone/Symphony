@@ -10,6 +10,7 @@ import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -84,6 +85,38 @@ class UserProfileActivity : AppCompatActivity() {
         edit.setOnClickListener {
             val intent = Intent(this, EditProfileActivity::class.java)
             startActivity(intent)
+        }
+
+        goal.setOnClickListener {
+            Toast.makeText(
+                applicationContext,
+                "This has not been implemented yet",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
+        achievements.setOnClickListener {
+            Toast.makeText(
+                applicationContext,
+                "This has not been implemented yet",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
+        history.setOnClickListener {
+            Toast.makeText(
+                applicationContext,
+                "This has not been implemented yet",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
+        progress.setOnClickListener {
+            Toast.makeText(
+                applicationContext,
+                "This has not been implemented yet",
+                Toast.LENGTH_LONG
+            ).show()
         }
 
         logout.setOnClickListener {

@@ -159,12 +159,14 @@ class RegisterActivity : AppCompatActivity() {
     private fun gotoHomeScreen(model: User) {
         val welcome = getString(R.string.welcome)
         val user = model.name
-        // TODO : Navigate to the Home screen
         Toast.makeText(
             applicationContext,
             "$welcome $user",
             Toast.LENGTH_LONG
         ).show()
+
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
 
         //Complete and destroy login activity once successful
         finish()
