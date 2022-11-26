@@ -45,7 +45,7 @@ class UserRepository {
     newWeight: Double?) {
         val uid = auth.currentUser!!.uid
         Log.d(ContentValues.TAG, "Updating User $uid in Firestore")
-        newName?.let {_loggedInUser.value?.name = newName}
+        newName?.let {_loggedInUser.value?.name= newName}
         newAge?.let {_loggedInUser.value?.age = newAge}
         newHeight?.let {_loggedInUser.value?.height = newHeight}
         newWeight?.let {_loggedInUser.value?.weight = newWeight}
@@ -60,6 +60,7 @@ class UserRepository {
                         e -> Log.w(ContentValues.TAG, "Error writing document", e)
                 }
         }
+        _loggedInUser.value = user
     }
 
     /**

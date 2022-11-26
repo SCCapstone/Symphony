@@ -33,4 +33,12 @@
     <string name="facebook_app_id">1282611015641916</string>
     <string name="fb_login_protocol_scheme">fb1282611015641916</string>
     <string name="facebook_client_token">55d764848b923fd2eb5519986f8db733</string>
+    <string name="name_alert_title">Name</string>
+    <string name="name_alert_message">What name would you like to go by?</string>
+    <string name="age_alert_title">Age</string>
+    <string name="age_alert_message">How old are you?</string>
+    <string name="height_alert_title">Height</string>
+    <string name="height_alert_message">How tall are you? (in inches)</string>
+    <string name="weight_alert_title">Weight</string>
+    <string name="weight_alert_message">How much do you weight? (in lb.)</string>
 </resources>
