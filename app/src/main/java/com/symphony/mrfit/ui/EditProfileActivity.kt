@@ -47,6 +47,7 @@ class EditProfileActivity : AppCompatActivity() {
             var newWeight: Double? = null
             if (weight.text.isNotEmpty()) { newWeight = weight.text.toString().toDouble() }
             profileViewModel.updateCurrentUser(newName, newAge, newHeight, newWeight)
+            finish()
         }
     }
 }

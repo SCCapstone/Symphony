@@ -6,8 +6,12 @@
 
 package com.symphony.mrfit.ui
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MotionEventCompat
 import com.symphony.mrfit.R
 
 /**
@@ -18,7 +22,19 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+    }
 
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        return when (MotionEventCompat.getActionMasked(event)) {
 
+            // Display a Toast whenever a movement is captured on the screen
+            MotionEvent.ACTION_UP -> {
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+                true
+            }
+            else -> super.onTouchEvent(event)
+        }
     }
 }

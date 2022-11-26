@@ -202,7 +202,7 @@ class LoginActivity : AppCompatActivity() {
             val user = it ?: return@Observer
 
             if (user.userID == "ERROR" && user.name != null) {
-                Log.d(TAG, "UI things login failed")
+                Log.d(TAG, "UI thinks login failed")
                 showLoginFailed(user.name!!)
             } else if (user.name != null) {
                 Log.d(TAG, "UI thinks login succeeded")
@@ -346,12 +346,14 @@ class LoginActivity : AppCompatActivity() {
     private fun gotoHomeScreen(model: User) {
         val welcome = getString(R.string.welcome)
         val user = model.name
-        // TODO : Navigate to the Home screen
         Toast.makeText(
             applicationContext,
             "$welcome $user",
             Toast.LENGTH_LONG
         ).show()
+
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
 
         //Complete and destroy login activity once successful
         finish()
@@ -384,13 +386,9 @@ class LoginActivity : AppCompatActivity() {
                 getString(R.string.reset_email_sent, input.text.toString()),
                 Toast.LENGTH_LONG
             ).show()
-            Toast.makeText(applicationContext,
-                android.R.string.ok, Toast.LENGTH_SHORT).show()
         }
 
         builder.setNegativeButton(android.R.string.cancel) { dialog, which ->
-            Toast.makeText(applicationContext,
-                android.R.string.cancel, Toast.LENGTH_SHORT).show()
         }
         builder.show()
     }
