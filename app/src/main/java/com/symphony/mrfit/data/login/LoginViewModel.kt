@@ -28,14 +28,14 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
     private val _loginForm = MutableLiveData<LoginForm>()
     val loginForm: LiveData<LoginForm> = _loginForm
 
-    private val _loginResult = MutableLiveData<LoginResult>()
-    val loginResult: LiveData<LoginResult> = _loginResult
+    // private val _loginResult = MutableLiveData<LoginResult>()
+    // val loginResult: LiveData<LoginResult> = _loginResult
 
     private val _registerForm = MutableLiveData<RegisterForm>()
     val registerForm: LiveData<RegisterForm> = _registerForm
 
-    private val _registerResult = MutableLiveData<LoginResult>()
-    val registerResult: LiveData<LoginResult> = _registerResult
+    // private val _registerResult = MutableLiveData<LoginResult>()
+    // val registerResult: LiveData<LoginResult> = _registerResult
 
     private val _loggedInUser = MutableLiveData<User>()
     val user: LiveData<User> = _loggedInUser
@@ -43,7 +43,7 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
     /**
      * Tell the repository to attempt to login to an existing account
      */
-    fun emailLogin(activity: android.app.Activity, email: String, password: String) {
+    fun emailLogin(activity: Activity, email: String, password: String) {
         viewModelScope.launch { loginRepository.firebaseLogin(activity, email, password, _loggedInUser) }
         Log.d(ContentValues.TAG, "Done with email login attempt")
     }
@@ -58,7 +58,7 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
     /**
      * Tell the repository to attempt to register a new account
      */
-    fun register(activity: android.app.Activity, email: String, password: String) {
+    fun register(activity: Activity, email: String, password: String) {
         viewModelScope.launch { loginRepository.register(activity, email, password, _loggedInUser) }
         Log.d(ContentValues.TAG, "Done with registration attempt")
     }
@@ -74,8 +74,8 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
     /**
      * Tell the repository to attempt to logout the current user
      */
-    fun logout(activity: Activity) {
-        viewModelScope.launch { loginRepository.logout(activity) }
+    fun logout() {
+        viewModelScope.launch { loginRepository.logout() }
         Log.d(ContentValues.TAG, "Done with logout attempt")
     }
 

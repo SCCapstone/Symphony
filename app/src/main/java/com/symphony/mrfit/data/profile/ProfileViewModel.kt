@@ -11,7 +11,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.symphony.mrfit.data.model.User
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(private val userRepository: UserRepository): ViewModel() {

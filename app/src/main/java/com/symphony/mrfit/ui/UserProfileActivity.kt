@@ -11,7 +11,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
-import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -25,7 +24,6 @@ import com.symphony.mrfit.R
 import com.symphony.mrfit.data.login.LoginRepository
 import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
-import com.symphony.mrfit.data.model.User
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityUserProfileBinding
@@ -37,7 +35,6 @@ class UserProfileActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityUserProfileBinding
     private lateinit var repo: LoginRepository
-    private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +51,6 @@ class UserProfileActivity : AppCompatActivity() {
         /**
          * Declare lots of variables
          */
-        val user = auth.currentUser
         val edit = binding.editProfileButton
         val goal = binding.goalsButton
         val achievements = binding.achievementsButton
@@ -62,7 +58,7 @@ class UserProfileActivity : AppCompatActivity() {
         val progress = binding.progressButton
         val logout = binding.logoutButton
         val delete = binding.deleteButton
-        val name = binding.nameTextView
+        val name = binding.profileNameTextView
         val age = binding.ageLayout
         val ageText = binding.ageValueTextView
         val height = binding.heightLayout
@@ -88,19 +84,27 @@ class UserProfileActivity : AppCompatActivity() {
         })
 
         name.setOnClickListener {
-            nameAlert(name)
+            nameAlert()
         }
 
         age.setOnClickListener {
-            ageAlert(age)
+            ageAlert()
         }
 
         height.setOnClickListener {
-            heightAlert(height)
+            heightAlert()
         }
 
         weight.setOnClickListener {
-            weightAlert(weight)
+            weightAlert()
+        }
+
+        pfp.setOnClickListener {
+            Toast.makeText(
+                applicationContext,
+                "This has not been implemented yet",
+                Toast.LENGTH_LONG
+            ).show()
         }
 
         edit.setOnClickListener {
@@ -141,7 +145,7 @@ class UserProfileActivity : AppCompatActivity() {
         }
 
         logout.setOnClickListener {
-            loginViewModel.logout(this)
+            loginViewModel.logout()
             val intent = Intent(applicationContext, LoginActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -151,14 +155,14 @@ class UserProfileActivity : AppCompatActivity() {
 
         // TODO: Add an "Are you sure?" popup box when delete button is pressed
         delete.setOnClickListener {
-            deleteAlert(delete)
+            deleteAlert()
         }
     }
 
-    private fun nameAlert(view: View) {
+    private fun nameAlert() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle(R.string.name_alert_title)
-        builder.setMessage(R.string.name_alert_message)
+        builder.setTitle(R.string.label_name)
+        builder.setMessage(R.string.message_change_name)
 
         val input = EditText(this)
         input.hint = "Name"
@@ -180,10 +184,10 @@ class UserProfileActivity : AppCompatActivity() {
         builder.show()
     }
 
-    private fun ageAlert(view: View) {
+    private fun ageAlert() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle(R.string.age_alert_title)
-        builder.setMessage(R.string.age_alert_message)
+        builder.setTitle(R.string.label_age)
+        builder.setMessage(R.string.message_change_age)
 
         val input = EditText(this)
         input.hint = "Age"
@@ -205,10 +209,10 @@ class UserProfileActivity : AppCompatActivity() {
         builder.show()
     }
 
-    private fun heightAlert(view: View) {
+    private fun heightAlert() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle(R.string.height_alert_title)
-        builder.setMessage(R.string.height_alert_message)
+        builder.setTitle(R.string.label_height)
+        builder.setMessage(R.string.message_change_height)
 
         val input = EditText(this)
         input.hint = "Height"
@@ -230,10 +234,10 @@ class UserProfileActivity : AppCompatActivity() {
         builder.show()
     }
 
-    private fun weightAlert(view: View) {
+    private fun weightAlert() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle(R.string.weight_alert_title)
-        builder.setMessage(R.string.weight_alert_message)
+        builder.setTitle(R.string.label_weight)
+        builder.setMessage(R.string.message_change_weight)
 
         val input = EditText(this)
         input.hint = "Weight"
@@ -255,10 +259,10 @@ class UserProfileActivity : AppCompatActivity() {
         builder.show()
     }
 
-    private fun deleteAlert(view: View) {
+    private fun deleteAlert() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle(R.string.delete_alert_title)
-        builder.setMessage(R.string.delete_alert_message)
+        builder.setTitle(R.string.label_delete)
+        builder.setMessage(R.string.message_delete_account)
 
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
             deleteAccount()

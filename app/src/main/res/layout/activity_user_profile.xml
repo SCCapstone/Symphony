@@ -25,14 +25,14 @@
             android:id="@+id/profilePicture"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:contentDescription="User Profile Picture"
-            app:srcCompat="@drawable/cactuar" />
+            app:srcCompat="@drawable/cactuar"
+            tools:ignore="ImageContrastCheck" />
 
         <TextView
-            android:id="@+id/nameTextView"
+            android:id="@+id/profileNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Anna Burns"
+            android:text="@string/PLACEHOLDER_TEXT"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/holo_red_dark"
-            android:text="@string/profile_edit"
+            android:text="@string/button_edit"
             android:visibility="gone" />
     </LinearLayout>
 
@@ -77,17 +77,15 @@
                     android:id="@+id/heightValueTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="9&quot;9'"
+                    android:text="@string/PLACEHOLDER_NUMBER"
                     android:textColor="#616161" />
 
                 <TextView
                     android:id="@+id/heightLabelTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Height"
+                    android:text="@string/label_height"
                     android:textColor="#616161" />
             </LinearLayout>
 
@@ -106,17 +104,15 @@
                     android:id="@+id/weightValueTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="999 lbs."
+                    android:text="@string/PLACEHOLDER_NUMBER"
                     android:textColor="#616161" />
 
                 <TextView
                     android:id="@+id/weightLabelTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Weight"
+                    android:text="@string/label_weight"
                     android:textColor="#616161" />
             </LinearLayout>
 
@@ -135,17 +131,15 @@
                     android:id="@+id/ageValueTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="99"
+                    android:text="@string/PLACEHOLDER_NUMBER"
                     android:textColor="#616161" />
 
                 <TextView
                     android:id="@+id/ageLabelTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Age"
+                    android:text="@string/label_age"
                     android:textColor="#616161" />
             </LinearLayout>
         </LinearLayout>
@@ -165,7 +159,7 @@
                 android:id="@+id/accountLabelTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Account"
+                android:text="@string/user_progress_label"
                 android:textColor="#616161" />
 
             <Button
@@ -173,28 +167,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/holo_red_dark"
-                android:text="Goals" />
+                android:text="@string/goals_button" />
 
             <Button
                 android:id="@+id/achievementsButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/holo_red_dark"
-                android:text="Achievements" />
+                android:text="@string/button_achievements" />
 
             <Button
                 android:id="@+id/historyButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/holo_red_dark"
-                android:text="Workout History" />
+                android:text="@string/button_workout_history" />
 
             <Button
                 android:id="@+id/progressButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/holo_red_dark"
-                android:text="Workout Progress"
+                android:text="@string/button_workout_progress"
                 android:textColor="#EFEBE9" />
         </LinearLayout>
 
@@ -212,7 +206,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:text="Settings"
+                android:text="@string/label_settings"
                 android:textColor="#616161" />
 
             <LinearLayout
@@ -227,7 +221,8 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:srcCompat="@android:drawable/ic_lock_silent_mode" />
+                    app:srcCompat="@android:drawable/ic_lock_silent_mode"
+                    tools:ignore="ImageContrastCheck" />
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/notificationsSwitch"
@@ -237,7 +232,7 @@
                     android:layout_weight="1"
                     android:checked="true"
                     android:switchMinWidth="60dp"
-                    android:text="Push Notifications" />
+                    android:text="@string/label_push_notifications" />
             </LinearLayout>
 
             <LinearLayout
@@ -251,14 +246,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:srcCompat="@android:drawable/ic_menu_view" />
+                    app:srcCompat="@android:drawable/ic_menu_view"
+                    tools:ignore="ImageContrastCheck" />
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Profile Visibility"
+                    android:text="@string/label_profile_visibility"
                     android:textColor="#616161" />
 
                 <Spinner
@@ -274,14 +270,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/holo_red_dark"
-                android:text="Logout" />
+                android:text="@string/logout_button" />
 
             <Button
                 android:id="@+id/deleteButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/holo_red_dark"
-                android:text="Delete Account" />
+                android:text="@string/button_delete_account" />
         </LinearLayout>
     </LinearLayout>
 

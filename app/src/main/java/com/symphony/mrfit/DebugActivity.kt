@@ -9,7 +9,6 @@ package com.symphony.mrfit
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import com.symphony.mrfit.databinding.ActivityDebugBinding
 import com.symphony.mrfit.ui.LoginActivity
 import com.symphony.mrfit.ui.RegisterActivity

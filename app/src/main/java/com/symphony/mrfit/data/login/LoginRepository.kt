@@ -7,13 +7,10 @@
 package com.symphony.mrfit.data.login
 
 import android.app.Activity
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
-import com.facebook.login.LoginManager
-import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -38,14 +35,14 @@ class LoginRepository {
     /**
      * Attempt to login the user through Google Auth
      */
-    fun googleLogin(activity: android.app.Activity) {
+    fun googleLogin(activity: Activity) {
     }
 
 
     /**
      * Attempt to login the user though Firebase User Auth
      */
-    fun firebaseLogin(activity: android.app.Activity, email: String, password: String, user: MutableLiveData<User>) {
+    fun firebaseLogin(activity: Activity, email: String, password: String, user: MutableLiveData<User>) {
         Log.d(TAG, "Signing in to account: $email")
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
@@ -70,7 +67,7 @@ class LoginRepository {
     /**
      * Attempt to register the user though Firebase User Auth
      */
-    fun register(activity: android.app.Activity, email: String, password: String, user: MutableLiveData<User>) {
+    fun register(activity: Activity, email: String, password: String, user: MutableLiveData<User>) {
         Log.d(TAG, "Making account: $email")
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
@@ -108,7 +105,7 @@ class LoginRepository {
     /**
      * Logout the user from Firebase Auth
      */
-    fun logout(activity: Activity){
+    fun logout(){
         Log.d(TAG, "Attempting to log out user")
         firebaseAuth.signOut()
     }
@@ -124,7 +121,7 @@ class LoginRepository {
         user.delete()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d(ContentValues.TAG, "User account deleted.")
+                    Log.d(TAG, "User account deleted.")
                 }
             }
     }
@@ -148,7 +145,7 @@ class LoginRepository {
         firebaseUser.updateProfile(profileUpdates)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d(ContentValues.TAG, "User profile updated.")
+                    Log.d(TAG, "User profile updated.")
                     user.value = currentUser
                     addNewUser(user)
                 }
@@ -162,11 +159,11 @@ class LoginRepository {
     private fun makeUsername() {
         val delim = currentUser!!.name!!.indexOf('@')
         currentUser!!.name = currentUser!!.name!!.substring(0, delim)
-        Log.w(ContentValues.TAG, "New user's name is ${currentUser?.name}")
+        Log.w(TAG, "New user's name is ${currentUser?.name}")
     }
 
     private fun addNewUser(user: MutableLiveData<User>) {
-        Log.d(ContentValues.TAG, "Telling repo to add ${currentUser?.name} to the database")
+        Log.d(TAG, "Telling repo to add ${currentUser?.name} to the database")
         userRepository.addNewUser(user)
     }
 }

@@ -8,7 +8,6 @@ package com.symphony.mrfit.ui
 
 import android.app.Activity
 import android.app.PendingIntent
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.IntentSender
@@ -17,13 +16,11 @@ import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -33,13 +30,10 @@ import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginResult
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.AdditionalUserInfo
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -63,8 +57,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
     private lateinit var activity: LoginActivity
-    private lateinit var oneTapClient: SignInClient
-    private lateinit var signInRequest: BeginSignInRequest
 
     // Variables for Google and Meta Sign In
     private lateinit var auth: FirebaseAuth
@@ -102,9 +94,9 @@ class LoginActivity : AppCompatActivity() {
         metaLogin.setPermissions("email", "public_profile")
         metaLogin.registerCallback(callbackManager, object :
             FacebookCallback<LoginResult> {
-            override fun onSuccess(loginResult: LoginResult) {
-                Log.d(TAG, "facebook:onSuccess:$loginResult")
-                handleFacebookAccessToken(loginResult.accessToken)
+            override fun onSuccess(result: LoginResult) {
+                Log.d(TAG, "facebook:onSuccess:$result")
+                handleFacebookAccessToken(result.accessToken)
             }
 
             override fun onCancel() {
@@ -169,7 +161,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         reset.setOnClickListener {
-            resetAlert(reset)
+            resetAlert()
         }
 
         /**
@@ -241,7 +233,7 @@ class LoginActivity : AppCompatActivity() {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         Log.d(TAG, "signInWithCredential:attempt")
         auth.signInWithCredential(credential)
-            .addOnCompleteListener() { task ->
+            .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
@@ -282,6 +274,7 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
+    /*
     private fun oneTapSignIn() {
         // Configure One Tap UI
         val oneTapRequest = BeginSignInRequest.builder()
@@ -304,6 +297,8 @@ class LoginActivity : AppCompatActivity() {
                 // do nothing and continue presenting the signed-out UI.
             }
     }
+
+     */
 
     private fun launchSignIn(pendingIntent: PendingIntent) {
         try {
@@ -373,16 +368,19 @@ class LoginActivity : AppCompatActivity() {
      * TODO: Learn how to read why login failed and output relevant message
      * Example: Password was incorrect or no account that matched a given email
      */
+    /*
     private fun showLoginFailed(@StringRes errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
+
+     */
     private fun showLoginFailed(errorString: String) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
 
-    private fun resetAlert(view: View) {val builder = AlertDialog.Builder(this)
-        builder.setTitle(R.string.reset_alert_title)
-        builder.setMessage(R.string.reset_alert_message)
+    private fun resetAlert() {val builder = AlertDialog.Builder(this)
+        builder.setTitle(R.string.label_password_reset)
+        builder.setMessage(R.string.message_password_reset)
 
         val input = EditText(this)
         input.hint = "Email"

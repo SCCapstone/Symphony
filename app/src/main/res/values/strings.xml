@@ -5,6 +5,15 @@
   -->
 
 <resources>
+    <!-- CONSTANTS, DO NOT CHANGE -->
+    <string name="google_client_id">876037032436-a3e9qhm47smke0n2duem9fgb45sgiidk.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">1282611015641916</string>
+    <string name="fb_login_protocol_scheme">fb1282611015641916</string>
+    <string name="facebook_client_token">55d764848b923fd2eb5519986f8db733</string>
+    <string name="PLACEHOLDER_NUMBER">999</string>
+    <string name="PLACEHOLDER_TEXT">Lorem Ipsum</string>
+
+    <!-- Feel free to change this stuff -->
     <string name="app_name">MrFit</string>
     <string name="invalid_email">Not a valid email</string>
     <string name="invalid_password">Not a valid password</string>
@@ -19,28 +28,38 @@
     <string name="invalid_confirm">Must match Password</string>
     <string name="register_failed">Could not complete registration</string>
     <string name="forgot_password">Forgot your password?</string>
-    <string name="profile_edit">Edit</string>
+    <string name="button_edit">Edit</string>
     <string name="height_value">%s inches</string>
     <string name="weight_value">%s lb.</string>
-    <string name="label_name">Name:</string>
-    <string name="label_age">Age:</string>
-    <string name="label_height">Height:</string>
-    <string name="label_weight">Weight:</string>
+    <string name="label_name">Name</string>
+    <string name="label_age">Age</string>
+    <string name="label_height">Height</string>
+    <string name="label_weight">Weight</string>
     <string name="reset_email_sent">A recovery email has been sent to %s</string>
-    <string name="reset_alert_message">Please enter an email address to send a password reset request to, and give it a moment to arrive</string>
-    <string name="reset_alert_title">Forgot Password</string>
-    <string name="google_client_id">876037032436-a3e9qhm47smke0n2duem9fgb45sgiidk.apps.googleusercontent.com</string>
-    <string name="facebook_app_id">1282611015641916</string>
-    <string name="fb_login_protocol_scheme">fb1282611015641916</string>
-    <string name="facebook_client_token">55d764848b923fd2eb5519986f8db733</string>
-    <string name="name_alert_title">Name</string>
-    <string name="name_alert_message">What name would you like to go by?</string>
-    <string name="age_alert_title">Age</string>
-    <string name="age_alert_message">How old are you?</string>
-    <string name="height_alert_title">Height</string>
-    <string name="height_alert_message">How tall are you? (in inches)</string>
-    <string name="weight_alert_title">Weight</string>
-    <string name="weight_alert_message">How much do you weight? (in lb.)</string>
-    <string name="delete_alert_title">Delete Account</string>
-    <string name="delete_alert_message">Are you sure you want to delete your account? We\'ll be sad to see you go!</string>
+    <string name="message_password_reset">Please enter an email address to send a password reset request to, and give it a moment to arrive</string>
+    <string name="label_password_reset">Forgot Password</string>
+    <string name="message_change_name">What name would you like to go by?</string>
+    <string name="message_change_age">How old are you?</string>
+    <string name="message_change_height">How tall are you? (in inches)</string>
+    <string name="message_change_weight">How much do you weight? (in lb.)</string>
+    <string name="label_delete">Delete Account</string>
+    <string name="message_delete_account">Are you sure you want to delete your account? We\'ll be sad to see you go!</string>
+    <string name="goals_button">Goals</string>
+    <string name="logout_button">Logout</string>
+    <string name="button_delete_account">Delete Account</string>
+    <string name="user_progress_label">Track Your Progress!</string>
+    <string name="button_achievements">Achievements</string>
+    <string name="button_workout_history">Workout History</string>
+    <string name="button_workout_progress">Workout Progress</string>
+    <string name="label_settings">Settings</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="button_workout">Start A Workout</string>
+    <string name="label_workout_history">Workout History</string>
+    <string name="label_push_notifications">Push Notifications</string>
+    <string name="label_profile_visibility">Profile Visibility</string>
+    <string name="button_save">Save</string>
+    <string name="message_welcome_screen">Welcome to MrFit!</string>
+    <string name="message_welcome_screen_2">Tap to Continue</string>
+    <string name="hint_confirm_password">Confirm Password</string>
 </resources>
