@@ -176,9 +176,12 @@ class RegisterActivity : AppCompatActivity() {
      * Example: Email address already in use or just server-side error
      * TODO: Learn how to read why registration failed and output relevant message
      */
+    /*
     private fun showRegisterFailed(@StringRes errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
+
+     */
     private fun showRegisterFailed(errorString: String) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
