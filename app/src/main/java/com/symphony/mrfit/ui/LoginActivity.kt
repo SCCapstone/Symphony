@@ -38,6 +38,8 @@ import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.AdditionalUserInfo
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -245,13 +247,17 @@ class LoginActivity : AppCompatActivity() {
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
                     val newUser = User(userID = user!!.uid, name = user.displayName)
-                    database.collection("users").document(newUser.userID).set(newUser)
-                        .addOnSuccessListener {
-                            Log.d(TAG, "DocumentSnapshot successfully written!")
-                        }
-                        .addOnFailureListener {
-                                e -> Log.w(TAG, "Error writing document", e)
-                        }
+                    // If this is the first time signing in a user, add them to the database
+                    val new = task.result.additionalUserInfo!!.isNewUser
+                    if (new) {
+                        database.collection("users").document(newUser.userID).set(newUser)
+                            .addOnSuccessListener {
+                                Log.d(TAG, "DocumentSnapshot successfully written!")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w(TAG, "Error writing document", e)
+                            }
+                    }
                     gotoHomeScreen(newUser)
                 } else {
                     // If sign in fails, display a message to the user.
@@ -322,13 +328,17 @@ class LoginActivity : AppCompatActivity() {
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
                     val newUser = User(userID = user!!.uid, name = user.displayName)
-                    database.collection("users").document(newUser.userID).set(newUser)
-                        .addOnSuccessListener {
-                            Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
-                        }
-                        .addOnFailureListener {
-                                e -> Log.w(ContentValues.TAG, "Error writing document", e)
-                        }
+                    // If this is the first time signing in a user, add them to the database
+                    val new = task.result.additionalUserInfo!!.isNewUser
+                    if (new) {
+                        database.collection("users").document(newUser.userID).set(newUser)
+                            .addOnSuccessListener {
+                                Log.d(TAG, "DocumentSnapshot successfully written!")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w(TAG, "Error writing document", e)
+                            }
+                    }
                     gotoHomeScreen(newUser)
                 } else {
                     // If sign in fails, display a message to the user.
@@ -379,7 +389,7 @@ class LoginActivity : AppCompatActivity() {
         input.inputType = InputType.TYPE_CLASS_TEXT
         builder.setView(input)
 
-        builder.setPositiveButton(android.R.string.ok) { dialog, which ->
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
             loginViewModel.passwordReset(input.text.toString())
             Toast.makeText(
                 applicationContext,
@@ -388,7 +398,7 @@ class LoginActivity : AppCompatActivity() {
             ).show()
         }
 
-        builder.setNegativeButton(android.R.string.cancel) { dialog, which ->
+        builder.setNegativeButton(android.R.string.cancel) { _, _ ->
         }
         builder.show()
     }

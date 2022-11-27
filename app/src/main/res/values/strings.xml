@@ -41,4 +41,6 @@
     <string name="height_alert_message">How tall are you? (in inches)</string>
     <string name="weight_alert_title">Weight</string>
     <string name="weight_alert_message">How much do you weight? (in lb.)</string>
+    <string name="delete_alert_title">Delete Account</string>
+    <string name="delete_alert_message">Are you sure you want to delete your account? We\'ll be sad to see you go!</string>
 </resources>

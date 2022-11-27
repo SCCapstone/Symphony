@@ -6,11 +6,14 @@
 
 package com.symphony.mrfit.data.login
 
+import android.app.Activity
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.facebook.login.LoginManager
+import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -43,17 +46,17 @@ class LoginRepository {
      * Attempt to login the user though Firebase User Auth
      */
     fun firebaseLogin(activity: android.app.Activity, email: String, password: String, user: MutableLiveData<User>) {
-        Log.d(ContentValues.TAG, "Signing in to account: $email")
+        Log.d(TAG, "Signing in to account: $email")
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, set the current user
-                    Log.d(ContentValues.TAG, "Sign in with email: success")
+                    Log.d(TAG, "Sign in with email: success")
                     val firebaseUser = firebaseAuth.currentUser
                     currentUser = User(firebaseUser!!.uid, firebaseUser.displayName)
                     successfulLogin(user)
                 } else {
                     // If sign in fails, display a message to the user and tell ViewModel why
-                    Log.w(ContentValues.TAG, "Sign in with email: failure", task.exception)
+                    Log.w(TAG, "Sign in with email: failure", task.exception)
                     Toast.makeText(
                         activity.baseContext,
                         "Login failed",
@@ -68,18 +71,18 @@ class LoginRepository {
      * Attempt to register the user though Firebase User Auth
      */
     fun register(activity: android.app.Activity, email: String, password: String, user: MutableLiveData<User>) {
-        Log.d(ContentValues.TAG, "Making account: $email")
+        Log.d(TAG, "Making account: $email")
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     // Registration success, populate a new user
-                    Log.d(ContentValues.TAG, "Create user with email: success")
+                    Log.d(TAG, "Create user with email: success")
                     val firebaseUser = firebaseAuth.currentUser
                     currentUser = User(firebaseUser!!.uid, firebaseUser.email)
                     makeUsername()
                     successfulRegistration(user, firebaseUser)
                 } else {
                     // If registration fails, display a message to the user and tell ViewModel why
-                    Log.w(ContentValues.TAG, "Create user with email: failure", task.exception)
+                    Log.w(TAG, "Create user with email: failure", task.exception)
                     Toast.makeText(
                         activity.baseContext,
                         "Registration failed",
@@ -97,7 +100,7 @@ class LoginRepository {
         Firebase.auth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d(ContentValues.TAG, "Email sent.")
+                    Log.d(TAG, "Email sent.")
                 }
             }
     }
@@ -105,15 +108,9 @@ class LoginRepository {
     /**
      * Logout the user from Firebase Auth
      */
-    fun logout(){
-        Log.d(ContentValues.TAG, "Attempting to log out user")
+    fun logout(activity: Activity){
+        Log.d(TAG, "Attempting to log out user")
         firebaseAuth.signOut()
-
-        /**
-         * TODO: Add logout for Google and Meta
-         */
-        // signInClient.signOut() // Google
-        // LoginManager.getInstance().logOut() // Facebook
     }
 
     /**

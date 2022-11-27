@@ -141,14 +141,17 @@ class UserProfileActivity : AppCompatActivity() {
         }
 
         logout.setOnClickListener {
-            loginViewModel.logout()
-            finish()
+            loginViewModel.logout(this)
+            val intent = Intent(applicationContext, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
         }
 
         // TODO: Add an "Are you sure?" popup box when delete button is pressed
         delete.setOnClickListener {
-            loginViewModel.delete()
-            finish()
+            deleteAlert(delete)
         }
     }
 
@@ -162,7 +165,7 @@ class UserProfileActivity : AppCompatActivity() {
         input.inputType = InputType.TYPE_CLASS_TEXT
         builder.setView(input)
 
-        builder.setPositiveButton(android.R.string.ok) { dialog, which ->
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val new = input.text.toString()
             profileViewModel.updateCurrentUser(new, null, null, null)
             Toast.makeText(
@@ -172,7 +175,7 @@ class UserProfileActivity : AppCompatActivity() {
             ).show()
         }
 
-        builder.setNegativeButton(android.R.string.cancel) { dialog, which ->
+        builder.setNegativeButton(android.R.string.cancel) { _, _ ->
         }
         builder.show()
     }
@@ -187,7 +190,7 @@ class UserProfileActivity : AppCompatActivity() {
         input.inputType = InputType.TYPE_CLASS_TEXT
         builder.setView(input)
 
-        builder.setPositiveButton(android.R.string.ok) { dialog, which ->
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val new = input.text.toString().toInt()
             profileViewModel.updateCurrentUser(null, new, null, null)
             Toast.makeText(
@@ -197,7 +200,7 @@ class UserProfileActivity : AppCompatActivity() {
             ).show()
         }
 
-        builder.setNegativeButton(android.R.string.cancel) { dialog, which ->
+        builder.setNegativeButton(android.R.string.cancel) { _, _ ->
         }
         builder.show()
     }
@@ -212,7 +215,7 @@ class UserProfileActivity : AppCompatActivity() {
         input.inputType = InputType.TYPE_CLASS_TEXT
         builder.setView(input)
 
-        builder.setPositiveButton(android.R.string.ok) { dialog, which ->
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val new = input.text.toString().toInt()
             profileViewModel.updateCurrentUser(null, null, new, null)
             Toast.makeText(
@@ -222,7 +225,7 @@ class UserProfileActivity : AppCompatActivity() {
             ).show()
         }
 
-        builder.setNegativeButton(android.R.string.cancel) { dialog, which ->
+        builder.setNegativeButton(android.R.string.cancel) { _, _ ->
         }
         builder.show()
     }
@@ -237,7 +240,7 @@ class UserProfileActivity : AppCompatActivity() {
         input.inputType = InputType.TYPE_CLASS_TEXT
         builder.setView(input)
 
-        builder.setPositiveButton(android.R.string.ok) { dialog, which ->
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val new = input.text.toString().toDouble()
             profileViewModel.updateCurrentUser(null, null, null, new)
             Toast.makeText(
@@ -247,9 +250,32 @@ class UserProfileActivity : AppCompatActivity() {
             ).show()
         }
 
-        builder.setNegativeButton(android.R.string.cancel) { dialog, which ->
+        builder.setNegativeButton(android.R.string.cancel) { _, _ ->
         }
         builder.show()
+    }
+
+    private fun deleteAlert(view: View) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(R.string.delete_alert_title)
+        builder.setMessage(R.string.delete_alert_message)
+
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
+            deleteAccount()
+        }
+
+        builder.setNegativeButton(android.R.string.cancel) { _, _ ->
+        }
+        builder.show()
+    }
+
+    private fun deleteAccount() {
+        loginViewModel.delete()
+        val intent = Intent(applicationContext, LoginActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
     }
 
     companion object {

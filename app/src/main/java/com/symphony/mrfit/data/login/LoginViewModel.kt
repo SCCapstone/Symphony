@@ -6,6 +6,7 @@
 
 package com.symphony.mrfit.data.login
 
+import android.app.Activity
 import android.content.ContentValues
 import android.util.Log
 import android.util.Patterns
@@ -73,8 +74,8 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
     /**
      * Tell the repository to attempt to logout the current user
      */
-    fun logout() {
-        viewModelScope.launch { loginRepository.logout() }
+    fun logout(activity: Activity) {
+        viewModelScope.launch { loginRepository.logout(activity) }
         Log.d(ContentValues.TAG, "Done with logout attempt")
     }
 
