@@ -17,20 +17,21 @@
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginTop="60dp"
+        android:autofillHints="emailAddress"
         android:ems="10"
         android:hint="@string/hint_email"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginTitleTextView"
-        android:autofillHints="emailAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/loginTitleTextView" />
 
     <EditText
         android:id="@+id/loginPassword"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
+        android:autofillHints="password"
         android:ems="10"
         android:hint="@string/hint_password"
         android:inputType="textPassword"
@@ -38,8 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginEmail"
-        android:autofillHints="password" />
+        app:layout_constraintTop_toBottomOf="@+id/loginEmail" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/googleButton"
@@ -72,10 +72,12 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/loginMessageTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/googleButton" />
+        app:layout_constraintTop_toBottomOf="@+id/googleButton"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
 
     <TextView
         android:id="@+id/loginTitleTextView"
@@ -96,8 +98,10 @@
         android:text="@string/login_message"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/toRegisterTextView"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meta_button" />
 
     <TextView
         android:id="@+id/toRegisterTextView"
