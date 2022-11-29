@@ -16,4 +16,4 @@ dependencyResolutionManagement {
 
  */
 rootProject.name = "MrFit"
-include ':app'
+include ':app', ':facebook'

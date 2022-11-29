@@ -44,9 +44,11 @@ class UserProfileActivity : AppCompatActivity() {
         binding = ActivityUserProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
         profileViewModel = ViewModelProvider(
-            this, ProfileViewModelFactory())[ProfileViewModel::class.java]
+            this, ProfileViewModelFactory()
+        )[ProfileViewModel::class.java]
         loginViewModel = ViewModelProvider(
-            this, LoginViewModelFactory())[LoginViewModel::class.java]
+            this, LoginViewModelFactory()
+        )[LoginViewModel::class.java]
 
         /**
          * Declare lots of variables
@@ -153,7 +155,6 @@ class UserProfileActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // TODO: Add an "Are you sure?" popup box when delete button is pressed
         delete.setOnClickListener {
             deleteAlert()
         }

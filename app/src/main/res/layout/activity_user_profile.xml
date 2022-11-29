@@ -47,7 +47,6 @@
                     android:id="@+id/editProfileButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@android:color/holo_red_dark"
                     android:text="@string/button_edit"
                     android:visibility="gone" />
             </LinearLayout>
@@ -169,28 +168,24 @@
                         android:id="@+id/goalsButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@android:color/holo_red_dark"
                         android:text="@string/goals_button" />
 
                     <Button
                         android:id="@+id/achievementsButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@android:color/holo_red_dark"
                         android:text="@string/button_achievements" />
 
                     <Button
                         android:id="@+id/historyButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@android:color/holo_red_dark"
                         android:text="@string/button_workout_history" />
 
                     <Button
                         android:id="@+id/progressButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@android:color/holo_red_dark"
                         android:text="@string/button_workout_progress"
                         android:textColor="#EFEBE9" />
                 </LinearLayout>
@@ -272,14 +267,12 @@
                         android:id="@+id/logoutButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@android:color/holo_red_dark"
                         android:text="@string/logout_button" />
 
                     <Button
                         android:id="@+id/deleteButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@android:color/holo_red_dark"
                         android:text="@string/button_delete_account" />
                 </LinearLayout>
             </LinearLayout>
