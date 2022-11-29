@@ -10,9 +10,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.symphony.mrfit.databinding.ActivityDebugBinding
-import com.symphony.mrfit.ui.LoginActivity
-import com.symphony.mrfit.ui.RegisterActivity
-import com.symphony.mrfit.ui.UserProfileActivity
+import com.symphony.mrfit.ui.*
 
 /**
  * Menu for instantly navigating to any page for debug and testing
@@ -33,6 +31,8 @@ class DebugActivity : AppCompatActivity() {
         val login = binding.debugLogin
         val register = binding.debugRegister
         val profile = binding.debugUserProfile
+        val calendar = binding.debugCalendar
+        val notification = binding.debugNotification
 
         login.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
@@ -46,6 +46,16 @@ class DebugActivity : AppCompatActivity() {
 
         profile.setOnClickListener {
             val intent = Intent(this, UserProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        calendar.setOnClickListener {
+            val intent = Intent(this, Calendar::class.java)
+            startActivity(intent)
+        }
+
+        notification.setOnClickListener {
+            val intent = Intent(this, NotificationActivity::class.java)
             startActivity(intent)
         }
     }
