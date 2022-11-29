@@ -27,9 +27,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
@@ -80,7 +77,7 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.loginPassword
         val emailLogin = binding.loginButton
         val googleLogin = binding.googleButton
-        val metaLogin = binding.metaButton
+        // val metaLogin = binding.metaButton
         val register = binding.toRegisterTextView
         val reset = binding.resetPasswordTextView
 
@@ -91,6 +88,7 @@ class LoginActivity : AppCompatActivity() {
         // Initialize Facebook Login button
         callbackManager = CallbackManager.Factory.create()
 
+        /*
         metaLogin.setPermissions("email", "public_profile")
         metaLogin.registerCallback(callbackManager, object :
             FacebookCallback<LoginResult> {
@@ -109,6 +107,8 @@ class LoginActivity : AppCompatActivity() {
                 // updateUI(null)
             }
         })
+
+         */
         // endregion Meta Sign In
 
         // Configure Google Sign In

@@ -79,16 +79,14 @@
                             android:id="@+id/heightValueTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/PLACEHOLDER_NUMBER"
-                            android:textColor="#616161" />
+                            android:text="@string/PLACEHOLDER_NUMBER" />
 
                         <TextView
                             android:id="@+id/heightLabelTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="@string/label_height"
-                            android:textColor="#616161" />
+                            android:text="@string/label_height" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -106,16 +104,14 @@
                             android:id="@+id/weightValueTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/PLACEHOLDER_NUMBER"
-                            android:textColor="#616161" />
+                            android:text="@string/PLACEHOLDER_NUMBER" />
 
                         <TextView
                             android:id="@+id/weightLabelTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="@string/label_weight"
-                            android:textColor="#616161" />
+                            android:text="@string/label_weight" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -133,16 +129,14 @@
                             android:id="@+id/ageValueTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/PLACEHOLDER_NUMBER"
-                            android:textColor="#616161" />
+                            android:text="@string/PLACEHOLDER_NUMBER" />
 
                         <TextView
                             android:id="@+id/ageLabelTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="@string/label_age"
-                            android:textColor="#616161" />
+                            android:text="@string/label_age" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -161,8 +155,7 @@
                         android:id="@+id/accountLabelTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/user_progress_label"
-                        android:textColor="#616161" />
+                        android:text="@string/user_progress_label" />
 
                     <Button
                         android:id="@+id/goalsButton"
@@ -186,8 +179,7 @@
                         android:id="@+id/progressButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/button_workout_progress"
-                        android:textColor="#EFEBE9" />
+                        android:text="@string/button_workout_progress" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -204,8 +196,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
-                        android:text="@string/label_settings"
-                        android:textColor="#616161" />
+                        android:text="@string/label_settings" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -252,8 +243,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/label_profile_visibility"
-                            android:textColor="#616161" />
+                            android:text="@string/label_profile_visibility" />
 
                         <Spinner
                             android:id="@+id/spinner"

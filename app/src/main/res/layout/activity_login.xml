@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/forgot_password"
-            android:textColor="#2196F3"
+            android:textColor="#03A9F4"
             android:textStyle="bold" />
 
         <Button
@@ -109,6 +109,7 @@
             android:layout_marginTop="20dp"
             android:visibility="visible" />
 
+        <!--
         <com.facebook.login.widget.LoginButton
             android:id="@+id/meta_button"
             android:layout_width="wrap_content"
@@ -116,6 +117,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:minHeight="48dp" />
+            -->
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
