@@ -2,12 +2,13 @@
 <!--
   ~ Created by Team Symphony 11/10/22, 11:39 PM
   ~ Copyright (c) 2022 . All rights reserved.
-  ~ Last modified 11/10/22, 11:38 PM
+  ~ Last modified 11/28/22, 8:34pm PM
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -18,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MrFit"
         tools:targetApi="31">
+        <receiver
+            android:name=".ui.Notifications"
+            android:enabled="true" />
         <activity
             android:name=".ui.EditProfileActivity"
             android:exported="false">
