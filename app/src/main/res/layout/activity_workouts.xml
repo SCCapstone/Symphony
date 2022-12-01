@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.example">
+
+    <TextView
+        android:id="@+id/addworkouttextview"
+        android:layout_width="97dp"
+        android:layout_height="21dp"
+        android:text="Add a workout"
+        tools:layout_editor_absoluteX="157dp"
+        tools:layout_editor_absoluteY="104dp" />
+
+    <EditText
+        android:id="@+id/WorkoutDescription"
+        android:layout_width="214dp"
+        android:layout_height="49dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Description"
+        tools:layout_editor_absoluteX="98dp"
+        tools:layout_editor_absoluteY="309dp" />
+
+    <EditText
+        android:id="@+id/workoutname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="WorkoutName"
+        tools:layout_editor_absoluteX="100dp"
+        tools:layout_editor_absoluteY="245dp" />
+
+    <Button
+        android:id="@+id/addworkout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Workout"
+        tools:layout_editor_absoluteX="133dp"
+        tools:layout_editor_absoluteY="705dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

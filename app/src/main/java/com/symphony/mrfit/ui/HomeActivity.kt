@@ -54,7 +54,7 @@ class HomeActivity : AppCompatActivity() {
         workout.setOnClickListener {
             Toast.makeText(
                 applicationContext,
-                "This has not been implemented yet",
+                "here",
                 Toast.LENGTH_LONG
             ).show()
         }
