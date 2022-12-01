@@ -1,31 +1,35 @@
 package com.symphony.mrfit.ui
 
 import android.content.ContentValues.TAG
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
-import android.widget.Button
-import com.symphony.mrfit.R
-import com.symphony.mrfit.databinding.StoreActivity
+import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.symphony.mrfit.databinding.ActivityStoreBinding
 
 
-class StoreActivity {
+class StoreActivity : AppCompatActivity() {
     lateinit var workoutTemplate: WorkoutTemplateActivity
-    lateinit var binding: StoreActivity
+    private lateinit var binding: ActivityStoreBinding
 
-    oveerride fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_store)
-        ExportButton.setOnClickListener() {
+        binding = ActivityStoreBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val exportButton = binding.ExportButton
+
+        val thing  = "null"
+
+        exportButton.setOnClickListener() {
             val db = Firebase.firestore
-            Firestore.collection("WorkoutName").documents("New").set(Workout)
-                .addOnSucessListener{ result ->
+            db.collection("WorkoutTemplates").document().set(thing)
+                .addOnSuccessListener{ result ->
                     Log.d(TAG, "Export")
                 }
-                .addOnFailsureListner { exception ->
+                .addOnFailureListener { exception ->
                     Log.w(TAG, "Did not work", exception)
                 }
         }

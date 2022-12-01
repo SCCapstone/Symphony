@@ -30,4 +30,5 @@
     <string name="reset_alert_message">Please enter an email address to send a password reset request to, and give it a moment to arrive</string>
     <string name="reset_alert_title">Forgot Password</string>
     <string name="workout_name">Workout Name</string>
+    <string name="save_and_export">Save and Export</string>
 </resources>
