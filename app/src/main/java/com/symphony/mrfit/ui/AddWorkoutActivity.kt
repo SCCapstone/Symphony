@@ -1,6 +1,7 @@
 package com.symphony.mrfit.ui
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -14,6 +15,9 @@ class AddWorkoutActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityWorkoutsBinding
 
+    //displays workout list
+    private val workoutList = binding.WorkoutList
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -25,16 +29,56 @@ class AddWorkoutActivity : AppCompatActivity() {
         val workoutName = binding.workoutname
         val workoutDesc = binding.WorkoutDescription
 
-        // Talk to Firestore when clicked
+        // save to Firestore when clicked
         addWorkoutBtn.setOnClickListener() {
+            //val database = Firebase.firestore
+            //database.collection("exercises").document("replace me").get()
+            //.addOnSuccessListener { documentSnapshot ->
+//                    /**
+//                     * TODO: Do something with the documentSnapshot
+//                     */
+//                }
+            val workName = workoutName.text.toString()
+            val desc = workoutDesc.text.toString()
+
+            saveFireStore(workName,desc)
+        }
+        readData()
+    }
+        //method to save to firestore
+        fun saveFireStore(workName:String,desc:String){
             val database = Firebase.firestore
-            database.collection("exercises").document("replace me").get()
-                .addOnSuccessListener { documentSnapshot ->
-                    /**
-                     * TODO: Do something with the documentSnapshot
-                     */
+            val workout: MutableMap<String,Any> =HashMap()
+                workout["name"]=workName
+                workout["description"]=desc
+
+            database.collection("exercises").add(workout)
+                .addOnSuccessListener {
+                    Toast.makeText(this@AddWorkoutActivity, "successfully added workout",
+                        Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this@AddWorkoutActivity, "failure to add workout",
+                        Toast.LENGTH_SHORT).show()
+                }
+        }
+        fun readData(){
+            val database= Firebase.firestore
+            database.collection("exercises").get()
+
+                .addOnCompleteListener{
+                    val result = StringBuffer()
+
+                    if(it.isSuccessful) {
+                        for(document in it.result!!) {
+                            result.append(document.data.getValue("description")).append(" ")
+                                .append(document.data.getValue("name")).append("\n\n")
+                        }
+
+                    workoutList.setText(result)
+                    }
                 }
         }
 
-    }
+
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,36 +10,84 @@
         android:id="@+id/addworkouttextview"
         android:layout_width="97dp"
         android:layout_height="21dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="686dp"
         android:text="Add a workout"
-        tools:layout_editor_absoluteX="157dp"
-        tools:layout_editor_absoluteY="104dp" />
-
-    <EditText
-        android:id="@+id/WorkoutDescription"
-        android:layout_width="214dp"
-        android:layout_height="49dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Description"
-        tools:layout_editor_absoluteX="98dp"
-        tools:layout_editor_absoluteY="309dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/workoutname"
+        app:layout_constraintStart_toStartOf="@+id/workoutname"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/workoutname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="221dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="95dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginEnd="95dp"
+        android:layout_marginBottom="593dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:minHeight="48dp"
         android:text="WorkoutName"
-        tools:layout_editor_absoluteX="100dp"
-        tools:layout_editor_absoluteY="245dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/WorkoutDescription"
+        android:layout_width="221dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="154dp"
+        android:layout_marginEnd="115dp"
+        android:layout_marginBottom="529dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Description"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/addworkout"
+        app:layout_constraintHorizontal_bias="0.203"
+        app:layout_constraintStart_toStartOf="@+id/addworkout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/addworkout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="220dp"
         android:text="Add Workout"
-        tools:layout_editor_absoluteX="133dp"
-        tools:layout_editor_absoluteY="705dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/Viewcurrent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="282dp"
+        android:text="View Workout Current"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/WorkoutList"
+        android:layout_width="328dp"
+        android:layout_height="381dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="326dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

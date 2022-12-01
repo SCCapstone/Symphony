@@ -33,6 +33,7 @@ class DebugActivity : AppCompatActivity() {
         val profile = binding.debugUserProfile
         val calendar = binding.debugCalendar
         val notification = binding.debugNotification
+        val workout = binding.debugWorkout
 
         login.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
@@ -56,6 +57,10 @@ class DebugActivity : AppCompatActivity() {
 
         notification.setOnClickListener {
             val intent = Intent(this, NotificationActivity::class.java)
+            startActivity(intent)
+        }
+        workout.setOnClickListener {
+            val intent = Intent(this, AddWorkoutActivity::class.java)
             startActivity(intent)
         }
     }
