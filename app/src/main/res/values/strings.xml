@@ -66,4 +66,5 @@
     <string name="reset_alert_title">Forgot Password</string>
     <string name="workoutname">Workout Name</string>
     <string name="workoutdescription">Workout Description</string>
+    <string name="button_schedule">Schedule A Workout</string>
 </resources>
