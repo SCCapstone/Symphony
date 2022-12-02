@@ -67,4 +67,7 @@
     <string name="workoutname">Workout Name</string>
     <string name="workoutdescription">Workout Description</string>
     <string name="button_schedule">Schedule A Workout</string>
+    <string name="message_exercise_search">What kind of exercise would you like?</string>
+    <string name="button_new_workout">New Workout</string>
+    <string name="button_start_workout">Start Workout</string>
 </resources>

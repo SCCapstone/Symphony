@@ -17,7 +17,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.symphony.mrfit.data.model.Exercise
-import com.symphony.mrfit.data.model.Workout
 
 class ExerciseRepository {
 
@@ -112,46 +111,8 @@ class ExerciseRepository {
         }
     }
 
-    /**
-     * Add a new Workout to the database
-     */
-    fun addWorkout(name: String, exeList: ArrayList<String>) {
-        Log.d(TAG, "Adding new workout owned by current user")
-        val newWork = Workout(name, auth.currentUser!!.uid, exeList)
-        database.collection(WORKOUT_COLLECTION).document().set(newWork)
-            .addOnSuccessListener {
-                Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
-            }
-            .addOnFailureListener {
-                    e -> Log.w(ContentValues.TAG, "Error writing document", e)
-            }
-    }
-
-    /**
-     * Fetch a LiveData list of Workouts by searching for ther Current User's ID
-     */
-    fun getUserWorkout(_workoutList: MutableLiveData<ArrayList<Workout>>) {
-        Log.d(TAG, "Getting workouts owned by the current user")
-        val workList = arrayListOf<Workout>()
-        database.collection(WORKOUT_COLLECTION)
-            .whereEqualTo("ownerID", auth.currentUser?.uid)
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    Log.d(TAG, "${document.id} => ${document.data}")
-                    val t = document.toObject<Workout>()
-                    workList.add(t)
-                    _workoutList.value = workList
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "Error getting documents: ", exception)
-            }
-    }
-
     companion object {
         const val EXERCISE_COLLECTION = "exercises"
-        const val WORKOUT_COLLECTION = "workouts"
         const val TAGS_FIELD = "tags"
     }
 }

@@ -28,7 +28,7 @@ class UserRepository {
     fun getCurrentUser(_loggedInUser: MutableLiveData<User>) {
         Log.d(ContentValues.TAG, "Retrieving User ${auth.currentUser!!.uid} from Firestore")
         val doc = auth.currentUser!!.uid
-        val docRef = database.collection("users").document(doc)
+        val docRef = database.collection(USER_COLLECTION).document(doc)
         docRef.get().addOnSuccessListener { documentSnapshot ->
                 _loggedInUser.value = documentSnapshot.toObject<User>()
             }
@@ -52,7 +52,7 @@ class UserRepository {
 
         val user = _loggedInUser.value
         if (user != null) {
-            database.collection("users").document(uid).set(user)
+            database.collection(USER_COLLECTION).document(uid).set(user)
                 .addOnSuccessListener {
                     Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
                 }
@@ -71,7 +71,7 @@ class UserRepository {
         Log.d(ContentValues.TAG, "Adding User to Firestore")
         val user = _loggedInUser.value
         if (user != null) {
-            database.collection("users").document(user.userID).set(user)
+            database.collection(USER_COLLECTION).document(user.userID).set(user)
                 .addOnSuccessListener {
                     Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
                 }
@@ -88,9 +88,25 @@ class UserRepository {
     fun removeUser() {
         val user = auth.currentUser!!
         Log.d(ContentValues.TAG, "Removing User ${user.uid} from Firestore")
-        database.collection("users").document(user.uid)
+        database.collection(USER_COLLECTION).document(user.uid)
             .delete()
             .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot successfully deleted!") }
             .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error deleting document", e) }
+    }
+
+    /**
+     * Add a new Workout History to the user's subcollection
+     */
+    fun addWorkoutHistory() {
+        val DELETE_ME = ""
+        val user = auth.currentUser!!
+        Log.d(ContentValues.TAG, "Adding to the history of ${user.uid}")
+        database.collection(USER_COLLECTION).document(user.uid)
+            .collection(HISTORY_COLLECTION).add(DELETE_ME)
+    }
+
+    companion object {
+        const val USER_COLLECTION = "users"
+        const val HISTORY_COLLECTION = "_history"
     }
 }

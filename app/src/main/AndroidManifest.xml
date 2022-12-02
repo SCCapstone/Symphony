@@ -18,7 +18,7 @@
         android:theme="@style/Theme.MrFit"
         tools:targetApi="31">
         <activity
-            android:name=".ExerciseActivity"
+            android:name=".ui.ExerciseActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
