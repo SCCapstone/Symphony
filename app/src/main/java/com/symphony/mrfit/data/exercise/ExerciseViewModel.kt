@@ -41,6 +41,10 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
         exerciseRepository.addWorkout(workout, workID)
     }
 
+    fun addWorkoutToRoutine(routineID: String?, workoutList: ArrayList<String>) {
+        exerciseRepository.addWorkoutToRoutine(routineID, workoutList)
+    }
+
     fun addRoutine(name: String, workoutList: ArrayList<String>) {
         exerciseRepository.addRoutine(name, workoutList)
     }

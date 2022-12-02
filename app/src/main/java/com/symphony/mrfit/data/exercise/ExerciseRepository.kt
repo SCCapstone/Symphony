@@ -130,6 +130,22 @@ class ExerciseRepository {
     /**
      * Add a new Workout to the database
      */
+    fun addWorkoutToRoutine(routineID: String?, workoutList: ArrayList<String>) {
+        Log.d(TAG, "Adding new workout to routine $routineID")
+        if (routineID != null) {
+            database.collection(ROUTINE_COLLECTION).document(routineID).update("workoutList", workoutList)
+                .addOnSuccessListener {
+                    Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
+                }
+                .addOnFailureListener {
+                        e -> Log.w(ContentValues.TAG, "Error writing document", e)
+                }
+        }
+    }
+
+    /**
+     * Add a new Workout to the database
+     */
     fun addRoutine(name: String, workoutList: ArrayList<String>) {
         Log.d(TAG, "Adding new workout owned by current user")
         val newRoutine = WorkoutRoutine(name, auth.currentUser!!.uid, workoutList)
@@ -139,28 +155,6 @@ class ExerciseRepository {
             }
             .addOnFailureListener {
                     e -> Log.w(ContentValues.TAG, "Error writing document", e)
-            }
-    }
-
-    /**
-     * Fetch a LiveData list of Workouts by searching for ther Current User's ID
-     */
-    fun getUserWorkout(_workoutRoutineList: MutableLiveData<ArrayList<WorkoutRoutine>>) {
-        Log.d(TAG, "Getting workouts owned by the current user")
-        val workList = arrayListOf<WorkoutRoutine>()
-        database.collection(WORKOUT_COLLECTION)
-            .whereEqualTo("ownerID", auth.currentUser?.uid)
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    Log.d(TAG, "${document.id} => ${document.data}")
-                    val t = document.toObject<WorkoutRoutine>()
-                    workList.add(t)
-                    _workoutRoutineList.value = workList
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "Error getting documents: ", exception)
             }
     }
 

@@ -1,5 +1,7 @@
 package com.symphony.mrfit.ui
 
+import android.content.Intent
+import android.nfc.NfcAdapter.EXTRA_ID
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -78,6 +80,15 @@ class WorkoutRoutineActivity : AppCompatActivity() {
                 "Your workout has been saved to your history",
                 Toast.LENGTH_LONG
             ).show()
+        }
+
+        /**
+         * Navigate to a screen to make a new workout
+         */
+        newWorkout.setOnClickListener {
+            val intent = Intent(this, WorkoutTemplateActivity::class.java)
+            intent.putExtra(EXTRA_ID, "null")
+            startActivity(intent)
         }
     }
 

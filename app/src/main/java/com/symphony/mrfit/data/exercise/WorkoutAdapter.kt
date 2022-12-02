@@ -15,8 +15,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.model.Workout
-import com.symphony.mrfit.ui.RoutineSelectionActivity
-import com.symphony.mrfit.ui.WorkoutRoutineActivity
+import com.symphony.mrfit.ui.WorkoutTemplateActivity
 
 class WorkoutAdapter (val context: Context, val data: ArrayList<Workout>): RecyclerView.Adapter<WorkoutAdapter.ViewHolder>() {
 
@@ -31,9 +30,9 @@ class WorkoutAdapter (val context: Context, val data: ArrayList<Workout>): Recyc
         holder.workoutReps.text = "${data[i].numberOfReps.toString()} Reps"
 
         holder.itemView.setOnClickListener {
-            val intent = Intent(context, WorkoutRoutineActivity::class.java)
-            intent.putExtra(RoutineSelectionActivity.EXTRA_STRING,data[i].workoutName)
-            intent.putExtra(RoutineSelectionActivity.EXTRA_LIST,data[i].numberOfReps)
+            val intent = Intent(context, WorkoutTemplateActivity::class.java)
+            intent.putExtra(WorkoutTemplateActivity.EXTRA_STRING,data[i].workoutName)
+            intent.putExtra(WorkoutTemplateActivity.EXTRA_REPS,data[i].numberOfReps)
             context.startActivity(intent)
         }
     }

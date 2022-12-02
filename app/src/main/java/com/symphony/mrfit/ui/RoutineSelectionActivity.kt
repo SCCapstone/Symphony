@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.exercise.RoutineAdapter
-import com.symphony.mrfit.data.model.Workout
 import com.symphony.mrfit.data.model.WorkoutRoutine
 import com.symphony.mrfit.databinding.ActivityRoutineSelectionBinding
 
@@ -61,12 +60,6 @@ class RoutineSelectionActivity : AppCompatActivity() {
             val workoutRoutine = WorkoutRoutine("New Workout")
             newRoutine(workoutRoutine)
         }
-
-        exerciseViewModel.addWorkout(Workout("2 mile walk",0,"ABCD1"), "ABCD1")
-        exerciseViewModel.addWorkout(Workout("4 mile walk",0,"ABCD12"), "ABCD12")
-        exerciseViewModel.addWorkout(Workout("6 mile walk",0,"ABCD123"), "ABCD123")
-        exerciseViewModel.addWorkout(Workout("Sprint",0,"ABCD1234"), "ABCD1234")
-        exerciseViewModel.addWorkout(Workout("Nap",0,"ABCD12345"), "ABCD12345")
     }
 
     private fun newRoutine(workoutRoutine: WorkoutRoutine) {

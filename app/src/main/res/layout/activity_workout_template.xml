@@ -96,7 +96,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="53dp"
-            android:orientation="horizontal"></LinearLayout>
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/pickExerciseButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Pick an Exercise" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

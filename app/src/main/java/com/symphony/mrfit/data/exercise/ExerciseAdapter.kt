@@ -6,6 +6,7 @@
 
 package com.symphony.mrfit.data.exercise
 
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +33,7 @@ class ExerciseAdapter (val context:Context, val data: ArrayList<Exercise>): Recy
 
         holder.itemView.setOnClickListener {
             Toast.makeText(context, "You have tapped ${data[i].name}", Toast.LENGTH_SHORT).show()
+            (context as Activity).finish()
         }
 
     }
