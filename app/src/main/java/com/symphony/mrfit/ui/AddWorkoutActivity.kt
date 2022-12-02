@@ -3,6 +3,7 @@ package com.symphony.mrfit.ui
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.symphony.mrfit.databinding.ActivityWorkoutsBinding
@@ -16,7 +17,7 @@ class AddWorkoutActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWorkoutsBinding
 
     //displays workout list
-    private val workoutList = binding.WorkoutList
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +29,7 @@ class AddWorkoutActivity : AppCompatActivity() {
         val addWorkoutBtn = binding.addworkout
         val workoutName = binding.workoutname
         val workoutDesc = binding.WorkoutDescription
+        val workoutList = binding.WorkoutList
 
         // save to Firestore when clicked
         addWorkoutBtn.setOnClickListener() {
@@ -35,7 +37,7 @@ class AddWorkoutActivity : AppCompatActivity() {
             //database.collection("exercises").document("replace me").get()
             //.addOnSuccessListener { documentSnapshot ->
 //                    /**
-//                     * TODO: Do something with the documentSnapshot
+//                     * ODO: Do something with the documentSnapshot
 //                     */
 //                }
             val workName = workoutName.text.toString()
@@ -43,16 +45,31 @@ class AddWorkoutActivity : AppCompatActivity() {
 
             saveFireStore(workName,desc)
         }
-        readData()
+        //readData()
+        val database= Firebase.firestore
+        database.collection("workout").get()
+
+            .addOnCompleteListener{
+                val result = StringBuffer()
+
+                if(it.isSuccessful) {
+                    for(document in it.result!!) {
+                        result.append(document.data.getValue("name")).append(" ")
+                            .append(document.data.getValue("description")).append("\n\n")
+                    }
+
+                    workoutList.setText(result)
+                }
+            }
     }
         //method to save to firestore
         fun saveFireStore(workName:String,desc:String){
-            val database = Firebase.firestore
+            val db = FirebaseFirestore.getInstance()
             val workout: MutableMap<String,Any> =HashMap()
                 workout["name"]=workName
                 workout["description"]=desc
 
-            database.collection("exercises").add(workout)
+            db.collection("workout").add(workout)
                 .addOnSuccessListener {
                     Toast.makeText(this@AddWorkoutActivity, "successfully added workout",
                         Toast.LENGTH_SHORT).show()
@@ -62,23 +79,23 @@ class AddWorkoutActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT).show()
                 }
         }
-        fun readData(){
-            val database= Firebase.firestore
-            database.collection("exercises").get()
-
-                .addOnCompleteListener{
-                    val result = StringBuffer()
-
-                    if(it.isSuccessful) {
-                        for(document in it.result!!) {
-                            result.append(document.data.getValue("description")).append(" ")
-                                .append(document.data.getValue("name")).append("\n\n")
-                        }
-
-                    workoutList.setText(result)
-                    }
-                }
-        }
+//        fun readData(){
+//            val database= Firebase.firestore
+//            database.collection("exercises").get()
+//
+//                .addOnCompleteListener{
+//                    val result = StringBuffer()
+//
+//                    if(it.isSuccessful) {
+//                        for(document in it.result!!) {
+//                            result.append(document.data.getValue("description")).append(" ")
+//                                .append(document.data.getValue("name")).append("\n\n")
+//                        }
+//
+//                    workoutList.setText(result)
+//                    }
+//                }
+//        }
 
 
 }

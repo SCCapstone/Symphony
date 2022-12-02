@@ -64,4 +64,6 @@
     <string name="hint_confirm_password">Confirm Password</string>
     <string name="reset_alert_message">Please enter an email address to send a password reset request to, and give it a moment to arrive</string>
     <string name="reset_alert_title">Forgot Password</string>
+    <string name="workoutname">Workout Name</string>
+    <string name="workoutdescription">Workout Description</string>
 </resources>
