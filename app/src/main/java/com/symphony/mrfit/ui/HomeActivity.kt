@@ -33,7 +33,8 @@ class HomeActivity : AppCompatActivity() {
 
         val userProfile = binding.userLayout
         val name = binding.homeNameTextView
-        val workout = binding.workoutButton
+        val scheduleWorkout = binding.scheduleButton
+        val startWorkout = binding.workoutButton
 
         /**
          * Get data of current User and populate the page
@@ -51,7 +52,12 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        workout.setOnClickListener {
+        scheduleWorkout.setOnClickListener {
+            val intent = Intent(this, NotificationActivity::class.java)
+            startActivity(intent)
+        }
+
+        startWorkout.setOnClickListener {
             Toast.makeText(
                 applicationContext,
                 "here",
