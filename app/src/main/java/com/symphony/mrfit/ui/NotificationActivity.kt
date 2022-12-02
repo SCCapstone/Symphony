@@ -18,7 +18,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import com.symphony.mrfit.R
-import com.symphony.mrfit.databinding.ActivityDebugBinding
 import com.symphony.mrfit.databinding.ActivityNotificationBinding
 
 class NotificationActivity : AppCompatActivity() {
@@ -36,6 +35,8 @@ class NotificationActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val schedule = binding.scheduleNotificationButton
+        val notifName = binding.title
+        val notifDesc = binding.message
 
         schedule.setOnClickListener {
             /**
@@ -43,7 +44,7 @@ class NotificationActivity : AppCompatActivity() {
              * Try this tutorial here:
              *   https://www.tutorialspoint.com/how-to-set-an-android-notification-to-a-specific-date-in-the-future
              */
-            scheduleNotification(getNotification("Example Notification"), 5000)
+            scheduleNotification(getNotification(notifName.text.toString(), notifDesc.text.toString()), 5000)
         }
     }
 
@@ -63,10 +64,10 @@ class NotificationActivity : AppCompatActivity() {
         alarmManager[AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis] = pendingIntent
     }
 
-    private fun getNotification(content: String): Notification {
+    private fun getNotification(title: String, content: String): Notification {
         val builder: NotificationCompat.Builder =
             NotificationCompat.Builder(this, Companion.default_notification_channel_id)
-        builder.setContentTitle("Scheduled Notification")
+        builder.setContentTitle(title)
         builder.setContentText(content)
         builder.setSmallIcon(R.drawable.ic_launcher_foreground)
         builder.setAutoCancel(true)
