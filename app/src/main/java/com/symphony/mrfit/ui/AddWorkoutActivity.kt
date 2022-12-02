@@ -29,7 +29,7 @@ class AddWorkoutActivity : AppCompatActivity() {
         val addWorkoutBtn = binding.addworkout
         val workoutName = binding.workoutname
         val workoutDesc = binding.WorkoutDescription
-        val workoutList = binding.WorkoutList
+
 
         // save to Firestore when clicked
         addWorkoutBtn.setOnClickListener() {
@@ -45,20 +45,20 @@ class AddWorkoutActivity : AppCompatActivity() {
 
             saveFireStore(workName,desc)
         }
-        //readData()
-        val database= Firebase.firestore
-        database.collection("workout").document("userworkouts").collection("workout").get()
-
-            .addOnCompleteListener{
-                val result = StringBuffer()
-
-                    for(document in it.result!!) {
-                        result.append(document.data.getValue("name")).append(" ")
-                            .append(document.data.getValue("description")).append("\n\n")
-                    }
-                workoutList.text = result
-
-            }
+        readData()
+//        val database= Firebase.firestore
+//        database.collection("workout").document("userworkouts")
+//            .collection("workout").get()
+//            .addOnCompleteListener{
+//                val result = StringBuffer()
+//
+//                    for(document in it.result!!) {
+//                        result.append(document.data.getValue("name")).append(" ")
+//                            .append(document.data.getValue("description")).append("\n\n")
+//                    }
+//                workoutList.text = result
+//
+//            }
     }
         //method to save to firestore
         fun saveFireStore(workName:String,desc:String){
@@ -76,24 +76,24 @@ class AddWorkoutActivity : AppCompatActivity() {
                     Toast.makeText(this@AddWorkoutActivity, "failure to add workout",
                         Toast.LENGTH_SHORT).show()
                 }
+            readData()
         }
-//        fun readData(){
-//            val database= Firebase.firestore
-//            database.collection("exercises").get()
-//
-//                .addOnCompleteListener{
-//                    val result = StringBuffer()
-//
-//                    if(it.isSuccessful) {
-//                        for(document in it.result!!) {
-//                            result.append(document.data.getValue("description")).append(" ")
-//                                .append(document.data.getValue("name")).append("\n\n")
-//                        }
-//
-//                    workoutList.setText(result)
-//                    }
-//                }
-//        }
+        fun readData(){
+            val workoutList = binding.WorkoutList
+            val database= Firebase.firestore
+            database.collection("workout").document("userworkouts")
+                .collection("workout").get()
+                .addOnCompleteListener{
+                    val result = StringBuffer()
+
+                    for(document in it.result!!) {
+                        result.append(document.data.getValue("name")).append(" ")
+                            .append(document.data.getValue("description")).append("\n\n")
+                    }
+                workoutList.text = result
+
+            }
+        }
 
 
 }
