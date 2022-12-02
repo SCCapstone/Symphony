@@ -52,14 +52,13 @@ class AddWorkoutActivity : AppCompatActivity() {
             .addOnCompleteListener{
                 val result = StringBuffer()
 
-                if(it.isSuccessful) {
                     for(document in it.result!!) {
                         result.append(document.data.getValue("name")).append(" ")
                             .append(document.data.getValue("description")).append("\n\n")
                     }
 
-                    workoutList.setText(result)
-                }
+                workoutList.text = result
+
             }
     }
         //method to save to firestore
