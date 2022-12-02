@@ -33,7 +33,7 @@
                 android:textAlignment="center" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName"
+                android:id="@+id/editWorkOutName"
                 android:layout_width="278dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -59,7 +59,7 @@
                 tools:layout_editor_absoluteY="341dp" />
 
             <EditText
-                android:id="@+id/editTextNumber"
+                android:id="@+id/editWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -84,7 +84,7 @@
                 tools:layout_editor_absoluteY="341dp" />
 
             <EditText
-                android:id="@+id/editNumber"
+                android:id="@+id/editReps"
                 android:layout_width="wrap_content"
                 android:layout_height="56dp"
                 android:layout_weight="1"
