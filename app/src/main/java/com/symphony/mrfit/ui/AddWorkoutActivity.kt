@@ -47,7 +47,7 @@ class AddWorkoutActivity : AppCompatActivity() {
         }
         //readData()
         val database= Firebase.firestore
-        database.collection("workout").get()
+        database.collection("workout").document("userworkouts").collection("workout").get()
 
             .addOnCompleteListener{
                 val result = StringBuffer()
@@ -56,7 +56,6 @@ class AddWorkoutActivity : AppCompatActivity() {
                         result.append(document.data.getValue("name")).append(" ")
                             .append(document.data.getValue("description")).append("\n\n")
                     }
-
                 workoutList.text = result
 
             }
@@ -68,7 +67,7 @@ class AddWorkoutActivity : AppCompatActivity() {
                 workout["name"]=workName
                 workout["description"]=desc
 
-            db.collection("workout").add(workout)
+            db.collection("workout").document("userworkouts").collection("workout").add(workout)
                 .addOnSuccessListener {
                     Toast.makeText(this@AddWorkoutActivity, "successfully added workout",
                         Toast.LENGTH_SHORT).show()
