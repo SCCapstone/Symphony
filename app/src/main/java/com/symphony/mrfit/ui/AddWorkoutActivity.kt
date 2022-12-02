@@ -43,6 +43,35 @@ class AddWorkoutActivity : AppCompatActivity() {
         val startWorkout = binding.startWorkoutButton
         val newWorkout = binding.newWorkoutButton
 
+        /**
+         * Will be depreciated when Observer is implemented
+         */
+        fun readData() {
+            val database = Firebase.firestore
+            database.collection("workout").document("userworkouts")
+                    .collection("workout").get()
+                    .addOnCompleteListener {
+                        val name = "Workout Name: "
+                        val desc = "Workout Description: "
+                        val result = StringBuffer()
+
+                        for (document in it.result!!) {
+                            result.append(name).append(document.data.getValue("name")).append(" ")
+                                    .append(desc).append(document.data.getValue("description"))
+                                    .append("\n\n")
+                        }
+                        workoutList.text = result
+
+                    }
+        }
+
+        readData()
+
+        /**
+         * Populate the list with the exercises? associated with this workout
+         */
+        val DELETE_ME = ArrayList<String>()
+        exerciseViewModel.getExercisesByWorkout(DELETE_ME)
         exerciseViewModel.exerciseList.observe(this, Observer {
             /**
              * TODO: Update the UI when a new (Workout or Exercise?) is added to the list
@@ -94,27 +123,6 @@ class AddWorkoutActivity : AppCompatActivity() {
         }
 
          */
-
-        fun readData() {
-            val database = Firebase.firestore
-            database.collection("workout").document("userworkouts")
-                .collection("workout").get()
-                .addOnCompleteListener {
-                    val name = "Workout Name: "
-                    val desc = "Workout Description: "
-                    val result = StringBuffer()
-
-                    for (document in it.result!!) {
-                        result.append(name).append(document.data.getValue("name")).append(" ")
-                            .append(desc).append(document.data.getValue("description"))
-                            .append("\n\n")
-                    }
-                    workoutList.text = result
-
-                }
-        }
-
-        readData()
     }
 
 }
