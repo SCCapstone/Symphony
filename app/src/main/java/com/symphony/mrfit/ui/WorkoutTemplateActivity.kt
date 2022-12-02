@@ -3,6 +3,7 @@ package com.symphony.mrfit.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.symphony.mrfit.databinding.ActivityWorkoutTemplateBinding
+import java.io.File
 
 
 class WorkoutTemplateActivity : AppCompatActivity() {
@@ -18,6 +19,8 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         val workoutName = binding.editWorkOutName
         val weight = binding.editWeight
         val reps = binding.editReps
+        val fileName = "app/java/workout.txt"
+        val file = File(fileName)
 
         binding.button2.setOnClickListener {
             var newWorkoutName: String? = null
@@ -26,6 +29,10 @@ class WorkoutTemplateActivity : AppCompatActivity() {
             if(weight.text.isNotEmpty()) { newWeight = weight.text.toString() }
             var newReps: String? = null
             if(reps.text.isNotEmpty()) { newReps = reps.text.toString() }
+
+            val workouts = "Today's Workout$newWorkoutName,$newWeight,$newReps,"
+            file.writeText(workouts)
         }
+
     }
 }
