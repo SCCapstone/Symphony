@@ -44,4 +44,12 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
     fun getExercisesByWorkout(exeList: ArrayList<String>) {
         exerciseRepository.getExerciseList(exeList, _exerciseList)
     }
+
+    fun addWorkout(name: String, exeList: ArrayList<String>) {
+        exerciseRepository.addWorkout(name, exeList)
+    }
+
+    fun getUserWorkouts() {
+        exerciseRepository.getUserWorkout(_workoutList)
+    }
 }
