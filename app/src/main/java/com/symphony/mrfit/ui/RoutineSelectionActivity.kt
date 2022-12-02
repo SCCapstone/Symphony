@@ -17,8 +17,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
-import com.symphony.mrfit.data.exercise.WorkoutAdapter
+import com.symphony.mrfit.data.exercise.RoutineAdapter
 import com.symphony.mrfit.data.model.Workout
+import com.symphony.mrfit.data.model.WorkoutRoutine
 import com.symphony.mrfit.databinding.ActivityRoutineSelectionBinding
 
 class RoutineSelectionActivity : AppCompatActivity() {
@@ -36,41 +37,47 @@ class RoutineSelectionActivity : AppCompatActivity() {
             this, ExerciseViewModelFactory()
         )[ExerciseViewModel::class.java]
 
-        val newWorkout = binding.newWorkoutButton
-        val workList = binding.workoutListView
+        val newRoutine = binding.newWorkoutButton
+        val routineList = binding.routineListView
 
         /**
-         * Set the layout of the grid of workout templates presented to the user
+         * Set the layout of the grid of routines presented to the user
          */
         layoutManager = GridLayoutManager(this,2)
-        workList.layoutManager = layoutManager
+        routineList.layoutManager = layoutManager
 
         /**
-         * Initialize the workout list, then listen to it to update the UI
+         * Initialize the routine list, then listen to it to update the UI
          */
-        exerciseViewModel.getUserWorkouts()
-        exerciseViewModel.workoutList.observe(this, Observer {
-            Log.d(ContentValues.TAG, "Updating workout list")
-            val workoutList = it ?: return@Observer
+        exerciseViewModel.getUserRoutines()
+        exerciseViewModel.workoutRoutineList.observe(this, Observer {
+            Log.d(ContentValues.TAG, "Updating routine list")
+            val workoutRoutineList = it ?: return@Observer
 
-            workList.adapter = WorkoutAdapter(this, workoutList)
+            routineList.adapter = RoutineAdapter(this, workoutRoutineList)
         })
 
-        newWorkout.setOnClickListener {
-            val workout = Workout("New Workout")
-            newWorkout(workout)
+        newRoutine.setOnClickListener {
+            val workoutRoutine = WorkoutRoutine("New Workout")
+            newRoutine(workoutRoutine)
         }
+
+        exerciseViewModel.addWorkout(Workout("2 mile walk",0,"ABCD1"), "ABCD1")
+        exerciseViewModel.addWorkout(Workout("4 mile walk",0,"ABCD12"), "ABCD12")
+        exerciseViewModel.addWorkout(Workout("6 mile walk",0,"ABCD123"), "ABCD123")
+        exerciseViewModel.addWorkout(Workout("Sprint",0,"ABCD1234"), "ABCD1234")
+        exerciseViewModel.addWorkout(Workout("Nap",0,"ABCD12345"), "ABCD12345")
     }
 
-    private fun newWorkout(workout: Workout) {
+    private fun newRoutine(workoutRoutine: WorkoutRoutine) {
         val intent = Intent(this, WorkoutRoutineActivity::class.java)
-        intent.putExtra(Companion.EXTRA_STRING,workout.name)
-        intent.putExtra(Companion.EXTRA_LIST,workout.workoutList)
+        intent.putExtra(Companion.EXTRA_STRING,workoutRoutine.name)
+        intent.putExtra(Companion.EXTRA_LIST,workoutRoutine.workoutList)
         startActivity(intent)
     }
 
     companion object {
-        const val EXTRA_STRING = "passed workout name"
-        const val EXTRA_LIST = "passed workout exercises"
+        const val EXTRA_STRING = "passed routine name"
+        const val EXTRA_LIST = "passed routine exercises"
     }
 }

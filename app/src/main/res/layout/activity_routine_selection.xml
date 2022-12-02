@@ -13,7 +13,7 @@
     tools:context=".ui.RoutineSelectionActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/workoutListView"
+        android:id="@+id/routineListView"
         android:layout_width="363dp"
         android:layout_height="0dp"
         android:layout_marginTop="24dp"

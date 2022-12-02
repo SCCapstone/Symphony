@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.symphony.mrfit.data.model.Exercise
 import com.symphony.mrfit.data.model.Workout
+import com.symphony.mrfit.data.model.WorkoutRoutine
 
 /**
  * Class for talking between any UI and the Exercise Repository
@@ -29,8 +30,19 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
     private val _workoutList = MutableLiveData<ArrayList<Workout>>()
     val workoutList: LiveData<ArrayList<Workout>> = _workoutList
 
+    private val _workoutRoutineList = MutableLiveData<ArrayList<WorkoutRoutine>>()
+    val workoutRoutineList: LiveData<ArrayList<WorkoutRoutine>> = _workoutRoutineList
+
     fun addExercise(name: String, description: String, id: String) {
         exerciseRepository.addExercise(name, description, id)
+    }
+
+    fun addWorkout(workout: Workout,workID: String) {
+        exerciseRepository.addWorkout(workout, workID)
+    }
+
+    fun addRoutine(name: String, workoutList: ArrayList<String>) {
+        exerciseRepository.addRoutine(name, workoutList)
     }
 
     fun getExercise(exeID: String) {
@@ -41,15 +53,11 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
         exerciseRepository.getExerciseList(searchTerm, _exerciseList)
     }
 
-    fun getExercisesByWorkout(exeList: ArrayList<String>) {
-        exerciseRepository.getExerciseList(exeList, _exerciseList)
+    fun getWorkouts(workoutList: ArrayList<String>) {
+        exerciseRepository.getWorkouts(workoutList, _workoutList)
     }
 
-    fun addWorkout(name: String, exeList: ArrayList<String>) {
-        exerciseRepository.addWorkout(name, exeList)
-    }
-
-    fun getUserWorkouts() {
-        exerciseRepository.getUserWorkout(_workoutList)
+    fun getUserRoutines() {
+        exerciseRepository.getUserRoutines(_workoutRoutineList)
     }
 }

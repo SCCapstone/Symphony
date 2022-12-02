@@ -10,7 +10,6 @@ import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -58,13 +57,8 @@ class HomeActivity : AppCompatActivity() {
         }
 
         startWorkout.setOnClickListener {
-            val intent = Intent(this, WorkoutRoutineActivity::class.java)
+            val intent = Intent(this, RoutineSelectionActivity::class.java)
             startActivity(intent)
-            Toast.makeText(
-                applicationContext,
-                "Put Lauren's module here",
-                Toast.LENGTH_LONG
-            ).show()
         }
     }
 }
