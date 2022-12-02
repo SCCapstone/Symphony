@@ -58,7 +58,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         startWorkout.setOnClickListener {
-            val intent = Intent(this, AddWorkoutActivity::class.java)
+            val intent = Intent(this, WorkoutRoutineActivity::class.java)
             startActivity(intent)
             Toast.makeText(
                 applicationContext,

@@ -10,5 +10,5 @@ data class Workout(
     val name: String = "",
     val ownerID: String = "",
     val description: String? = null,
-    val exerciseList: ArrayList<String>? = null
+    val workoutList: ArrayList<String>? = null
 )

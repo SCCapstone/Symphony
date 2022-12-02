@@ -17,7 +17,7 @@ import com.symphony.mrfit.databinding.ActivityWorkoutsBinding
  * TODO: Classes should be Capitalized, variables should be named using camelCase
  */
 
-class AddWorkoutActivity : AppCompatActivity() {
+class WorkoutRoutineActivity : AppCompatActivity() {
 
     private var layoutManager: RecyclerView.LayoutManager? = null
     private lateinit var profileViewModel: ProfileViewModel

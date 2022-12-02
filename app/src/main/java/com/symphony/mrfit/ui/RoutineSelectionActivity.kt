@@ -19,18 +19,18 @@ import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.exercise.WorkoutAdapter
 import com.symphony.mrfit.data.model.Workout
-import com.symphony.mrfit.databinding.ActivityWorkoutSelectionBinding
+import com.symphony.mrfit.databinding.ActivityRoutineSelectionBinding
 
-class WorkoutSelectionActivity : AppCompatActivity() {
+class RoutineSelectionActivity : AppCompatActivity() {
 
     private var layoutManager: RecyclerView.LayoutManager? = null
     private lateinit var exerciseViewModel: ExerciseViewModel
-    private lateinit var binding: ActivityWorkoutSelectionBinding
+    private lateinit var binding: ActivityRoutineSelectionBinding
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityWorkoutSelectionBinding.inflate(layoutInflater)
+        binding = ActivityRoutineSelectionBinding.inflate(layoutInflater)
         setContentView(binding.root)
         exerciseViewModel = ViewModelProvider(
             this, ExerciseViewModelFactory()
@@ -63,9 +63,9 @@ class WorkoutSelectionActivity : AppCompatActivity() {
     }
 
     private fun newWorkout(workout: Workout) {
-        val intent = Intent(this, WorkoutActivity::class.java)
+        val intent = Intent(this, WorkoutRoutineActivity::class.java)
         intent.putExtra(Companion.EXTRA_STRING,workout.name)
-        intent.putExtra(Companion.EXTRA_LIST,workout.exercises)
+        intent.putExtra(Companion.EXTRA_LIST,workout.workoutList)
         startActivity(intent)
     }
 
