@@ -84,11 +84,13 @@ class AddWorkoutActivity : AppCompatActivity() {
             database.collection("workout").document("userworkouts")
                 .collection("workout").get()
                 .addOnCompleteListener{
+                    val name ="Workout Name: "
+                    val desc = "Workout Description: "
                     val result = StringBuffer()
 
                     for(document in it.result!!) {
-                        result.append(document.data.getValue("name")).append(" ")
-                            .append(document.data.getValue("description")).append("\n\n")
+                        result.append(name).append(document.data.getValue("name")).append(" ")
+                            .append(desc).append(document.data.getValue("description")).append("\n\n")
                     }
                 workoutList.text = result
 
