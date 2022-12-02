@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Team Symphony 11/10/22, 11:39 PM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 11/10/22, 11:38 PM
+  -->
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -80,13 +86,7 @@
         </activity>
         <activity
             android:name=".DebugActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -143,6 +143,20 @@
 
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.StoreActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.WorkoutTemplateActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
     </application>
 
