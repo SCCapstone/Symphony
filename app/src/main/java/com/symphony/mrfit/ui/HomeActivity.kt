@@ -58,9 +58,11 @@ class HomeActivity : AppCompatActivity() {
         }
 
         startWorkout.setOnClickListener {
+            val intent = Intent(this, AddWorkoutActivity::class.java)
+            startActivity(intent)
             Toast.makeText(
                 applicationContext,
-                "here",
+                "Put Lauren's module here",
                 Toast.LENGTH_LONG
             ).show()
         }

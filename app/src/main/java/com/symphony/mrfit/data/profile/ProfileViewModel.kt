@@ -27,4 +27,10 @@ class ProfileViewModel(private val userRepository: UserRepository): ViewModel() 
             userRepository.updateCurrentUser(_loggedInUser, name, age, height, weight)
         }
     }
+
+    fun addWorkoutToHistory() {
+        viewModelScope.launch {
+            userRepository.addWorkoutHistory()
+        }
+    }
 }
