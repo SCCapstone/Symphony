@@ -24,20 +24,20 @@ will add padding in API v21+ as well to have the same measurements with previous
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
         android:background="@color/garnet"
-        app:layout_constraintDimensionRatio="1:1"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center">
+        app:layout_constraintTop_toTopOf="parent">
 
         <!-- Image View to display an image for the exercise -->
 
         <!-- Text View to display Exercise Name -->
         <TextView
-            android:id="@+id/workoutNameTextView"
+            android:id="@+id/historyNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -52,7 +52,7 @@ will add padding in API v21+ as well to have the same measurements with previous
             android:id="@+id/workoutDescriptionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/workoutNameTextView"
+            android:layout_below="@id/historyNameTextView"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
             android:drawablePadding="2dp"

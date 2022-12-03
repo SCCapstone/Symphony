@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 11/10/22, 11:39 PM
+ * Created by Team Symphony 12/2/22, 7:23 PM
  * Copyright (c) 2022 . All rights reserved.
- * Last modified 11/10/22, 11:37 PM
+ * Last modified 12/2/22, 3:23 PM
  */
 
 package com.symphony.mrfit.data.profile
@@ -15,6 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.data.model.User
 
 class UserRepository {
@@ -97,12 +98,11 @@ class UserRepository {
     /**
      * Add a new Workout History to the user's subcollection
      */
-    fun addWorkoutHistory() {
-        val DELETE_ME = ""
+    fun addWorkoutHistory(history: History) {
         val user = auth.currentUser!!
         Log.d(ContentValues.TAG, "Adding to the history of ${user.uid}")
         database.collection(USER_COLLECTION).document(user.uid)
-            .collection(HISTORY_COLLECTION).add(DELETE_ME)
+            .collection(HISTORY_COLLECTION).add(history)
     }
 
     companion object {

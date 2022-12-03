@@ -1,18 +1,16 @@
 /*
- * Created by Team Symphony 11/10/22, 11:39 PM
+ * Created by Team Symphony 12/2/22, 7:23 PM
  * Copyright (c) 2022 . All rights reserved.
- * Last modified 11/10/22, 11:38 PM
+ * Last modified 12/1/22, 6:17 PM
  */
 
 package com.symphony.mrfit
 
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-
+import androidx.test.platform.app.InstrumentationRegistry
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
 
 /**
  * Instrumented test, which will execute on an Android device.

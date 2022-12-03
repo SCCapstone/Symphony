@@ -1,3 +1,9 @@
+/*
+ * Created by Team Symphony 12/2/22, 7:23 PM
+ * Copyright (c) 2022 . All rights reserved.
+ * Last modified 12/2/22, 7:20 PM
+ */
+
 package com.symphony.mrfit.ui
 
 import android.content.ContentValues
@@ -13,6 +19,9 @@ import com.symphony.mrfit.data.model.Workout
 import com.symphony.mrfit.databinding.ActivityWorkoutTemplateBinding
 import java.io.File
 
+/**
+ * View Class for modifying a Workout
+ */
 
 class WorkoutTemplateActivity : AppCompatActivity() {
 
@@ -34,6 +43,14 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         val pickExe = binding.pickExerciseButton
         val fileName = "app/java/workout.txt"
         val file = File(fileName)
+
+        /**
+         * Retrieve the extras passed to this intent
+         * passedID = The ID of the parent Routine
+         * passedName = The Name of the Workout
+         * passedRep = The NumberOfReps from the Workout
+         * passedList = The workoutList from the parent Routine
+         */
         var passedID: String? = null
         val passedName: String?
         val passedRep: String?

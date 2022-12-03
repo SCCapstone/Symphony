@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 11/26/22, 3:06 PM
+ * Created by Team Symphony 12/2/22, 7:23 PM
  * Copyright (c) 2022 . All rights reserved.
- * Last modified 11/26/22, 3:06 PM
+ * Last modified 12/2/22, 4:24 PM
  */
 
 package com.symphony.mrfit.ui
@@ -34,6 +34,7 @@ class HomeActivity : AppCompatActivity() {
         val name = binding.homeNameTextView
         val scheduleWorkout = binding.scheduleButton
         val startWorkout = binding.workoutButton
+        val history = binding.historyList
 
         /**
          * Get data of current User and populate the page
@@ -44,6 +45,7 @@ class HomeActivity : AppCompatActivity() {
             val loggedInUser = it ?: return@Observer
 
             name.text = loggedInUser.name
+            //history.adapter = HistoryAdapter(this, userHistory)
         })
 
         userProfile.setOnClickListener {

@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 11/28/22, 6:56 PM
+ * Created by Team Symphony 12/2/22, 7:23 PM
  * Copyright (c) 2022 . All rights reserved.
- * Last modified 11/28/22, 6:56 PM
+ * Last modified 12/2/22, 7:15 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -20,6 +20,10 @@ import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_STRING
 import com.symphony.mrfit.ui.WorkoutRoutineActivity
 import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_IDENTITY
 
+/**
+ * Adapter for dynamically populating card_routine with information read from a list of Routines
+ */
+
 class RoutineAdapter (val context:Context, val data: ArrayList<WorkoutRoutine>): RecyclerView.Adapter<RoutineAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
@@ -31,6 +35,9 @@ class RoutineAdapter (val context:Context, val data: ArrayList<WorkoutRoutine>):
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
         holder.routineTitle.text = data[i].name
 
+        /**
+         * Start the next activity, passing it the Routine's ID, Name, and workoutList
+         */
         holder.itemView.setOnClickListener {
             val intent = Intent(context, WorkoutRoutineActivity::class.java)
             intent.putExtra(EXTRA_IDENTITY,data[i].routineID)

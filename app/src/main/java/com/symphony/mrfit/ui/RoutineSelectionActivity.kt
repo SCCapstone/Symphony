@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 11/28/22, 8:27 PM
+ * Created by Team Symphony 12/2/22, 7:23 PM
  * Copyright (c) 2022 . All rights reserved.
- * Last modified 11/28/22, 8:27 PM
+ * Last modified 12/2/22, 7:20 PM
  */
 
 package com.symphony.mrfit.ui
@@ -18,9 +18,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.exercise.RoutineAdapter
-import com.symphony.mrfit.data.model.WorkoutRoutine
 import com.symphony.mrfit.databinding.ActivityRoutineSelectionBinding
 import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_IDENTITY
+
+/**
+ * View Class for display the current User's saved Workout Routines
+ */
 
 class RoutineSelectionActivity : AppCompatActivity() {
 
@@ -57,18 +60,21 @@ class RoutineSelectionActivity : AppCompatActivity() {
             routineList.adapter = RoutineAdapter(this, workoutRoutineList)
         })
 
+
         newRoutine.setOnClickListener {
-            val workoutRoutine = WorkoutRoutine(name = "New Workout", workoutList = ArrayList<String>(), routineID = "dummy routine")
-            newRoutine(workoutRoutine)
+            newRoutine()
         }
     }
 
-    private fun newRoutine(workoutRoutine: WorkoutRoutine) {
+    /**
+     * TODO: Replace placeholder material
+     */
+    private fun newRoutine() {
         val intent = Intent(this, WorkoutRoutineActivity::class.java)
         exerciseViewModel.addRoutine("dummy Routine",ArrayList<String>())
-        intent.putExtra(EXTRA_IDENTITY,workoutRoutine.routineID)
-        intent.putExtra(Companion.EXTRA_STRING,workoutRoutine.name)
-        intent.putExtra(Companion.EXTRA_LIST,workoutRoutine.workoutList)
+        intent.putExtra(EXTRA_IDENTITY,"dummy routine")
+        intent.putExtra(Companion.EXTRA_STRING,"New Workout")
+        intent.putExtra(Companion.EXTRA_LIST,ArrayList<String>())
         startActivity(intent)
     }
 

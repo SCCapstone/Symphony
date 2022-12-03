@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 11/10/22, 11:39 PM
+ * Created by Team Symphony 12/2/22, 7:23 PM
  * Copyright (c) 2022 . All rights reserved.
- * Last modified 11/10/22, 11:37 PM
+ * Last modified 12/2/22, 7:15 PM
  */
 
 package com.symphony.mrfit.ui
@@ -80,7 +80,10 @@ class UserProfileActivity : AppCompatActivity() {
             name.text = loggedInUser.name
             ageText.text = loggedInUser.age?.toString() ?: PLACEHOLDER
             heightText.text = loggedInUser.height?.toString() ?: PLACEHOLDER
-            if (heightText.text != PLACEHOLDER) { heightText.text = getString(R.string.height_value, heightText.text) }
+            if (heightText.text != PLACEHOLDER) {
+                val t1 = heightText.text.toString().toInt()/12
+                val t2 = heightText.text.toString().toInt()%12
+                heightText.text = getString(R.string.height_value, t1.toString(), t2.toString()) }
             weightText.text = loggedInUser.weight?.toString() ?: PLACEHOLDER
             if (weightText.text != PLACEHOLDER) { weightText.text = getString(R.string.weight_value, weightText.text) }
         })

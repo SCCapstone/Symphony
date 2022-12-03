@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 11/28/22, 6:56 PM
+ * Created by Team Symphony 12/2/22, 7:23 PM
  * Copyright (c) 2022 . All rights reserved.
- * Last modified 11/28/22, 6:56 PM
+ * Last modified 12/2/22, 7:20 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -17,6 +17,10 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.model.Exercise
+
+/**
+ * Adapter for dynamically populating a card_exercise with a passed list of Exercises
+ */
 
 class ExerciseAdapter (val context:Context, val data: ArrayList<Exercise>): RecyclerView.Adapter<ExerciseAdapter.ViewHolder>() {
 

@@ -1,3 +1,9 @@
+/*
+ * Created by Team Symphony 12/2/22, 7:23 PM
+ * Copyright (c) 2022 . All rights reserved.
+ * Last modified 12/2/22, 7:20 PM
+ */
+
 package com.symphony.mrfit.ui
 
 import android.content.Intent
@@ -11,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.exercise.WorkoutAdapter
+import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityWorkoutRoutineBinding
@@ -19,7 +26,7 @@ import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_STRING
 import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_IDENTITY
 
 /**
- * TODO: Classes should be Capitalized, variables should be named using camelCase
+ * View Class for display the Workouts belonging to the current Routine
  */
 
 class WorkoutRoutineActivity : AppCompatActivity() {
@@ -48,6 +55,12 @@ class WorkoutRoutineActivity : AppCompatActivity() {
         val startWorkout = binding.startWorkoutButton
         val newExercise = binding.newExerciseButton
 
+        /**
+         * Retrieve the extras passed to this intent
+         * passedID = The ID of the parent Routine
+         * passedName = The Name of the parent Routine
+         * passedList = The workoutList from the parent Routine
+         */
         val passedID = intent.extras!!.getString(EXTRA_IDENTITY)
         val passedName = intent.extras!!.getString(EXTRA_STRING)
         val passedList = intent.extras!!.getStringArrayList(EXTRA_LIST)
@@ -72,10 +85,11 @@ class WorkoutRoutineActivity : AppCompatActivity() {
         })
 
         /**
-         * Start the current workout then save it to the User's history
+         * Start the current workout then save it to the User's history,
+         * then return to their Home screen
          */
         startWorkout.setOnClickListener {
-            // profileViewModel.addWorkoutToHistory()
+            profileViewModel.addWorkoutToHistory(History(workoutName.text.toString()))
             exerciseViewModel.updateRoutine(workoutName.text.toString(), passedID!!)
             Toast.makeText(
                 applicationContext,
