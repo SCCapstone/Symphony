@@ -1,19 +1,16 @@
 /*
- * Created by Team Symphony 11/10/22, 11:39 PM
+ * Created by Team Symphony 12/2/22, 7:23 PM
  * Copyright (c) 2022 . All rights reserved.
- * Last modified 11/10/22, 11:38 PM
+ * Last modified 12/2/22, 4:24 PM
  */
 
 package com.symphony.mrfit
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.symphony.mrfit.databinding.ActivityDebugBinding
-import com.symphony.mrfit.ui.LoginActivity
-import com.symphony.mrfit.ui.RegisterActivity
-import com.symphony.mrfit.ui.UserProfileActivity
+import com.symphony.mrfit.ui.*
 
 /**
  * Menu for instantly navigating to any page for debug and testing
@@ -34,6 +31,9 @@ class DebugActivity : AppCompatActivity() {
         val login = binding.debugLogin
         val register = binding.debugRegister
         val profile = binding.debugUserProfile
+        val calendar = binding.debugCalendar
+        val notification = binding.debugNotification
+        val workout = binding.debugWorkout
 
         login.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
@@ -47,6 +47,20 @@ class DebugActivity : AppCompatActivity() {
 
         profile.setOnClickListener {
             val intent = Intent(this, UserProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        calendar.setOnClickListener {
+            val intent = Intent(this, Calendar::class.java)
+            startActivity(intent)
+        }
+
+        notification.setOnClickListener {
+            val intent = Intent(this, NotificationActivity::class.java)
+            startActivity(intent)
+        }
+        workout.setOnClickListener {
+            val intent = Intent(this, WorkoutRoutineActivity::class.java)
             startActivity(intent)
         }
     }

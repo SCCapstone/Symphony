@@ -1,28 +1,31 @@
 /*
- * Created by Team Symphony 11/10/22, 11:39 PM
+ * Created by Team Symphony 12/2/22, 7:23 PM
  * Copyright (c) 2022 . All rights reserved.
- * Last modified 11/10/22, 11:37 PM
+ * Last modified 12/2/22, 7:15 PM
  */
 
 package com.symphony.mrfit.ui
 
 import android.content.ContentValues
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.symphony.mrfit.R
-import com.symphony.mrfit.data.profile.ProfileViewModel
-import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.data.login.LoginRepository
 import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
-import com.symphony.mrfit.data.model.User
+import com.symphony.mrfit.data.profile.ProfileViewModel
+import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityUserProfileBinding
 
 class UserProfileActivity : AppCompatActivity() {
@@ -32,7 +35,6 @@ class UserProfileActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityUserProfileBinding
     private lateinit var repo: LoginRepository
-    private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +53,6 @@ class UserProfileActivity : AppCompatActivity() {
         /**
          * Declare lots of variables
          */
-        val user = auth.currentUser
         val edit = binding.editProfileButton
         val goal = binding.goalsButton
         val achievements = binding.achievementsButton
@@ -60,9 +61,12 @@ class UserProfileActivity : AppCompatActivity() {
         val logout = binding.logoutButton
         val delete = binding.deleteButton
         val name = binding.profileNameTextView
-        val age = binding.ageValueTextView
-        val height = binding.heightValueTextView
-        val weight = binding.weightValueTextView
+        val age = binding.ageLayout
+        val ageText = binding.ageValueTextView
+        val height = binding.heightLayout
+        val heightText = binding.heightValueTextView
+        val weight = binding.weightLayout
+        val weightText = binding.weightValueTextView
         val pfp = binding.profilePicture
 
         /**
@@ -74,28 +78,212 @@ class UserProfileActivity : AppCompatActivity() {
             val loggedInUser = it ?: return@Observer
 
             name.text = loggedInUser.name
-            age.text = loggedInUser.age?.toString() ?: PLACEHOLDER
-            height.text = loggedInUser.height?.toString() ?: PLACEHOLDER
-            if (height.text != PLACEHOLDER) { height.text = getString(R.string.height_value, height.text) }
-            weight.text = loggedInUser.weight?.toString() ?: PLACEHOLDER
-            if (weight.text != PLACEHOLDER) { weight.text = getString(R.string.weight_value, weight.text) }
+            ageText.text = loggedInUser.age?.toString() ?: PLACEHOLDER
+            heightText.text = loggedInUser.height?.toString() ?: PLACEHOLDER
+            if (heightText.text != PLACEHOLDER) {
+                val t1 = heightText.text.toString().toInt()/12
+                val t2 = heightText.text.toString().toInt()%12
+                heightText.text = getString(R.string.height_value, t1.toString(), t2.toString()) }
+            weightText.text = loggedInUser.weight?.toString() ?: PLACEHOLDER
+            if (weightText.text != PLACEHOLDER) { weightText.text = getString(R.string.weight_value, weightText.text) }
         })
+
+        name.setOnClickListener {
+            nameAlert()
+        }
+
+        age.setOnClickListener {
+            ageAlert()
+        }
+
+        height.setOnClickListener {
+            heightAlert()
+        }
+
+        weight.setOnClickListener {
+            weightAlert()
+        }
+
+        pfp.setOnClickListener {
+            Toast.makeText(
+                applicationContext,
+                "This has not been implemented yet",
+                Toast.LENGTH_LONG
+            ).show()
+        }
 
         edit.setOnClickListener {
             val intent = Intent(this, EditProfileActivity::class.java)
             startActivity(intent)
         }
 
-        logout.setOnClickListener {
-            loginViewModel.logout()
-            finish()
+        goal.setOnClickListener {
+            Toast.makeText(
+                applicationContext,
+                "This has not been implemented yet",
+                Toast.LENGTH_LONG
+            ).show()
         }
 
-        // TODO: Add an "Are you sure?" popup box when delete button is pressed
-        delete.setOnClickListener {
-            loginViewModel.delete()
-            finish()
+        achievements.setOnClickListener {
+            Toast.makeText(
+                applicationContext,
+                "This has not been implemented yet",
+                Toast.LENGTH_LONG
+            ).show()
         }
+
+        history.setOnClickListener {
+            Toast.makeText(
+                applicationContext,
+                "This has not been implemented yet",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
+        progress.setOnClickListener {
+            Toast.makeText(
+                applicationContext,
+                "This has not been implemented yet",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
+        logout.setOnClickListener {
+            loginViewModel.logout()
+            val intent = Intent(applicationContext, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+
+        delete.setOnClickListener {
+            deleteAlert()
+        }
+    }
+
+    private fun nameAlert() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(R.string.label_name)
+        builder.setMessage(R.string.message_change_name)
+
+        val input = EditText(this)
+        input.hint = "Name"
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setView(input)
+
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
+            val new = input.text.toString()
+            profileViewModel.updateCurrentUser(new, null, null, null)
+            Toast.makeText(
+                applicationContext,
+                "Name has been changed to $new",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
+        builder.setNegativeButton(android.R.string.cancel) { _, _ ->
+        }
+        builder.show()
+    }
+
+    private fun ageAlert() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(R.string.label_age)
+        builder.setMessage(R.string.message_change_age)
+
+        val input = EditText(this)
+        input.hint = "Age"
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setView(input)
+
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
+            val new = input.text.toString().toInt()
+            profileViewModel.updateCurrentUser(null, new, null, null)
+            Toast.makeText(
+                applicationContext,
+                "Age has been changed to $new",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
+        builder.setNegativeButton(android.R.string.cancel) { _, _ ->
+        }
+        builder.show()
+    }
+
+    private fun heightAlert() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(R.string.label_height)
+        builder.setMessage(R.string.message_change_height)
+
+        val input = EditText(this)
+        input.hint = "Height"
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setView(input)
+
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
+            val new = input.text.toString().toInt()
+            profileViewModel.updateCurrentUser(null, null, new, null)
+            Toast.makeText(
+                applicationContext,
+                "Height has been changed to $new",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
+        builder.setNegativeButton(android.R.string.cancel) { _, _ ->
+        }
+        builder.show()
+    }
+
+    private fun weightAlert() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(R.string.label_weight)
+        builder.setMessage(R.string.message_change_weight)
+
+        val input = EditText(this)
+        input.hint = "Weight"
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setView(input)
+
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
+            val new = input.text.toString().toDouble()
+            profileViewModel.updateCurrentUser(null, null, null, new)
+            Toast.makeText(
+                applicationContext,
+                "Weight has been changed to $new",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
+        builder.setNegativeButton(android.R.string.cancel) { _, _ ->
+        }
+        builder.show()
+    }
+
+    private fun deleteAlert() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(R.string.label_delete)
+        builder.setMessage(R.string.message_delete_account)
+
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
+            deleteAccount()
+        }
+
+        builder.setNegativeButton(android.R.string.cancel) { _, _ ->
+        }
+        builder.show()
+    }
+
+    private fun deleteAccount() {
+        loginViewModel.delete()
+        val intent = Intent(applicationContext, LoginActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
     }
 
     companion object {

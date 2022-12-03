@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Created by Team Symphony 11/10/22, 11:39 PM
+  ~ Created by Team Symphony 12/2/22, 7:23 PM
   ~ Copyright (c) 2022 . All rights reserved.
-  ~ Last modified 11/10/22, 11:38 PM
+  ~ Last modified 12/2/22, 3:23 PM
   -->
 
 <resources>
+    <color name="garnet">#9A2A2A</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>

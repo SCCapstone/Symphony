@@ -1,19 +1,19 @@
 <!--
-  ~ Created by Team Symphony 11/10/22, 11:39 PM
+  ~ Created by Team Symphony 12/2/22, 7:23 PM
   ~ Copyright (c) 2022 . All rights reserved.
-  ~ Last modified 11/10/22, 11:38 PM
+  ~ Last modified 12/2/22, 3:23 PM
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.MrFit" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/garnet</item>
+        <item name="colorPrimaryVariant">@color/garnet</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorSecondary">@color/black</item>
+        <item name="colorSecondaryVariant">@color/black</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>

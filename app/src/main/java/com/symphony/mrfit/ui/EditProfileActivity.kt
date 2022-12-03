@@ -1,18 +1,16 @@
 /*
- * Created by Team Symphony 11/10/22, 11:39 PM
+ * Created by Team Symphony 12/2/22, 7:23 PM
  * Copyright (c) 2022 . All rights reserved.
- * Last modified 11/10/22, 11:37 PM
+ * Last modified 12/2/22, 3:23 PM
  */
 
 package com.symphony.mrfit.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.symphony.mrfit.R
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
-import com.symphony.mrfit.databinding.ActivityDebugBinding
 import com.symphony.mrfit.databinding.ActivityEditProfileBinding
 
 class EditProfileActivity : AppCompatActivity() {
@@ -49,6 +47,7 @@ class EditProfileActivity : AppCompatActivity() {
             var newWeight: Double? = null
             if (weight.text.isNotEmpty()) { newWeight = weight.text.toString().toDouble() }
             profileViewModel.updateCurrentUser(newName, newAge, newHeight, newWeight)
+            finish()
         }
     }
 }

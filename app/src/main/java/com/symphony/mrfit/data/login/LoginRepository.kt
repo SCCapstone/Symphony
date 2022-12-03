@@ -1,13 +1,13 @@
 /*
- * Created by Team Symphony 11/10/22, 11:39 PM
+ * Created by Team Symphony 12/2/22, 7:23 PM
  * Copyright (c) 2022 . All rights reserved.
- * Last modified 11/10/22, 11:38 PM
+ * Last modified 12/2/22, 3:23 PM
  */
 
 package com.symphony.mrfit.data.login
 
-
-import android.content.ContentValues
+import android.app.Activity
+import android.content.ContentValues.TAG
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
@@ -25,34 +25,41 @@ import com.symphony.mrfit.data.profile.UserRepository
 
 class LoginRepository {
 
-    // Initialize Firebase Auth and database repository
-    private var auth: FirebaseAuth = Firebase.auth
+    // Initialize Auth tools and database repository
+    private var firebaseAuth: FirebaseAuth = Firebase.auth
     private var userRepository: UserRepository = UserRepository()
 
     // in-memory cache of the loggedInUser object
     private var currentUser: User? = null
 
     /**
+     * Attempt to login the user through Google Auth
+     */
+    fun googleLogin(activity: Activity) {
+    }
+
+
+    /**
      * Attempt to login the user though Firebase User Auth
      */
-    fun login(activity: android.app.Activity, email: String, password: String, user: MutableLiveData<User>) {
-        Log.d(ContentValues.TAG, "Signing in to account: $email")
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(activity) { task ->
+    fun firebaseLogin(activity: Activity, email: String, password: String, user: MutableLiveData<User>) {
+        Log.d(TAG, "Signing in to account: $email")
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, set the current user
-                    Log.d(ContentValues.TAG, "Sign in with email: success")
-                    val firebaseUser = auth.currentUser
+                    Log.d(TAG, "Sign in with email: success")
+                    val firebaseUser = firebaseAuth.currentUser
                     currentUser = User(firebaseUser!!.uid, firebaseUser.displayName)
                     successfulLogin(user)
                 } else {
                     // If sign in fails, display a message to the user and tell ViewModel why
-                    Log.w(ContentValues.TAG, "Sign in with email: failure", task.exception)
+                    Log.w(TAG, "Sign in with email: failure", task.exception)
                     Toast.makeText(
                         activity.baseContext,
                         "Login failed",
                         Toast.LENGTH_LONG
                     ).show()
-                    user.value = User("ERROR", "Thingyboom go pop")
+                    user.value = User("ERROR", "Authentication rejected Login")
                 }
             }
     }
@@ -60,25 +67,25 @@ class LoginRepository {
     /**
      * Attempt to register the user though Firebase User Auth
      */
-    fun register(activity: android.app.Activity, email: String, password: String, user: MutableLiveData<User>) {
-        Log.d(ContentValues.TAG, "Making account: $email")
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity) { task ->
+    fun register(activity: Activity, email: String, password: String, user: MutableLiveData<User>) {
+        Log.d(TAG, "Making account: $email")
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     // Registration success, populate a new user
-                    Log.d(ContentValues.TAG, "Create user with email: success")
-                    val firebaseUser = auth.currentUser
+                    Log.d(TAG, "Create user with email: success")
+                    val firebaseUser = firebaseAuth.currentUser
                     currentUser = User(firebaseUser!!.uid, firebaseUser.email)
                     makeUsername()
                     successfulRegistration(user, firebaseUser)
                 } else {
                     // If registration fails, display a message to the user and tell ViewModel why
-                    Log.w(ContentValues.TAG, "Create user with email: failure", task.exception)
+                    Log.w(TAG, "Create user with email: failure", task.exception)
                     Toast.makeText(
                         activity.baseContext,
                         "Registration failed",
                         Toast.LENGTH_LONG
                     ).show()
-                    user.value = User( "ERROR", "Thingyboom go pop")
+                    user.value = User( "ERROR", "Authentication rejected Register")
                 }
             }
     }
@@ -90,7 +97,7 @@ class LoginRepository {
         Firebase.auth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d(ContentValues.TAG, "Email sent.")
+                    Log.d(TAG, "Email sent.")
                 }
             }
     }
@@ -99,22 +106,22 @@ class LoginRepository {
      * Logout the user from Firebase Auth
      */
     fun logout(){
-        Log.d(ContentValues.TAG, "Attempting to log out user")
-        auth.signOut()
+        Log.d(TAG, "Attempting to log out user")
+        firebaseAuth.signOut()
     }
 
     /**
      * Say goodbye to our lovely user. Remove them from Auth and Database
      */
     fun delete(){
-        val user = auth.currentUser!!
+        val user = firebaseAuth.currentUser!!
 
         userRepository.removeUser()
 
         user.delete()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d(ContentValues.TAG, "User account deleted.")
+                    Log.d(TAG, "User account deleted.")
                 }
             }
     }
@@ -138,7 +145,7 @@ class LoginRepository {
         firebaseUser.updateProfile(profileUpdates)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d(ContentValues.TAG, "User profile updated.")
+                    Log.d(TAG, "User profile updated.")
                     user.value = currentUser
                     addNewUser(user)
                 }
@@ -152,11 +159,11 @@ class LoginRepository {
     private fun makeUsername() {
         val delim = currentUser!!.name!!.indexOf('@')
         currentUser!!.name = currentUser!!.name!!.substring(0, delim)
-        Log.w(ContentValues.TAG, "New user's name is ${currentUser?.name}")
+        Log.w(TAG, "New user's name is ${currentUser?.name}")
     }
 
     private fun addNewUser(user: MutableLiveData<User>) {
-        Log.d(ContentValues.TAG, "Telling repo to add ${currentUser?.name} to the database")
+        Log.d(TAG, "Telling repo to add ${currentUser?.name} to the database")
         userRepository.addNewUser(user)
     }
 }

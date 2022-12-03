@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 11/10/22, 11:39 PM
+ * Created by Team Symphony 12/2/22, 7:23 PM
  * Copyright (c) 2022 . All rights reserved.
- * Last modified 11/10/22, 11:37 PM
+ * Last modified 12/2/22, 3:23 PM
  */
 
 package com.symphony.mrfit.data.profile
@@ -11,12 +11,11 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.symphony.mrfit.R
+import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.data.model.User
 
 class UserRepository {
@@ -30,7 +29,7 @@ class UserRepository {
     fun getCurrentUser(_loggedInUser: MutableLiveData<User>) {
         Log.d(ContentValues.TAG, "Retrieving User ${auth.currentUser!!.uid} from Firestore")
         val doc = auth.currentUser!!.uid
-        val docRef = database.collection("users").document(doc)
+        val docRef = database.collection(USER_COLLECTION).document(doc)
         docRef.get().addOnSuccessListener { documentSnapshot ->
                 _loggedInUser.value = documentSnapshot.toObject<User>()
             }
@@ -47,14 +46,14 @@ class UserRepository {
     newWeight: Double?) {
         val uid = auth.currentUser!!.uid
         Log.d(ContentValues.TAG, "Updating User $uid in Firestore")
-        newName?.let {_loggedInUser.value?.name = newName}
+        newName?.let {_loggedInUser.value?.name= newName}
         newAge?.let {_loggedInUser.value?.age = newAge}
         newHeight?.let {_loggedInUser.value?.height = newHeight}
         newWeight?.let {_loggedInUser.value?.weight = newWeight}
 
         val user = _loggedInUser.value
         if (user != null) {
-            database.collection("users").document(uid).set(user)
+            database.collection(USER_COLLECTION).document(uid).set(user)
                 .addOnSuccessListener {
                     Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
                 }
@@ -62,6 +61,7 @@ class UserRepository {
                         e -> Log.w(ContentValues.TAG, "Error writing document", e)
                 }
         }
+        _loggedInUser.value = user
     }
 
     /**
@@ -72,7 +72,7 @@ class UserRepository {
         Log.d(ContentValues.TAG, "Adding User to Firestore")
         val user = _loggedInUser.value
         if (user != null) {
-            database.collection("users").document(user.userID).set(user)
+            database.collection(USER_COLLECTION).document(user.userID).set(user)
                 .addOnSuccessListener {
                     Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
                 }
@@ -89,9 +89,24 @@ class UserRepository {
     fun removeUser() {
         val user = auth.currentUser!!
         Log.d(ContentValues.TAG, "Removing User ${user.uid} from Firestore")
-        database.collection("users").document(user.uid)
+        database.collection(USER_COLLECTION).document(user.uid)
             .delete()
             .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot successfully deleted!") }
             .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error deleting document", e) }
+    }
+
+    /**
+     * Add a new Workout History to the user's subcollection
+     */
+    fun addWorkoutHistory(history: History) {
+        val user = auth.currentUser!!
+        Log.d(ContentValues.TAG, "Adding to the history of ${user.uid}")
+        database.collection(USER_COLLECTION).document(user.uid)
+            .collection(HISTORY_COLLECTION).add(history)
+    }
+
+    companion object {
+        const val USER_COLLECTION = "users"
+        const val HISTORY_COLLECTION = "_history"
     }
 }
