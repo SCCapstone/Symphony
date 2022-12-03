@@ -30,6 +30,9 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
     private val _workoutList = MutableLiveData<ArrayList<Workout>>()
     val workoutList: LiveData<ArrayList<Workout>> = _workoutList
 
+    private val _workoutIDList = MutableLiveData<ArrayList<String>>()
+    val workoutIDList: LiveData<ArrayList<String>> = _workoutIDList
+
     private val _workoutRoutineList = MutableLiveData<ArrayList<WorkoutRoutine>>()
     val workoutRoutineList: LiveData<ArrayList<WorkoutRoutine>> = _workoutRoutineList
 
@@ -47,6 +50,10 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
 
     fun addRoutine(name: String, workoutList: ArrayList<String>) {
         exerciseRepository.addRoutine(name, workoutList)
+    }
+
+    fun updateRoutine(name: String, routineID: String) {
+        exerciseRepository.updateRoutine(name, routineID)
     }
 
     fun getExercise(exeID: String) {

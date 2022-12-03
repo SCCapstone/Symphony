@@ -18,6 +18,7 @@ import com.symphony.mrfit.data.model.WorkoutRoutine
 import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_LIST
 import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_STRING
 import com.symphony.mrfit.ui.WorkoutRoutineActivity
+import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_IDENTITY
 
 class RoutineAdapter (val context:Context, val data: ArrayList<WorkoutRoutine>): RecyclerView.Adapter<RoutineAdapter.ViewHolder>() {
 
@@ -32,6 +33,7 @@ class RoutineAdapter (val context:Context, val data: ArrayList<WorkoutRoutine>):
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, WorkoutRoutineActivity::class.java)
+            intent.putExtra(EXTRA_IDENTITY,data[i].routineID)
             intent.putExtra(EXTRA_STRING,data[i].name)
             intent.putExtra(EXTRA_LIST,data[i].workoutList)
             context.startActivity(intent)

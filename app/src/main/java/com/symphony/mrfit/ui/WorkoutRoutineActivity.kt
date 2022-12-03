@@ -1,7 +1,6 @@
 package com.symphony.mrfit.ui
 
 import android.content.Intent
-import android.nfc.NfcAdapter.EXTRA_ID
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +16,7 @@ import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityWorkoutRoutineBinding
 import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_LIST
 import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_STRING
+import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_IDENTITY
 
 /**
  * TODO: Classes should be Capitalized, variables should be named using camelCase
@@ -46,8 +46,9 @@ class WorkoutRoutineActivity : AppCompatActivity() {
         val workoutDesc = binding.workoutDescriptionEditText
         val workoutList = binding.workoutListView
         val startWorkout = binding.startWorkoutButton
-        val newWorkout = binding.newExerciseButton
+        val newExercise = binding.newExerciseButton
 
+        val passedID = intent.extras!!.getString(EXTRA_IDENTITY)
         val passedName = intent.extras!!.getString(EXTRA_STRING)
         val passedList = intent.extras!!.getStringArrayList(EXTRA_LIST)
 
@@ -67,7 +68,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
         exerciseViewModel.workoutList.observe(this, Observer {
             val workList = it ?: return@Observer
 
-            workoutList.adapter = WorkoutAdapter(this, workList)
+            workoutList.adapter = WorkoutAdapter(this, workList, passedID!!, passedList!!)
         })
 
         /**
@@ -75,19 +76,28 @@ class WorkoutRoutineActivity : AppCompatActivity() {
          */
         startWorkout.setOnClickListener {
             // profileViewModel.addWorkoutToHistory()
+            exerciseViewModel.updateRoutine(workoutName.text.toString(), passedID!!)
             Toast.makeText(
                 applicationContext,
                 "Your workout has been saved to your history",
                 Toast.LENGTH_LONG
             ).show()
+            val intent = Intent(applicationContext, HomeActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
         }
 
         /**
          * Navigate to a screen to make a new workout
          */
-        newWorkout.setOnClickListener {
+        newExercise.setOnClickListener {
             val intent = Intent(this, WorkoutTemplateActivity::class.java)
-            intent.putExtra(EXTRA_ID, "null")
+            intent.putExtra(EXTRA_IDENTITY, passedID)
+            intent.putExtra(WorkoutTemplateActivity.EXTRA_STRING,"New Workout")
+            intent.putExtra(WorkoutTemplateActivity.EXTRA_REPS,"0")
+            intent.putExtra(WorkoutTemplateActivity.EXTRA_LIST, passedList)
             startActivity(intent)
         }
     }

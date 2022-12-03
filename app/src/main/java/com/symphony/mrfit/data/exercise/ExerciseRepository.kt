@@ -120,7 +120,7 @@ class ExerciseRepository {
         Log.d(TAG, "Adding new workout")
         database.collection(WORKOUT_COLLECTION).document(workID).set(workout)
             .addOnSuccessListener {
-                Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
+                Log.d(ContentValues.TAG, "New workout added at $workID!")
             }
             .addOnFailureListener {
                     e -> Log.w(ContentValues.TAG, "Error writing document", e)
@@ -135,11 +135,16 @@ class ExerciseRepository {
         if (routineID != null) {
             database.collection(ROUTINE_COLLECTION).document(routineID).update("workoutList", workoutList)
                 .addOnSuccessListener {
-                    Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
+                    Log.d(ContentValues.TAG, "Routine $routineID updated!")
                 }
                 .addOnFailureListener {
                         e -> Log.w(ContentValues.TAG, "Error writing document", e)
                 }
+        }
+        else {
+            /**
+             * TODO: Make a new Routine
+             */
         }
     }
 
@@ -171,7 +176,13 @@ class ExerciseRepository {
                 for (document in result) {
                     Log.d(TAG, "${document.id} => ${document.data}")
                     val t = document.toObject<WorkoutRoutine>()
-                    routineList.add(t)
+                    val temp = WorkoutRoutine(
+                        t.name,
+                        t.ownerID,
+                        t.workoutList,
+                        document.id
+                    )
+                    routineList.add(temp)
                     _workoutRoutineList.value = routineList
                 }
             }
@@ -181,7 +192,7 @@ class ExerciseRepository {
     }
 
     /**
-     * Fetch a LiveData list of Exercises by searching through a Workout's list of Exercises
+     * Fetch a LiveData list of Workouts by searching through a Routine's list of Workouts
      */
     fun getWorkouts(workoutList: ArrayList<String>, _workoutList: MutableLiveData<ArrayList<Workout>>) {
         Log.d(TAG, "Fetching exercises for a Workout")
@@ -190,13 +201,21 @@ class ExerciseRepository {
             database.collection(WORKOUT_COLLECTION).document(workoutID)
                 .get().addOnSuccessListener { documentSnapshot ->
                     Log.d(TAG, "Lookup for exercise $workoutID successful")
-                    documentSnapshot.toObject<Exercise>()?.let {
+                    documentSnapshot.toObject<Workout>()?.let {
                         workList.add(documentSnapshot.toObject<Workout>()!!)
                         _workoutList.value = workList
                     }
 
                 }
         }
+    }
+
+    /**
+     * Update a Routine's name
+     */
+    fun updateRoutine(name: String, routineID: String) {
+        Log.d(TAG, "Changing $routineID name to $name")
+        database.collection(ROUTINE_COLLECTION).document(routineID).update("name", name)
     }
 
     companion object {

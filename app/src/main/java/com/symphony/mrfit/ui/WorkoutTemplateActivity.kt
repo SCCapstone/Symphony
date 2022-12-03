@@ -1,8 +1,10 @@
 package com.symphony.mrfit.ui
 
+import android.content.ContentValues
 import android.content.Intent
-import android.nfc.NfcAdapter.EXTRA_ID
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
@@ -33,16 +35,27 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         val fileName = "app/java/workout.txt"
         val file = File(fileName)
         var passedID: String? = null
+        val passedName: String?
+        val passedRep: String?
+        val passedList: ArrayList<String>?
 
-        if (intent.getStringExtra(EXTRA_ID) != "null") {
-            passedID = intent.getStringExtra(EXTRA_ID)
+        if (intent.getStringExtra(EXTRA_IDENTITY) != "null") {
+            Log.d(ContentValues.TAG, "Inside routine ${intent.getStringExtra(EXTRA_IDENTITY)}")
+            passedID = intent.getStringExtra(EXTRA_IDENTITY)
+            passedName = intent.getStringExtra(EXTRA_STRING)
+            passedRep = intent.getStringExtra(EXTRA_REPS)
+            passedList = intent.getStringArrayListExtra(EXTRA_LIST)
         }
-        val passedName = intent.getStringExtra(EXTRA_STRING)
-        val passedRep = intent.getStringExtra(EXTRA_REPS)
-        val passedList = intent.getStringArrayListExtra(EXTRA_LIST)
+        else {
+            Log.d(ContentValues.TAG, "New workout routine")
+            passedID = null
+            passedName = "New Workout"
+            passedRep = "0"
+            passedList = ArrayList<String>()
+        }
 
         workoutName.setText(passedName)
-        reps.setText(passedRep)
+        reps.setText(passedRep.toString())
 
         pickExe.setOnClickListener {
             val intent = Intent(this, ExerciseActivity::class.java)
@@ -57,23 +70,30 @@ class WorkoutTemplateActivity : AppCompatActivity() {
             var newReps: String? = null
             if(reps.text.isNotEmpty()) { newReps = reps.text.toString() }
 
-            val workouts = "Today's Workout$newWorkoutName,$newWeight,$newReps,"
+            //val workouts = "Today's Workout$newWorkoutName,$newWeight,$newReps,"
             //file.writeText(workouts)
 
+
             // Add a workout to the database
-            val temp = newReps?.toInt()
-            val a = newWorkoutName ?: "Empty"
-            val b = temp ?: 0
-            val c = "ABCD12345"
+            val a = workoutName.text.toString()
+            val b = reps.text.toString().toInt()
+            val c = "ABCD123456"
             passedList!!.add(c)
             exerciseViewModel.addWorkout((Workout(a,b,c)), "ABCD123456")
             exerciseViewModel.addWorkoutToRoutine(passedID, passedList)
+
+            Toast.makeText(
+                applicationContext,
+                "Your intent to create a workout has been recognized",
+                Toast.LENGTH_LONG
+            ).show()
             finish()
         }
 
     }
 
     companion object {
+        const val EXTRA_IDENTITY = "routine_id"
         const val EXTRA_STRING = "workout_name"
         const val EXTRA_REPS = "num_reps"
         const val EXTRA_LIST = "workout_list"

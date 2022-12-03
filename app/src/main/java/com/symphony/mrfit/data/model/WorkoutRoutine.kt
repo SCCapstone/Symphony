@@ -9,5 +9,6 @@ package com.symphony.mrfit.data.model
 data class WorkoutRoutine(
     val name: String = "",
     val ownerID: String = "",
-    val workoutList: ArrayList<String>? = null
+    val workoutList: ArrayList<String>? = null,
+    val routineID: String = ""
 )

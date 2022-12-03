@@ -20,6 +20,7 @@ import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.exercise.RoutineAdapter
 import com.symphony.mrfit.data.model.WorkoutRoutine
 import com.symphony.mrfit.databinding.ActivityRoutineSelectionBinding
+import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_IDENTITY
 
 class RoutineSelectionActivity : AppCompatActivity() {
 
@@ -57,13 +58,15 @@ class RoutineSelectionActivity : AppCompatActivity() {
         })
 
         newRoutine.setOnClickListener {
-            val workoutRoutine = WorkoutRoutine("New Workout")
+            val workoutRoutine = WorkoutRoutine(name = "New Workout", workoutList = ArrayList<String>(), routineID = "dummy routine")
             newRoutine(workoutRoutine)
         }
     }
 
     private fun newRoutine(workoutRoutine: WorkoutRoutine) {
         val intent = Intent(this, WorkoutRoutineActivity::class.java)
+        exerciseViewModel.addRoutine("dummy Routine",ArrayList<String>())
+        intent.putExtra(EXTRA_IDENTITY,workoutRoutine.routineID)
         intent.putExtra(Companion.EXTRA_STRING,workoutRoutine.name)
         intent.putExtra(Companion.EXTRA_LIST,workoutRoutine.workoutList)
         startActivity(intent)
