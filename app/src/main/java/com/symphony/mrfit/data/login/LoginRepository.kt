@@ -11,6 +11,7 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import com.google.errorprone.annotations.DoNotMock
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -62,6 +63,13 @@ class LoginRepository {
                     user.value = User("ERROR", "Authentication rejected Login")
                 }
             }
+    }
+    fun firebaseLoginTest(email: String, password: String) : Boolean {
+        var success  = false
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener() { task ->
+            success = task.isSuccessful
+        }
+        return success
     }
 
     /**

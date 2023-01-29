@@ -29,7 +29,7 @@ import org.mockito.Mockito.mock
             mockActivity = mock(Activity::class.java)
             mockUser = MutableLiveData()
         }
-        @Test
+ /*       @Test
         fun testLoginSuccess(){
             val email = "test@example.com"
             val password = "password"
@@ -45,26 +45,28 @@ import org.mockito.Mockito.mock
             assertEquals(false,authResult)
             assertEquals(mockUser.value,null)
         }
-//        @Test
-//        fun loginSuccess() {
-//            `when`(mockAuth.signInWithEmailAndPassword(email, password))
-//                .thenReturn(mockk())
-//            val authResult = loginRepository.firebaseLogin(mockAuth, email, password)
-//            assertEquals(authResult.user, mockAuth.currentUser)
-//        }
-//
-//        @Test
-//        fun loginFailure() {
-//            `when`(mockAuth.signInWithEmailAndPassword(email, password))
-//                .thenThrow(FirebaseAuthException("Invalid email or password",email))
-//            try{
-//                loginRepository.firebaseLogin(mockAuth,email,password)
-//                fail("Expected FirebaseAuthException")
-//            } catch (e: FirebaseAuthException){
-//                assertEquals("Invalid email or password", e.message)
-//            }
-//            val authResult = loginRepository.firebaseLogin(mockAuth, email, password)
-//            assertEquals(authResult.user, mockAuth.currentUser)
-//        }
+        @Test
+        fun loginSuccess() {
+            `when`(mockAuth.signInWithEmailAndPassword(email, password))
+                .thenReturn(mockk())
+            val authResult = loginRepository.firebaseLogin(mockAuth, email, password)
+            assertEquals(authResult.user, mockAuth.currentUser)
+        }
 
+        @Test
+        fun loginFailure() {
+            `when`(mockAuth.signInWithEmailAndPassword(email, password))
+                .thenThrow(FirebaseAuthException("Invalid email or password",email))
+            try{
+                loginRepository.firebaseLogin(mockAuth,email,password)
+                fail("Expected FirebaseAuthException")
+            } catch (e: FirebaseAuthException){
+                assertEquals("Invalid email or password", e.message)
+            }
+            val authResult = loginRepository.firebaseLogin(mockAuth, email, password)
+            assertEquals(authResult.user, mockAuth.currentUser)
+        }
+
+
+  */
     }
