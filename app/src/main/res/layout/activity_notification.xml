@@ -72,7 +72,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/submitButton"
+        android:id="@+id/scheduleNotificationButton"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
         android:text="Schedule Notification"

@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Created by Team Symphony 11/10/22, 11:39 PM
-  ~ Copyright (c) 2022 . All rights reserved.
-  ~ Last modified 11/28/22, 8:34pm PM
-  -->
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -19,9 +16,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MrFit"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.NotificationActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
         <receiver
             android:name=".ui.Notifications"
             android:enabled="true" />
+
+        <activity
+            android:name=".ui.Calendar"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".ui.EditProfileActivity"
             android:exported="false">
