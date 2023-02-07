@@ -20,6 +20,20 @@ The required modules include:
 * Storage
 * Firestore Database
 
+# Testing
+
+The unit tests are in `MrFit.app.unitTest`.
+
+The behavioral tests are in `MrFit.app.androidTest`.
+
+## Running Tests in Android Studio
+
+For both types of tests, start by going into *Run* > *Edit Configurations*
+
+For unit tests, create a new JUnit4 test. For the module select `MrFit.app.unitTest`, and then select the class of the unit test you want to run.
+
+To run behavioral tests, create a new Android Instrumented Test pointed at `MrFit.app.androidTest`, then run this new configuration.
+
 # Authors
 
 Esam Sartawi: esartawi@email.sc.edu
