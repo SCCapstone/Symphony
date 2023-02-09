@@ -80,23 +80,33 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         }
 
         binding.button2.setOnClickListener {
-            var newWorkoutName: String? = null
+            var newWorkoutName: String = PLACEHOLDER_NAME
             if(workoutName.text.isNotEmpty()) { newWorkoutName = workoutName.text.toString()}
-            var newWeight: String? = null
+            var newWeight: String = PLACEHOLDER_WEIGHT
             if(weight.text.isNotEmpty()) { newWeight = weight.text.toString() }
-            var newReps: String? = null
-            if(reps.text.isNotEmpty()) { newReps = reps.text.toString() }
+            var newReps: Int = PLACEHOLDER_REPS
+            if(reps.text.isNotEmpty()) { newReps = reps.text.toString().toInt() }
 
             //val workouts = "Today's Workout$newWorkoutName,$newWeight,$newReps,"
             //file.writeText(workouts)
 
+            val workoutID = if (passedID != "00000") {
+                /**
+                 * TODO: If a field is left blank when updating a workout, preserve the old data
+                 */
+                // Update a workout in the database
+                exerciseViewModel.updateWorkout(Workout(newWorkoutName,newReps, newWeight, passedID))
+                passedID!!
+            } else {
+                // Add a workout to the database
+                exerciseViewModel.addWorkout(Workout(newWorkoutName, newReps, newWeight))
+            }
 
-            // Add a workout to the database
-            val a = workoutName.text.toString()
-            val b = reps.text.toString().toInt()
-            val c = "ABCD123456"
-            passedList!!.add(c)
-            exerciseViewModel.addWorkout((Workout(a,b,c)), "ABCD123456")
+            /**
+             * TODO: Add the new/updated workout to the current Routine's list
+             */
+
+            passedList!!.add(workoutID)
             exerciseViewModel.addWorkoutToRoutine(passedID, passedList)
 
             Toast.makeText(
@@ -114,5 +124,8 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         const val EXTRA_STRING = "workout_name"
         const val EXTRA_REPS = "num_reps"
         const val EXTRA_LIST = "workout_list"
+        const val PLACEHOLDER_NAME = "New Workout"
+        const val PLACEHOLDER_REPS = 0
+        const val PLACEHOLDER_WEIGHT = "0"
     }
 }

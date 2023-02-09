@@ -9,9 +9,12 @@ package com.symphony.mrfit.data.exercise
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.symphony.mrfit.data.model.Exercise
 import com.symphony.mrfit.data.model.Workout
 import com.symphony.mrfit.data.model.WorkoutRoutine
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 /**
  * Class for talking between any UI and the Exercise Repository
@@ -40,8 +43,20 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
         exerciseRepository.addExercise(name, description, id)
     }
 
-    fun addWorkout(workout: Workout,workID: String) {
-        exerciseRepository.addWorkout(workout, workID)
+    fun addWorkout(workout: Workout) : String{
+        var newID = ""
+        /**
+         * TODO: Is it possible to run this is as a proper coroutine?
+         */
+        runBlocking{
+            val job = launch { newID = exerciseRepository.addWorkout(workout) }
+            job.join()
+        }
+        return newID
+    }
+
+    fun updateWorkout(workout: Workout) {
+        viewModelScope.launch { exerciseRepository.updateWorkout(workout) }
     }
 
     fun addWorkoutToRoutine(routineID: String?, workoutList: ArrayList<String>) {

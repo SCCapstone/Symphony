@@ -9,5 +9,6 @@ package com.symphony.mrfit.data.model
 data class Workout (
     val workoutName: String = "",
     val numberOfReps: Int = 0,
-    val exercise: String? = null
+    val exercise: String? = null,
+    val workoutID: String? = null
 )

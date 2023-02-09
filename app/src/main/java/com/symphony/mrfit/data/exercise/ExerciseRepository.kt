@@ -19,6 +19,7 @@ import com.google.firebase.ktx.Firebase
 import com.symphony.mrfit.data.model.Exercise
 import com.symphony.mrfit.data.model.Workout
 import com.symphony.mrfit.data.model.WorkoutRoutine
+import kotlinx.coroutines.tasks.await
 
 class ExerciseRepository {
 
@@ -116,15 +117,29 @@ class ExerciseRepository {
     /**
      * Add a new Workout to the database
      */
-    fun addWorkout(workout: Workout, workID: String) {
+    suspend fun addWorkout(workout: Workout) : String {
         Log.d(TAG, "Adding new workout")
-        database.collection(WORKOUT_COLLECTION).document(workID).set(workout)
-            .addOnSuccessListener {
-                Log.d(ContentValues.TAG, "New workout added at $workID!")
+        return try {
+            val docRef = database.collection(WORKOUT_COLLECTION).add(workout).await()
+            docRef.update("workoutID", docRef.id)
+            Log.d(TAG, "New workout added at ${docRef.id}!")
+            docRef.id
+        } catch (e: java.lang.Exception) {
+            Log.w(TAG, "Error writing document", e)
+            ""
+        }
+    }
+
+    suspend fun updateWorkout(workout: Workout) {
+        Log.d(TAG, "Updating workout ${workout.workoutID}")
+        workout.workoutID?.let {
+            try {
+                database.collection(WORKOUT_COLLECTION).document(it).set(workout).await()
+                Log.d(ContentValues.TAG, "Successfully updated ${workout.workoutID}!")
+            } catch (e: java.lang.Exception) {
+                Log.w(ContentValues.TAG, "Error writing document", e)
             }
-            .addOnFailureListener {
-                    e -> Log.w(ContentValues.TAG, "Error writing document", e)
-            }
+        }
     }
 
     /**
