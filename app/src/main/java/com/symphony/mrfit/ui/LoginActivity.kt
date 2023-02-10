@@ -389,7 +389,7 @@ class LoginActivity : AppCompatActivity() {
 
      */
     private fun showLoginFailed() {
-        //Toast.makeText(applicationContext, "Login failed", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
 
     private fun resetAlert() {val builder = AlertDialog.Builder(this)

@@ -17,6 +17,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.data.model.User
+import kotlinx.coroutines.tasks.await
 
 class UserRepository {
 
@@ -26,59 +27,51 @@ class UserRepository {
     /**
      * Pull the currently logged in user's profile from Firestore
      */
-    fun getCurrentUser(_loggedInUser: MutableLiveData<User>) {
+    suspend fun getCurrentUser() : User? {
         Log.d(ContentValues.TAG, "Retrieving User ${auth.currentUser!!.uid} from Firestore")
         val doc = auth.currentUser!!.uid
         val docRef = database.collection(USER_COLLECTION).document(doc)
-        docRef.get().addOnSuccessListener { documentSnapshot ->
-                _loggedInUser.value = documentSnapshot.toObject<User>()
-            }
+        return try { val snapshot = docRef.get().await()
+            snapshot.toObject<User>()
+        } catch (_: java.lang.Exception) {
+            null
+        }
     }
 
     /**
      * Read data from Edit Profile form and update Firestore accordingly
      */
-    fun updateCurrentUser(
-    _loggedInUser: MutableLiveData<User>,
+    suspend fun updateCurrentUser(
     newName: String?,
     newAge: Int?,
     newHeight: Int?,
-    newWeight: Double?) {
+    newWeight: Double?) : User? {
+        val user = getCurrentUser()
         val uid = auth.currentUser!!.uid
         Log.d(ContentValues.TAG, "Updating User $uid in Firestore")
-        newName?.let {_loggedInUser.value?.name= newName}
-        newAge?.let {_loggedInUser.value?.age = newAge}
-        newHeight?.let {_loggedInUser.value?.height = newHeight}
-        newWeight?.let {_loggedInUser.value?.weight = newWeight}
+        newName?.let {user!!.name= newName}
+        newAge?.let {user!!.age = newAge}
+        newHeight?.let {user!!.height = newHeight}
+        newWeight?.let {user!!.weight = newWeight}
 
-        val user = _loggedInUser.value
-        if (user != null) {
-            database.collection(USER_COLLECTION).document(uid).set(user)
-                .addOnSuccessListener {
-                    Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
-                }
-                .addOnFailureListener {
-                        e -> Log.w(ContentValues.TAG, "Error writing document", e)
-                }
+        try { database.collection(USER_COLLECTION).document(uid).set(user!!).await()
+            Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
+        } catch (e: java.lang.Exception) {
+          Log.w(ContentValues.TAG, "Error writing document", e)
         }
-        _loggedInUser.value = user
+        return user
     }
 
     /**
      * Add a new user to Firestore
      * Use the user's ID as the document or they will be lost to the database forever
      */
-    fun addNewUser(_loggedInUser: MutableLiveData<User>) {
+    suspend fun addNewUser(user: User) {
         Log.d(ContentValues.TAG, "Adding User to Firestore")
-        val user = _loggedInUser.value
-        if (user != null) {
-            database.collection(USER_COLLECTION).document(user.userID).set(user)
-                .addOnSuccessListener {
-                    Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
-                }
-                .addOnFailureListener {
-                        e -> Log.w(ContentValues.TAG, "Error writing document", e)
-                }
+        try { database.collection(USER_COLLECTION).document(user.userID).set(user).await()
+            Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
+        } catch (e: java.lang.Exception) {
+            Log.w(ContentValues.TAG, "Error writing document", e)
         }
 
     }
@@ -98,11 +91,11 @@ class UserRepository {
     /**
      * Add a new Workout History to the user's subcollection
      */
-    fun addWorkoutHistory(history: History) {
+    suspend fun addWorkoutHistory(history: History) {
         val user = auth.currentUser!!
         Log.d(ContentValues.TAG, "Adding to the history of ${user.uid}")
         database.collection(USER_COLLECTION).document(user.uid)
-            .collection(HISTORY_COLLECTION).add(history)
+            .collection(HISTORY_COLLECTION).add(history).await()
     }
 
     companion object {

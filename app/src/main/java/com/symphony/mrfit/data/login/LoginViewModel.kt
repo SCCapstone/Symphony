@@ -44,6 +44,13 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
     val loginResult: LiveData<LoginResult> = _loginResult
 
     /**
+     * Tell the repository to attempt to login through google
+     */
+    fun googleLogin() {
+        Log.d(ContentValues.TAG, "Done with email login attempt")
+    }
+
+    /**
      * Tell the repository to attempt to login to an existing account
      */
     fun emailLogin(activity: Activity, email: String, password: String) {
@@ -53,18 +60,12 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
     }
 
     /**
-     * Tell the repository to attempt to login through google
-     */
-    fun googleLogin() {
-        Log.d(ContentValues.TAG, "Done with email login attempt")
-    }
-
-    /**
      * Tell the repository to attempt to register a new account
      */
     fun register(activity: Activity, email: String, password: String) {
-        viewModelScope.launch { loginRepository.register(activity, email, password, _loggedInUser) }
-        Log.d(ContentValues.TAG, "Done with registration attempt")
+        viewModelScope.launch {
+            _loginResult.value = loginRepository.firebaseRegister(activity, email, password)
+            Log.d(ContentValues.TAG, "Done with registration attempt") }
     }
 
     /**

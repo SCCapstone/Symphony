@@ -20,12 +20,14 @@ class ProfileViewModel(private val userRepository: UserRepository): ViewModel() 
     val loggedInUser: LiveData<User> = _loggedInUser
 
     fun fetchCurrentUser(){
-        userRepository.getCurrentUser(_loggedInUser)
+        viewModelScope.launch {
+            _loggedInUser.value = userRepository.getCurrentUser()
+        }
     }
 
     fun updateCurrentUser(name: String?, age: Int?, height: Int?, weight: Double?){
         viewModelScope.launch {
-            userRepository.updateCurrentUser(_loggedInUser, name, age, height, weight)
+            _loggedInUser.value = userRepository.updateCurrentUser(name, age, height, weight)
         }
     }
 

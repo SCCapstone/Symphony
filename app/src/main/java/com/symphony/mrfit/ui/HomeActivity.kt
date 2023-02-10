@@ -38,8 +38,11 @@ class HomeActivity : AppCompatActivity() {
 
         /**
          * Get data of current User and populate the page
+         * TODO: Hide the page till user info has been gathered from the DB
          */
         profileViewModel.fetchCurrentUser()
+        // val workoutList = profileViewModel.getWorkoutHistory()
+
         profileViewModel.loggedInUser.observe(this, Observer {
             Log.d(ContentValues.TAG, "Populating Profile screen with values from current user")
             val loggedInUser = it ?: return@Observer
