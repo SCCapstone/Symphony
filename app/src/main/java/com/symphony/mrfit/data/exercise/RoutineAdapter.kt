@@ -51,14 +51,14 @@ class RoutineAdapter (val context:Context, val data: ArrayList<WorkoutRoutine>):
         return data.size
     }
 
-    inner class ViewHolder(workoutView: View) : RecyclerView.ViewHolder(workoutView) {
+    inner class ViewHolder(routineView: View) : RecyclerView.ViewHolder(routineView) {
 
             var routineTitle: TextView
             var routineDetail: TextView
 
             init {
-                    routineTitle = workoutView.findViewById(R.id.workoutNameTextView)
-                    routineDetail = workoutView.findViewById(R.id.workoutDescriptionTextView)
+                    routineTitle = routineView.findViewById(R.id.workoutNameTextView)
+                    routineDetail = routineView.findViewById(R.id.workoutDescriptionTextView)
                 }
         }
 }

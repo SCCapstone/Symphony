@@ -67,10 +67,13 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
         }
     }
 
-    fun addRoutine(name: String, workoutList: ArrayList<String>) {
-        viewModelScope.launch {
-            exerciseRepository.addRoutine(name, workoutList)
+    fun addRoutine(name: String, workoutList: ArrayList<String>) : String {
+        var newID = ""
+        runBlocking {
+            val job = launch {newID = exerciseRepository.addRoutine(name, workoutList) }
+            job.join()
         }
+        return newID
     }
 
     fun updateRoutine(name: String, routineID: String) {

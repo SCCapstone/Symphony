@@ -71,15 +71,18 @@ class RoutineSelectionActivity : AppCompatActivity() {
      */
     private fun newRoutine() {
         val intent = Intent(this, WorkoutRoutineActivity::class.java)
-        exerciseViewModel.addRoutine("dummy Routine",ArrayList<String>())
-        intent.putExtra(EXTRA_IDENTITY,"dummy routine")
-        intent.putExtra(Companion.EXTRA_STRING,"New Workout")
-        intent.putExtra(Companion.EXTRA_LIST,ArrayList<String>())
+        val routineID = exerciseViewModel.addRoutine(NEW_ROUTINE,ArrayList())
+        intent.putExtra(EXTRA_IDENTITY, routineID)
+        intent.putExtra(EXTRA_STRING,NEW_WORKOUT)
+        intent.putExtra(EXTRA_LIST,ArrayList<String>())
         startActivity(intent)
     }
 
     companion object {
         const val EXTRA_STRING = "passed routine name"
         const val EXTRA_LIST = "passed routine exercises"
+        const val NEW_ROUTINE = "New Routine"
+        const val NEW_WORKOUT = "New Workout"
+        const val NEW_ID = "NEW"
     }
 }

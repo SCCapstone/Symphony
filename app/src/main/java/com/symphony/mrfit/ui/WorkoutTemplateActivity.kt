@@ -17,6 +17,8 @@ import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.model.Workout
 import com.symphony.mrfit.databinding.ActivityWorkoutTemplateBinding
+import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.NEW_ID
+import com.symphony.mrfit.ui.WorkoutRoutineActivity.Companion.EXTRA_ROUTINE
 import java.io.File
 
 /**
@@ -46,30 +48,18 @@ class WorkoutTemplateActivity : AppCompatActivity() {
 
         /**
          * Retrieve the extras passed to this intent
-         * passedID = The ID of the parent Routine
+         * passedWorkoutID = The ID of the current workout
          * passedName = The Name of the Workout
          * passedRep = The NumberOfReps from the Workout
          * passedList = The workoutList from the parent Routine
          */
-        var passedID: String? = null
-        val passedName: String?
-        val passedRep: String?
-        val passedList: ArrayList<String>?
 
-        if (intent.getStringExtra(EXTRA_IDENTITY) != "null") {
-            Log.d(ContentValues.TAG, "Inside routine ${intent.getStringExtra(EXTRA_IDENTITY)}")
-            passedID = intent.getStringExtra(EXTRA_IDENTITY)
-            passedName = intent.getStringExtra(EXTRA_STRING)
-            passedRep = intent.getStringExtra(EXTRA_REPS)
-            passedList = intent.getStringArrayListExtra(EXTRA_LIST)
-        }
-        else {
-            Log.d(ContentValues.TAG, "New workout routine")
-            passedID = null
-            passedName = "New Workout"
-            passedRep = "0"
-            passedList = ArrayList<String>()
-        }
+        Log.d(ContentValues.TAG, "Inside routine ${intent.getStringExtra(EXTRA_ROUTINE)}")
+        val passedRoutineID = intent.getStringExtra(EXTRA_ROUTINE)
+        val passedWorkoutID = intent.getStringExtra(EXTRA_IDENTITY)
+        val passedName: String? = intent.getStringExtra(EXTRA_STRING)
+        val passedRep: String? = intent.getStringExtra(EXTRA_REPS)
+        val passedList: ArrayList<String>? = intent.getStringArrayListExtra(EXTRA_LIST)
 
         workoutName.setText(passedName)
         reps.setText(passedRep.toString())
@@ -90,13 +80,13 @@ class WorkoutTemplateActivity : AppCompatActivity() {
             //val workouts = "Today's Workout$newWorkoutName,$newWeight,$newReps,"
             //file.writeText(workouts)
 
-            val workoutID = if (passedID != "00000") {
+            val workoutID = if (passedWorkoutID != NEW_ID) {
                 /**
                  * TODO: If a field is left blank when updating a workout, preserve the old data
                  */
                 // Update a workout in the database
-                exerciseViewModel.updateWorkout(Workout(newWorkoutName,newReps, newWeight, passedID))
-                passedID!!
+                exerciseViewModel.updateWorkout(Workout(newWorkoutName,newReps, newWeight, passedWorkoutID))
+                passedWorkoutID!!
             } else {
                 // Add a workout to the database
                 exerciseViewModel.addWorkout(Workout(newWorkoutName, newReps, newWeight))
@@ -107,7 +97,7 @@ class WorkoutTemplateActivity : AppCompatActivity() {
              */
 
             passedList!!.add(workoutID)
-            exerciseViewModel.addWorkoutToRoutine(passedID, passedList)
+            exerciseViewModel.addWorkoutToRoutine(passedRoutineID, passedList)
 
             Toast.makeText(
                 applicationContext,

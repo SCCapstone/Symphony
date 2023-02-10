@@ -101,18 +101,17 @@ class ExerciseRepository {
     /**
      * Fetch an array list of Exercises by searching through a Workout's list of Exercises
      */
-    fun getExerciseList(workoutExeList: ArrayList<String>) : ArrayList<Exercise> {
+    suspend fun getExerciseList(workoutExeList: ArrayList<String>) : ArrayList<Exercise> {
         Log.d(TAG, "Fetching exercises for a Workout")
         val exeList = arrayListOf<Exercise>()
         try {
             for (exeID in workoutExeList) {
-                database.collection(EXERCISE_COLLECTION).document(exeID)
-                    .get().addOnSuccessListener { documentSnapshot ->
+                val snapshot = database.collection(EXERCISE_COLLECTION).document(exeID)
+                    .get().await()
                         Log.d(TAG, "Lookup for exercise $exeID successful")
-                        documentSnapshot.toObject<Exercise>()?.let {
-                            exeList.add(documentSnapshot.toObject<Exercise>()!!)
+                        snapshot.toObject<Exercise>()?.let {
+                            exeList.add(snapshot.toObject<Exercise>()!!)
                         }
-                    }
             }
         } catch (e: java.lang.Exception) {
                 Log.d(TAG, "Error getting documents: ", e)
@@ -172,16 +171,18 @@ class ExerciseRepository {
     /**
      * Add a new Workout to the database
      */
-    fun addRoutine(name: String, workoutList: ArrayList<String>) {
+    suspend fun addRoutine(name: String, workoutList: ArrayList<String>) : String{
         Log.d(TAG, "Adding new workout owned by current user")
         val newRoutine = WorkoutRoutine(name, auth.currentUser!!.uid, workoutList)
-        database.collection(ROUTINE_COLLECTION).document().set(newRoutine)
-            .addOnSuccessListener {
-                Log.d(TAG, "DocumentSnapshot successfully written!")
-            }
-            .addOnFailureListener {
-                    e -> Log.w(TAG, "Error writing document", e)
-            }
+        return try {
+            val docRef = database.collection(ROUTINE_COLLECTION).add(newRoutine).await()
+            docRef.update("routineID", docRef.id)
+            Log.d(TAG, "New routine added at ${docRef.id}!")
+            docRef.id
+        } catch (e: java.lang.Exception) {
+            Log.w(TAG, "Error writing document", e)
+            ""
+        }
     }
 
     /**
@@ -216,23 +217,24 @@ class ExerciseRepository {
     /**
      * Return a list of Workouts by searching through a Routine's list of Workouts
      */
-    fun getWorkoutList(workoutList: ArrayList<String>) : ArrayList<Workout>{
+    suspend fun getWorkoutList(workoutList: ArrayList<String>) : ArrayList<Workout>{
         Log.d(TAG, "Fetching exercises for a Workout")
         val workList = arrayListOf<Workout>()
         try {
             for (workoutID in workoutList) {
                 // If necessary, add an await() to get all workouts/in order
-                database.collection(WORKOUT_COLLECTION).document(workoutID)
-                    .get().addOnSuccessListener { documentSnapshot ->
-                        Log.d(TAG, "Lookup for exercise $workoutID successful")
-                        documentSnapshot.toObject<Workout>()?.let {
-                            workList.add(documentSnapshot.toObject<Workout>()!!)
+                val snapshot = database.collection(WORKOUT_COLLECTION).document(workoutID)
+                    .get().await()
+                        Log.d(TAG, "Lookup for workout $workoutID successful")
+                        snapshot.toObject<Workout>()?.let {
+                            workList.add(snapshot.toObject<Workout>()!!)
                         }
-                    }
             }
+
         } catch (e: java.lang.Exception) {
             Log.d(TAG, "Error getting documents: ", e)
         }
+        Log.d(TAG, "Returning before lookup is done")
         return workList
     }
 

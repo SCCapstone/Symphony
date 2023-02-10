@@ -6,8 +6,10 @@
 
 package com.symphony.mrfit.ui
 
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -61,7 +63,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
          * passedName = The Name of the parent Routine
          * passedList = The workoutList from the parent Routine
          */
-        val passedID = intent.extras!!.getString(EXTRA_IDENTITY)
+        val passedRoutineID = intent.extras!!.getString(EXTRA_IDENTITY)
         val passedName = intent.extras!!.getString(EXTRA_STRING)
         val passedList = intent.extras!!.getStringArrayList(EXTRA_LIST)
 
@@ -76,12 +78,15 @@ class WorkoutRoutineActivity : AppCompatActivity() {
          */
         workoutName.setText(passedName)
         if (passedList != null) {
+
+            Log.d(ContentValues.TAG, "Initial workout read")
             exerciseViewModel.getWorkouts(passedList)
         }
         exerciseViewModel.workoutList.observe(this, Observer {
             val workList = it ?: return@Observer
 
-            workoutList.adapter = WorkoutAdapter(this, workList, passedID!!, passedList!!)
+            Log.d(ContentValues.TAG, "Workout list changed, updating UI")
+            workoutList.adapter = WorkoutAdapter(this, workList, passedRoutineID!!, passedList!!)
         })
 
         /**
@@ -90,7 +95,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
          */
         startWorkout.setOnClickListener {
             profileViewModel.addWorkoutToHistory(History(workoutName.text.toString()))
-            exerciseViewModel.updateRoutine(workoutName.text.toString(), passedID!!)
+            exerciseViewModel.updateRoutine(workoutName.text.toString(), passedRoutineID!!)
             Toast.makeText(
                 applicationContext,
                 "Your workout has been saved to your history",
@@ -108,12 +113,17 @@ class WorkoutRoutineActivity : AppCompatActivity() {
          */
         newExercise.setOnClickListener {
             val intent = Intent(this, WorkoutTemplateActivity::class.java)
-            intent.putExtra(EXTRA_IDENTITY, passedID)
+            intent.putExtra(EXTRA_ROUTINE, passedRoutineID)
+            intent.putExtra(EXTRA_IDENTITY, NEW_ID)
             intent.putExtra(WorkoutTemplateActivity.EXTRA_STRING,"New Workout")
             intent.putExtra(WorkoutTemplateActivity.EXTRA_REPS,"0")
             intent.putExtra(WorkoutTemplateActivity.EXTRA_LIST, passedList)
             startActivity(intent)
         }
+    }
+    companion object {
+        const val EXTRA_ROUTINE = "passed routine id"
+        const val NEW_ID = "NEW"
     }
 
 }
