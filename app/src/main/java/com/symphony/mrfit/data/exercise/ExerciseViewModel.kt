@@ -40,7 +40,9 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
     val workoutRoutineList: LiveData<ArrayList<WorkoutRoutine>> = _workoutRoutineList
 
     fun addExercise(name: String, description: String, id: String) {
-        exerciseRepository.addExercise(name, description, id)
+        viewModelScope.launch {
+            exerciseRepository.addExercise(name, description, id)
+        }
     }
 
     fun addWorkout(workout: Workout) : String{
@@ -60,30 +62,44 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
     }
 
     fun addWorkoutToRoutine(routineID: String?, workoutList: ArrayList<String>) {
-        exerciseRepository.addWorkoutToRoutine(routineID, workoutList)
+        viewModelScope.launch {
+            exerciseRepository.addWorkoutToRoutine(routineID, workoutList)
+        }
     }
 
     fun addRoutine(name: String, workoutList: ArrayList<String>) {
-        exerciseRepository.addRoutine(name, workoutList)
+        viewModelScope.launch {
+            exerciseRepository.addRoutine(name, workoutList)
+        }
     }
 
     fun updateRoutine(name: String, routineID: String) {
-        exerciseRepository.updateRoutine(name, routineID)
+        viewModelScope.launch {
+            exerciseRepository.updateRoutine(name, routineID)
+        }
     }
 
     fun getExercise(exeID: String) {
-        exerciseRepository.getExercise(exeID, _exercise)
+        viewModelScope.launch {
+            exerciseRepository.getExerciseByID(exeID)
+        }
     }
 
     fun getExercisesBySearch(searchTerm: String) {
-        exerciseRepository.getExerciseList(searchTerm, _exerciseList)
+        viewModelScope.launch {
+            _exerciseList.value = exerciseRepository.getExerciseList(searchTerm)
+        }
     }
 
     fun getWorkouts(workoutList: ArrayList<String>) {
-        exerciseRepository.getWorkouts(workoutList, _workoutList)
+        viewModelScope.launch {
+            _workoutList.value = exerciseRepository.getWorkoutList(workoutList)
+        }
     }
 
     fun getUserRoutines() {
-        exerciseRepository.getUserRoutines(_workoutRoutineList)
+        viewModelScope.launch {
+            _workoutRoutineList.value = exerciseRepository.getUserRoutines()
+        }
     }
 }
