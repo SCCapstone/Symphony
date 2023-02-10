@@ -17,6 +17,7 @@ import android.text.InputType
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
@@ -40,6 +41,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.symphony.mrfit.R
+import com.symphony.mrfit.data.login.LoginResult
 import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
 import com.symphony.mrfit.data.model.User
@@ -81,6 +83,7 @@ class LoginActivity : AppCompatActivity() {
         // val metaLogin = binding.metaButton
         val register = binding.toRegisterTextView
         val reset = binding.resetPasswordTextView
+        val spinner = binding.loadingSpinner
 
         emailLogin.isEnabled = false
 
@@ -149,8 +152,10 @@ class LoginActivity : AppCompatActivity() {
         }
 
         emailLogin.setOnClickListener {
-            if (email.text.isNotEmpty() && password.text.isNotEmpty())
+            if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
+                spinner.visibility = View.VISIBLE
                 loginViewModel.emailLogin(activity, email.text.toString(), password.text.toString())
+            }
             else {
                 Toast.makeText(applicationContext, "Cannot sign in with empty field.",
                     Toast.LENGTH_SHORT).show()
@@ -185,7 +190,6 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.loginForm.observe(this, Observer {
             val loginState = it ?: return@Observer
 
-            // TODO: Disable the button from the start? Or check validation in repo
             // Disable login button until all fields are valid
             emailLogin.isEnabled = loginState.isDataValid
 
@@ -200,15 +204,17 @@ class LoginActivity : AppCompatActivity() {
         /**
          * Observe if the currently logged in user becomes populated
          */
-        loginViewModel.user.observe(this, Observer {
-            val user = it ?: return@Observer
+        loginViewModel.loginResult.observe(this, Observer {
+            val loginResult = it ?: return@Observer
 
-            if (user.userID == "ERROR" && user.name != null) {
+            spinner.visibility = View.GONE
+
+            if (loginResult.error != null) {
                 Log.d(TAG, "UI thinks login failed")
-                showLoginFailed(user.name!!)
-            } else if (user.name != null) {
+                showLoginFailed()
+            } else {
                 Log.d(TAG, "UI thinks login succeeded")
-                gotoHomeScreen(user)
+                gotoHomeScreen(loginResult)
             }
             setResult(Activity.RESULT_OK)
         })
@@ -258,7 +264,7 @@ class LoginActivity : AppCompatActivity() {
                                 Log.w(TAG, "Error writing document", e)
                             }
                     }
-                    gotoHomeScreen(newUser)
+                    gotoHomeScreen(LoginResult(success = newUser.name))
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
@@ -342,7 +348,7 @@ class LoginActivity : AppCompatActivity() {
                                 Log.w(TAG, "Error writing document", e)
                             }
                     }
-                    gotoHomeScreen(newUser)
+                    gotoHomeScreen(LoginResult(success = newUser.name))
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
@@ -356,9 +362,9 @@ class LoginActivity : AppCompatActivity() {
     /**
      * After a successful login, go to the home screen
      */
-    private fun gotoHomeScreen(model: User) {
+    private fun gotoHomeScreen(model: LoginResult) {
         val welcome = getString(R.string.welcome)
-        val user = model.name
+        val user = model.success
         Toast.makeText(
             applicationContext,
             "$welcome $user",
@@ -382,8 +388,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
      */
-    private fun showLoginFailed(errorString: String) {
-        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+    private fun showLoginFailed() {
+        //Toast.makeText(applicationContext, "Login failed", Toast.LENGTH_SHORT).show()
     }
 
     private fun resetAlert() {val builder = AlertDialog.Builder(this)

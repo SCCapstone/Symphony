@@ -40,12 +40,16 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
     private val _loggedInUser = MutableLiveData<User>()
     val user: LiveData<User> = _loggedInUser
 
+    private val _loginResult = MutableLiveData<LoginResult>()
+    val loginResult: LiveData<LoginResult> = _loginResult
+
     /**
      * Tell the repository to attempt to login to an existing account
      */
     fun emailLogin(activity: Activity, email: String, password: String) {
-        viewModelScope.launch { loginRepository.firebaseLogin(activity, email, password, _loggedInUser) }
-        Log.d(ContentValues.TAG, "Done with email login attempt")
+        viewModelScope.launch {
+            _loginResult.value = loginRepository.firebaseLogin(activity, email, password)
+            Log.d(ContentValues.TAG, "Done with email login attempt") }
     }
 
     /**

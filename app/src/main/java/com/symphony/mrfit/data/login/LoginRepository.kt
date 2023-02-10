@@ -19,6 +19,7 @@ import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 import com.symphony.mrfit.data.model.User
 import com.symphony.mrfit.data.profile.UserRepository
+import kotlinx.coroutines.tasks.await
 
 /**
  * Class for handling User Authentication through Firebase
@@ -43,26 +44,27 @@ class LoginRepository {
     /**
      * Attempt to login the user though Firebase User Auth
      */
-    fun firebaseLogin(activity: Activity, email: String, password: String, user: MutableLiveData<User>) {
+    suspend fun firebaseLogin(activity: Activity, email: String, password: String) : LoginResult {
         Log.d(TAG, "Signing in to account: $email")
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(activity) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, set the current user
-                    Log.d(TAG, "Sign in with email: success")
-                    val firebaseUser = firebaseAuth.currentUser
-                    currentUser = User(firebaseUser!!.uid, firebaseUser.displayName)
-                    successfulLogin(user)
-                } else {
-                    // If sign in fails, display a message to the user and tell ViewModel why
-                    Log.w(TAG, "Sign in with email: failure", task.exception)
-                    Toast.makeText(
-                        activity.baseContext,
-                        "Login failed",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    user.value = User("ERROR", "Authentication rejected Login")
-                }
-            }
+        try { firebaseAuth.signInWithEmailAndPassword(email, password).await()
+
+            // Sign in success, set the current user
+            Log.d(TAG, "Sign in with email: success")
+            val firebaseUser = firebaseAuth.currentUser
+            currentUser = User(firebaseUser!!.uid, firebaseUser.displayName)
+            return LoginResult(success = currentUser!!.name)
+            //successfulLogin(user)
+        } catch (e: java.lang.Exception){
+            // If sign in fails, display a message to the user and tell ViewModel why
+            Log.w(TAG, "Sign in with email: failure", e)
+            Toast.makeText(
+                activity.baseContext,
+                "Login failed",
+                Toast.LENGTH_LONG
+            ).show()
+            return LoginResult(error = 1)
+        }
+
     }
     fun firebaseLoginTest(email: String, password: String) : Boolean {
         var success  = false
