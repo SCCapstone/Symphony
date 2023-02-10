@@ -29,6 +29,10 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
         profileViewModel = ViewModelProvider(
             this, ProfileViewModelFactory())[ProfileViewModel::class.java]
+    }
+
+    override fun onStart(){
+        super.onStart()
 
         val userProfile = binding.userLayout
         val name = binding.homeNameTextView

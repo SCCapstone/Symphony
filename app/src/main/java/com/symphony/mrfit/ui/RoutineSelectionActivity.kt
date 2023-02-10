@@ -39,6 +39,10 @@ class RoutineSelectionActivity : AppCompatActivity() {
         exerciseViewModel = ViewModelProvider(
             this, ExerciseViewModelFactory()
         )[ExerciseViewModel::class.java]
+    }
+
+    override fun onStart(){
+        super.onStart()
 
         val newRoutine = binding.newWorkoutButton
         val routineList = binding.routineListView
@@ -66,9 +70,6 @@ class RoutineSelectionActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * TODO: Replace placeholder material
-     */
     private fun newRoutine() {
         val intent = Intent(this, WorkoutRoutineActivity::class.java)
         val routineID = exerciseViewModel.addRoutine(NEW_ROUTINE,ArrayList())

@@ -6,12 +6,14 @@
 
 package com.symphony.mrfit.ui
 
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
@@ -38,6 +40,10 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         exerciseViewModel = ViewModelProvider(
             this, ExerciseViewModelFactory()
         )[ExerciseViewModel::class.java]
+    }
+
+    override fun onStart() {
+        super.onStart()
 
         val workoutName = binding.editWorkOutName
         val weight = binding.editWeight
@@ -92,20 +98,34 @@ class WorkoutTemplateActivity : AppCompatActivity() {
                 exerciseViewModel.addWorkout(Workout(newWorkoutName, newReps, newWeight))
             }
 
-            /**
-             * TODO: Add the new/updated workout to the current Routine's list
-             */
-
             passedList!!.add(workoutID)
-            exerciseViewModel.addWorkoutToRoutine(passedRoutineID, passedList)
+            exerciseViewModel.addWorkoutToRoutine(passedRoutineID!!, passedList)
 
             Toast.makeText(
                 applicationContext,
                 "Your intent to create a workout has been recognized",
                 Toast.LENGTH_LONG
             ).show()
-            finish()
         }
+
+        exerciseViewModel.routineListener.observe(this, Observer {
+            val routineListener = it ?: return@Observer
+
+            //spinner.visibility = View.GONE
+
+            if (routineListener.error != null) {
+                Log.d(ContentValues.TAG, "Workout saving failed")
+                Toast.makeText(
+                    applicationContext,
+                    "Attempt to save workout failed, try again",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                Log.d(ContentValues.TAG, "Workout saved, moving back to Routine")
+                finish()
+            }
+            setResult(Activity.RESULT_OK)
+        })
 
     }
 

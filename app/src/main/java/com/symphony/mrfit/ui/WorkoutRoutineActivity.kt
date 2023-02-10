@@ -23,8 +23,6 @@ import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityWorkoutRoutineBinding
-import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_LIST
-import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_STRING
 import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_IDENTITY
 
 /**
@@ -50,9 +48,17 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             this, ExerciseViewModelFactory()
         )[ExerciseViewModel::class.java]
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+
+        Log.d(ContentValues.TAG, "Activity has (Re)Started")
+
         // Bind variables to View elements
-        val workoutName = binding.routineNameEditText
-        val workoutDesc = binding.workoutDescriptionEditText
+        val routineName = binding.routineNameEditText
+        val routineDesc = binding.workoutDescriptionEditText
         val workoutList = binding.workoutListView
         val startWorkout = binding.startWorkoutButton
         val newExercise = binding.newExerciseButton
@@ -64,8 +70,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
          * passedList = The workoutList from the parent Routine
          */
         val passedRoutineID = intent.extras!!.getString(EXTRA_IDENTITY)
-        val passedName = intent.extras!!.getString(EXTRA_STRING)
-        val passedList = intent.extras!!.getStringArrayList(EXTRA_LIST)
+        var passedList = ArrayList<String>()
 
         /**
          * Set the layout of the list of workouts presented to the user
@@ -76,17 +81,19 @@ class WorkoutRoutineActivity : AppCompatActivity() {
         /**
          * Populate the list with the workouts associated with this routine
          */
-        workoutName.setText(passedName)
-        if (passedList != null) {
+        exerciseViewModel.getRoutine(passedRoutineID!!)
+        exerciseViewModel.routine.observe(this, Observer {
+            val routine = it ?: return@Observer
 
-            Log.d(ContentValues.TAG, "Initial workout read")
-            exerciseViewModel.getWorkouts(passedList)
-        }
+            routineName.setText(routine.name)
+            if (routine.workoutList != null) {
+                passedList = routine.workoutList
+                exerciseViewModel.getWorkouts(routine.workoutList)
+            }
+        })
         exerciseViewModel.workoutList.observe(this, Observer {
             val workList = it ?: return@Observer
-
-            Log.d(ContentValues.TAG, "Workout list changed, updating UI")
-            workoutList.adapter = WorkoutAdapter(this, workList, passedRoutineID!!, passedList!!)
+            workoutList.adapter = WorkoutAdapter(this, workList, passedRoutineID, passedList)
         })
 
         /**
@@ -94,8 +101,8 @@ class WorkoutRoutineActivity : AppCompatActivity() {
          * then return to their Home screen
          */
         startWorkout.setOnClickListener {
-            profileViewModel.addWorkoutToHistory(History(workoutName.text.toString()))
-            exerciseViewModel.updateRoutine(workoutName.text.toString(), passedRoutineID!!)
+            profileViewModel.addWorkoutToHistory(History(routineName.text.toString()))
+            exerciseViewModel.updateRoutine(routineName.text.toString(), passedRoutineID)
             Toast.makeText(
                 applicationContext,
                 "Your workout has been saved to your history",
@@ -121,6 +128,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
     companion object {
         const val EXTRA_ROUTINE = "passed routine id"
         const val NEW_ID = "NEW"

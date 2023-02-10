@@ -39,6 +39,12 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
     private val _workoutRoutineList = MutableLiveData<ArrayList<WorkoutRoutine>>()
     val workoutRoutineList: LiveData<ArrayList<WorkoutRoutine>> = _workoutRoutineList
 
+    private val _routine = MutableLiveData<WorkoutRoutine>()
+    val routine: LiveData<WorkoutRoutine> = _routine
+
+    private val _routineListener = MutableLiveData<RoutineListener>()
+    val routineListener: LiveData<RoutineListener> = _routineListener
+
     fun addExercise(name: String, description: String, id: String) {
         viewModelScope.launch {
             exerciseRepository.addExercise(name, description, id)
@@ -61,9 +67,9 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
         viewModelScope.launch { exerciseRepository.updateWorkout(workout) }
     }
 
-    fun addWorkoutToRoutine(routineID: String?, workoutList: ArrayList<String>) {
+    fun addWorkoutToRoutine(routineID: String, workoutList: ArrayList<String>) {
         viewModelScope.launch {
-            exerciseRepository.addWorkoutToRoutine(routineID, workoutList)
+            _routineListener.value = exerciseRepository.addWorkoutToRoutine(routineID, workoutList)
         }
     }
 
@@ -74,6 +80,12 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
             job.join()
         }
         return newID
+    }
+
+    fun getRoutine(routineID: String){
+        viewModelScope.launch {
+            _routine.value = exerciseRepository.getRoutine(routineID)
+        }
     }
 
     fun updateRoutine(name: String, routineID: String) {

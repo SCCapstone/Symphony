@@ -6,10 +6,8 @@
 
 package com.symphony.mrfit.data.exercise
 
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,7 +34,6 @@ class WorkoutAdapter (val context: Context, val data: ArrayList<Workout>, val rI
 
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
 
-        Log.d(ContentValues.TAG, "Making a card for $data[i].workoutName")
         holder.workoutTitle.text = data[i].workoutName
         holder.workoutReps.text = "${data[i].numberOfReps.toString()} Reps"
 
