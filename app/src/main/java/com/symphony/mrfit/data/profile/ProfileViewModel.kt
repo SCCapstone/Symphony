@@ -19,6 +19,9 @@ class ProfileViewModel(private val userRepository: UserRepository): ViewModel() 
     private val _loggedInUser = MutableLiveData<User>()
     val loggedInUser: LiveData<User> = _loggedInUser
 
+    private val _workoutHistory = MutableLiveData<ArrayList<History>>()
+    val workoutHistory: LiveData<ArrayList<History>> = _workoutHistory
+
     fun fetchCurrentUser(){
         viewModelScope.launch {
             _loggedInUser.value = userRepository.getCurrentUser()
@@ -34,6 +37,12 @@ class ProfileViewModel(private val userRepository: UserRepository): ViewModel() 
     fun addWorkoutToHistory(history: History) {
         viewModelScope.launch {
             userRepository.addWorkoutHistory(history)
+        }
+    }
+
+    fun getWorkoutHistory() {
+        viewModelScope.launch {
+            _workoutHistory.value = userRepository.getWorkoutHistory()
         }
     }
 }

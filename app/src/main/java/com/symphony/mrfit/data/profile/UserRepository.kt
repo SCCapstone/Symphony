@@ -24,6 +24,20 @@ class UserRepository {
     private var database: FirebaseFirestore = Firebase.firestore
 
     /**
+     * Add a new user to Firestore
+     * Use the user's ID as the document or they will be lost to the database forever
+     */
+    suspend fun addNewUser(user: User) {
+        Log.d(TAG, "Adding User to Firestore")
+        try { database.collection(USER_COLLECTION).document(user.userID).set(user).await()
+            Log.d(TAG, "DocumentSnapshot successfully written!")
+        } catch (e: java.lang.Exception) {
+            Log.w(TAG, "Error writing document", e)
+        }
+
+    }
+
+    /**
      * Pull the currently logged in user's profile from Firestore
      */
     suspend fun getCurrentUser() : User? {
@@ -63,20 +77,6 @@ class UserRepository {
     }
 
     /**
-     * Add a new user to Firestore
-     * Use the user's ID as the document or they will be lost to the database forever
-     */
-    suspend fun addNewUser(user: User) {
-        Log.d(TAG, "Adding User to Firestore")
-        try { database.collection(USER_COLLECTION).document(user.userID).set(user).await()
-            Log.d(TAG, "DocumentSnapshot successfully written!")
-        } catch (e: java.lang.Exception) {
-            Log.w(TAG, "Error writing document", e)
-        }
-
-    }
-
-    /**
      * Only called when a user is being deleted, remove their document from Firestore
      */
     fun removeUser() {
@@ -96,6 +96,29 @@ class UserRepository {
         Log.d(TAG, "Adding to the history of ${user.uid}")
         database.collection(USER_COLLECTION).document(user.uid)
             .collection(HISTORY_COLLECTION).add(history).await()
+    }
+
+    /**
+     * Get a user's complete Workout History
+     */
+    suspend fun getWorkoutHistory() : ArrayList<History>{
+        val user = auth.currentUser!!
+        val historyList = arrayListOf<History>()
+        Log.d(TAG, "Getting the history of ${user.uid}")
+        try {
+            val result = database.collection(USER_COLLECTION)
+                .document(user.uid)
+                .collection(HISTORY_COLLECTION)
+                .get()
+                .await()
+
+            for (document in result) {
+                historyList.add(document.toObject())
+            }
+        } catch (e: java.lang.Exception) {
+            Log.d(TAG, "Error getting documents: ", e)
+        }
+        return historyList
     }
 
     companion object {

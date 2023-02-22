@@ -6,9 +6,9 @@
 
 package com.symphony.mrfit.data.model
 
-import java.util.*
+import com.google.firebase.Timestamp
 
 data class History(
     val name : String = "",
-    val date: Date? = null
+    val date: Timestamp? = null
 )

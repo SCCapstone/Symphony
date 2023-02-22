@@ -30,7 +30,7 @@ class HistoryAdapter (val context: Context, val data: ArrayList<History>): Recyc
 
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
         holder.historyTitle.text = data[i].name
-
+        holder.historyTimestamp.text = data[i].date?.toDate().toString()
     }
 
     override fun getItemCount(): Int {
@@ -40,9 +40,11 @@ class HistoryAdapter (val context: Context, val data: ArrayList<History>): Recyc
     inner class ViewHolder(exeView: View) : RecyclerView.ViewHolder(exeView) {
 
         var historyTitle: TextView
+        var historyTimestamp: TextView
 
         init {
             historyTitle = exeView.findViewById(R.id.historyNameTextView)
+            historyTimestamp = exeView.findViewById(R.id.historyTimestamp)
         }
     }
 }

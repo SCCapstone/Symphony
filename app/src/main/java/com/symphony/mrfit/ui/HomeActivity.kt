@@ -13,12 +13,16 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.symphony.mrfit.data.exercise.HistoryAdapter
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityHomeBinding
 
 class HomeActivity : AppCompatActivity() {
 
+    private var layoutManager: RecyclerView.LayoutManager? = null
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var binding: ActivityHomeBinding
 
@@ -38,21 +42,33 @@ class HomeActivity : AppCompatActivity() {
         val name = binding.homeNameTextView
         val scheduleWorkout = binding.scheduleButton
         val startWorkout = binding.workoutButton
-        val history = binding.historyList
+        val historyList = binding.historyList
 
         /**
          * Get data of current User and populate the page
          * TODO: Hide the page till user info has been gathered from the DB
          */
         profileViewModel.fetchCurrentUser()
-        // val workoutList = profileViewModel.getWorkoutHistory()
+        profileViewModel.getWorkoutHistory()
+
+        /**
+         * Set the layout of the list of workouts presented to the user
+         */
+        layoutManager = LinearLayoutManager(this)
+        historyList.layoutManager = layoutManager
 
         profileViewModel.loggedInUser.observe(this, Observer {
-            Log.d(ContentValues.TAG, "Populating Profile screen with values from current user")
+            Log.d(ContentValues.TAG, "Filling in username")
             val loggedInUser = it ?: return@Observer
 
             name.text = loggedInUser.name
-            //history.adapter = HistoryAdapter(this, userHistory)
+        })
+
+        profileViewModel.workoutHistory.observe(this, Observer {
+            Log.d(ContentValues.TAG, "Reading user's workout history")
+            val workoutHistory = it ?: return@Observer
+
+            historyList.adapter = HistoryAdapter(this, workoutHistory)
         })
 
         userProfile.setOnClickListener {

@@ -36,6 +36,8 @@ will add padding in API v21+ as well to have the same measurements with previous
         <!-- Image View to display an image for the exercise -->
 
         <!-- Text View to display Exercise Name -->
+
+        <!-- Text VIew to display Exercise Description -->
         <TextView
             android:id="@+id/historyNameTextView"
             android:layout_width="wrap_content"
@@ -47,16 +49,17 @@ will add padding in API v21+ as well to have the same measurements with previous
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <!-- Text VIew to display Exercise Description -->
         <TextView
-            android:id="@+id/workoutDescriptionTextView"
+            android:id="@+id/historyTimestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/historyNameTextView"
-            android:layout_marginTop="20dp"
+            android:layout_alignBottom="@id/historyNameTextView"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_toRightOf="@id/historyNameTextView"
             android:drawablePadding="2dp"
             android:text="@string/PLACEHOLDER_TEXT"
-            android:visibility="gone" />
+            android:visibility="visible" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

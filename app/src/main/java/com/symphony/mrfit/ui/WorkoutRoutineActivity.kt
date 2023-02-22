@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.Timestamp
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.exercise.WorkoutAdapter
@@ -24,6 +25,7 @@ import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityWorkoutRoutineBinding
 import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_IDENTITY
+import java.util.*
 
 /**
  * View Class for display the Workouts belonging to the current Routine
@@ -99,9 +101,11 @@ class WorkoutRoutineActivity : AppCompatActivity() {
         /**
          * Start the current workout then save it to the User's history,
          * then return to their Home screen
+         * TODO: Add a screen that keeps track of the Current workout,
+         *  then move the history functionality to that screen's "Finish" button
          */
         startWorkout.setOnClickListener {
-            profileViewModel.addWorkoutToHistory(History(routineName.text.toString()))
+            profileViewModel.addWorkoutToHistory(History(routineName.text.toString(), Timestamp(Date())))
             exerciseViewModel.updateRoutine(routineName.text.toString(), passedRoutineID)
             Toast.makeText(
                 applicationContext,
