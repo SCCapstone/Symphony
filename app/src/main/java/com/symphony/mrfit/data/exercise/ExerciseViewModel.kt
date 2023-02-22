@@ -67,9 +67,9 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
         viewModelScope.launch { exerciseRepository.updateWorkout(workout) }
     }
 
-    fun addWorkoutToRoutine(routineID: String, workoutList: ArrayList<String>) {
+    fun updateRoutineWorkoutList(routineID: String, workoutList: ArrayList<String>) {
         viewModelScope.launch {
-            _routineListener.value = exerciseRepository.addWorkoutToRoutine(routineID, workoutList)
+            _routineListener.value = exerciseRepository.updateRoutineWorkoutList(routineID, workoutList)
         }
     }
 
@@ -85,6 +85,12 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
     fun getRoutine(routineID: String){
         viewModelScope.launch {
             _routine.value = exerciseRepository.getRoutine(routineID)
+        }
+    }
+
+    fun deleteRoutine(routineID: String) {
+        viewModelScope.launch {
+            exerciseRepository.deleteRoutine(routineID)
         }
     }
 

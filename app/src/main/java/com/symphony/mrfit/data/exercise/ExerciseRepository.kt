@@ -148,10 +148,11 @@ class ExerciseRepository {
     }
 
     /**
-     * Add a new Workout to the database
+     * Add or Remove a Workout to the given Routine by replacing its WorkoutList
+     * with a modified version
      */
-    suspend fun addWorkoutToRoutine(routineID: String, workoutList: ArrayList<String>) : RoutineListener {
-        Log.d(TAG, "Adding new workout to routine $routineID")
+    suspend fun updateRoutineWorkoutList(routineID: String, workoutList: ArrayList<String>) : RoutineListener {
+        Log.d(TAG, "Rewriting workout list for $routineID")
         return try {
             database.collection(ROUTINE_COLLECTION).document(routineID)
                 .update("workoutList", workoutList).await()
@@ -181,6 +182,9 @@ class ExerciseRepository {
         }
     }
 
+    /**
+     * Get a routine via it's ID
+     */
     suspend fun getRoutine(routineID: String) : WorkoutRoutine? {
         Log.d(TAG, "Retrieving Routine $routineID from Firestore")
         val docRef = database.collection(ROUTINE_COLLECTION).document(routineID)
@@ -190,6 +194,22 @@ class ExerciseRepository {
             Log.w(TAG, "Error getting document", e)
             null
         }
+    }
+
+    /**
+     * Delete a routine from a user's list of saved routines
+     */
+    suspend fun deleteRoutine(routineID: String) {
+        Log.d(TAG, "Removing Routine $routineID from Firestore")
+        database.collection(ROUTINE_COLLECTION).document(routineID).delete().await()
+    }
+
+    /**
+     * Update a Routine's name
+     */
+    fun updateRoutine(name: String, routineID: String) {
+        Log.d(TAG, "Changing $routineID name to $name")
+        database.collection(ROUTINE_COLLECTION).document(routineID).update("name", name)
     }
 
     /**
@@ -242,14 +262,6 @@ class ExerciseRepository {
             Log.d(TAG, "Error getting documents: ", e)
         }
         return workList
-    }
-
-    /**
-     * Update a Routine's name
-     */
-    fun updateRoutine(name: String, routineID: String) {
-        Log.d(TAG, "Changing $routineID name to $name")
-        database.collection(ROUTINE_COLLECTION).document(routineID).update("name", name)
     }
 
     companion object {

@@ -10,6 +10,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_weight="1"
     tools:context=".ui.WorkoutRoutineActivity">
 
     <LinearLayout
@@ -62,28 +63,51 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <GridLayout
         android:id="@+id/linearLayout7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="1dp">
+        android:rowCount="2"
+        android:columnCount="2"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
             android:id="@+id/startWorkoutButton"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
             android:text="@string/button_start_workout" />
 
         <Button
             android:id="@+id/newExerciseButton"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
             android:text="@string/button_new_exercise" />
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/saveWorkoutButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:text="@string/button_save_workout" />
+
+        <Button
+            android:id="@+id/deleteWorkoutButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:text="@string/button_delete_workout" />
+
+    </GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

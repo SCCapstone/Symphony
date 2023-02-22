@@ -69,6 +69,8 @@
     <string name="message_exercise_search">What kind of exercise would you like?</string>
     <string name="button_new_workout">New Workout</string>
     <string name="button_start_workout">Start Workout</string>
+    <string name="button_save_workout">Save Workout</string>
+    <string name="button_delete_workout">Delete Workout</string>
     <string name="workout_name">Workout Name</string>
     <string name="save_and_export">Save and Export</string>
     <string name="label_routine_name">Routine Name</string>

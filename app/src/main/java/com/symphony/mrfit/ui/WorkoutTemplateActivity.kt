@@ -99,7 +99,7 @@ class WorkoutTemplateActivity : AppCompatActivity() {
             }
 
             passedList!!.add(workoutID)
-            exerciseViewModel.addWorkoutToRoutine(passedRoutineID!!, passedList)
+            exerciseViewModel.updateRoutineWorkoutList(passedRoutineID!!, passedList)
 
             Toast.makeText(
                 applicationContext,

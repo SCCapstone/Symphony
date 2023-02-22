@@ -64,6 +64,8 @@ class WorkoutRoutineActivity : AppCompatActivity() {
         val workoutList = binding.workoutListView
         val startWorkout = binding.startWorkoutButton
         val newExercise = binding.newExerciseButton
+        val saveWorkout = binding.saveWorkoutButton
+        val deleteWorkout = binding.deleteWorkoutButton
 
         /**
          * Retrieve the extras passed to this intent
@@ -130,6 +132,36 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             intent.putExtra(WorkoutTemplateActivity.EXTRA_REPS,"0")
             intent.putExtra(WorkoutTemplateActivity.EXTRA_LIST, passedList)
             startActivity(intent)
+        }
+
+        /**
+         * Save the current Routine and go back to the user's Home screen
+         */
+        saveWorkout.setOnClickListener {
+            exerciseViewModel.updateRoutine(routineName.text.toString(), passedRoutineID)
+            val intent = Intent(applicationContext, HomeActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+
+        /**
+         * Remove the current workout from the user's list
+         */
+        deleteWorkout.setOnClickListener {
+            exerciseViewModel.deleteRoutine(passedRoutineID)
+            Toast.makeText(
+                applicationContext,
+                "This workout has been removed from your list",
+                Toast.LENGTH_LONG
+            ).show()
+            val intent = Intent(applicationContext, HomeActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+
         }
     }
 
