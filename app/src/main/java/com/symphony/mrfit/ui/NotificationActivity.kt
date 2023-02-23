@@ -7,6 +7,7 @@
 package com.symphony.mrfit.ui
 
 import android.app.AlarmManager
+import android.app.AlertDialog
 import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
@@ -50,6 +51,8 @@ class NotificationActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.M)
     private fun scheduleNotification(notification: Notification, delay: Int) {
         val notificationIntent = Intent(this, Notifications::class.java)
+        val title = binding.title.text.toString()
+        val message = binding.message.tag.toString()
         notificationIntent.putExtra(Notifications.NOTIFICATION_ID, 1)
         notificationIntent.putExtra(Notifications.NOTIFICATION, notification)
         val pendingIntent = PendingIntent.getBroadcast(
@@ -61,6 +64,14 @@ class NotificationActivity : AppCompatActivity() {
         val futureInMillis: Long = SystemClock.elapsedRealtime() + delay
         val alarmManager = (getSystemService(Context.ALARM_SERVICE) as AlarmManager)
         alarmManager[AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis] = pendingIntent
+
+        val time = getTime()
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            time,
+            pendingIntent
+        )
+        showAlert(time, title, message)
     }
 
     private fun getNotification(content: String): Notification {
@@ -72,6 +83,43 @@ class NotificationActivity : AppCompatActivity() {
         builder.setAutoCancel(true)
         builder.setChannelId(Companion.NOTIFICATION_CHANNEL_ID)
         return builder.build()
+    }
+
+    private fun showAlert(time: Long, title: String, message: String)
+    {
+        val date = Date(time)
+        val dateFormat = android.text.format.DateFormat.getLongDateFormat(applicationContext)
+        val timeFormat = android.text.format.DateFormat.getTimeFormat(applicationContext)
+
+        /**
+         * this code should be a notif for when it is scheduled but it is erroring
+         * commenting it out for now
+         */
+//        AlertDialog.Builder(context:this)
+//            .setTitle("Notification Scheduled")
+//            .setMessage(
+//            "Title: " + title +
+//                    "\nMessage: " + message +
+//                    "\nAt: " +dateFormat.format(date) + " " + timeFormat.format((date))
+//                .setPositiveButton(int:"Okay"){_,_->}
+//        .show()
+    }
+
+    /**
+     * just added the GetTime fuction for scheduling the notif
+     * you can comment this out if experiencing errors
+     */
+    private fun getTime() : Long
+    {
+        val minute = binding.timePicker.minute
+        val hour = binding.timePicker.hour
+        val day = binding.datePicker.dayOfMonth
+        val month = binding.datePicker.month
+        val year = binding.datePicker.year
+
+        val calendar = Calendar.getInstance()
+        calendar.set(year, month, day, hour, minute)
+        return calendar.timeInMillis
     }
 
     companion object {
