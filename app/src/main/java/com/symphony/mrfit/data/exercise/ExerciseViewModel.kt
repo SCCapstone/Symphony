@@ -102,7 +102,13 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
 
     fun getExercise(exeID: String) {
         viewModelScope.launch {
-            exerciseRepository.getExerciseByID(exeID)
+            _exercise.value = exerciseRepository.getExerciseByID(exeID)
+        }
+    }
+
+    fun getExerciseByWorkout(workoutID: String) {
+        viewModelScope.launch {
+            //workout = exerciseRepository.getWorkout(exeID)
         }
     }
 

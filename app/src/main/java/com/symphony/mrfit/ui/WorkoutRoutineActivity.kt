@@ -139,11 +139,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
          */
         saveWorkout.setOnClickListener {
             exerciseViewModel.updateRoutine(routineName.text.toString(), passedRoutineID)
-            val intent = Intent(applicationContext, HomeActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
+            finish()
         }
 
         /**
@@ -156,11 +152,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
                 "This workout has been removed from your list",
                 Toast.LENGTH_LONG
             ).show()
-            val intent = Intent(applicationContext, HomeActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
+            finish()
 
         }
     }

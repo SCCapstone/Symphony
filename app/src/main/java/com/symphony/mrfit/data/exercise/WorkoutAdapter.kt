@@ -15,7 +15,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.model.Workout
+import com.symphony.mrfit.ui.WorkoutRoutineActivity.Companion.EXTRA_ROUTINE
 import com.symphony.mrfit.ui.WorkoutTemplateActivity
+import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_EXERCISE
 import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_IDENTITY
 import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_LIST
 
@@ -24,7 +26,7 @@ import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_LIST
  * a passed list of Workouts, as well as the parent Routine's ID and workoutList
  */
 
-class WorkoutAdapter (val context: Context, val data: ArrayList<Workout>, val rID: String, val rList: ArrayList<String>): RecyclerView.Adapter<WorkoutAdapter.ViewHolder>() {
+class WorkoutAdapter (val context: Context, val data: ArrayList<Workout>, private val rID: String, private val rList: ArrayList<String>): RecyclerView.Adapter<WorkoutAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val v = LayoutInflater.from(viewGroup.context)
@@ -43,7 +45,9 @@ class WorkoutAdapter (val context: Context, val data: ArrayList<Workout>, val rI
          */
         holder.itemView.setOnClickListener {
             val intent = Intent(context, WorkoutTemplateActivity::class.java)
-            intent.putExtra(EXTRA_IDENTITY, rID)
+            intent.putExtra(EXTRA_ROUTINE, rID)
+            intent.putExtra(EXTRA_IDENTITY, data[i].workoutID)
+            intent.putExtra(EXTRA_EXERCISE, data[i].exercise)
             intent.putExtra(WorkoutTemplateActivity.EXTRA_STRING,data[i].workoutName)
             intent.putExtra(WorkoutTemplateActivity.EXTRA_REPS,data[i].numberOfReps.toString())
             intent.putExtra(EXTRA_LIST, rList)

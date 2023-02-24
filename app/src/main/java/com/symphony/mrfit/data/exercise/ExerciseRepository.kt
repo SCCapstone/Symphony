@@ -107,11 +107,11 @@ class ExerciseRepository {
         try {
             for (exeID in workoutExeList) {
                 val snapshot = database.collection(EXERCISE_COLLECTION).document(exeID)
-                    .get().await()
-                    Log.d(TAG, "Lookup for exercise $exeID successful")
-                    snapshot.toObject<Exercise>()?.let {
-                        exeList.add(snapshot.toObject<Exercise>()!!)
-                    }
+                .get().await()
+                Log.d(TAG, "Lookup for exercise $exeID successful")
+                snapshot.toObject<Exercise>()?.let {
+                    exeList.add(snapshot.toObject<Exercise>()!!)
+                }
             }
         } catch (e: java.lang.Exception) {
                 Log.d(TAG, "Error getting documents: ", e)
@@ -251,11 +251,11 @@ class ExerciseRepository {
             for (workoutID in workoutList) {
                 // If necessary, add an await() to get all workouts/in order
                 val snapshot = database.collection(WORKOUT_COLLECTION).document(workoutID)
-                    .get().await()
-                    Log.d(TAG, "Lookup for workout $workoutID successful")
-                    snapshot.toObject<Workout>()?.let {
-                        workList.add(snapshot.toObject<Workout>()!!)
-                    }
+                .get().await()
+                Log.d(TAG, "Lookup for workout $workoutID successful")
+                snapshot.toObject<Workout>()?.let {
+                    workList.add(snapshot.toObject<Workout>()!!)
+                }
             }
 
         } catch (e: java.lang.Exception) {

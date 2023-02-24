@@ -67,10 +67,13 @@
         android:id="@+id/linearLayout7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:columnCount="2"
         android:orientation="horizontal"
         android:rowCount="2"
-        android:columnCount="2"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/startWorkoutButton"
@@ -79,6 +82,7 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_gravity="fill_horizontal"
+            android:layout_margin="2dp"
             android:text="@string/button_start_workout" />
 
         <Button
@@ -88,7 +92,8 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_gravity="fill_horizontal"
-            android:text="@string/button_new_exercise" />
+            android:layout_margin="2dp"
+            android:text="@string/button_add_exercise" />
 
         <Button
             android:id="@+id/saveWorkoutButton"
@@ -97,7 +102,8 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_gravity="fill_horizontal"
-            android:text="@string/button_save_workout" />
+            android:layout_margin="2dp"
+            android:text="@string/button_save_routine" />
 
         <Button
             android:id="@+id/deleteWorkoutButton"
@@ -106,7 +112,8 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_gravity="fill_horizontal"
-            android:text="@string/button_delete_workout" />
+            android:layout_margin="2dp"
+            android:text="@string/button_delete_routine" />
 
     </GridLayout>
 
