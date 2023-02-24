@@ -22,7 +22,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/title"
+            android:id="@+id/titleET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Title" />
@@ -37,7 +37,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/message"
+            android:id="@+id/messageET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Message" />
