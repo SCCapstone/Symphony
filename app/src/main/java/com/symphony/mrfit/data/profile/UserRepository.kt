@@ -11,12 +11,10 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.symphony.mrfit.R
 import com.symphony.mrfit.data.model.User
 
 class UserRepository {
@@ -47,7 +45,7 @@ class UserRepository {
     newWeight: Double?) {
         val uid = auth.currentUser!!.uid
         Log.d(ContentValues.TAG, "Updating User $uid in Firestore")
-        newName?.let {_loggedInUser.value?.name = newName}
+        newName?.let {_loggedInUser.value?.name= newName}
         newAge?.let {_loggedInUser.value?.age = newAge}
         newHeight?.let {_loggedInUser.value?.height = newHeight}
         newWeight?.let {_loggedInUser.value?.weight = newWeight}
@@ -62,6 +60,7 @@ class UserRepository {
                         e -> Log.w(ContentValues.TAG, "Error writing document", e)
                 }
         }
+        _loggedInUser.value = user
     }
 
     /**

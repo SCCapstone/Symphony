@@ -9,7 +9,6 @@ package com.symphony.mrfit
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import com.symphony.mrfit.databinding.ActivityDebugBinding
 import com.symphony.mrfit.ui.*
 
@@ -34,6 +33,7 @@ class DebugActivity : AppCompatActivity() {
         val profile = binding.debugUserProfile
         val calendar = binding.debugCalendar
         val notification = binding.debugNotification
+        val workout = binding.debugWorkout
 
         login.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
@@ -57,6 +57,10 @@ class DebugActivity : AppCompatActivity() {
 
         notification.setOnClickListener {
             val intent = Intent(this, NotificationActivity::class.java)
+            startActivity(intent)
+        }
+        workout.setOnClickListener {
+            val intent = Intent(this, AddWorkoutActivity::class.java)
             startActivity(intent)
         }
     }

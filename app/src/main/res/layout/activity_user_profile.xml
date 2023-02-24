@@ -12,272 +12,262 @@
     android:layout_height="match_parent"
     tools:context=".ui.UserProfileActivity">
 
-    <ImageView
-        android:id="@+id/profilePicture"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:contentDescription="User Profile Picture"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/cactuar" />
-
-    <TextView
-        android:id="@+id/profileNameTextView"
-        android:layout_width="118dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="20dp"
-        android:text="Anna Burns"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/editProfileButton"
-        app:layout_constraintStart_toEndOf="@+id/profilePicture"
-        app:layout_constraintTop_toTopOf="@+id/editProfileButton" />
-
-    <Button
-        android:id="@+id/editProfileButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:backgroundTint="@android:color/holo_red_dark"
-        android:text="@string/profile_edit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilePicture">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="363dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
+            android:orientation="vertical" >
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="#EEEEEE"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/heightValueTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="9&quot;9'"
-                    android:textColor="#616161" />
-
-                <TextView
-                    android:id="@+id/heightLabelTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Height"
-                    android:textColor="#616161" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="#EEEEEE"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/weightValueTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="999 lbs."
-                    android:textColor="#616161" />
-
-                <TextView
-                    android:id="@+id/weightLabelTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Weight"
-                    android:textColor="#616161" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="#EEEEEE"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/ageValueTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="99"
-                    android:textColor="#616161" />
-
-                <TextView
-                    android:id="@+id/ageLabelTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Age"
-                    android:textColor="#616161" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="10dp"
-            android:background="#EEEEEE"
-            android:orientation="vertical"
-            android:padding="5dp">
-
-            <TextView
-                android:id="@+id/accountLabelTextView"
+                android:id="@+id/linearLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Account"
-                android:textColor="#616161" />
-
-            <Button
-                android:id="@+id/goalsButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/holo_red_dark"
-                android:text="Goals" />
-
-            <Button
-                android:id="@+id/achievementsButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/holo_red_dark"
-                android:text="Achievements" />
-
-            <Button
-                android:id="@+id/historyButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/holo_red_dark"
-                android:text="Workout History" />
-
-            <Button
-                android:id="@+id/progressButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/holo_red_dark"
-                android:text="Workout Progress"
-                android:textColor="#EFEBE9" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:background="#EEEEEE"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/settingsLabelTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:text="Settings"
-                android:textColor="#616161" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/notificationToggleImage"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    app:layout_constraintDimensionRatio="1:1"
-                    app:srcCompat="@android:drawable/ic_lock_silent_mode" />
+                    android:id="@+id/profilePicture"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    app:srcCompat="@drawable/cactuar"
+                    tools:ignore="ImageContrastCheck" />
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/notificationsSwitch"
+                <TextView
+                    android:id="@+id/profileNameTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_weight="1"
-                    android:checked="true"
-                    android:switchMinWidth="60dp"
-                    android:text="Push Notifications" />
+                    android:layout_height="wrap_content"
+                    android:text="@string/PLACEHOLDER_TEXT"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/editProfileButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_edit"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_margin="24dp"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="363dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    app:srcCompat="@android:drawable/ic_menu_view" />
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Profile Visibility"
-                    android:textColor="#616161" />
+                    <LinearLayout
+                        android:id="@+id/heightLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="5dp">
 
-                <Spinner
-                    android:id="@+id/spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:entries="@array/privacy_array" />
+                        <TextView
+                            android:id="@+id/heightValueTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/PLACEHOLDER_NUMBER" />
+
+                        <TextView
+                            android:id="@+id/heightLabelTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/label_height" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/weightLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/weightValueTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/PLACEHOLDER_NUMBER" />
+
+                        <TextView
+                            android:id="@+id/weightLabelTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/label_weight" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ageLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="#EEEEEE"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/ageValueTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/PLACEHOLDER_NUMBER" />
+
+                        <TextView
+                            android:id="@+id/ageLabelTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/label_age" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="#EEEEEE"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/accountLabelTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/user_progress_label" />
+
+                    <Button
+                        android:id="@+id/goalsButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/goals_button" />
+
+                    <Button
+                        android:id="@+id/achievementsButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/button_achievements" />
+
+                    <Button
+                        android:id="@+id/historyButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/button_workout_history" />
+
+                    <Button
+                        android:id="@+id/progressButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/button_workout_progress" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="#EEEEEE"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/settingsLabelTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:text="@string/label_settings" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/notificationToggleImage"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:srcCompat="@android:drawable/ic_lock_silent_mode"
+                            tools:ignore="ImageContrastCheck" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/notificationsSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:switchMinWidth="60dp"
+                            android:text="@string/label_push_notifications" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:srcCompat="@android:drawable/ic_menu_view"
+                            tools:ignore="ImageContrastCheck" />
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/label_profile_visibility" />
+
+                        <Spinner
+                            android:id="@+id/spinner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:entries="@array/privacy_array" />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/logoutButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/logout_button" />
+
+                    <Button
+                        android:id="@+id/deleteButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/button_delete_account" />
+                </LinearLayout>
             </LinearLayout>
 
-            <Button
-                android:id="@+id/logoutButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/holo_red_dark"
-                android:text="Logout" />
-
-            <Button
-                android:id="@+id/deleteButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/holo_red_dark"
-                android:text="Delete Account" />
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

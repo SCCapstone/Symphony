@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Team Symphony 11/26/22, 3:06 PM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 11/26/22, 3:06 PM
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.HomeActivity">
+
+    <LinearLayout
+        android:id="@+id/userLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/cactuar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/welcome" />
+
+            <TextView
+                android:id="@+id/homeNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/PLACEHOLDER_TEXT"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userLayout">
+
+        <Button
+            android:id="@+id/workout_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_workout" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="363dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_workout_history"
+            android:textSize="24sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/historyList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,13 +6,11 @@
 
 package com.symphony.mrfit.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.symphony.mrfit.R
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
-import com.symphony.mrfit.databinding.ActivityDebugBinding
 import com.symphony.mrfit.databinding.ActivityEditProfileBinding
 
 class EditProfileActivity : AppCompatActivity() {
@@ -49,6 +47,7 @@ class EditProfileActivity : AppCompatActivity() {
             var newWeight: Double? = null
             if (weight.text.isNotEmpty()) { newWeight = weight.text.toString().toDouble() }
             profileViewModel.updateCurrentUser(newName, newAge, newHeight, newWeight)
+            finish()
         }
     }
 }

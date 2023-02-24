@@ -13,13 +13,26 @@
     tools:context=".ui.MainActivity">
 
     <TextView
-        android:id="@+id/helloTextView"
+        android:id="@+id/welcomeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="@string/message_welcome_screen"
+        app:layout_constraintBottom_toTopOf="@+id/tapTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/tapTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:text="@string/message_welcome_screen_2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toBottomOf="@+id/welcomeTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
