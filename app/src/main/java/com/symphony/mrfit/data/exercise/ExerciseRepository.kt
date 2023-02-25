@@ -242,6 +242,14 @@ class ExerciseRepository {
     }
 
     /**
+     * Return a list of Workouts by searching on a Routine's ID
+     */
+    suspend fun getWorkoutList(routineID: String) : ArrayList<Workout> {
+        val workList = arrayListOf<Workout>()
+        return workList
+    }
+
+    /**
      * Return a list of Workouts by searching through a Routine's list of Workouts
      */
     suspend fun getWorkoutList(workoutList: ArrayList<String>) : ArrayList<Workout>{

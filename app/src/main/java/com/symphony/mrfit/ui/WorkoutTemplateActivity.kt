@@ -12,7 +12,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -21,6 +20,7 @@ import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.model.Workout
 import com.symphony.mrfit.databinding.ActivityWorkoutTemplateBinding
+import com.symphony.mrfit.ui.Helper.showSnackBar
 import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.NEW_ID
 import com.symphony.mrfit.ui.WorkoutRoutineActivity.Companion.EXTRA_ROUTINE
 import java.io.File
@@ -159,11 +159,10 @@ class WorkoutTemplateActivity : AppCompatActivity() {
 
             if (routineListener.error != null) {
                 Log.d(ContentValues.TAG, "Workout saving failed")
-                Toast.makeText(
-                    applicationContext,
+                showSnackBar(
                     "Attempt to save workout failed, try again",
-                    Toast.LENGTH_LONG
-                ).show()
+                    this
+                )
             } else {
                 Log.d(ContentValues.TAG, "Workout saved, moving back to Routine")
                 finish()

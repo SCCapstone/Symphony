@@ -6,22 +6,13 @@
 
 package com.symphony.mrfit.ui
 
-import android.app.AlarmManager
-import android.app.AlertDialog
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.SystemClock
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
-import com.symphony.mrfit.R
-import com.symphony.mrfit.databinding.ActivityDebugBinding
 import com.symphony.mrfit.databinding.ActivityNotificationBinding
 import java.util.*
 import java.util.Calendar
@@ -60,7 +51,7 @@ class NotificationActivity : AppCompatActivity() {
         val title = binding.titleET.text.toString()
         val message = binding.messageET.text.toString()
         notificationIntent.putExtra(titleExtra, title)
-        notificationIntent.putExtra(messageExtra,title)
+        notificationIntent.putExtra(messageExtra,message)
 
         val pendingIntent= PendingIntent.getBroadcast(
             applicationContext,

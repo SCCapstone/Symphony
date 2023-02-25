@@ -27,6 +27,7 @@ import com.symphony.mrfit.data.login.LoginViewModelFactory
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityUserProfileBinding
+import com.symphony.mrfit.ui.Helper.showSnackBar
 
 class UserProfileActivity : AppCompatActivity() {
 
@@ -176,11 +177,10 @@ class UserProfileActivity : AppCompatActivity() {
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val new = input.text.toString()
             profileViewModel.updateCurrentUser(new, null, null, null)
-            Toast.makeText(
-                applicationContext,
+            showSnackBar(
                 "Name has been changed to $new",
-                Toast.LENGTH_LONG
-            ).show()
+                this
+            )
         }
 
         builder.setNegativeButton(android.R.string.cancel) { _, _ ->
@@ -201,11 +201,10 @@ class UserProfileActivity : AppCompatActivity() {
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val new = input.text.toString().toInt()
             profileViewModel.updateCurrentUser(null, new, null, null)
-            Toast.makeText(
-                applicationContext,
+            showSnackBar(
                 "Age has been changed to $new",
-                Toast.LENGTH_LONG
-            ).show()
+                this
+            )
         }
 
         builder.setNegativeButton(android.R.string.cancel) { _, _ ->
@@ -226,11 +225,10 @@ class UserProfileActivity : AppCompatActivity() {
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val new = input.text.toString().toInt()
             profileViewModel.updateCurrentUser(null, null, new, null)
-            Toast.makeText(
-                applicationContext,
+            showSnackBar(
                 "Height has been changed to $new",
-                Toast.LENGTH_LONG
-            ).show()
+                this
+            )
         }
 
         builder.setNegativeButton(android.R.string.cancel) { _, _ ->
@@ -251,11 +249,10 @@ class UserProfileActivity : AppCompatActivity() {
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val new = input.text.toString().toDouble()
             profileViewModel.updateCurrentUser(null, null, null, new)
-            Toast.makeText(
-                applicationContext,
+            showSnackBar(
                 "Weight has been changed to $new",
-                Toast.LENGTH_LONG
-            ).show()
+                this
+            )
         }
 
         builder.setNegativeButton(android.R.string.cancel) { _, _ ->

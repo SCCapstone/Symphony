@@ -14,7 +14,6 @@ import android.content.IntentSender
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
@@ -46,6 +45,7 @@ import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
 import com.symphony.mrfit.data.model.User
 import com.symphony.mrfit.databinding.ActivityLoginBinding
+import com.symphony.mrfit.ui.Helper.showSnackBar
 
 
 /**
@@ -157,8 +157,7 @@ class LoginActivity : AppCompatActivity() {
                 loginViewModel.emailLogin(activity, email.text.toString(), password.text.toString())
             }
             else {
-                Toast.makeText(applicationContext, "Cannot sign in with empty field.",
-                    Toast.LENGTH_SHORT).show()
+                showSnackBar("Cannot sign in with empty field.",this)
             }
         }
 
@@ -352,8 +351,7 @@ class LoginActivity : AppCompatActivity() {
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    Toast.makeText(applicationContext, "Authentication failed.",
-                        Toast.LENGTH_SHORT).show()
+                    showSnackBar("Authentication failed", this)
                     //updateUI(null)
                 }
             }
@@ -365,11 +363,7 @@ class LoginActivity : AppCompatActivity() {
     private fun gotoHomeScreen(model: LoginResult) {
         val welcome = getString(R.string.welcome)
         val user = model.success
-        Toast.makeText(
-            applicationContext,
-            "$welcome $user",
-            Toast.LENGTH_LONG
-        ).show()
+        Toast.makeText(applicationContext,"$welcome $user", Toast.LENGTH_SHORT).show()
 
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
@@ -389,7 +383,7 @@ class LoginActivity : AppCompatActivity() {
 
      */
     private fun showLoginFailed() {
-        //Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+        showSnackBar("Login failed", this)
     }
 
     private fun resetAlert() {val builder = AlertDialog.Builder(this)
@@ -403,11 +397,9 @@ class LoginActivity : AppCompatActivity() {
 
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
             loginViewModel.passwordReset(input.text.toString())
-            Toast.makeText(
-                applicationContext,
-                getString(R.string.reset_email_sent, input.text.toString()),
-                Toast.LENGTH_LONG
-            ).show()
+            showSnackBar(
+                getString(R.string.reset_email_sent, input.text.toString()),this
+            )
         }
 
         builder.setNegativeButton(android.R.string.cancel) { _, _ ->

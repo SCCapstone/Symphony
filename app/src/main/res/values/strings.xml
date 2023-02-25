@@ -76,4 +76,5 @@
     <string name="label_routine_name">Routine Name</string>
     <string name="button_new_exercise">New Exercise</string>
     <string name="button_add_exercise">Add an Exercise</string>
+    <string name="button_finish_workout">Finish Workout</string>
 </resources>

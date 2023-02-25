@@ -21,8 +21,8 @@ import com.symphony.mrfit.R
 import com.symphony.mrfit.data.login.LoginResult
 import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
-import com.symphony.mrfit.data.model.User
 import com.symphony.mrfit.databinding.ActivityRegisterBinding
+import com.symphony.mrfit.ui.Helper.showSnackBar
 
 /**
  * Screen for a new user to register an account
@@ -166,11 +166,7 @@ class RegisterActivity : AppCompatActivity() {
     private fun gotoHomeScreen(model: LoginResult) {
         val welcome = getString(R.string.welcome)
         val user = model.success
-        Toast.makeText(
-            applicationContext,
-            "$welcome $user",
-            Toast.LENGTH_LONG
-        ).show()
+        Toast.makeText(applicationContext,"$welcome $user", Toast.LENGTH_SHORT).show()
 
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
@@ -190,7 +186,7 @@ class RegisterActivity : AppCompatActivity() {
 
      */
     private fun showRegisterFailed() {
-        //Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+        showSnackBar("Registration failed", this)
     }
 
 }

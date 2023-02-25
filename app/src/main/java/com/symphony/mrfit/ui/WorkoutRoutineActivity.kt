@@ -16,16 +16,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.Timestamp
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.exercise.WorkoutAdapter
-import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityWorkoutRoutineBinding
+import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_LIST
+import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_STRING
+import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.NEW_ROUTINE
 import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_IDENTITY
-import java.util.*
 
 /**
  * View Class for display the Workouts belonging to the current Routine
@@ -107,17 +107,13 @@ class WorkoutRoutineActivity : AppCompatActivity() {
          *  then move the history functionality to that screen's "Finish" button
          */
         startWorkout.setOnClickListener {
-            profileViewModel.addWorkoutToHistory(History(routineName.text.toString(), Timestamp(Date())))
-            exerciseViewModel.updateRoutine(routineName.text.toString(), passedRoutineID)
-            Toast.makeText(
-                applicationContext,
-                "Your workout has been saved to your history",
-                Toast.LENGTH_LONG
-            ).show()
-            val intent = Intent(applicationContext, HomeActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            // Check if the routine name is empty
+            var newRoutineName = NEW_ROUTINE
+            if(routineName.text.isNotEmpty()) { newRoutineName = routineName.text.toString()}
+            exerciseViewModel.updateRoutine(newRoutineName, passedRoutineID)
+            val intent = Intent(this, CurrentWorkoutActivity::class.java)
+            intent.putExtra(EXTRA_STRING, newRoutineName)
+            intent.putExtra(EXTRA_LIST, passedList)
             startActivity(intent)
         }
 
@@ -138,7 +134,9 @@ class WorkoutRoutineActivity : AppCompatActivity() {
          * Save the current Routine and go back to the user's Home screen
          */
         saveWorkout.setOnClickListener {
-            exerciseViewModel.updateRoutine(routineName.text.toString(), passedRoutineID)
+            var newRoutineName = NEW_ROUTINE
+            if(routineName.text.isNotEmpty()) { newRoutineName = routineName.text.toString()}
+            exerciseViewModel.updateRoutine(newRoutineName, passedRoutineID)
             finish()
         }
 
@@ -150,7 +148,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             Toast.makeText(
                 applicationContext,
                 "This workout has been removed from your list",
-                Toast.LENGTH_LONG
+                Toast.LENGTH_SHORT
             ).show()
             finish()
 

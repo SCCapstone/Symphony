@@ -9,8 +9,6 @@ package com.symphony.mrfit.data.login
 import android.app.Activity
 import android.content.ContentValues.TAG
 import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -53,11 +51,6 @@ class LoginRepository {
         } catch (e: java.lang.Exception){
             // If sign in failed, alert user
             Log.w(TAG, "Sign in with email: failure", e)
-            Toast.makeText(
-                activity.baseContext,
-                "Login failed",
-                Toast.LENGTH_LONG
-            ).show()
             LoginResult(error = 1)
         }
 
@@ -79,11 +72,6 @@ class LoginRepository {
         } catch (e: java.lang.Exception) {
             // If registration fails, display a message to the user and tell ViewModel why
             Log.w(TAG, "Create user with email: failure", e)
-            Toast.makeText(
-                activity.baseContext,
-                "Registration failed",
-                Toast.LENGTH_LONG
-            ).show()
             LoginResult(error = 1)
         }
     }
