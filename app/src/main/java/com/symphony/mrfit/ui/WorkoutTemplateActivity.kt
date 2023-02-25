@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/25/23, 1:08 AM
+ *  Created by Team Symphony on 2/25/23, 2:50 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/25/23, 1:08 AM
+ *  Last modified 2/25/23, 2:50 AM
  */
 
 package com.symphony.mrfit.ui
@@ -78,6 +78,11 @@ class WorkoutTemplateActivity : AppCompatActivity() {
 
         workoutName.setText(passedName)
 
+        fun gotoExerciseScreen() {
+            intent.putExtra(EXTRA_STRING, workoutName.text.toString())
+            launchExerciseSelection.launch(Intent(this, ExerciseActivity::class.java))
+        }
+
         // If passed an existing workout, populate the appropriate fields
         if (passedWorkoutID != NEW_ID) {
             deleteButton.visibility = View.VISIBLE
@@ -89,12 +94,12 @@ class WorkoutTemplateActivity : AppCompatActivity() {
 
         //Launch the Exercise selection activity and await its return
         pickExe.setOnClickListener {
-            launchExerciseSelection.launch(Intent(this, ExerciseActivity::class.java))
+            gotoExerciseScreen()
         }
 
         // Exercise Card should have same functionality as pickExe button
         exeCard.root.setOnClickListener {
-            launchExerciseSelection.launch(Intent(this, ExerciseActivity::class.java))
+            gotoExerciseScreen()
         }
 
         // Save the workout and return to the parent Routine

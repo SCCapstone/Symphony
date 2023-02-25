@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/25/23, 12:28 AM
+ *  Created by Team Symphony on 2/25/23, 2:50 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/25/23, 12:28 AM
+ *  Last modified 2/25/23, 2:47 AM
  */
 
 package com.symphony.mrfit.ui
@@ -86,6 +86,20 @@ class WorkoutRoutineActivity : AppCompatActivity() {
         layoutManager = LinearLayoutManager(this)
         workoutList.layoutManager = layoutManager
 
+        // Save the current routine info
+        fun save() {
+            var newRoutineName = NEW_ROUTINE
+            if (routineName.text.isNotEmpty()) {
+                newRoutineName = routineName.text.toString()
+            }
+            var newRoutineDesc = BLANK
+            if (routineDesc.text.isNotEmpty()) {
+                newRoutineDesc = routineDesc.text.toString()
+            }
+            exerciseViewModel.updateRoutine(newRoutineName, newRoutineDesc, passedRoutineID!!)
+
+        }
+
 
         // Populate the list with the workouts associated with this routine
         exerciseViewModel.getRoutine(passedRoutineID!!)
@@ -118,7 +132,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             if (routineName.text.isNotEmpty()) {
                 newRoutineName = routineName.text.toString()
             }
-            exerciseViewModel.updateRoutine(newRoutineName, passedRoutineID)
+            save()
             val intent = Intent(this, CurrentWorkoutActivity::class.java)
             intent.putExtra(EXTRA_STRING, newRoutineName)
             intent.putExtra(EXTRA_LIST, passedList)
@@ -127,6 +141,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
 
         // Navigate to a screen to make a new workout
         newExercise.setOnClickListener {
+            save()
             val intent = Intent(this, WorkoutTemplateActivity::class.java)
             intent.putExtra(EXTRA_ROUTINE, passedRoutineID)
             intent.putExtra(EXTRA_IDENTITY, NEW_ID)
@@ -137,15 +152,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
 
         // Save the current Routine and go back to the user's Home screen
         saveWorkout.setOnClickListener {
-            var newRoutineName = NEW_ROUTINE
-            if (routineName.text.isNotEmpty()) {
-                newRoutineName = routineName.text.toString()
-            }
-            var newRoutineDesc = BLANK
-            if (routineDesc.text.isNotEmpty()) {
-                newRoutineDesc = routineDesc.text.toString()
-            }
-            exerciseViewModel.updateRoutine(newRoutineName, newRoutineDesc, passedRoutineID)
+            save()
             finish()
         }
 
