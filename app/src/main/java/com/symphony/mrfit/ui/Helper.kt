@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/25/23, 12:28 AM
+ *  Created by Team Symphony on 2/25/23, 1:08 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/25/23, 12:19 AM
+ *  Last modified 2/25/23, 12:33 AM
  */
 
 package com.symphony.mrfit.ui
@@ -16,7 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 
 object Helper {
     const val BLANK = ""
-
+    const val ZERO = 0
     fun showSnackBar(message: String?, activity: Activity?) {
         if (null != activity && null != message) {
             Snackbar.make(

@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 2/25/23, 1:08 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 2/25/23, 1:08 AM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -37,7 +37,10 @@ class WorkoutAdapter (val context: Context, val data: ArrayList<Workout>, privat
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
 
         holder.workoutTitle.text = data[i].workoutName
-        holder.workoutReps.text = "${data[i].numberOfReps} Reps"
+        holder.workoutReps.text =
+            "${data[i].numberOfSets} Sets of " +
+                    "${data[i].numberOfReps} Reps for " +
+                    "${data[i].duration} Minutes"
 
         /**
          * Start the workout template, passing the parent Routine's ID and workoutList,
@@ -48,8 +51,10 @@ class WorkoutAdapter (val context: Context, val data: ArrayList<Workout>, privat
             intent.putExtra(EXTRA_ROUTINE, rID)
             intent.putExtra(EXTRA_IDENTITY, data[i].workoutID)
             intent.putExtra(EXTRA_EXERCISE, data[i].exercise)
-            intent.putExtra(WorkoutTemplateActivity.EXTRA_STRING,data[i].workoutName)
-            intent.putExtra(WorkoutTemplateActivity.EXTRA_REPS,data[i].numberOfReps.toString())
+            intent.putExtra(WorkoutTemplateActivity.EXTRA_STRING, data[i].workoutName)
+            intent.putExtra(WorkoutTemplateActivity.EXTRA_DURA, data[i].duration.toString())
+            intent.putExtra(WorkoutTemplateActivity.EXTRA_REPS, data[i].numberOfReps.toString())
+            intent.putExtra(WorkoutTemplateActivity.EXTRA_SETS, data[i].numberOfSets.toString())
             intent.putExtra(EXTRA_LIST, rList)
             context.startActivity(intent)
         }

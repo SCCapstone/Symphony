@@ -1,19 +1,23 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 2/25/23, 1:42 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 2/25/23, 1:42 AM
  */
 
 package com.symphony.mrfit.data.exercise
 
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.model.History
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Adapter for dynamically populating a card_history with a passed list of Histories
@@ -28,23 +32,30 @@ class HistoryAdapter (val context: Context, val data: ArrayList<History>): Recyc
         return ViewHolder(v)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
         holder.historyTitle.text = data[i].name
-        holder.historyTimestamp.text = data[i].date?.toDate().toString()
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.US)
+        holder.historyTimestamp.text = dateFormat.format(data[i].date!!.toDate())
+        val seconds = (data[i].duration?.div(1000))?.mod(60)
+        val minutes = (data[i].duration?.div(1000))?.div(60)
+        holder.historyDuration.text = "Exercised for $minutes:$seconds"
     }
 
     override fun getItemCount(): Int {
         return data.size
     }
 
-    inner class ViewHolder(exeView: View) : RecyclerView.ViewHolder(exeView) {
+    inner class ViewHolder(histView: View) : RecyclerView.ViewHolder(histView) {
 
         var historyTitle: TextView
         var historyTimestamp: TextView
+        var historyDuration: TextView
 
         init {
-            historyTitle = exeView.findViewById(R.id.historyNameTextView)
-            historyTimestamp = exeView.findViewById(R.id.historyTimestamp)
+            historyTitle = histView.findViewById(R.id.historyNameTextView)
+            historyTimestamp = histView.findViewById(R.id.historyTimestamp)
+            historyDuration = histView.findViewById(R.id.historyDurationTextView)
         }
     }
 }

@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 2/25/23, 1:42 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 2/25/23, 1:42 AM
  */
 
 package com.symphony.mrfit.ui
@@ -9,6 +9,7 @@ package com.symphony.mrfit.ui
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -89,11 +90,18 @@ class CurrentWorkoutActivity : AppCompatActivity() {
 
 
         // Start the timer and end it when the user is done with their workout
+        timer.base = SystemClock.elapsedRealtime()
         timer.start()
 
         finishButton.setOnClickListener {
             timer.stop()
-            profileViewModel.addWorkoutToHistory(History(passedRoutineName!!, Timestamp(Date())))
+            profileViewModel.addWorkoutToHistory(
+                History(
+                    passedRoutineName!!,
+                    Timestamp(Date()),
+                    SystemClock.elapsedRealtime() - timer.base
+                )
+            )
             Toast.makeText(
                 applicationContext,
                 "Your workout has been saved to your history",

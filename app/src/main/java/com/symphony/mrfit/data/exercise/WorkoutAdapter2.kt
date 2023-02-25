@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 2/25/23, 1:42 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 2/25/23, 1:42 AM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -31,7 +31,10 @@ class WorkoutAdapter2 (val context: Context, val data: ArrayList<Workout>): Recy
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
 
         holder.workoutTitle.text = data[i].workoutName
-        holder.workoutReps.text = "${data[i].numberOfReps} Reps"
+        holder.workoutReps.text =
+            "${data[i].numberOfSets} Sets of " +
+                    "${data[i].numberOfReps} Reps for " +
+                    "${data[i].duration} Minutes"
 
         // Toggle the checkbox when the card is tapped
         holder.itemView.setOnClickListener {

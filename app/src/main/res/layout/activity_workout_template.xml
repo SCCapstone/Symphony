@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 2/25/23, 12:28 AM
+  ~  Created by Team Symphony on 2/25/23, 1:08 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 2/25/23, 12:28 AM
+  ~  Last modified 2/25/23, 12:52 AM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -45,6 +45,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="Workout Name"
                 android:inputType="textPersonName"
                 android:minHeight="50dp" />
 
@@ -70,6 +71,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="# of minutes"
                 android:inputType="number" />
         </LinearLayout>
 
@@ -95,6 +97,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="# of Reps"
                 android:inputType="number" />
 
         </LinearLayout>
@@ -121,6 +124,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="# of Sets"
                 android:inputType="number" />
 
         </LinearLayout>

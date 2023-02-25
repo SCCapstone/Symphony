@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 2/25/23, 12:28 AM
+  ~  Created by Team Symphony on 2/25/23, 1:08 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 2/25/23, 12:06 AM
+  ~  Last modified 2/25/23, 1:04 AM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,11 +14,12 @@
     tools:context=".ui.WorkoutRoutineActivity">
 
     <LinearLayout
+        android:id="@+id/routineScreenView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout7"
+        app:layout_constraintBottom_toTopOf="@+id/routineScreenButtons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +66,7 @@
     </LinearLayout>
 
     <GridLayout
-        android:id="@+id/linearLayout7"
+        android:id="@+id/routineScreenButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:columnCount="2"
@@ -74,7 +75,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/routineScreenView">
 
         <Button
             android:id="@+id/startWorkoutButton"

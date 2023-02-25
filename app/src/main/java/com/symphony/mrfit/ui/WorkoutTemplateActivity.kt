@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/25/23, 12:28 AM
+ *  Created by Team Symphony on 2/25/23, 1:08 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/25/23, 12:28 AM
+ *  Last modified 2/25/23, 1:08 AM
  */
 
 package com.symphony.mrfit.ui
@@ -20,6 +20,7 @@ import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.model.Workout
 import com.symphony.mrfit.databinding.ActivityWorkoutTemplateBinding
+import com.symphony.mrfit.ui.Helper.ZERO
 import com.symphony.mrfit.ui.Helper.showSnackBar
 import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.NEW_ID
 import com.symphony.mrfit.ui.WorkoutRoutineActivity.Companion.EXTRA_ROUTINE
@@ -54,8 +55,9 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         super.onStart()
 
         val workoutName = binding.editWorkOutName
-        val sets = binding.editSets
+        val duration = binding.editDuration
         val reps = binding.editReps
+        val sets = binding.editSets
         val pickExe = binding.pickExerciseButton
         val saveButton = binding.saveTemplateButton
         val deleteButton = binding.deleteTemplateButton
@@ -75,8 +77,13 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         val passedList: ArrayList<String>? = intent.getStringArrayListExtra(EXTRA_LIST)
 
         workoutName.setText(passedName)
+
+        // If passed an existing workout, populate the appropriate fields
         if (passedWorkoutID != NEW_ID) {
             deleteButton.visibility = View.VISIBLE
+            duration.setText(intent.getStringExtra(EXTRA_DURA))
+            reps.setText(intent.getStringExtra(EXTRA_REPS))
+            sets.setText(intent.getStringExtra(EXTRA_SETS))
             exerciseViewModel.getExercise(intent.getStringExtra(EXTRA_EXERCISE)!!)
         }
 
@@ -96,13 +103,17 @@ class WorkoutTemplateActivity : AppCompatActivity() {
             if (workoutName.text.isNotEmpty()) {
                 newWorkoutName = workoutName.text.toString()
             }
-            var newSets: Int = PLACEHOLDER_SETS
-            if (sets.text.isNotEmpty()) {
-                newSets = sets.text.toString().toInt()
+            var newDuration: Int = ZERO
+            if (duration.text.isNotEmpty()) {
+                newDuration = duration.text.toString().toInt()
             }
-            var newReps: Int = PLACEHOLDER_REPS
+            var newReps: Int = ZERO
             if (reps.text.isNotEmpty()) {
                 newReps = reps.text.toString().toInt()
+            }
+            var newSets: Int = ZERO
+            if (sets.text.isNotEmpty()) {
+                newSets = sets.text.toString().toInt()
             }
 
             //val workouts = "Today's Workout$newWorkoutName,$newWeight,$newReps,"
@@ -113,10 +124,14 @@ class WorkoutTemplateActivity : AppCompatActivity() {
                  * TODO: If a field is left blank when updating a workout, preserve the old data
                  */
                 // Update a workout in the database
-                exerciseViewModel.updateWorkout(Workout(newWorkoutName,newReps, exeID, passedWorkoutID))
+                exerciseViewModel.updateWorkout(
+                    Workout(newWorkoutName, newDuration, newReps, newSets, exeID, passedWorkoutID)
+                )
             } else {
                 // Add a workout to the database
-                val workoutID = exerciseViewModel.addWorkout(Workout(newWorkoutName, newReps, exeID))
+                val workoutID = exerciseViewModel.addWorkout(
+                    Workout(newWorkoutName, newDuration, newReps, newSets, exeID)
+                )
                 passedList!!.add(workoutID)
             }
 
@@ -169,7 +184,9 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         const val EXTRA_IDENTITY = "routine_id"
         const val EXTRA_EXERCISE = "passed exercise ID"
         const val EXTRA_STRING = "workout_name"
+        const val EXTRA_DURA = "workout_duration"
         const val EXTRA_REPS = "num_reps"
+        const val EXTRA_SETS = "num_sets"
         const val EXTRA_LIST = "workout_list"
         const val PLACEHOLDER_NAME = "New Workout"
         const val PLACEHOLDER_REPS = 0
