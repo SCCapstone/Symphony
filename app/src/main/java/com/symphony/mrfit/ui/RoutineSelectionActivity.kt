@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 2/25/23, 12:28 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 2/25/23, 12:28 AM
  */
 
 package com.symphony.mrfit.ui
@@ -20,6 +20,7 @@ import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.exercise.RoutineAdapter
 import com.symphony.mrfit.databinding.ActivityRoutineSelectionBinding
+import com.symphony.mrfit.ui.WorkoutRoutineActivity.Companion.DEFAULT_DESC
 import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_IDENTITY
 
 /**
@@ -76,7 +77,7 @@ class RoutineSelectionActivity : AppCompatActivity() {
 
     private fun newRoutine() {
         val intent = Intent(this, WorkoutRoutineActivity::class.java)
-        val routineID = exerciseViewModel.addRoutine(NEW_ROUTINE,ArrayList())
+        val routineID = exerciseViewModel.addRoutine(NEW_ROUTINE, DEFAULT_DESC, ArrayList())
         intent.putExtra(EXTRA_IDENTITY, routineID)
         intent.putExtra(EXTRA_STRING,NEW_WORKOUT)
         intent.putExtra(EXTRA_LIST,ArrayList<String>())

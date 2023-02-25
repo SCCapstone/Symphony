@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 2/25/23, 12:28 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 2/25/23, 12:28 AM
  */
 
 package com.symphony.mrfit.ui
@@ -23,6 +23,7 @@ import com.symphony.mrfit.data.exercise.WorkoutAdapter
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityWorkoutRoutineBinding
+import com.symphony.mrfit.ui.Helper.BLANK
 import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_LIST
 import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_STRING
 import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.NEW_ROUTINE
@@ -92,6 +93,11 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             val routine = it ?: return@Observer
 
             routineName.setText(routine.name)
+            if (routine.description != null) {
+                routineDesc.setText(routine.description)
+            } else {
+                routineDesc.setText(BLANK)
+            }
             if (routine.workoutList != null) {
                 passedList = routine.workoutList
                 exerciseViewModel.getWorkouts(routine.workoutList)
@@ -125,7 +131,6 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             intent.putExtra(EXTRA_ROUTINE, passedRoutineID)
             intent.putExtra(EXTRA_IDENTITY, NEW_ID)
             intent.putExtra(WorkoutTemplateActivity.EXTRA_STRING,"New Workout")
-            intent.putExtra(WorkoutTemplateActivity.EXTRA_REPS,"0")
             intent.putExtra(WorkoutTemplateActivity.EXTRA_LIST, passedList)
             startActivity(intent)
         }
@@ -133,8 +138,14 @@ class WorkoutRoutineActivity : AppCompatActivity() {
         // Save the current Routine and go back to the user's Home screen
         saveWorkout.setOnClickListener {
             var newRoutineName = NEW_ROUTINE
-            if(routineName.text.isNotEmpty()) { newRoutineName = routineName.text.toString()}
-            exerciseViewModel.updateRoutine(newRoutineName, passedRoutineID)
+            if (routineName.text.isNotEmpty()) {
+                newRoutineName = routineName.text.toString()
+            }
+            var newRoutineDesc = BLANK
+            if (routineDesc.text.isNotEmpty()) {
+                newRoutineDesc = routineDesc.text.toString()
+            }
+            exerciseViewModel.updateRoutine(newRoutineName, newRoutineDesc, passedRoutineID)
             finish()
         }
 
@@ -152,6 +163,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
     }
 
     companion object {
+        const val DEFAULT_DESC = "Workout Description"
         const val EXTRA_ROUTINE = "passed routine id"
         const val NEW_ID = "NEW"
     }

@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 2/25/23, 12:28 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 2/25/23, 12:21 AM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -171,9 +171,9 @@ class ExerciseRepository {
     /**
      * Add a new Workout to the database
      */
-    suspend fun addRoutine(name: String, workoutList: ArrayList<String>) : String{
+    suspend fun addRoutine(name: String, desc: String, workoutList: ArrayList<String>): String {
         Log.d(TAG, "Adding new workout owned by current user")
-        val newRoutine = WorkoutRoutine(name, auth.currentUser!!.uid, workoutList)
+        val newRoutine = WorkoutRoutine(name, auth.currentUser!!.uid, desc, workoutList)
         return try {
             val docRef = database.collection(ROUTINE_COLLECTION).add(newRoutine).await()
             docRef.update("routineID", docRef.id)
@@ -210,9 +210,12 @@ class ExerciseRepository {
     /**
      * Update a Routine's name
      */
-    fun updateRoutine(name: String, routineID: String) {
+    fun updateRoutine(name: String, desc: String? = null, routineID: String) {
         Log.d(TAG, "Changing $routineID name to $name")
         database.collection(ROUTINE_COLLECTION).document(routineID).update("name", name)
+        if (desc != null) {
+            database.collection(ROUTINE_COLLECTION).document(routineID).update("description", desc)
+        }
     }
 
     /**
@@ -233,6 +236,7 @@ class ExerciseRepository {
                 val temp = WorkoutRoutine(
                     t.name,
                     t.ownerID,
+                    t.description,
                     t.workoutList,
                     document.id
                 )

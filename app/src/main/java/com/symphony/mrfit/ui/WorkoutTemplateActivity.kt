@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 2/25/23, 12:28 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 2/25/23, 12:28 AM
  */
 
 package com.symphony.mrfit.ui
@@ -54,7 +54,7 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         super.onStart()
 
         val workoutName = binding.editWorkOutName
-        val weight = binding.editWeight
+        val sets = binding.editSets
         val reps = binding.editReps
         val pickExe = binding.pickExerciseButton
         val saveButton = binding.saveTemplateButton
@@ -72,11 +72,9 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         val passedRoutineID = intent.getStringExtra(EXTRA_ROUTINE)
         val passedWorkoutID = intent.getStringExtra(EXTRA_IDENTITY)
         val passedName: String? = intent.getStringExtra(EXTRA_STRING)
-        val passedRep: String? = intent.getStringExtra(EXTRA_REPS)
         val passedList: ArrayList<String>? = intent.getStringArrayListExtra(EXTRA_LIST)
 
         workoutName.setText(passedName)
-        reps.setText(passedRep.toString())
         if (passedWorkoutID != NEW_ID) {
             deleteButton.visibility = View.VISIBLE
             exerciseViewModel.getExercise(intent.getStringExtra(EXTRA_EXERCISE)!!)
@@ -95,11 +93,17 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         // Save the workout and return to the parent Routine
         saveButton.setOnClickListener {
             var newWorkoutName: String = PLACEHOLDER_NAME
-            if(workoutName.text.isNotEmpty()) { newWorkoutName = workoutName.text.toString()}
-            var newWeight: String = PLACEHOLDER_WEIGHT
-            if(weight.text.isNotEmpty()) { newWeight = weight.text.toString() }
+            if (workoutName.text.isNotEmpty()) {
+                newWorkoutName = workoutName.text.toString()
+            }
+            var newSets: Int = PLACEHOLDER_SETS
+            if (sets.text.isNotEmpty()) {
+                newSets = sets.text.toString().toInt()
+            }
             var newReps: Int = PLACEHOLDER_REPS
-            if(reps.text.isNotEmpty()) { newReps = reps.text.toString().toInt() }
+            if (reps.text.isNotEmpty()) {
+                newReps = reps.text.toString().toInt()
+            }
 
             //val workouts = "Today's Workout$newWorkoutName,$newWeight,$newReps,"
             //file.writeText(workouts)
@@ -128,7 +132,7 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         }
 
         exerciseViewModel.exercise.observe(this, Observer {
-            val exercise = it?: return@Observer
+            val exercise = it ?: return@Observer
 
             pickExe.visibility = View.GONE
             exeCard.root.visibility = View.VISIBLE
@@ -137,6 +141,8 @@ class WorkoutTemplateActivity : AppCompatActivity() {
             exeCard.exerciseNameTextView.text = exercise.name
             exeCard.exerciseDescriptionTextView.text = exercise.tags.toString()
             exeID = exercise.exerciseID
+
+            saveButton.isEnabled = true
         })
 
         exerciseViewModel.routineListener.observe(this, Observer {
@@ -167,6 +173,6 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         const val EXTRA_LIST = "workout_list"
         const val PLACEHOLDER_NAME = "New Workout"
         const val PLACEHOLDER_REPS = 0
-        const val PLACEHOLDER_WEIGHT = "0"
+        const val PLACEHOLDER_SETS = 0
     }
 }

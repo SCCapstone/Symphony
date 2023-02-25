@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 2/25/23, 12:28 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 2/25/23, 12:28 AM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -67,10 +67,10 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
         }
     }
 
-    fun addRoutine(name: String, workoutList: ArrayList<String>) : String {
+    fun addRoutine(name: String, desc: String, workoutList: ArrayList<String>): String {
         var newID = ""
         runBlocking {
-            val job = launch {newID = exerciseRepository.addRoutine(name, workoutList) }
+            val job = launch { newID = exerciseRepository.addRoutine(name, desc, workoutList) }
             job.join()
         }
         return newID
@@ -90,7 +90,13 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
 
     fun updateRoutine(name: String, routineID: String) {
         viewModelScope.launch {
-            exerciseRepository.updateRoutine(name, routineID)
+            exerciseRepository.updateRoutine(name, routineID = routineID)
+        }
+    }
+
+    fun updateRoutine(name: String, desc: String, routineID: String) {
+        viewModelScope.launch {
+            exerciseRepository.updateRoutine(name, desc, routineID)
         }
     }
 
