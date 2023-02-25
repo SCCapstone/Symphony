@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 12/2/22, 7:23 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 7:20 PM
+ *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/24/23, 11:20 PM
  */
 
 package com.symphony.mrfit.ui
@@ -10,6 +10,7 @@ import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -28,7 +29,7 @@ import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.NEW_ROUTINE
 import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_IDENTITY
 
 /**
- * View Class for display the Workouts belonging to the current Routine
+ * Screen for displaying the Workouts belonging to the current Routine
  */
 
 class WorkoutRoutineActivity : AppCompatActivity() {
@@ -59,6 +60,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
         Log.d(ContentValues.TAG, "Activity has (Re)Started")
 
         // Bind variables to View elements
+        val spinner = binding.loadingSpinner
         val routineName = binding.routineNameEditText
         val routineDesc = binding.workoutDescriptionEditText
         val workoutList = binding.workoutListView
@@ -66,6 +68,8 @@ class WorkoutRoutineActivity : AppCompatActivity() {
         val newExercise = binding.newExerciseButton
         val saveWorkout = binding.saveWorkoutButton
         val deleteWorkout = binding.deleteWorkoutButton
+
+        spinner.visibility = View.VISIBLE
 
         /**
          * Retrieve the extras passed to this intent
@@ -76,15 +80,13 @@ class WorkoutRoutineActivity : AppCompatActivity() {
         val passedRoutineID = intent.extras!!.getString(EXTRA_IDENTITY)
         var passedList = ArrayList<String>()
 
-        /**
-         * Set the layout of the list of workouts presented to the user
-         */
+
+        // Set the layout of the list of workouts presented to the user
         layoutManager = LinearLayoutManager(this)
         workoutList.layoutManager = layoutManager
 
-        /**
-         * Populate the list with the workouts associated with this routine
-         */
+
+        // Populate the list with the workouts associated with this routine
         exerciseViewModel.getRoutine(passedRoutineID!!)
         exerciseViewModel.routine.observe(this, Observer {
             val routine = it ?: return@Observer
@@ -98,18 +100,18 @@ class WorkoutRoutineActivity : AppCompatActivity() {
         exerciseViewModel.workoutList.observe(this, Observer {
             val workList = it ?: return@Observer
             workoutList.adapter = WorkoutAdapter(this, workList, passedRoutineID, passedList)
+            spinner.visibility = View.GONE
         })
 
-        /**
-         * Start the current workout then save it to the User's history,
-         * then return to their Home screen
-         * TODO: Add a screen that keeps track of the Current workout,
-         *  then move the history functionality to that screen's "Finish" button
-         */
+
+        // Start the current workout then save it to the User's history,
+        // then return to their Home screen
         startWorkout.setOnClickListener {
             // Check if the routine name is empty
             var newRoutineName = NEW_ROUTINE
-            if(routineName.text.isNotEmpty()) { newRoutineName = routineName.text.toString()}
+            if (routineName.text.isNotEmpty()) {
+                newRoutineName = routineName.text.toString()
+            }
             exerciseViewModel.updateRoutine(newRoutineName, passedRoutineID)
             val intent = Intent(this, CurrentWorkoutActivity::class.java)
             intent.putExtra(EXTRA_STRING, newRoutineName)
@@ -117,9 +119,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        /**
-         * Navigate to a screen to make a new workout
-         */
+        // Navigate to a screen to make a new workout
         newExercise.setOnClickListener {
             val intent = Intent(this, WorkoutTemplateActivity::class.java)
             intent.putExtra(EXTRA_ROUTINE, passedRoutineID)
@@ -130,9 +130,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        /**
-         * Save the current Routine and go back to the user's Home screen
-         */
+        // Save the current Routine and go back to the user's Home screen
         saveWorkout.setOnClickListener {
             var newRoutineName = NEW_ROUTINE
             if(routineName.text.isNotEmpty()) { newRoutineName = routineName.text.toString()}
@@ -140,9 +138,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             finish()
         }
 
-        /**
-         * Remove the current workout from the user's list
-         */
+        // Remove the current workout from the user's list
         deleteWorkout.setOnClickListener {
             exerciseViewModel.deleteRoutine(passedRoutineID)
             Toast.makeText(

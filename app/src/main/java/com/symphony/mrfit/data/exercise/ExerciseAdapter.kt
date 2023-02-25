@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 12/2/22, 7:23 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 7:20 PM
+ *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/24/23, 11:20 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -39,8 +39,9 @@ class ExerciseAdapter (val context:Context, val data: ArrayList<Exercise>): Recy
         holder.itemView.setOnClickListener {
             val intent = Intent()
             intent.putExtra(EXTRA_IDENTITY, data[i].exerciseID)
-            (context as Activity).setResult(Activity.RESULT_OK, intent)
-            (context as Activity).finish()
+            context as Activity
+            context.setResult(Activity.RESULT_OK, intent)
+            context.finish()
 
         }
 

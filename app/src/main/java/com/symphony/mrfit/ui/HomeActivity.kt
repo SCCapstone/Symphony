@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 12/2/22, 7:23 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 4:24 PM
+ *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/24/23, 11:20 PM
  */
 
 package com.symphony.mrfit.ui
@@ -10,6 +10,7 @@ import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -35,25 +36,27 @@ class HomeActivity : AppCompatActivity() {
             this, ProfileViewModelFactory())[ProfileViewModel::class.java]
     }
 
-    override fun onStart(){
+    override fun onStart() {
         super.onStart()
 
+        val screen = binding.homeScreenView
+        val spinner = binding.loadingSpinner
         val userProfile = binding.userLayout
         val name = binding.homeNameTextView
         val scheduleWorkout = binding.scheduleButton
         val startWorkout = binding.workoutButton
         val historyList = binding.historyList
 
-        /**
-         * Get data of current User and populate the page
-         * TODO: Hide the page till user info has been gathered from the DB
-         */
+        // Hide the screen till loading is done
+        screen.visibility = View.GONE
+        spinner.visibility = View.VISIBLE
+
+        //Get data of current User and populate the page
         profileViewModel.fetchCurrentUser()
         profileViewModel.getWorkoutHistory()
 
-        /**
-         * Set the layout of the list of workouts presented to the user
-         */
+
+        // Set the layout of the list of workouts presented to the user
         layoutManager = LinearLayoutManager(this)
         historyList.layoutManager = layoutManager
 
@@ -62,6 +65,7 @@ class HomeActivity : AppCompatActivity() {
             val loggedInUser = it ?: return@Observer
 
             name.text = loggedInUser.name
+            screen.visibility = View.VISIBLE
         })
 
         profileViewModel.workoutHistory.observe(this, Observer {
@@ -69,6 +73,7 @@ class HomeActivity : AppCompatActivity() {
             val workoutHistory = it ?: return@Observer
 
             historyList.adapter = HistoryAdapter(this, workoutHistory)
+            spinner.visibility = View.GONE
         })
 
         userProfile.setOnClickListener {

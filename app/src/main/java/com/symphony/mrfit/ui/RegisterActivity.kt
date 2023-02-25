@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 12/2/22, 7:23 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 3:23 PM
+ *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/24/23, 11:20 PM
  */
 
 package com.symphony.mrfit.ui
@@ -71,7 +71,6 @@ class RegisterActivity : AppCompatActivity() {
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
                         registerViewModel.register(
-                            activity,
                             email.text.toString(),
                             password.text.toString()
                         )
@@ -93,7 +92,6 @@ class RegisterActivity : AppCompatActivity() {
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
                         registerViewModel.register(
-                            activity,
                             email.text.toString(),
                             password.text.toString()
                         )
@@ -104,7 +102,7 @@ class RegisterActivity : AppCompatActivity() {
 
         register.setOnClickListener {
             spinner.visibility = View.VISIBLE
-            registerViewModel.register(activity, email.text.toString(), password.text.toString())
+            registerViewModel.register(email.text.toString(), password.text.toString())
         }
 
         login.setOnClickListener {
@@ -126,7 +124,6 @@ class RegisterActivity : AppCompatActivity() {
         registerViewModel.registerForm.observe(this, Observer {
             val registerState = it ?: return@Observer
 
-            // TODO: Disable the button from the start? Or check validation in repo
             // Disable register button until all fields are valid
             register.isEnabled = registerState.isDataValid
 
@@ -141,9 +138,8 @@ class RegisterActivity : AppCompatActivity() {
             }
         })
 
-        /**
-         * Observe if the currently logged in user becomes populated
-         */
+
+        // Observe if the currently logged in user becomes populated
         registerViewModel.loginResult.observe(this, Observer {
             val loginResult = it ?: return@Observer
 
@@ -175,16 +171,6 @@ class RegisterActivity : AppCompatActivity() {
         finish()
     }
 
-    /**
-     * Example: Email address already in use or just server-side error
-     * TODO: Learn how to read why registration failed and output relevant message
-     */
-    /*
-    private fun showRegisterFailed(@StringRes errorString: Int) {
-        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
-    }
-
-     */
     private fun showRegisterFailed() {
         showSnackBar("Registration failed", this)
     }

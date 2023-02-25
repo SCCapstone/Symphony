@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 12/2/22, 7:23 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 3:23 PM
+ *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/24/23, 11:20 PM
  */
 
 package com.symphony.mrfit.ui
@@ -76,6 +76,10 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        loginViewModel = ViewModelProvider(
+            this, LoginViewModelFactory()
+        )[LoginViewModel::class.java]
+
         val email = binding.loginEmail
         val password = binding.loginPassword
         val emailLogin = binding.loginButton
@@ -142,7 +146,6 @@ class LoginActivity : AppCompatActivity() {
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
                         loginViewModel.emailLogin(
-                            activity,
                             email.text.toString(),
                             password.text.toString()
                         )
@@ -154,7 +157,7 @@ class LoginActivity : AppCompatActivity() {
         emailLogin.setOnClickListener {
             if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
                 spinner.visibility = View.VISIBLE
-                loginViewModel.emailLogin(activity, email.text.toString(), password.text.toString())
+                loginViewModel.emailLogin(email.text.toString(), password.text.toString())
             }
             else {
                 showSnackBar("Cannot sign in with empty field.",this)
@@ -177,12 +180,6 @@ class LoginActivity : AppCompatActivity() {
         }
 
         /**
-         * Connect to the view model to process input data
-         */
-        loginViewModel = ViewModelProvider(
-            this, LoginViewModelFactory())[LoginViewModel::class.java]
-
-        /**
          * Observe the form and update accordingly
          * TODO: Change so errors only show after an incorrect input
          */
@@ -200,9 +197,8 @@ class LoginActivity : AppCompatActivity() {
             }
         })
 
-        /**
-         * Observe if the currently logged in user becomes populated
-         */
+
+        // Observe if the currently logged in user becomes populated
         loginViewModel.loginResult.observe(this, Observer {
             val loginResult = it ?: return@Observer
 
@@ -357,13 +353,12 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-    /**
-     * After a successful login, go to the home screen
-     */
+
+    // After a successful login, go to the home screen
     private fun gotoHomeScreen(model: LoginResult) {
         val welcome = getString(R.string.welcome)
         val user = model.success
-        Toast.makeText(applicationContext,"$welcome $user", Toast.LENGTH_SHORT).show()
+        Toast.makeText(applicationContext, "$welcome $user", Toast.LENGTH_SHORT).show()
 
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
@@ -372,16 +367,6 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
-    /**
-     * TODO: Learn how to read why login failed and output relevant message
-     * Example: Password was incorrect or no account that matched a given email
-     */
-    /*
-    private fun showLoginFailed(@StringRes errorString: Int) {
-        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
-    }
-
-     */
     private fun showLoginFailed() {
         showSnackBar("Login failed", this)
     }

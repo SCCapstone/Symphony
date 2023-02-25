@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 11/28/22, 11:24 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 11/28/22, 11:23 PM
+ *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/24/23, 11:20 PM
  */
 
 package com.symphony.mrfit.ui
@@ -17,10 +17,12 @@ import com.symphony.mrfit.databinding.ActivityNotificationBinding
 import java.util.*
 import java.util.Calendar
 
-class NotificationActivity : AppCompatActivity() {
+/**
+ * Screen for allowing the User to schedule a notification
+ * TODO: Change the notification's icon and expand functionality
+ */
 
-    private var alarmMgr: AlarmManager? = null
-    private lateinit var alarmIntent: PendingIntent
+class NotificationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNotificationBinding
 
@@ -34,15 +36,6 @@ class NotificationActivity : AppCompatActivity() {
         createNotificationChannel()
         binding.scheduleNotificationButton.setOnClickListener{scheduleNotification()}
 
-
-//        schedule.setOnClickListener {
-//            /**
-//             * TODO: Parse the user inputs to properly title and schedule the notification
-//             * Try this tutorial here:
-//             *   https://www.tutorialspoint.com/how-to-set-an-android-notification-to-a-specific-date-in-the-future
-//             */
-//            scheduleNotification(getNotification("Example Notification"), 5000)
-//        }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -70,35 +63,37 @@ class NotificationActivity : AppCompatActivity() {
         showAlert(time, title, message)
 
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun createNotificationChannel(){
+    private fun createNotificationChannel() {
         val name = "Notification Channel"
         val desc = "Description of Channel"
         val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(channelID,name, importance)
+        val channel = NotificationChannel(channelID, name, importance)
         channel.description = desc
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
 
     }
-    private fun showAlert(time: Long, title: String, message: String)
-    {
+
+    private fun showAlert(time: Long, title: String, message: String) {
         val date = Date(time)
         val dateFormat = android.text.format.DateFormat.getLongDateFormat(applicationContext)
         val timeFormat = android.text.format.DateFormat.getTimeFormat(applicationContext)
 
         AlertDialog.Builder(this)
             .setTitle("Notification Scheduled").setMessage(
-                "Title: "+title +
-                        "\nMessage: "+message+
-                        "\nAt: "+dateFormat.format(date)+ " "+timeFormat.format(date))
-            .setPositiveButton("Okay"){_,_->}
+                "Title: " + title +
+                        "\nMessage: " + message +
+                        "\nAt: " + dateFormat.format(date) + " " + timeFormat.format(date)
+            )
+            .setPositiveButton("Okay") { _, _ -> }
             .show()
 
     }
+
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun getTime() : Long
-    {
+    private fun getTime(): Long {
         val minute = binding.timePicker.minute
         val hour = binding.timePicker.hour
         val day = binding.datePicker.dayOfMonth
@@ -109,55 +104,6 @@ class NotificationActivity : AppCompatActivity() {
         calendar.set(year, month, day, hour, minute)
         return calendar.timeInMillis
     }
-//    @RequiresApi(Build.VERSION_CODES.M)
-//    private fun scheduleNotification(notification: Notification, delay: Int) {
-//        val notificationIntent = Intent(this, Notifications::class.java)
-//        val title = binding.title.text.toString()
-//        val message = binding.message.tag.toString()
-//        notificationIntent.putExtra(Notifications.NOTIFICATION_ID, 1)
-//        notificationIntent.putExtra(Notifications.NOTIFICATION, notification)
-//       val pendingIntent = PendingIntent.getBroadcast(
-//            this,
-//            0,
-//            notificationIntent,
-//            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-//       )
-//       val futureInMillis: Long = SystemClock.elapsedRealtime() + delay
-//       val alarmManager = (getSystemService(Context.ALARM_SERVICE) as AlarmManager)
-//        alarmManager[AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis] = pendingIntent
-//
-//
-//        val time = getTime()
-//        alarmManager.setExactAndAllowWhileIdle(
-//            AlarmManager.RTC_WAKEUP,
-//            time,
-//            pendingIntent
-//        )
-//        showAlert(time, title, message)
-//    }
 
-//    private fun getNotification(content: String): Notification {
-//        val builder: NotificationCompat.Builder =
-//            NotificationCompat.Builder(this, Companion.default_notification_channel_id)
-//        builder.setContentTitle("Scheduled Notification")
-//        builder.setContentText(content)
-//        builder.setSmallIcon(R.drawable.ic_launcher_foreground)
-//        builder.setAutoCancel(true)
-//        builder.setChannelId(Companion.NOTIFICATION_CHANNEL_ID)
-//        return builder.build()
-//    }
-
-
-
-    /**
-     * just added the GetTime fuction for scheduling the notif
-     * you can comment this out if experiencing errors
-     */
-
-
-    companion object {
-        const val NOTIFICATION_CHANNEL_ID = "10001"
-        const val default_notification_channel_id = "default"
-    }
 }
 

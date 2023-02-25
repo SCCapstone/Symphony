@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 12/2/22, 7:23 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 7:20 PM
+ *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/24/23, 11:20 PM
  */
 
 package com.symphony.mrfit.ui
@@ -10,6 +10,7 @@ import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -22,7 +23,7 @@ import com.symphony.mrfit.databinding.ActivityRoutineSelectionBinding
 import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_IDENTITY
 
 /**
- * View Class for display the current User's saved Workout Routines
+ * Screen for displaying the current User's saved Workout Routines
  */
 
 class RoutineSelectionActivity : AppCompatActivity() {
@@ -41,27 +42,30 @@ class RoutineSelectionActivity : AppCompatActivity() {
         )[ExerciseViewModel::class.java]
     }
 
-    override fun onStart(){
+    override fun onStart() {
         super.onStart()
 
+        val screen = binding.selectionScreenView
+        val spinner = binding.loadingSpinner
         val newRoutine = binding.newWorkoutButton
         val routineList = binding.routineListView
 
-        /**
-         * Set the layout of the grid of routines presented to the user
-         */
-        layoutManager = GridLayoutManager(this,2)
+        // Hide the screen till done loading
+        spinner.visibility = View.VISIBLE
+
+        // Set the layout of the grid of routines presented to the user
+        layoutManager = GridLayoutManager(this, 2)
         routineList.layoutManager = layoutManager
 
-        /**
-         * Initialize the routine list, then listen to it to update the UI
-         */
+        // Initialize the routine list, then listen to it to update the UI
         exerciseViewModel.getUserRoutines()
         exerciseViewModel.workoutRoutineList.observe(this, Observer {
             Log.d(ContentValues.TAG, "Updating routine list")
             val workoutRoutineList = it ?: return@Observer
 
             routineList.adapter = RoutineAdapter(this, workoutRoutineList)
+            spinner.visibility = View.GONE
+
         })
 
 

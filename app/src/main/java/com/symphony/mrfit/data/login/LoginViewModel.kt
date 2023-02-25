@@ -1,12 +1,11 @@
 /*
- * Created by Team Symphony 12/2/22, 7:23 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 3:23 PM
+ *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/24/23, 11:20 PM
  */
 
 package com.symphony.mrfit.data.login
 
-import android.app.Activity
 import android.content.ContentValues
 import android.util.Log
 import android.util.Patterns
@@ -28,44 +27,43 @@ class LoginViewModel(private val loginRepository: LoginRepository): ViewModel() 
     private val _loginForm = MutableLiveData<LoginForm>()
     val loginForm: LiveData<LoginForm> = _loginForm
 
-    // private val _loginResult = MutableLiveData<LoginResult>()
-    // val loginResult: LiveData<LoginResult> = _loginResult
+    private val _loginResult = MutableLiveData<LoginResult>()
+    val loginResult: LiveData<LoginResult> = _loginResult
+
+    private val _registerResult = MutableLiveData<LoginResult>()
+    val registerResult: LiveData<LoginResult> = _registerResult
 
     private val _registerForm = MutableLiveData<RegisterForm>()
     val registerForm: LiveData<RegisterForm> = _registerForm
 
-    // private val _registerResult = MutableLiveData<LoginResult>()
-    // val registerResult: LiveData<LoginResult> = _registerResult
-
     private val _loggedInUser = MutableLiveData<User>()
     val user: LiveData<User> = _loggedInUser
-
-    private val _loginResult = MutableLiveData<LoginResult>()
-    val loginResult: LiveData<LoginResult> = _loginResult
 
     /**
      * Tell the repository to attempt to login through google
      */
     fun googleLogin() {
-        Log.d(ContentValues.TAG, "Done with email login attempt")
+        Log.d(ContentValues.TAG, "Done with google login attempt")
     }
 
     /**
      * Tell the repository to attempt to login to an existing account
      */
-    fun emailLogin(activity: Activity, email: String, password: String) {
+    fun emailLogin(email: String, password: String) {
         viewModelScope.launch {
-            _loginResult.value = loginRepository.firebaseLogin(activity, email, password)
-            Log.d(ContentValues.TAG, "Done with email login attempt") }
+            _loginResult.value = loginRepository.firebaseLogin(email, password)
+            Log.d(ContentValues.TAG, "Done with email login attempt")
+        }
     }
 
     /**
      * Tell the repository to attempt to register a new account
      */
-    fun register(activity: Activity, email: String, password: String) {
+    fun register(email: String, password: String) {
         viewModelScope.launch {
-            _loginResult.value = loginRepository.firebaseRegister(activity, email, password)
-            Log.d(ContentValues.TAG, "Done with registration attempt") }
+            _loginResult.value = loginRepository.firebaseRegister(email, password)
+            Log.d(ContentValues.TAG, "Done with registration attempt")
+        }
     }
 
     /**

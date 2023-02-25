@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 12/2/22, 7:23 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 7:02 PM
+ *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/24/23, 11:20 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -135,6 +135,9 @@ class ExerciseRepository {
         }
     }
 
+    /**
+     * Update a workout with a new version of itself
+     */
     suspend fun updateWorkout(workout: Workout) {
         Log.d(TAG, "Updating workout ${workout.workoutID}")
         workout.workoutID?.let {
@@ -244,9 +247,8 @@ class ExerciseRepository {
     /**
      * Return a list of Workouts by searching on a Routine's ID
      */
-    suspend fun getWorkoutList(routineID: String) : ArrayList<Workout> {
-        val workList = arrayListOf<Workout>()
-        return workList
+    suspend fun getWorkoutList(routineID: String): ArrayList<Workout> {
+        return arrayListOf()
     }
 
     /**

@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 12/2/22, 7:32 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 7:32 PM
+ *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/24/23, 11:20 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -16,7 +16,7 @@ import com.symphony.mrfit.R
 import com.symphony.mrfit.data.model.History
 
 /**
- * Adapter for dynamically populating a card_history with a passed list of Historys
+ * Adapter for dynamically populating a card_history with a passed list of Histories
  */
 
 class HistoryAdapter (val context: Context, val data: ArrayList<History>): RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {

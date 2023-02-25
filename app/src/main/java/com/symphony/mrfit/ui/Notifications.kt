@@ -1,21 +1,17 @@
 /*
- * Created by Team Symphony 12/2/22, 7:23 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 3:23 PM
+ *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/24/23, 11:20 PM
  */
 
 package com.symphony.mrfit.ui
 
-import android.app.Notification
-import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.symphony.mrfit.R
-import com.symphony.mrfit.ui.NotificationActivity.Companion.NOTIFICATION_CHANNEL_ID
 
 //declaring const values
 const val notificationID = 1
@@ -39,8 +35,3 @@ class Notifications : BroadcastReceiver() {
 
     }
 }
-//    companion object {
-//        const val NOTIFICATION_CHANNEL_ID = "Channel1"
-//        const val NOTIFICATION = "notification"
-//    }
-//}

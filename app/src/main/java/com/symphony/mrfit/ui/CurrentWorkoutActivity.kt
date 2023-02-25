@@ -1,3 +1,9 @@
+/*
+ *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/24/23, 11:20 PM
+ */
+
 package com.symphony.mrfit.ui
 
 import android.content.ContentValues
@@ -21,6 +27,12 @@ import com.symphony.mrfit.databinding.ActivityCurrentWorkoutBinding
 import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_LIST
 import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_STRING
 import java.util.*
+
+/**
+ * Screen for the user to keep track of their current Workout Routine.
+ * They should be able to keep track of how long this Routine has been going,
+ * as well as which Workouts they have completed.
+ */
 
 class CurrentWorkoutActivity : AppCompatActivity() {
 
@@ -61,9 +73,9 @@ class CurrentWorkoutActivity : AppCompatActivity() {
          */
         val passedRoutineName = intent.extras!!.getString(EXTRA_STRING)
         val passedList = intent.extras!!.getStringArrayList(EXTRA_LIST)
-        /**
-         * Set the layout of the list of workouts presented to the user
-         */
+
+
+        // Set the layout of the list of workouts presented to the user
         layoutManager = LinearLayoutManager(this)
         workoutList.layoutManager = layoutManager
 
@@ -75,9 +87,8 @@ class CurrentWorkoutActivity : AppCompatActivity() {
             workoutList.adapter = WorkoutAdapter2(this, workList)
         })
 
-        /**
-         * Start the timer and end it when the user is done with their workout
-         */
+
+        // Start the timer and end it when the user is done with their workout
         timer.start()
 
         finishButton.setOnClickListener {

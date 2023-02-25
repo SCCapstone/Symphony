@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 12/2/22, 7:23 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 7:15 PM
+ *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/24/23, 11:20 PM
  */
 
 package com.symphony.mrfit.ui
@@ -11,6 +11,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
+import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -28,6 +29,10 @@ import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityUserProfileBinding
 import com.symphony.mrfit.ui.Helper.showSnackBar
+
+/**
+ * Screen for the User's profile. Data can be changed by tapping on it
+ */
 
 class UserProfileActivity : AppCompatActivity() {
 
@@ -51,10 +56,10 @@ class UserProfileActivity : AppCompatActivity() {
             this, LoginViewModelFactory()
         )[LoginViewModel::class.java]
 
-        /**
-         * Declare lots of variables
-         */
-        val edit = binding.editProfileButton
+
+        // Declare lots of variables
+        val screen = binding.profileScreenView
+        val spinner = binding.loadingSpinner
         val goal = binding.goalsButton
         val achievements = binding.achievementsButton
         val history = binding.historyButton
@@ -70,9 +75,11 @@ class UserProfileActivity : AppCompatActivity() {
         val weightText = binding.weightValueTextView
         val pfp = binding.profilePicture
 
-        /**
-         * Get data of current User and populate the page
-         */
+        // Hide the screen till loading is done
+        screen.visibility = View.GONE
+        spinner.visibility = View.VISIBLE
+
+        // Get data of current User and populate the page
         profileViewModel.fetchCurrentUser()
         profileViewModel.loggedInUser.observe(this, Observer {
             Log.d(ContentValues.TAG, "Populating Profile screen with values from current user")
@@ -82,11 +89,17 @@ class UserProfileActivity : AppCompatActivity() {
             ageText.text = loggedInUser.age?.toString() ?: PLACEHOLDER
             heightText.text = loggedInUser.height?.toString() ?: PLACEHOLDER
             if (heightText.text != PLACEHOLDER) {
-                val t1 = heightText.text.toString().toInt()/12
-                val t2 = heightText.text.toString().toInt()%12
-                heightText.text = getString(R.string.height_value, t1.toString(), t2.toString()) }
+                val t1 = heightText.text.toString().toInt() / 12
+                val t2 = heightText.text.toString().toInt() % 12
+                heightText.text = getString(R.string.height_value, t1.toString(), t2.toString())
+            }
             weightText.text = loggedInUser.weight?.toString() ?: PLACEHOLDER
-            if (weightText.text != PLACEHOLDER) { weightText.text = getString(R.string.weight_value, weightText.text) }
+            if (weightText.text != PLACEHOLDER) {
+                weightText.text = getString(R.string.weight_value, weightText.text)
+            }
+
+            screen.visibility = View.VISIBLE
+            spinner.visibility = View.GONE
         })
 
         name.setOnClickListener {
@@ -111,11 +124,6 @@ class UserProfileActivity : AppCompatActivity() {
                 "This has not been implemented yet",
                 Toast.LENGTH_LONG
             ).show()
-        }
-
-        edit.setOnClickListener {
-            val intent = Intent(this, EditProfileActivity::class.java)
-            startActivity(intent)
         }
 
         goal.setOnClickListener {
