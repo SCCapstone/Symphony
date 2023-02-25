@@ -1,18 +1,26 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 2/25/23, 2:14 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 2/25/23, 2:14 AM
  */
 
 package com.symphony.mrfit.ui
 
+import android.Manifest
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.R
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.symphony.mrfit.databinding.ActivityNotificationBinding
 import java.util.*
 import java.util.Calendar
@@ -33,9 +41,24 @@ class NotificationActivity : AppCompatActivity() {
         binding = ActivityNotificationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        createNotificationChannel()
-        binding.scheduleNotificationButton.setOnClickListener{scheduleNotification()}
+        if (Build.VERSION.SDK_INT >= 33) {
+            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        } else {
+            hasNotificationPermissionGranted = true
+        }
 
+        createNotificationChannel()
+        binding.scheduleNotificationButton.setOnClickListener {
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                scheduleNotification()
+            } else {
+                Toast.makeText(
+                    this,
+                    "Please enable Notifications to use this feature",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -105,5 +128,49 @@ class NotificationActivity : AppCompatActivity() {
         return calendar.timeInMillis
     }
 
+    private val notificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            hasNotificationPermissionGranted = isGranted
+            if (!isGranted) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (Build.VERSION.SDK_INT >= 33) {
+                        if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                            showNotificationPermissionRationale()
+                        } else {
+                            showSettingDialog()
+                        }
+                    }
+                }
+            }
+        }
+
+    private fun showSettingDialog() {
+        MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_Material3)
+            .setTitle("Notification Permission")
+            .setMessage(com.symphony.mrfit.R.string.notification_permission_1)
+            .setPositiveButton("Ok") { _, _ ->
+                val intent = Intent(ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.data = Uri.parse("package:$packageName")
+                startActivity(intent)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun showNotificationPermissionRationale() {
+
+        MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_Material3)
+            .setTitle("Alert")
+            .setMessage(com.symphony.mrfit.R.string.notification_permission_2)
+            .setPositiveButton("Ok") { _, _ ->
+                if (Build.VERSION.SDK_INT >= 33) {
+                    notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    var hasNotificationPermissionGranted = false
 }
 

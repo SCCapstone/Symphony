@@ -1,7 +1,7 @@
 <!--
-  ~  Created by Team Symphony on 2/24/23, 11:21 PM
+  ~  Created by Team Symphony on 2/25/23, 2:14 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 2/24/23, 11:20 PM
+  ~  Last modified 2/25/23, 2:11 AM
   -->
 
 <resources>
@@ -78,4 +78,6 @@
     <string name="button_add_exercise">Add an Exercise</string>
     <string name="button_finish_workout">Finish Workout</string>
     <string name="num_of_reps">%1$i\ Reps"</string>
+    <string name="notification_permission_1">Notification permission is required to schedule alerts, please allow notification permission from settings</string>
+    <string name="notification_permission_2">Notification permission is required for this feature. If you wish to schedule a workout, please enable MrFit to send Notifications in your settings.</string>
 </resources>
