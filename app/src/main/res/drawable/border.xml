@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 2/24/23, 11:21 PM
+  ~  Created by Team Symphony on 2/26/23, 3:04 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 2/24/23, 11:20 PM
+  ~  Last modified 2/26/23, 3:04 PM
   -->
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
+    <solid android:color="@color/white" />
     <stroke
         android:width="5dip"
         android:color="@color/garnet" />
