@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/26/23, 9:27 AM
+ *  Created by Team Symphony on 2/26/23, 11:15 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/26/23, 7:34 AM
+ *  Last modified 2/26/23, 11:12 AM
  */
 
 package com.symphony.mrfit.ui
@@ -159,7 +159,8 @@ class WorkoutTemplateActivity : AppCompatActivity() {
 
             //exeCard.exerciseImage = exercise.Image
             exeCard.exerciseNameTextView.text = exercise.name
-            exeCard.exerciseDescriptionTextView.text = exercise.tags.toString()
+            exeCard.exerciseTagsTextView.text = exercise.tags.toString()
+            exeCard.exerciseDescriptionTextView.text = exercise.description
             exeID = exercise.exerciseID!!
 
             saveButton.isEnabled = true

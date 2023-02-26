@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 2/26/23, 11:15 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 2/26/23, 11:15 AM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -34,6 +34,7 @@ class ExerciseAdapter (val context:Context, val data: ArrayList<Exercise>): Recy
 
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
         holder.exeTitle.text = data[i].name
+        holder.exeTags.text = data[i].tags.toString()
         holder.exeDetail.text = data[i].description
 
         holder.itemView.setOnClickListener {
@@ -54,13 +55,15 @@ class ExerciseAdapter (val context:Context, val data: ArrayList<Exercise>): Recy
     inner class ViewHolder(exeView: View) : RecyclerView.ViewHolder(exeView) {
 
             var exeImage: ImageView
-            var exeTitle: TextView
-            var exeDetail: TextView
+        var exeTitle: TextView
+        var exeTags: TextView
+        var exeDetail: TextView
 
             init {
                     exeImage = exeView.findViewById(R.id.exerciseImage)
-                    exeTitle = exeView.findViewById(R.id.exerciseNameTextView)
-                    exeDetail = exeView.findViewById(R.id.exerciseDescriptionTextView)
+                exeTitle = exeView.findViewById(R.id.exerciseNameTextView)
+                exeTags = exeView.findViewById(R.id.exerciseTagsTextView)
+                exeDetail = exeView.findViewById(R.id.exerciseDescriptionTextView)
                 }
         }
 }
