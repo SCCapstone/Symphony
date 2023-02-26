@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/26/23, 9:27 AM
+ *  Created by Team Symphony on 2/26/23, 11:03 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/26/23, 9:27 AM
+ *  Last modified 2/26/23, 9:30 AM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -104,10 +104,9 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
         name: String,
         description: String,
         tags: ArrayList<String>,
-        imageURI: String? = null
     ) {
         viewModelScope.launch {
-            exerciseRepository.addExercise(name, description, tags, imageURI)
+            exerciseRepository.addExercise(name, description, tags)
         }
     }
 

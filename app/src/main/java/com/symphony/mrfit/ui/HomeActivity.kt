@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/26/23, 9:27 AM
+ *  Created by Team Symphony on 2/26/23, 11:03 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/26/23, 9:25 AM
+ *  Last modified 2/26/23, 10:54 AM
  */
 
 package com.symphony.mrfit.ui
@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.signature.ObjectKey
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.exercise.HistoryAdapter
 import com.symphony.mrfit.data.profile.ProfileViewModel
@@ -45,7 +46,7 @@ class HomeActivity : AppCompatActivity() {
         val spinner = binding.loadingSpinner
         val userProfile = binding.userLayout
         val name = binding.homeNameTextView
-        val pfp = binding.profilePicture
+        val pfp = binding.homeProfilePicture
         val scheduleWorkout = binding.scheduleButton
         val startWorkout = binding.workoutButton
         val historyList = binding.historyList
@@ -71,6 +72,7 @@ class HomeActivity : AppCompatActivity() {
                 .load(profileViewModel.getProfilePicture())
                 .placeholder(R.drawable.cactuar)
                 .circleCrop()
+                .signature(ObjectKey(System.currentTimeMillis().toString()))
                 .into(pfp)
             name.text = loggedInUser.name
             screen.visibility = View.VISIBLE
