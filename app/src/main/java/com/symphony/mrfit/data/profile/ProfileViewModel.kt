@@ -1,18 +1,21 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 2/26/23, 9:27 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 2/26/23, 9:27 AM
  */
 
 package com.symphony.mrfit.data.profile
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.storage.StorageReference
 import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.data.model.User
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 /**
  * ViewModel for interacting with the User Repository
@@ -32,9 +35,24 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
         }
     }
 
-    fun updateCurrentUser(name: String?, age: Int?, height: Int?, weight: Double?){
+    fun updateCurrentUser(name: String?, age: Int?, height: Int?, weight: Double?) {
         viewModelScope.launch {
             _loggedInUser.value = userRepository.updateCurrentUser(name, age, height, weight)
+        }
+    }
+
+    fun getProfilePicture(): StorageReference? {
+        var ref: StorageReference? = null
+        runBlocking {
+            val job = launch { ref = userRepository.getProfilePicture() }
+            job.join()
+        }
+        return ref
+    }
+
+    fun changeProfilePicture(uri: Uri) {
+        viewModelScope.launch {
+            userRepository.changeProfilePicture(uri)
         }
     }
 

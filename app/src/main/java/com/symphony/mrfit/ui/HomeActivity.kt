@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 2/26/23, 9:27 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 2/26/23, 9:25 AM
  */
 
 package com.symphony.mrfit.ui
@@ -16,6 +16,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.symphony.mrfit.R
 import com.symphony.mrfit.data.exercise.HistoryAdapter
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
@@ -43,6 +45,7 @@ class HomeActivity : AppCompatActivity() {
         val spinner = binding.loadingSpinner
         val userProfile = binding.userLayout
         val name = binding.homeNameTextView
+        val pfp = binding.profilePicture
         val scheduleWorkout = binding.scheduleButton
         val startWorkout = binding.workoutButton
         val historyList = binding.historyList
@@ -64,6 +67,11 @@ class HomeActivity : AppCompatActivity() {
             Log.d(ContentValues.TAG, "Filling in username")
             val loggedInUser = it ?: return@Observer
 
+            Glide.with(this)
+                .load(profileViewModel.getProfilePicture())
+                .placeholder(R.drawable.cactuar)
+                .circleCrop()
+                .into(pfp)
             name.text = loggedInUser.name
             screen.visibility = View.VISIBLE
         })

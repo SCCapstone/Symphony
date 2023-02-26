@@ -1,12 +1,13 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 2/26/23, 9:27 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 2/26/23, 9:27 AM
  */
 
 package com.symphony.mrfit.ui
 
-import android.content.ContentValues
+import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
@@ -14,10 +15,12 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -75,6 +78,18 @@ class UserProfileActivity : AppCompatActivity() {
         val weightText = binding.weightValueTextView
         val pfp = binding.profilePicture
 
+
+        val launchPictureSelection =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val selectedImg = result.data!!.data
+
+                    pfp.setImageURI(selectedImg)
+                    profileViewModel.changeProfilePicture(selectedImg!!)
+                }
+            }
+
         // Hide the screen till loading is done
         screen.visibility = View.GONE
         spinner.visibility = View.VISIBLE
@@ -82,9 +97,14 @@ class UserProfileActivity : AppCompatActivity() {
         // Get data of current User and populate the page
         profileViewModel.fetchCurrentUser()
         profileViewModel.loggedInUser.observe(this, Observer {
-            Log.d(ContentValues.TAG, "Populating Profile screen with values from current user")
+            Log.d(TAG, "Populating Profile screen with values from current user")
             val loggedInUser = it ?: return@Observer
 
+            Glide.with(this)
+                .load(profileViewModel.getProfilePicture())
+                .placeholder(R.drawable.cactuar)
+                .circleCrop()
+                .into(pfp)
             name.text = loggedInUser.name
             ageText.text = loggedInUser.age?.toString() ?: PLACEHOLDER
             heightText.text = loggedInUser.height?.toString() ?: PLACEHOLDER
@@ -119,6 +139,10 @@ class UserProfileActivity : AppCompatActivity() {
         }
 
         pfp.setOnClickListener {
+            val intent = Intent()
+            intent.action = Intent.ACTION_GET_CONTENT
+            intent.type = "image/*"
+            launchPictureSelection.launch(intent)
             Toast.makeText(
                 applicationContext,
                 "This has not been implemented yet",

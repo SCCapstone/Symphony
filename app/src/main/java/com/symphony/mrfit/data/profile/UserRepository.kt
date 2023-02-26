@@ -1,19 +1,24 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 2/26/23, 9:27 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 2/26/23, 9:27 AM
  */
 
 package com.symphony.mrfit.data.profile
 
 import android.content.ContentValues.TAG
+import android.net.Uri
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
 import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.data.model.User
 import kotlinx.coroutines.tasks.await
@@ -22,6 +27,7 @@ class UserRepository {
 
     private var auth: FirebaseAuth = Firebase.auth
     private var database: FirebaseFirestore = Firebase.firestore
+    private var storage: FirebaseStorage = Firebase.storage
 
     /**
      * Add a new user to Firestore
@@ -119,6 +125,29 @@ class UserRepository {
             Log.d(TAG, "Error getting documents: ", e)
         }
         return historyList
+    }
+
+    /**
+     * Retrieve the User's profile picture
+     */
+    fun getProfilePicture(): StorageReference {
+        Log.d(TAG, "Getting the user's profile picture")
+        return storage.reference
+            .child("profilePictures/")
+            .child(auth.currentUser!!.uid)
+    }
+
+    /**
+     * Add or change a profile picture to a User's Firebase profile
+     */
+    suspend fun changeProfilePicture(uri: Uri) {
+        Log.d(TAG, "Updating the user's profile picture")
+        val ref = storage.reference.child("profilePictures/").child(auth.currentUser!!.uid)
+        val profileUpdates = userProfileChangeRequest {
+            photoUri = Uri.parse(ref.toString())
+        }
+        auth.currentUser!!.updateProfile(profileUpdates).await()
+        ref.putFile(uri)
     }
 
     companion object {
