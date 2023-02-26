@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/26/23, 9:27 AM
+ *  Created by Team Symphony on 2/26/23, 11:03 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/26/23, 9:27 AM
+ *  Last modified 2/26/23, 10:54 AM
  */
 
 package com.symphony.mrfit.ui
@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.bumptech.glide.signature.ObjectKey
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -87,6 +88,8 @@ class UserProfileActivity : AppCompatActivity() {
 
                     pfp.setImageURI(selectedImg)
                     profileViewModel.changeProfilePicture(selectedImg!!)
+                    Glide.with(this)
+                        .load(selectedImg).circleCrop().into(pfp)
                 }
             }
 
@@ -104,6 +107,7 @@ class UserProfileActivity : AppCompatActivity() {
                 .load(profileViewModel.getProfilePicture())
                 .placeholder(R.drawable.cactuar)
                 .circleCrop()
+                .signature(ObjectKey(System.currentTimeMillis().toString()))
                 .into(pfp)
             name.text = loggedInUser.name
             ageText.text = loggedInUser.age?.toString() ?: PLACEHOLDER
@@ -143,11 +147,6 @@ class UserProfileActivity : AppCompatActivity() {
             intent.action = Intent.ACTION_GET_CONTENT
             intent.type = "image/*"
             launchPictureSelection.launch(intent)
-            Toast.makeText(
-                applicationContext,
-                "This has not been implemented yet",
-                Toast.LENGTH_LONG
-            ).show()
         }
 
         goal.setOnClickListener {

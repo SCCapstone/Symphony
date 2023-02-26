@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 2/26/23, 9:27 AM
+  ~  Created by Team Symphony on 2/26/23, 11:03 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 2/26/23, 9:25 AM
+  ~  Last modified 2/26/23, 10:31 AM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,7 +34,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/profilePicture"
+                    android:id="@+id/homeProfilePicture"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:layout_margin="3dp"

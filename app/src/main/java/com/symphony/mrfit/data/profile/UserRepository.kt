@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/26/23, 9:27 AM
+ *  Created by Team Symphony on 2/26/23, 11:03 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/26/23, 9:27 AM
+ *  Last modified 2/26/23, 10:46 AM
  */
 
 package com.symphony.mrfit.data.profile
@@ -131,9 +131,12 @@ class UserRepository {
      * Retrieve the User's profile picture
      */
     fun getProfilePicture(): StorageReference {
-        Log.d(TAG, "Getting the user's profile picture")
+        val ref = storage.reference
+            .child(PROFILE_PICTURE)
+            .child(auth.currentUser!!.uid).toString()
+        Log.d(TAG, "Getting the user's profile picture $ref")
         return storage.reference
-            .child("profilePictures/")
+            .child(PROFILE_PICTURE)
             .child(auth.currentUser!!.uid)
     }
 
@@ -141,8 +144,8 @@ class UserRepository {
      * Add or change a profile picture to a User's Firebase profile
      */
     suspend fun changeProfilePicture(uri: Uri) {
-        Log.d(TAG, "Updating the user's profile picture")
-        val ref = storage.reference.child("profilePictures/").child(auth.currentUser!!.uid)
+        Log.d(TAG, "Updating the user's profile picture to $uri")
+        val ref = storage.reference.child(PROFILE_PICTURE).child(auth.currentUser!!.uid)
         val profileUpdates = userProfileChangeRequest {
             photoUri = Uri.parse(ref.toString())
         }
@@ -153,5 +156,6 @@ class UserRepository {
     companion object {
         const val USER_COLLECTION = "users"
         const val HISTORY_COLLECTION = "_history"
+        const val PROFILE_PICTURE = "profilePictures/"
     }
 }

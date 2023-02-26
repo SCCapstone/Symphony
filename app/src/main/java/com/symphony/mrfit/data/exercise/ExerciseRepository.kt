@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/26/23, 9:27 AM
+ *  Created by Team Symphony on 2/26/23, 11:03 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/26/23, 9:27 AM
+ *  Last modified 2/26/23, 9:30 AM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -31,10 +31,9 @@ class ExerciseRepository {
         name: String,
         description: String,
         tags: ArrayList<String>,
-        imageURI: String? = null
     ): String {
         Log.d(TAG, "Adding new workout")
-        val newExercise = Exercise(name, description, tags, imageURI)
+        val newExercise = Exercise(name, description, tags)
         return try {
             val docRef = database.collection(EXERCISE_COLLECTION).add(newExercise).await()
             docRef.update("exerciseID", docRef.id)

@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/26/23, 9:27 AM
+ *  Created by Team Symphony on 2/26/23, 11:03 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/26/23, 9:27 AM
+ *  Last modified 2/26/23, 10:22 AM
  */
 
 package com.symphony.mrfit
@@ -33,11 +33,105 @@ class AddStockExercises : AppCompatActivity() {
         exerciseViewModel.addExercise(
             "Walking",
             "A brisk walk anywhere, anytime.",
-            arrayListOf<String>(
+            arrayListOf(
                 "Low-Intensity",
                 "Aerobic",
                 "Cardio",
                 "At Home"
+            )
+        )
+
+        exerciseViewModel.addExercise(
+            "Jogging",
+            "Trotting or running at a slow or leisurely pace.",
+            arrayListOf(
+                "Low-Intensity",
+                "Aerobic",
+                "Cardio",
+                "At Home"
+            )
+        )
+
+        exerciseViewModel.addExercise(
+            "Running",
+            "Rapidly propelling yourself forward on foot.",
+            arrayListOf(
+                "High-Intensity",
+                "Aerobic",
+                "Cardio"
+            )
+        )
+
+        exerciseViewModel.addExercise(
+            "Squats",
+            "Lowers your hips from a standing position and then stands back up.",
+            arrayListOf(
+                "Lower body",
+                "Strength training",
+                "Calisthenics",
+                "At home"
+            )
+        )
+
+        exerciseViewModel.addExercise(
+            "Lunges",
+            "Pose with one leg forward with knee bent and foot flat on the ground while the other leg is positioned behind",
+            arrayListOf(
+                "Lower body",
+                "Legs",
+                "Strength training",
+                "At home"
+            )
+        )
+
+        exerciseViewModel.addExercise(
+            "Push-Ups",
+            "Raising and lowering the body using the arms.",
+            arrayListOf(
+                "Upper body",
+                "Calisthenics",
+                "At home"
+            )
+        )
+
+        exerciseViewModel.addExercise(
+            "Sit-Ups",
+            "Lie on your back with legs bent, then bend at the waist and move their head and torso towards your legs.",
+            arrayListOf(
+                "Core",
+                "Lower body",
+                "Calisthenics",
+                "At home"
+            )
+        )
+
+        exerciseViewModel.addExercise(
+            "Crunches",
+            "Lie on your back with legs bent, then bend at the waist and move their head and torso towards your legs.",
+            arrayListOf(
+                "Core",
+                "Calisthenics",
+                "At home"
+            )
+        )
+
+        exerciseViewModel.addExercise(
+            "Dumbbell press",
+            "",
+            arrayListOf(
+                "Upper body",
+                "Strength training",
+                "At home"
+            )
+        )
+
+        exerciseViewModel.addExercise(
+            "Dumbbell row",
+            "",
+            arrayListOf(
+                "Upper body",
+                "Strength training",
+                "At home"
             )
         )
     }
