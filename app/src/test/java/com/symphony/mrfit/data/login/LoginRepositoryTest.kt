@@ -1,3 +1,9 @@
+/*
+ *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/24/23, 11:20 PM
+ */
+
 package com.symphony.mrfit.data.login
 
 import android.app.Activity
@@ -7,9 +13,7 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import org.junit.Assert.*
 import org.junit.Before
-
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -27,6 +31,7 @@ class LoginRepositoryTest {
 
     @Mock
     private lateinit var mAuth: FirebaseAuth
+
     @Mock
     private lateinit var logInModel: LoginRepository
 
@@ -181,9 +186,9 @@ class LoginRepositoryTest {
     fun logInSuccess_test() {
         val email = "cool@cool.com"
         val password = "123456"
-        Mockito.`when`(mAuth!!.signInWithEmailAndPassword(email, password))
+        Mockito.`when`(mAuth.signInWithEmailAndPassword(email, password))
             .thenReturn(successTask)
-        logInResult = if(logInModel!!.firebaseLoginTest(email, password)) {
+        logInResult = if (logInModel.firebaseLoginTest(email, password)) {
             SUCCESS
         } else
             FAILURE
@@ -194,9 +199,9 @@ class LoginRepositoryTest {
     fun logInFailure_test() {
         val email = "cool@cool.com"
         val password = "123_456"
-        Mockito.`when`(mAuth!!.signInWithEmailAndPassword(email, password))
+        Mockito.`when`(mAuth.signInWithEmailAndPassword(email, password))
             .thenReturn(failureTask)
-        logInResult = if(logInModel!!.firebaseLoginTest(email, password)) {
+        logInResult = if (logInModel.firebaseLoginTest(email, password)) {
             SUCCESS
         } else
             FAILURE

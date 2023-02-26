@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 12/2/22, 7:23 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 7:15 PM
+ *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/24/23, 11:20 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -51,14 +51,14 @@ class RoutineAdapter (val context:Context, val data: ArrayList<WorkoutRoutine>):
         return data.size
     }
 
-    inner class ViewHolder(workoutView: View) : RecyclerView.ViewHolder(workoutView) {
+    inner class ViewHolder(routineView: View) : RecyclerView.ViewHolder(routineView) {
 
             var routineTitle: TextView
             var routineDetail: TextView
 
             init {
-                    routineTitle = workoutView.findViewById(R.id.workoutNameTextView)
-                    routineDetail = workoutView.findViewById(R.id.workoutDescriptionTextView)
+                    routineTitle = routineView.findViewById(R.id.workoutNameTextView)
+                    routineDetail = routineView.findViewById(R.id.workoutDescriptionTextView)
                 }
         }
 }

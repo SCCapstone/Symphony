@@ -1,7 +1,7 @@
 <!--
-  ~ Created by Team Symphony 12/2/22, 7:23 PM
-  ~ Copyright (c) 2022 . All rights reserved.
-  ~ Last modified 12/2/22, 7:23 PM
+  ~  Created by Team Symphony on 2/25/23, 2:14 AM
+  ~  Copyright (c) 2023 . All rights reserved.
+  ~  Last modified 2/25/23, 2:11 AM
   -->
 
 <resources>
@@ -69,8 +69,15 @@
     <string name="message_exercise_search">What kind of exercise would you like?</string>
     <string name="button_new_workout">New Workout</string>
     <string name="button_start_workout">Start Workout</string>
+    <string name="button_save_routine">Save Routine</string>
+    <string name="button_delete_routine">Delete Routine</string>
     <string name="workout_name">Workout Name</string>
     <string name="save_and_export">Save and Export</string>
     <string name="label_routine_name">Routine Name</string>
     <string name="button_new_exercise">New Exercise</string>
+    <string name="button_add_exercise">Add an Exercise</string>
+    <string name="button_finish_workout">Finish Workout</string>
+    <string name="num_of_reps">%1$i\ Reps"</string>
+    <string name="notification_permission_1">Notification permission is required to schedule alerts, please allow notification permission from settings</string>
+    <string name="notification_permission_2">Notification permission is required for this feature. If you wish to schedule a workout, please enable MrFit to send Notifications in your settings.</string>
 </resources>

@@ -1,14 +1,13 @@
 /*
- * Created by Team Symphony 12/2/22, 7:23 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 3:23 PM
+ *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/24/23, 11:20 PM
  */
 
 package com.symphony.mrfit.data.profile
 
-import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -17,6 +16,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.data.model.User
+import kotlinx.coroutines.tasks.await
 
 class UserRepository {
 
@@ -24,63 +24,56 @@ class UserRepository {
     private var database: FirebaseFirestore = Firebase.firestore
 
     /**
+     * Add a new user to Firestore
+     * Use the user's ID as the document or they will be lost to the database forever
+     */
+    suspend fun addNewUser(user: User) {
+        Log.d(TAG, "Adding User to Firestore")
+        try { database.collection(USER_COLLECTION).document(user.userID).set(user).await()
+            Log.d(TAG, "DocumentSnapshot successfully written!")
+        } catch (e: java.lang.Exception) {
+            Log.w(TAG, "Error writing document", e)
+        }
+
+    }
+
+    /**
      * Pull the currently logged in user's profile from Firestore
      */
-    fun getCurrentUser(_loggedInUser: MutableLiveData<User>) {
-        Log.d(ContentValues.TAG, "Retrieving User ${auth.currentUser!!.uid} from Firestore")
+    suspend fun getCurrentUser() : User? {
+        Log.d(TAG, "Retrieving User ${auth.currentUser!!.uid} from Firestore")
         val doc = auth.currentUser!!.uid
         val docRef = database.collection(USER_COLLECTION).document(doc)
-        docRef.get().addOnSuccessListener { documentSnapshot ->
-                _loggedInUser.value = documentSnapshot.toObject<User>()
-            }
+        return try { val snapshot = docRef.get().await()
+            snapshot.toObject<User>()
+        } catch (e: java.lang.Exception) {
+            Log.w(TAG, "Error getting document", e)
+            null
+        }
     }
 
     /**
      * Read data from Edit Profile form and update Firestore accordingly
      */
-    fun updateCurrentUser(
-    _loggedInUser: MutableLiveData<User>,
+    suspend fun updateCurrentUser(
     newName: String?,
     newAge: Int?,
     newHeight: Int?,
-    newWeight: Double?) {
+    newWeight: Double?) : User? {
+        val user = getCurrentUser()
         val uid = auth.currentUser!!.uid
-        Log.d(ContentValues.TAG, "Updating User $uid in Firestore")
-        newName?.let {_loggedInUser.value?.name= newName}
-        newAge?.let {_loggedInUser.value?.age = newAge}
-        newHeight?.let {_loggedInUser.value?.height = newHeight}
-        newWeight?.let {_loggedInUser.value?.weight = newWeight}
+        Log.d(TAG, "Updating User $uid in Firestore")
+        newName?.let {user!!.name= newName}
+        newAge?.let {user!!.age = newAge}
+        newHeight?.let {user!!.height = newHeight}
+        newWeight?.let {user!!.weight = newWeight}
 
-        val user = _loggedInUser.value
-        if (user != null) {
-            database.collection(USER_COLLECTION).document(uid).set(user)
-                .addOnSuccessListener {
-                    Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
-                }
-                .addOnFailureListener {
-                        e -> Log.w(ContentValues.TAG, "Error writing document", e)
-                }
+        try { database.collection(USER_COLLECTION).document(uid).set(user!!).await()
+            Log.d(TAG, "DocumentSnapshot successfully written!")
+        } catch (e: java.lang.Exception) {
+          Log.w(TAG, "Error writing document", e)
         }
-        _loggedInUser.value = user
-    }
-
-    /**
-     * Add a new user to Firestore
-     * Use the user's ID as the document or they will be lost to the database forever
-     */
-    fun addNewUser(_loggedInUser: MutableLiveData<User>) {
-        Log.d(ContentValues.TAG, "Adding User to Firestore")
-        val user = _loggedInUser.value
-        if (user != null) {
-            database.collection(USER_COLLECTION).document(user.userID).set(user)
-                .addOnSuccessListener {
-                    Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
-                }
-                .addOnFailureListener {
-                        e -> Log.w(ContentValues.TAG, "Error writing document", e)
-                }
-        }
-
+        return user
     }
 
     /**
@@ -88,21 +81,44 @@ class UserRepository {
      */
     fun removeUser() {
         val user = auth.currentUser!!
-        Log.d(ContentValues.TAG, "Removing User ${user.uid} from Firestore")
+        Log.d(TAG, "Removing User ${user.uid} from Firestore")
         database.collection(USER_COLLECTION).document(user.uid)
             .delete()
-            .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot successfully deleted!") }
-            .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error deleting document", e) }
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
     }
 
     /**
      * Add a new Workout History to the user's subcollection
      */
-    fun addWorkoutHistory(history: History) {
+    suspend fun addWorkoutHistory(history: History) {
         val user = auth.currentUser!!
-        Log.d(ContentValues.TAG, "Adding to the history of ${user.uid}")
+        Log.d(TAG, "Adding to the history of ${user.uid}")
         database.collection(USER_COLLECTION).document(user.uid)
-            .collection(HISTORY_COLLECTION).add(history)
+            .collection(HISTORY_COLLECTION).add(history).await()
+    }
+
+    /**
+     * Get a user's complete Workout History
+     */
+    suspend fun getWorkoutHistory() : ArrayList<History>{
+        val user = auth.currentUser!!
+        val historyList = arrayListOf<History>()
+        Log.d(TAG, "Getting the history of ${user.uid}")
+        try {
+            val result = database.collection(USER_COLLECTION)
+                .document(user.uid)
+                .collection(HISTORY_COLLECTION)
+                .get()
+                .await()
+
+            for (document in result) {
+                historyList.add(document.toObject())
+            }
+        } catch (e: java.lang.Exception) {
+            Log.d(TAG, "Error getting documents: ", e)
+        }
+        return historyList
     }
 
     companion object {
