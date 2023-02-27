@@ -1,7 +1,7 @@
 <!--
-  ~  Created by Team Symphony on 2/25/23, 2:14 AM
+  ~  Created by Team Symphony on 2/26/23, 8:55 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 2/25/23, 2:11 AM
+  ~  Last modified 2/26/23, 8:54 PM
   -->
 
 <resources>
@@ -80,4 +80,16 @@
     <string name="num_of_reps">%1$i\ Reps"</string>
     <string name="notification_permission_1">Notification permission is required to schedule alerts, please allow notification permission from settings</string>
     <string name="notification_permission_2">Notification permission is required for this feature. If you wish to schedule a workout, please enable MrFit to send Notifications in your settings.</string>
+    <string name="arm_day">Arm Day</string>
+    <string name="curls">Curls</string>
+    <string name="pushdown">pushdown</string>
+    <string name="extensions">extensions</string>
+    <string name="leg_day">Leg Day</string>
+    <string name="squats">squats</string>
+    <string name="rdl">rdl</string>>
+    <string name="lunges">lunges</string>
+    <string name="pick_a_workout">Pick a Workout</string>
+    <string name="arms">arms</string>>
+    <string name="legs">legs</string>
+
 </resources>
