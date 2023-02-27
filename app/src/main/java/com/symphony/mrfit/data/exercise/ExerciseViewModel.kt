@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 12/2/22, 7:23 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 7:02 PM
+ *  Created by Team Symphony on 2/26/23, 3:04 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/26/23, 12:05 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -9,9 +9,12 @@ package com.symphony.mrfit.data.exercise
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.symphony.mrfit.data.model.Exercise
 import com.symphony.mrfit.data.model.Workout
 import com.symphony.mrfit.data.model.WorkoutRoutine
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 /**
  * Class for talking between any UI and the Exercise Repository
@@ -36,39 +39,113 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
     private val _workoutRoutineList = MutableLiveData<ArrayList<WorkoutRoutine>>()
     val workoutRoutineList: LiveData<ArrayList<WorkoutRoutine>> = _workoutRoutineList
 
-    fun addExercise(name: String, description: String, id: String) {
-        exerciseRepository.addExercise(name, description, id)
+    private val _routine = MutableLiveData<WorkoutRoutine>()
+    val routine: LiveData<WorkoutRoutine> = _routine
+
+    private val _routineListener = MutableLiveData<RoutineListener>()
+    val routineListener: LiveData<RoutineListener> = _routineListener
+
+    fun addWorkout(workout: Workout) : String{
+        var newID = ""
+        /**
+         * TODO: Is it possible to run this is as a proper coroutine?
+         */
+        runBlocking{
+            val job = launch { newID = exerciseRepository.addWorkout(workout) }
+            job.join()
+        }
+        return newID
     }
 
-    fun addWorkout(workout: Workout,workID: String) {
-        exerciseRepository.addWorkout(workout, workID)
+    fun updateWorkout(workout: Workout) {
+        viewModelScope.launch { exerciseRepository.updateWorkout(workout) }
     }
 
-    fun addWorkoutToRoutine(routineID: String?, workoutList: ArrayList<String>) {
-        exerciseRepository.addWorkoutToRoutine(routineID, workoutList)
+    fun updateRoutineWorkoutList(routineID: String, workoutList: ArrayList<String>) {
+        viewModelScope.launch {
+            _routineListener.value = exerciseRepository.updateRoutineWorkoutList(routineID, workoutList)
+        }
     }
 
-    fun addRoutine(name: String, workoutList: ArrayList<String>) {
-        exerciseRepository.addRoutine(name, workoutList)
+    fun addRoutine(name: String, desc: String, workoutList: ArrayList<String>): String {
+        var newID = ""
+        runBlocking {
+            val job = launch { newID = exerciseRepository.addRoutine(name, desc, workoutList) }
+            job.join()
+        }
+        return newID
+    }
+
+    fun getRoutine(routineID: String){
+        viewModelScope.launch {
+            _routine.value = exerciseRepository.getRoutine(routineID)
+        }
+    }
+
+    fun deleteRoutine(routineID: String) {
+        viewModelScope.launch {
+            exerciseRepository.deleteRoutine(routineID)
+        }
     }
 
     fun updateRoutine(name: String, routineID: String) {
-        exerciseRepository.updateRoutine(name, routineID)
+        viewModelScope.launch {
+            exerciseRepository.updateRoutine(name, routineID = routineID)
+        }
+    }
+
+    fun updateRoutine(name: String, desc: String, routineID: String) {
+        viewModelScope.launch {
+            exerciseRepository.updateRoutine(name, desc, routineID)
+        }
+    }
+
+    fun addExercise(
+        name: String,
+        description: String,
+        tags: ArrayList<String>,
+    ): String {
+        var newID = ""
+        runBlocking {
+            val job = launch { newID = exerciseRepository.addExercise(name, description, tags) }
+            job.join()
+        }
+        return newID
     }
 
     fun getExercise(exeID: String) {
-        exerciseRepository.getExercise(exeID, _exercise)
+        viewModelScope.launch {
+            _exercise.value = exerciseRepository.getExerciseByID(exeID)
+        }
+    }
+
+    fun getExerciseByWorkout(workoutID: String) {
+        viewModelScope.launch {
+            //workout = exerciseRepository.getExercise(workoutID)
+        }
     }
 
     fun getExercisesBySearch(searchTerm: String) {
-        exerciseRepository.getExerciseList(searchTerm, _exerciseList)
+        viewModelScope.launch {
+            _exerciseList.value = exerciseRepository.getExerciseList(searchTerm)
+        }
     }
 
     fun getWorkouts(workoutList: ArrayList<String>) {
-        exerciseRepository.getWorkouts(workoutList, _workoutList)
+        viewModelScope.launch {
+            _workoutList.value = exerciseRepository.getWorkoutList(workoutList)
+        }
+    }
+
+    fun getWorkouts(routineID: String) {
+        viewModelScope.launch {
+            _workoutList.value = exerciseRepository.getWorkoutList(routineID)
+        }
     }
 
     fun getUserRoutines() {
-        exerciseRepository.getUserRoutines(_workoutRoutineList)
+        viewModelScope.launch {
+            _workoutRoutineList.value = exerciseRepository.getUserRoutines()
+        }
     }
 }

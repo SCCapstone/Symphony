@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="LegsButton" type="id" />
+    <item name="ArmsButton" type="id" />
+    <item name="editTextTextPersonName" type="id" />
+</resources>

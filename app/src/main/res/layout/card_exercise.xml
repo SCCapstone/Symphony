@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Created by Team Symphony 12/2/22, 7:23 PM
-  ~ Copyright (c) 2022 . All rights reserved.
-  ~ Last modified 12/2/22, 3:23 PM
+  ~  Created by Team Symphony on 2/26/23, 11:15 AM
+  ~  Copyright (c) 2023 . All rights reserved.
+  ~  Last modified 2/26/23, 11:15 AM
   -->
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -39,27 +39,38 @@
 
         <!-- Text View to display Exercise Name -->
         <TextView
-        android:id="@+id/exerciseNameTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_toEndOf="@id/exerciseImage"
-        android:text="@string/PLACEHOLDER_TEXT"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+            android:id="@+id/exerciseNameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/exerciseImage"
+            android:text="@string/PLACEHOLDER_TEXT"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Text VIew to display Exercise Tags -->
+        <TextView
+            android:id="@+id/exerciseTagsTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/exerciseNameTextView"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/exerciseImage"
+            android:drawablePadding="2dp"
+            android:text="@string/PLACEHOLDER_TEXT" />
 
         <!-- Text VIew to display Exercise Description -->
         <TextView
-        android:id="@+id/exerciseDescriptionTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/exerciseNameTextView"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_toEndOf="@id/exerciseImage"
-        android:drawablePadding="2dp"
-        android:text="@string/PLACEHOLDER_TEXT" />
+            android:id="@+id/exerciseDescriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/exerciseTagsTextView"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/exerciseImage"
+            android:drawablePadding="2dp"
+            android:text="@string/PLACEHOLDER_TEXT" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

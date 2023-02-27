@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 12/2/22, 7:23 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 3:23 PM
+ *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/24/23, 11:20 PM
  */
 
 package com.symphony.mrfit.ui
@@ -11,16 +11,18 @@ import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.symphony.mrfit.R
+import com.symphony.mrfit.data.login.LoginResult
 import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
-import com.symphony.mrfit.data.model.User
 import com.symphony.mrfit.databinding.ActivityRegisterBinding
+import com.symphony.mrfit.ui.Helper.showSnackBar
 
 /**
  * Screen for a new user to register an account
@@ -44,6 +46,9 @@ class RegisterActivity : AppCompatActivity() {
         val confirm = binding.confirmPassword
         val register = binding.registerButton
         val login = binding.toLoginTextView
+        val spinner = binding.loadingSpinner
+
+        register.isEnabled = false
 
         email.afterTextChanged {
             registerViewModel.registerDataChanged(
@@ -66,7 +71,6 @@ class RegisterActivity : AppCompatActivity() {
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
                         registerViewModel.register(
-                            activity,
                             email.text.toString(),
                             password.text.toString()
                         )
@@ -88,7 +92,6 @@ class RegisterActivity : AppCompatActivity() {
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
                         registerViewModel.register(
-                            activity,
                             email.text.toString(),
                             password.text.toString()
                         )
@@ -98,7 +101,8 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         register.setOnClickListener {
-            registerViewModel.register(activity, email.text.toString(), password.text.toString())
+            spinner.visibility = View.VISIBLE
+            registerViewModel.register(email.text.toString(), password.text.toString())
         }
 
         login.setOnClickListener {
@@ -120,7 +124,6 @@ class RegisterActivity : AppCompatActivity() {
         registerViewModel.registerForm.observe(this, Observer {
             val registerState = it ?: return@Observer
 
-            // TODO: Disable the button from the start? Or check validation in repo
             // Disable register button until all fields are valid
             register.isEnabled = registerState.isDataValid
 
@@ -135,18 +138,19 @@ class RegisterActivity : AppCompatActivity() {
             }
         })
 
-        /**
-         * Observe if the currently logged in user becomes populated
-         */
-        registerViewModel.user.observe(this, Observer {
-            val user = it ?: return@Observer
 
-            if (user.userID == "ERROR" && user.name != null) {
+        // Observe if the currently logged in user becomes populated
+        registerViewModel.loginResult.observe(this, Observer {
+            val loginResult = it ?: return@Observer
+
+            spinner.visibility = View.GONE
+
+            if (loginResult.error != null) {
                 Log.d(ContentValues.TAG, "UI thinks registration failed")
-                showRegisterFailed(user.name!!)
-            } else if (user.userID != "ERROR" && user.name != null) {
-                Log.d(ContentValues.TAG, "UI things registration succeeded")
-                gotoHomeScreen(user)
+                showRegisterFailed()
+            } else {
+                Log.d(ContentValues.TAG, "UI thinks registration succeeded")
+                gotoHomeScreen(loginResult)
             }
             setResult(Activity.RESULT_OK)
         })
@@ -155,14 +159,10 @@ class RegisterActivity : AppCompatActivity() {
     /**
      * After a successful login, go to the home screen
      */
-    private fun gotoHomeScreen(model: User) {
+    private fun gotoHomeScreen(model: LoginResult) {
         val welcome = getString(R.string.welcome)
-        val user = model.name
-        Toast.makeText(
-            applicationContext,
-            "$welcome $user",
-            Toast.LENGTH_LONG
-        ).show()
+        val user = model.success
+        Toast.makeText(applicationContext,"$welcome $user", Toast.LENGTH_SHORT).show()
 
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
@@ -171,18 +171,8 @@ class RegisterActivity : AppCompatActivity() {
         finish()
     }
 
-    /**
-     * Example: Email address already in use or just server-side error
-     * TODO: Learn how to read why registration failed and output relevant message
-     */
-    /*
-    private fun showRegisterFailed(@StringRes errorString: Int) {
-        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
-    }
-
-     */
-    private fun showRegisterFailed(errorString: String) {
-        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+    private fun showRegisterFailed() {
+        showSnackBar("Registration failed", this)
     }
 
 }

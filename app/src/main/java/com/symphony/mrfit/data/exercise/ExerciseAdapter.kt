@@ -1,22 +1,23 @@
 /*
- * Created by Team Symphony 12/2/22, 7:23 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 7:20 PM
+ *  Created by Team Symphony on 2/26/23, 11:15 AM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/26/23, 11:15 AM
  */
 
 package com.symphony.mrfit.data.exercise
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.model.Exercise
+import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_IDENTITY
 
 /**
  * Adapter for dynamically populating a card_exercise with a passed list of Exercises
@@ -33,11 +34,16 @@ class ExerciseAdapter (val context:Context, val data: ArrayList<Exercise>): Recy
 
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
         holder.exeTitle.text = data[i].name
+        holder.exeTags.text = data[i].tags.toString()
         holder.exeDetail.text = data[i].description
 
         holder.itemView.setOnClickListener {
-            Toast.makeText(context, "You have tapped ${data[i].name}", Toast.LENGTH_SHORT).show()
-            (context as Activity).finish()
+            val intent = Intent()
+            intent.putExtra(EXTRA_IDENTITY, data[i].exerciseID)
+            context as Activity
+            context.setResult(Activity.RESULT_OK, intent)
+            context.finish()
+
         }
 
     }
@@ -49,13 +55,15 @@ class ExerciseAdapter (val context:Context, val data: ArrayList<Exercise>): Recy
     inner class ViewHolder(exeView: View) : RecyclerView.ViewHolder(exeView) {
 
             var exeImage: ImageView
-            var exeTitle: TextView
-            var exeDetail: TextView
+        var exeTitle: TextView
+        var exeTags: TextView
+        var exeDetail: TextView
 
             init {
                     exeImage = exeView.findViewById(R.id.exerciseImage)
-                    exeTitle = exeView.findViewById(R.id.exerciseNameTextView)
-                    exeDetail = exeView.findViewById(R.id.exerciseDescriptionTextView)
+                exeTitle = exeView.findViewById(R.id.exerciseNameTextView)
+                exeTags = exeView.findViewById(R.id.exerciseTagsTextView)
+                exeDetail = exeView.findViewById(R.id.exerciseDescriptionTextView)
                 }
         }
 }
