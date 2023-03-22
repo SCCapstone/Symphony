@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/26/23, 11:03 AM
+ *  Created by Team Symphony on 3/22/23, 3:03 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/26/23, 10:54 AM
+ *  Last modified 3/18/23, 5:33 PM
  */
 
 package com.symphony.mrfit.ui
@@ -9,13 +9,17 @@ package com.symphony.mrfit.ui
 import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.ext.SdkExtensions.getExtensionVersion
 import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -46,6 +50,7 @@ class UserProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUserProfileBinding
     private lateinit var repo: LoginRepository
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -80,7 +85,23 @@ class UserProfileActivity : AppCompatActivity() {
         val pfp = binding.profilePicture
 
 
-        val launchPictureSelection =
+        val photoPicker =
+            registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+                // Callback is invoked after the user selects a media item or closes the
+                // photo picker.
+                if (uri != null) {
+                    Log.d("PhotoPicker", "Selected URI: $uri")
+
+                    pfp.setImageURI(uri)
+                    profileViewModel.changeProfilePicture(uri)
+                    Glide.with(this)
+                        .load(uri).circleCrop().into(pfp)
+                } else {
+                    Log.d("PhotoPicker", "No media selected")
+                }
+            }
+
+        val imageSelection =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 
                 if (result.resultCode == Activity.RESULT_OK) {
@@ -143,10 +164,15 @@ class UserProfileActivity : AppCompatActivity() {
         }
 
         pfp.setOnClickListener {
-            val intent = Intent()
-            intent.action = Intent.ACTION_GET_CONTENT
-            intent.type = "image/*"
-            launchPictureSelection.launch(intent)
+            // Check if the user is on a version of android that supports to the Photo Picker
+            if (isPhotoPickerAvailable()) {
+                photoPicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            } else {
+                val intent = Intent()
+                intent.action = Intent.ACTION_GET_CONTENT
+                intent.type = "image/*"
+                imageSelection.launch(intent)
+            }
         }
 
         goal.setOnClickListener {
@@ -313,6 +339,18 @@ class UserProfileActivity : AppCompatActivity() {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
     }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun isPhotoPickerAvailable(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            true
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            getExtensionVersion(Build.VERSION_CODES.R) >= 2
+        } else {
+            false
+        }
+    }
+
 
     companion object {
         private const val PLACEHOLDER = "--"
