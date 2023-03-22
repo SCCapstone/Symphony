@@ -1,15 +1,17 @@
 /*
- *  Created by Team Symphony on 2/26/23, 3:04 PM
+ *  Created by Team Symphony on 3/22/23, 3:03 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/26/23, 12:05 PM
+ *  Last modified 3/22/23, 3:03 PM
  */
 
 package com.symphony.mrfit.data.exercise
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.storage.StorageReference
 import com.symphony.mrfit.data.model.Exercise
 import com.symphony.mrfit.data.model.Workout
 import com.symphony.mrfit.data.model.WorkoutRoutine
@@ -104,10 +106,12 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
         name: String,
         description: String,
         tags: ArrayList<String>,
+        image: Uri
     ): String {
         var newID = ""
         runBlocking {
-            val job = launch { newID = exerciseRepository.addExercise(name, description, tags) }
+            val job =
+                launch { newID = exerciseRepository.addExercise(name, description, tags, image) }
             job.join()
         }
         return newID
@@ -128,6 +132,21 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
     fun getExercisesBySearch(searchTerm: String) {
         viewModelScope.launch {
             _exerciseList.value = exerciseRepository.getExerciseList(searchTerm)
+        }
+    }
+
+    fun getExerciseImage(exeID: String): StorageReference? {
+        var ref: StorageReference? = null
+        runBlocking {
+            val job = launch { ref = exerciseRepository.getExerciseImage(exeID) }
+            job.join()
+        }
+        return ref
+    }
+
+    fun changeExerciseImage(exeID: String, uri: Uri) {
+        viewModelScope.launch {
+            exerciseRepository.changeExerciseImage(exeID, uri)
         }
     }
 

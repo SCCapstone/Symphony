@@ -1,17 +1,19 @@
 /*
- *  Created by Team Symphony on 2/26/23, 11:03 AM
+ *  Created by Team Symphony on 3/22/23, 3:03 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/26/23, 10:22 AM
+ *  Last modified 3/22/23, 2:58 PM
  */
 
 package com.symphony.mrfit
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.databinding.ActivityAddStockExercisesBinding
+import com.symphony.mrfit.ui.ExerciseActivity
 
 class AddStockExercises : AppCompatActivity() {
 
@@ -27,8 +29,9 @@ class AddStockExercises : AppCompatActivity() {
             this, ExerciseViewModelFactory()
         )[ExerciseViewModel::class.java]
 
-        val spinner = binding.loadingSpinner
-        val text = binding.addingExercisesTextView
+        /**
+         * TODO: Replace all Uri parses with appropriate images
+         */
 
         exerciseViewModel.addExercise(
             "Walking",
@@ -38,7 +41,8 @@ class AddStockExercises : AppCompatActivity() {
                 "Aerobic",
                 "Cardio",
                 "At Home"
-            )
+            ),
+            Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
 
         exerciseViewModel.addExercise(
@@ -49,7 +53,8 @@ class AddStockExercises : AppCompatActivity() {
                 "Aerobic",
                 "Cardio",
                 "At Home"
-            )
+            ),
+            Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
 
         exerciseViewModel.addExercise(
@@ -59,7 +64,8 @@ class AddStockExercises : AppCompatActivity() {
                 "High-Intensity",
                 "Aerobic",
                 "Cardio"
-            )
+            ),
+            Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
 
         exerciseViewModel.addExercise(
@@ -70,7 +76,8 @@ class AddStockExercises : AppCompatActivity() {
                 "Strength training",
                 "Calisthenics",
                 "At home"
-            )
+            ),
+            Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
 
         exerciseViewModel.addExercise(
@@ -81,7 +88,8 @@ class AddStockExercises : AppCompatActivity() {
                 "Legs",
                 "Strength training",
                 "At home"
-            )
+            ),
+            Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
 
         exerciseViewModel.addExercise(
@@ -91,7 +99,8 @@ class AddStockExercises : AppCompatActivity() {
                 "Upper body",
                 "Calisthenics",
                 "At home"
-            )
+            ),
+            Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
 
         exerciseViewModel.addExercise(
@@ -102,7 +111,8 @@ class AddStockExercises : AppCompatActivity() {
                 "Lower body",
                 "Calisthenics",
                 "At home"
-            )
+            ),
+            Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
 
         exerciseViewModel.addExercise(
@@ -112,7 +122,8 @@ class AddStockExercises : AppCompatActivity() {
                 "Core",
                 "Calisthenics",
                 "At home"
-            )
+            ),
+            Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
 
         exerciseViewModel.addExercise(
@@ -122,7 +133,8 @@ class AddStockExercises : AppCompatActivity() {
                 "Upper body",
                 "Strength training",
                 "At home"
-            )
+            ),
+            Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
 
         exerciseViewModel.addExercise(
@@ -132,7 +144,8 @@ class AddStockExercises : AppCompatActivity() {
                 "Upper body",
                 "Strength training",
                 "At home"
-            )
+            ),
+            Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
     }
 }

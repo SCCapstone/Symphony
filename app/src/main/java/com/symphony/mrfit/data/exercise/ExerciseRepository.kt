@@ -1,12 +1,13 @@
 /*
- *  Created by Team Symphony on 2/26/23, 11:03 AM
+ *  Created by Team Symphony on 3/22/23, 3:03 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/26/23, 9:30 AM
+ *  Last modified 3/22/23, 3:03 PM
  */
 
 package com.symphony.mrfit.data.exercise
 
 import android.content.ContentValues.TAG
+import android.net.Uri
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -14,6 +15,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
 import com.symphony.mrfit.data.model.Exercise
 import com.symphony.mrfit.data.model.Workout
 import com.symphony.mrfit.data.model.WorkoutRoutine
@@ -23,6 +27,7 @@ class ExerciseRepository {
 
     private var auth: FirebaseAuth = Firebase.auth
     private var database: FirebaseFirestore = Firebase.firestore
+    private var storage: FirebaseStorage = Firebase.storage
 
     /**
      * Add a new Exercise to the database
@@ -31,6 +36,7 @@ class ExerciseRepository {
         name: String,
         description: String,
         tags: ArrayList<String>,
+        image: Uri
     ): String {
         Log.d(TAG, "Adding new workout")
         val newExercise = Exercise(name, description, tags)
@@ -38,6 +44,7 @@ class ExerciseRepository {
             val docRef = database.collection(EXERCISE_COLLECTION).add(newExercise).await()
             docRef.update("exerciseID", docRef.id)
             Log.d(TAG, "New exercise added at ${docRef.id}!")
+            changeExerciseImage(docRef.id, image)
             docRef.id
         } catch (e: java.lang.Exception) {
             Log.w(TAG, "Error writing document", e)
@@ -121,15 +128,37 @@ class ExerciseRepository {
                 }
             }
         } catch (e: java.lang.Exception) {
-                Log.d(TAG, "Error getting documents: ", e)
+            Log.d(TAG, "Error getting documents: ", e)
         }
         return exeList
     }
 
     /**
+     * Retrieve the image associated with an exercise
+     */
+    fun getExerciseImage(exeID: String): StorageReference {
+        val ref = storage.reference
+            .child(EXERCISE_PICTURE)
+            .child(exeID).toString()
+        Log.d(TAG, "Getting the picture for exercise $ref")
+        return storage.reference
+            .child(EXERCISE_PICTURE)
+            .child(exeID)
+    }
+
+    /**
+     * Add or change an exercise's picture
+     */
+    suspend fun changeExerciseImage(exeID: String, uri: Uri) {
+        Log.d(TAG, "Updating the user's profile picture to $uri")
+        val ref = storage.reference.child(EXERCISE_PICTURE).child(exeID)
+        ref.putFile(uri).await()
+    }
+
+    /**
      * Add a new Workout to the database
      */
-    suspend fun addWorkout(workout: Workout) : String {
+    suspend fun addWorkout(workout: Workout): String {
         Log.d(TAG, "Adding new workout")
         return try {
             val docRef = database.collection(WORKOUT_COLLECTION).add(workout).await()
@@ -290,5 +319,6 @@ class ExerciseRepository {
         const val WORKOUT_COLLECTION = "workouts"
         const val ROUTINE_COLLECTION = "routines"
         const val TAGS_FIELD = "tags"
+        const val EXERCISE_PICTURE = "exercisePictures/"
     }
 }
