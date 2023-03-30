@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/22/23, 3:03 PM
+ *  Created by Team Symphony on 3/30/23, 3:45 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/22/23, 3:03 PM
+ *  Last modified 3/30/23, 3:20 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -246,11 +246,11 @@ class ExerciseRepository {
     /**
      * Update a Routine's name
      */
-    fun updateRoutine(name: String, desc: String? = null, routineID: String) {
+    fun updateRoutine(name: String, playlist: String? = null, routineID: String) {
         Log.d(TAG, "Changing $routineID name to $name")
         database.collection(ROUTINE_COLLECTION).document(routineID).update("name", name)
-        if (desc != null) {
-            database.collection(ROUTINE_COLLECTION).document(routineID).update("description", desc)
+        if (playlist != null) {
+            database.collection(ROUTINE_COLLECTION).document(routineID).update("playlist", playlist)
         }
     }
 
@@ -272,7 +272,7 @@ class ExerciseRepository {
                 val temp = WorkoutRoutine(
                     t.name,
                     t.ownerID,
-                    t.description,
+                    t.playlist,
                     t.workoutList,
                     document.id
                 )

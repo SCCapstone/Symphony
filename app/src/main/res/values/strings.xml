@@ -1,7 +1,7 @@
 <!--
-  ~  Created by Team Symphony on 2/26/23, 8:55 PM
+  ~  Created by Team Symphony on 3/30/23, 3:45 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 2/26/23, 8:54 PM
+  ~  Last modified 3/30/23, 1:57 PM
   -->
 
 <resources>
@@ -64,7 +64,7 @@
     <string name="hint_confirm_password">Confirm Password</string>
     <string name="reset_alert_message">Please enter an email address to send a password reset request to, and give it a moment to arrive</string>
     <string name="reset_alert_title">Forgot Password</string>
-    <string name="workout_description">Workout Description</string>
+    <string name="workout_playlist">Workout Playlist</string>
     <string name="button_schedule">Schedule A Workout</string>
     <string name="message_exercise_search">What kind of exercise would you like?</string>
     <string name="button_new_workout">New Workout</string>

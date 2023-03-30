@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/22/23, 3:03 PM
+ *  Created by Team Symphony on 3/30/23, 3:45 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/22/23, 3:03 PM
+ *  Last modified 3/30/23, 3:20 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -96,9 +96,9 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
         }
     }
 
-    fun updateRoutine(name: String, desc: String, routineID: String) {
+    fun updateRoutine(name: String, playlist: String, routineID: String) {
         viewModelScope.launch {
-            exerciseRepository.updateRoutine(name, desc, routineID)
+            exerciseRepository.updateRoutine(name, playlist, routineID)
         }
     }
 
