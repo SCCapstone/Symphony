@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 11/10/22, 11:39 PM
+ * Created by Team Symphony 12/2/22, 7:23 PM
  * Copyright (c) 2022 . All rights reserved.
- * Last modified 11/10/22, 11:38 PM
+ * Last modified 12/2/22, 3:23 PM
  */
 
 package com.symphony.mrfit.data.login
@@ -11,6 +11,7 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import com.google.errorprone.annotations.DoNotMock
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -62,6 +63,13 @@ class LoginRepository {
                     user.value = User("ERROR", "Authentication rejected Login")
                 }
             }
+    }
+    fun firebaseLoginTest(email: String, password: String) : Boolean {
+        var success  = false
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener() { task ->
+            success = task.isSuccessful
+        }
+        return success
     }
 
     /**

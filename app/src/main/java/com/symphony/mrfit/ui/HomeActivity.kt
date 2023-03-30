@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 11/26/22, 3:06 PM
+ * Created by Team Symphony 12/2/22, 7:23 PM
  * Copyright (c) 2022 . All rights reserved.
- * Last modified 11/26/22, 3:06 PM
+ * Last modified 12/2/22, 4:24 PM
  */
 
 package com.symphony.mrfit.ui
@@ -10,7 +10,6 @@ import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -33,7 +32,9 @@ class HomeActivity : AppCompatActivity() {
 
         val userProfile = binding.userLayout
         val name = binding.homeNameTextView
-        val workout = binding.workoutButton
+        val scheduleWorkout = binding.scheduleButton
+        val startWorkout = binding.workoutButton
+        val history = binding.historyList
 
         /**
          * Get data of current User and populate the page
@@ -44,6 +45,7 @@ class HomeActivity : AppCompatActivity() {
             val loggedInUser = it ?: return@Observer
 
             name.text = loggedInUser.name
+            //history.adapter = HistoryAdapter(this, userHistory)
         })
 
         userProfile.setOnClickListener {
@@ -51,12 +53,14 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        workout.setOnClickListener {
-            Toast.makeText(
-                applicationContext,
-                "here",
-                Toast.LENGTH_LONG
-            ).show()
+        scheduleWorkout.setOnClickListener {
+            val intent = Intent(this, NotificationActivity::class.java)
+            startActivity(intent)
+        }
+
+        startWorkout.setOnClickListener {
+            val intent = Intent(this, RoutineSelectionActivity::class.java)
+            startActivity(intent)
         }
     }
 }

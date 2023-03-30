@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 11/10/22, 11:39 PM
+ * Created by Team Symphony 12/2/22, 7:23 PM
  * Copyright (c) 2022 . All rights reserved.
- * Last modified 11/10/22, 11:38 PM
+ * Last modified 12/2/22, 3:23 PM
  */
 
 package com.symphony.mrfit.ui
@@ -14,6 +14,7 @@ import android.content.IntentSender
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
 import android.view.inputmethod.EditorInfo
@@ -81,6 +82,8 @@ class LoginActivity : AppCompatActivity() {
         val register = binding.toRegisterTextView
         val reset = binding.resetPasswordTextView
 
+        emailLogin.isEnabled = false
+
         /**
          * TODO: Split into MVVM model
          */
@@ -146,7 +149,12 @@ class LoginActivity : AppCompatActivity() {
         }
 
         emailLogin.setOnClickListener {
-            loginViewModel.emailLogin(activity, email.text.toString(), password.text.toString())
+            if (email.text.isNotEmpty() && password.text.isNotEmpty())
+                loginViewModel.emailLogin(activity, email.text.toString(), password.text.toString())
+            else {
+                Toast.makeText(applicationContext, "Cannot sign in with empty field.",
+                    Toast.LENGTH_SHORT).show()
+            }
         }
 
         googleLogin.setOnClickListener {
