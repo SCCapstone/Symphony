@@ -1,7 +1,7 @@
 <!--
-  ~  Created by Team Symphony on 3/30/23, 3:45 PM
+  ~  Created by Team Symphony on 3/30/23, 5:52 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 3/30/23, 1:57 PM
+  ~  Last modified 3/30/23, 4:22 PM
   -->
 
 <resources>
@@ -91,5 +91,6 @@
     <string name="pick_a_workout">Pick a Workout</string>
     <string name="arms">arms</string>>
     <string name="legs">legs</string>
+    <string name="hint_exercise_search">Search by Tags</string>
 
 </resources>

@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/30/23, 3:45 PM
+ *  Created by Team Symphony on 3/30/23, 5:52 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/30/23, 3:27 PM
+ *  Last modified 3/30/23, 5:52 PM
  */
 
 package com.symphony.mrfit.ui
@@ -13,6 +13,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -41,6 +42,9 @@ class WorkoutRoutineActivity : AppCompatActivity() {
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var exerciseViewModel: ExerciseViewModel
     private lateinit var binding: ActivityWorkoutRoutineBinding
+    private lateinit var routineName: EditText
+    private lateinit var routinePlaylist: EditText
+    private lateinit var passedRoutineID: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,15 +68,18 @@ class WorkoutRoutineActivity : AppCompatActivity() {
 
         // Bind variables to View elements
         val spinner = binding.loadingSpinner
-        val routineName = binding.routineNameEditText
-        val routinePlaylist = binding.workoutPlaylistEditText
+        routineName = binding.routineNameEditText
+        routinePlaylist = binding.workoutPlaylistEditText
         val workoutList = binding.workoutListView
         val startWorkout = binding.startWorkoutButton
         val newExercise = binding.newExerciseButton
         val saveWorkout = binding.saveWorkoutButton
         val deleteWorkout = binding.deleteWorkoutButton
         val playMusic = binding.openPlaylistButton
+        val placeholderText = binding.workoutListPlaceholder
 
+        placeholderText.visibility = View.VISIBLE
+        workoutList.visibility = View.GONE
         spinner.visibility = View.VISIBLE
 
         /**
@@ -81,7 +88,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
          * passedName = The Name of the parent Routine
          * passedList = The workoutList from the parent Routine
          */
-        val passedRoutineID = intent.extras!!.getString(EXTRA_IDENTITY)
+        passedRoutineID = intent.extras!!.getString(EXTRA_IDENTITY)!!
         var passedList = ArrayList<String>()
 
 
@@ -89,23 +96,8 @@ class WorkoutRoutineActivity : AppCompatActivity() {
         layoutManager = LinearLayoutManager(this)
         workoutList.layoutManager = layoutManager
 
-        // Save the current routine info
-        fun save() {
-            var newRoutineName = NEW_ROUTINE
-            if (routineName.text.isNotEmpty()) {
-                newRoutineName = routineName.text.toString()
-            }
-            var newRoutinePlaylist = BLANK
-            if (routinePlaylist.text.isNotEmpty()) {
-                newRoutinePlaylist = routinePlaylist.text.toString()
-            }
-            exerciseViewModel.updateRoutine(newRoutineName, newRoutinePlaylist, passedRoutineID!!)
-
-        }
-
-
         // Populate the list with the workouts associated with this routine
-        exerciseViewModel.getRoutine(passedRoutineID!!)
+        exerciseViewModel.getRoutine(passedRoutineID)
         exerciseViewModel.routine.observe(this, Observer {
             val routine = it ?: return@Observer
 
@@ -116,20 +108,26 @@ class WorkoutRoutineActivity : AppCompatActivity() {
                 routinePlaylist.setText(BLANK)
             }
             if (routine.workoutList != null) {
-                passedList = routine.workoutList
-                exerciseViewModel.getWorkouts(routine.workoutList)
+                spinner.visibility = View.GONE
+                if (routine.workoutList.isNotEmpty()) {
+                    placeholderText.visibility = View.GONE
+                    workoutList.visibility = View.VISIBLE
+                    passedList = routine.workoutList
+                    exerciseViewModel.getWorkouts(routine.workoutList)
+                }
             }
         })
         exerciseViewModel.workoutList.observe(this, Observer {
             val workList = it ?: return@Observer
             workoutList.adapter = WorkoutAdapter(this, workList, passedRoutineID, passedList)
-            spinner.visibility = View.GONE
         })
 
         // Attempt to launch a playlist
         playMusic.setOnClickListener {
-            if (routinePlaylist.text.isNotEmpty()) {
+            if (routinePlaylist.text!!.isNotEmpty()) {
                 playMusic(routinePlaylist.text.toString())
+            } else {
+                Helper.showSnackBar("Cannot play an empty playlist.", this)
             }
         }
 
@@ -178,6 +176,25 @@ class WorkoutRoutineActivity : AppCompatActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        save()
+    }
+
+    // Save the current routine info
+    private fun save() {
+        var newRoutineName = NEW_ROUTINE
+        if (routineName.text.isNotEmpty()) {
+            newRoutineName = routineName.text.toString()
+        }
+        var newRoutinePlaylist = BLANK
+        if (routinePlaylist.text!!.isNotEmpty()) {
+            newRoutinePlaylist = routinePlaylist.text.toString()
+        }
+        exerciseViewModel.updateRoutine(newRoutineName, newRoutinePlaylist, passedRoutineID)
+    }
+
+    // Find which music service to link to
     private fun playMusic(playlist: String) {
         // Check if the linked playlist is from Youtube
         if (playlist.contains("youtube")) {

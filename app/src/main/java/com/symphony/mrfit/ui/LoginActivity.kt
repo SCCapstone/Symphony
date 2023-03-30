@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 3/30/23, 5:52 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 3/30/23, 5:52 PM
  */
 
 package com.symphony.mrfit.ui
@@ -155,12 +155,11 @@ class LoginActivity : AppCompatActivity() {
         }
 
         emailLogin.setOnClickListener {
-            if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
+            if (email.text!!.isNotEmpty() && password.text!!.isNotEmpty()) {
                 spinner.visibility = View.VISIBLE
                 loginViewModel.emailLogin(email.text.toString(), password.text.toString())
-            }
-            else {
-                showSnackBar("Cannot sign in with empty field.",this)
+            } else {
+                showSnackBar("Cannot sign in with empty field.", this)
             }
         }
 
