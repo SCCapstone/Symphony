@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/31/23, 12:45 PM
+ *  Created by Team Symphony on 3/31/23, 5:02 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/31/23, 12:42 PM
+ *  Last modified 3/31/23, 4:41 PM
  */
 
 package com.symphony.mrfit.ui
@@ -20,6 +20,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.symphony.mrfit.R
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.exercise.WorkoutAdapter
@@ -110,6 +111,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             if (routine.workoutList != null) {
                 spinner.visibility = View.GONE
                 if (routine.workoutList.isNotEmpty()) {
+                    spinner.visibility = View.VISIBLE
                     placeholderText.visibility = View.GONE
                     workoutList.visibility = View.VISIBLE
                     passedList = routine.workoutList
@@ -120,6 +122,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
         exerciseViewModel.workoutList.observe(this, Observer {
             val workList = it ?: return@Observer
             workoutList.adapter = WorkoutAdapter(this, workList, passedRoutineID, passedList)
+            spinner.visibility = View.GONE
         })
 
         // Attempt to launch a playlist
@@ -152,7 +155,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             val intent = Intent(this, WorkoutTemplateActivity::class.java)
             intent.putExtra(EXTRA_ROUTINE, passedRoutineID)
             intent.putExtra(EXTRA_IDENTITY, NEW_ID)
-            intent.putExtra(WorkoutTemplateActivity.EXTRA_STRING, "Exercise Name")
+            intent.putExtra(WorkoutTemplateActivity.EXTRA_STRING, getText(R.string.new_exercise))
             intent.putExtra(WorkoutTemplateActivity.EXTRA_LIST, passedList)
             startActivity(intent)
         }

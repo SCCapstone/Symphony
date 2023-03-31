@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/26/23, 11:15 AM
+ *  Created by Team Symphony on 3/31/23, 5:02 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/26/23, 11:12 AM
+ *  Last modified 3/31/23, 5:02 PM
  */
 
 package com.symphony.mrfit.ui
@@ -12,10 +12,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.symphony.mrfit.R
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.model.Workout
@@ -32,12 +34,19 @@ import com.symphony.mrfit.ui.WorkoutRoutineActivity.Companion.EXTRA_ROUTINE
 class WorkoutTemplateActivity : AppCompatActivity() {
 
     private lateinit var exerciseViewModel: ExerciseViewModel
-    lateinit var binding: ActivityWorkoutTemplateBinding
+    private lateinit var binding: ActivityWorkoutTemplateBinding
+    private lateinit var exerciseName: EditText
     private val launchExerciseSelection =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 
             if (result.resultCode == Activity.RESULT_OK) {
+                // User pick an exercise, so get its data
                 exerciseViewModel.getExercise(result.data?.getStringExtra(EXTRA_IDENTITY)!!)
+            } else if (result.resultCode == Activity.RESULT_CANCELED) {
+                // User did not pick an exercise
+                // If this was supposed to be a new exercise, finish activity to return
+                if (exerciseName.text.toString() == getString(R.string.picking_exercise))
+                    finish()
             }
         }
 
@@ -54,7 +63,7 @@ class WorkoutTemplateActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        val ExerciseName = binding.editWorkOutName
+        exerciseName = binding.editWorkOutName
         val duration = binding.editDuration
         val reps = binding.editReps
         val sets = binding.editSets
@@ -76,25 +85,25 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         val passedName: String? = intent.getStringExtra(EXTRA_STRING)
         val passedList: ArrayList<String>? = intent.getStringArrayListExtra(EXTRA_LIST)
 
+        // If this is a new exercise, skip past this screen
+        if (passedName == getText(R.string.new_exercise)) {
+            exerciseName.setText(getText(R.string.picking_exercise))
+            gotoExerciseScreen()
+        }
+
         //to unhide the reps/sets
         val toggle = binding.toggleSetsReps
         val repsLayout = binding.repsLayout
 
-        toggle.setOnClickListener{
-            if(repsLayout.visibility==View.GONE){
-                repsLayout.visibility=View.VISIBLE
-            }
-            else{
+        toggle.setOnClickListener {
+            if (repsLayout.visibility == View.GONE) {
+                repsLayout.visibility = View.VISIBLE
+            } else {
                 repsLayout.visibility=View.GONE
             }
         }
 
-        ExerciseName.setText(passedName)
-
-        fun gotoExerciseScreen() {
-            intent.putExtra(EXTRA_STRING, ExerciseName.text.toString())
-            launchExerciseSelection.launch(Intent(this, ExerciseActivity::class.java))
-        }
+        exerciseName.setText(passedName)
 
         // If passed an existing workout, populate the appropriate fields
         if (passedWorkoutID != NEW_ID) {
@@ -119,8 +128,8 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         // Save the workout and return to the parent Routine
         saveButton.setOnClickListener {
             var newWorkoutName: String = PLACEHOLDER_NAME
-            if (ExerciseName.text.isNotEmpty()) {
-                newWorkoutName = ExerciseName.text.toString()
+            if (exerciseName.text.isNotEmpty()) {
+                newWorkoutName = exerciseName.text.toString()
             }
             var newDuration: Int = ZERO
             if (duration.text.isNotEmpty()) {
@@ -134,9 +143,6 @@ class WorkoutTemplateActivity : AppCompatActivity() {
             if (sets.text.isNotEmpty()) {
                 newSets = sets.text.toString().toInt()
             }
-
-            //val workouts = "Today's Workout$newWorkoutName,$newWeight,$newReps,"
-            //file.writeText(workouts)
 
             if (passedWorkoutID != NEW_ID) {
                 /**
@@ -198,6 +204,11 @@ class WorkoutTemplateActivity : AppCompatActivity() {
             setResult(Activity.RESULT_OK)
         })
 
+    }
+
+    private fun gotoExerciseScreen() {
+        intent.putExtra(EXTRA_STRING, exerciseName.text.toString())
+        launchExerciseSelection.launch(Intent(this, ExerciseActivity::class.java))
     }
 
     companion object {

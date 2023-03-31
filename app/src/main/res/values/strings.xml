@@ -1,7 +1,7 @@
 <!--
-  ~  Created by Team Symphony on 3/31/23, 12:45 PM
+  ~  Created by Team Symphony on 3/31/23, 5:02 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 3/31/23, 12:42 PM
+  ~  Last modified 3/31/23, 2:39 PM
   -->
 
 <resources>
@@ -12,6 +12,7 @@
     <string name="facebook_client_token">55d764848b923fd2eb5519986f8db733</string>
     <string name="PLACEHOLDER_NUMBER">999</string>
     <string name="PLACEHOLDER_TEXT">Lorem Ipsum</string>
+    <string name="ZERO">0</string>
 
     <!-- Feel free to change this stuff -->
     <string name="app_name">MrFit</string>
@@ -94,5 +95,7 @@
     <string name="hint_exercise_search">Search by Tags</string>
     <string name="button_page_left"><![CDATA[<-]]></string>
     <string name="button_page_right"><![CDATA[->]]></string>
-
+    <string name="new_workout">New Workout</string>
+    <string name="new_exercise">New Exercise</string>
+    <string name="picking_exercise">Picking Exercise</string>
 </resources>
