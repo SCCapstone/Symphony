@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/30/23, 5:52 PM
+ *  Created by Team Symphony on 3/31/23, 12:45 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/30/23, 5:52 PM
+ *  Last modified 3/31/23, 12:42 PM
  */
 
 package com.symphony.mrfit.ui
@@ -152,7 +152,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             val intent = Intent(this, WorkoutTemplateActivity::class.java)
             intent.putExtra(EXTRA_ROUTINE, passedRoutineID)
             intent.putExtra(EXTRA_IDENTITY, NEW_ID)
-            intent.putExtra(WorkoutTemplateActivity.EXTRA_STRING,"New Workout")
+            intent.putExtra(WorkoutTemplateActivity.EXTRA_STRING, "Exercise Name")
             intent.putExtra(WorkoutTemplateActivity.EXTRA_LIST, passedList)
             startActivity(intent)
         }
