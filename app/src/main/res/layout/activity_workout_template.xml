@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="Workout Name:"
+                android:text="Exercise Name:"
                 android:textAlignment="center" />
 
             <EditText
@@ -45,7 +45,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Workout Name"
+                android:hint="Exercise Name"
                 android:inputType="textPersonName"
                 android:minHeight="50dp" />
 
@@ -74,60 +74,102 @@
                 android:hint="# of minutes"
                 android:inputType="number" />
         </LinearLayout>
+        <Button
+            android:id="@+id/toggleSetsReps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show/Hide Reps and Sets"
+            android:layout_gravity="center"/>
 
         <LinearLayout
             android:id="@+id/repsLayout"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
-                android:id="@+id/templateRepsTextView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Number of Reps:"
-                android:textAlignment="center"
-                tools:layout_editor_absoluteX="-66dp"
-                tools:layout_editor_absoluteY="341dp" />
+                android:text="Reps: "
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/editReps"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="# of Reps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Enter # of reps"
                 android:inputType="number" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/setsLayout"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:orientation="horizontal">
-
             <TextView
-                android:id="@+id/templateSetsLabelTextView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Number of Sets:"
-                android:textAlignment="center"
-                tools:layout_editor_absoluteX="-66dp"
-                tools:layout_editor_absoluteY="341dp" />
+                android:text="Sets: "
+                android:textSize="18sp"
+                android:layout_marginStart="16dp" />
 
             <EditText
                 android:id="@+id/editSets"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="# of Sets"
-                android:inputType="number" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Enter # of sets"
+                android:inputType="number"
+                android:layout_marginStart="8dp" />
 
         </LinearLayout>
+<!--        <LinearLayout-->
+<!--            android:id="@+id/repsLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="70dp"-->
+<!--            android:orientation="horizontal">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/templateRepsTextView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="2"-->
+<!--                android:text="Number of Reps:"-->
+<!--                android:textAlignment="center"-->
+<!--                tools:layout_editor_absoluteX="-66dp"-->
+<!--                tools:layout_editor_absoluteY="341dp" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/editReps"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:ems="10"-->
+<!--                android:hint="# of Reps"-->
+<!--                android:inputType="number" />-->
+
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/setsLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="70dp"-->
+<!--            android:orientation="horizontal">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/templateSetsLabelTextView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="2"-->
+<!--                android:text="Number of Sets:"-->
+<!--                android:textAlignment="center"-->
+<!--                tools:layout_editor_absoluteX="-66dp"-->
+<!--                tools:layout_editor_absoluteY="341dp" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/editSets"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:ems="10"-->
+<!--                android:hint="# of Sets"-->
+<!--                android:inputType="number" />-->
+
+<!--        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"

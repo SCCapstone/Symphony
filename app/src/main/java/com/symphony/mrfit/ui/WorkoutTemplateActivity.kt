@@ -54,7 +54,7 @@ class WorkoutTemplateActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        val workoutName = binding.editWorkOutName
+        val ExerciseName = binding.editWorkOutName
         val duration = binding.editDuration
         val reps = binding.editReps
         val sets = binding.editSets
@@ -76,10 +76,23 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         val passedName: String? = intent.getStringExtra(EXTRA_STRING)
         val passedList: ArrayList<String>? = intent.getStringArrayListExtra(EXTRA_LIST)
 
-        workoutName.setText(passedName)
+        //to unhide the reps/sets
+        val toggle = binding.toggleSetsReps
+        val repsLayout = binding.repsLayout
+
+        toggle.setOnClickListener{
+            if(repsLayout.visibility==View.GONE){
+                repsLayout.visibility=View.VISIBLE
+            }
+            else{
+                repsLayout.visibility=View.GONE
+            }
+        }
+
+        ExerciseName.setText(passedName)
 
         fun gotoExerciseScreen() {
-            intent.putExtra(EXTRA_STRING, workoutName.text.toString())
+            intent.putExtra(EXTRA_STRING, ExerciseName.text.toString())
             launchExerciseSelection.launch(Intent(this, ExerciseActivity::class.java))
         }
 
@@ -102,11 +115,12 @@ class WorkoutTemplateActivity : AppCompatActivity() {
             gotoExerciseScreen()
         }
 
+
         // Save the workout and return to the parent Routine
         saveButton.setOnClickListener {
             var newWorkoutName: String = PLACEHOLDER_NAME
-            if (workoutName.text.isNotEmpty()) {
-                newWorkoutName = workoutName.text.toString()
+            if (ExerciseName.text.isNotEmpty()) {
+                newWorkoutName = ExerciseName.text.toString()
             }
             var newDuration: Int = ZERO
             if (duration.text.isNotEmpty()) {
@@ -194,7 +208,7 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         const val EXTRA_REPS = "num_reps"
         const val EXTRA_SETS = "num_sets"
         const val EXTRA_LIST = "workout_list"
-        const val PLACEHOLDER_NAME = "New Workout"
+        const val PLACEHOLDER_NAME = "New Exercise"
         const val PLACEHOLDER_REPS = 0
         const val PLACEHOLDER_SETS = 0
     }
