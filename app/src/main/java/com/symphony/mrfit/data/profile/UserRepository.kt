@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 2:57 AM
+ *  Created by Team Symphony on 4/1/23, 5:08 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 2:57 AM
+ *  Last modified 4/1/23, 4:57 AM
  */
 
 package com.symphony.mrfit.data.profile
@@ -19,6 +19,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import com.symphony.mrfit.data.model.Goal
 import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.data.model.Notification
 import com.symphony.mrfit.data.model.User
@@ -194,6 +195,57 @@ class UserRepository {
     }
 
     /**
+     * Add a new Goal to the user's goal subcollection
+     */
+    suspend fun addGoal(goal: Goal) {
+        val user = auth.currentUser!!
+        Log.d(TAG, "Adding to the history of ${user.uid}")
+        database.collection(USER_COLLECTION)
+            .document(user.uid)
+            .collection(GOAL_COLLECTION)
+            .add(goal)
+            .await()
+    }
+
+    /**
+     * Get a user's scheduled and past goals
+     */
+    suspend fun getGoals(): ArrayList<Goal> {
+        val user = auth.currentUser!!
+        val goalList = arrayListOf<Goal>()
+        Log.d(TAG, "Getting the history of ${user.uid}")
+        try {
+            val result = database.collection(USER_COLLECTION)
+                .document(user.uid)
+                .collection(GOAL_COLLECTION)
+                .get()
+                .await()
+
+            for (document in result) {
+                goalList.add(document.toObject())
+            }
+        } catch (e: java.lang.Exception) {
+            Log.d(TAG, "Error getting documents: ", e)
+        }
+        return goalList
+    }
+
+    /**
+     * Remove a goal from the user's subcollection
+     */
+    suspend fun deleteGoal(goalID: String) {
+        val user = auth.currentUser!!
+        Log.d(TAG, "Deleting goal with ID: $goalID")
+        database.collection(USER_COLLECTION)
+            .document(user.uid)
+            .collection(GOAL_COLLECTION)
+            .document(goalID)
+            .delete()
+            .await()
+
+    }
+
+    /**
      * Add or change a profile picture to a User's Firebase profile
      */
     suspend fun changeProfilePicture(uri: Uri) {
@@ -210,6 +262,7 @@ class UserRepository {
         const val USER_COLLECTION = "users"
         const val HISTORY_COLLECTION = "_history"
         const val NOTIFICATION_COLLECTION = "_notifications"
+        const val GOAL_COLLECTION = "_goals"
         const val PROFILE_PICTURE = "profilePictures/"
     }
 }

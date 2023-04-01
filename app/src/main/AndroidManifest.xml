@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 3/31/23, 11:31 PM
+  ~  Created by Team Symphony on 4/1/23, 5:08 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 3/31/23, 11:31 PM
+  ~  Last modified 4/1/23, 4:35 AM
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
@@ -25,6 +25,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MrFit"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.GoalsActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.NotificationLogActivity"
             android:exported="false" />

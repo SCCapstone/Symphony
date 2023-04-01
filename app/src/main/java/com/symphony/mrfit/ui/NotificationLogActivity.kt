@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 3:42 AM
+ *  Created by Team Symphony on 4/1/23, 5:08 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 3:42 AM
+ *  Last modified 4/1/23, 4:57 AM
  */
 
 package com.symphony.mrfit.ui
@@ -49,7 +49,7 @@ class NotificationLogActivity : AppCompatActivity() {
         val spinner = binding.loadingSpinner
 
         fun deleteNotification(date: String) {
-            profileViewModel.deleteNotifcation(date)
+            profileViewModel.deleteNotification(date)
         }
 
         @RequiresApi(Build.VERSION_CODES.M)

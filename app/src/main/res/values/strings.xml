@@ -1,7 +1,7 @@
 <!--
-  ~  Created by Team Symphony on 4/1/23, 4:23 AM
+  ~  Created by Team Symphony on 4/1/23, 5:08 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/1/23, 4:20 AM
+  ~  Last modified 4/1/23, 4:39 AM
   -->
 
 <resources>
@@ -124,4 +124,5 @@
     <string name="exercise_image">Exercise image</string>
     <string name="exercise_types_question">How would you measure this exercise?</string>
     <string name="reminder_message">Reminder: Custom exercises are displayed to all users</string>
+    <string name="goals_title">Your Goals</string>
 </resources>
