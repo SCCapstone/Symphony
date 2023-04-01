@@ -12,6 +12,7 @@
     tools:context=".ui.Calendar">
 
     <!-- calendar view to display calendar -->
+
     <TextView
         android:id="@+id/idTVDate"
         android:layout_width="match_parent"

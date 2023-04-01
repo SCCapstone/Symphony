@@ -1,11 +1,14 @@
 package com.symphony.mrfit.ui
 
+import android.content.Intent
 import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat.startActivity
 import java.time.LocalDate
 
-class WeeklyCalendar {
+
+class WeeklyCalendar{
 
     /*goes to previous week on weekly view*/
     @RequiresApi(Build.VERSION_CODES.O)
@@ -29,6 +32,7 @@ class WeeklyCalendar {
 
     /*sets event*/
     private fun setEvent() {
+
 
     }
 
