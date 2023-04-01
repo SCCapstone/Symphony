@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 4:23 AM
+ *  Created by Team Symphony on 4/1/23, 7:08 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 4:03 AM
+ *  Last modified 4/1/23, 7:00 PM
  */
 
 package com.symphony.mrfit.ui
@@ -89,7 +89,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
          * passedName = The Name of the parent Routine
          * passedList = The workoutList from the parent Routine
          */
-        passedRoutineID = intent.extras!!.getString(EXTRA_IDENTITY)!!
+        passedRoutineID = intent.getStringExtra(EXTRA_IDENTITY)!!
         var passedList = ArrayList<String>()
 
 
