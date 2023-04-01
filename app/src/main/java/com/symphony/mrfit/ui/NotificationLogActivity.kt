@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/31/23, 11:31 PM
+ *  Created by Team Symphony on 4/1/23, 2:57 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/31/23, 11:31 PM
+ *  Last modified 4/1/23, 2:57 AM
  */
 
 package com.symphony.mrfit.ui
@@ -42,6 +42,10 @@ class NotificationLogActivity : AppCompatActivity() {
         val notificationList = binding.notificationList
         val spinner = binding.loadingSpinner
 
+        fun deleteNotification(date: String) {
+            profileViewModel.deleteNotifcation(date)
+        }
+
         spinner.visibility = View.VISIBLE
 
         //Get data of current User and populate the page
@@ -55,7 +59,9 @@ class NotificationLogActivity : AppCompatActivity() {
             Log.d(ContentValues.TAG, "Filling in username")
             val notifications = it ?: return@Observer
 
-            notificationList.adapter = NotificationAdapter(this, notifications)
+            notifications.reverse()
+            notificationList.adapter =
+                NotificationAdapter(this, notifications, ::deleteNotification)
             spinner.visibility = View.GONE
         })
     }

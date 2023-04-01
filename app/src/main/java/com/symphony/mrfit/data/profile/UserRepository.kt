@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/31/23, 11:31 PM
+ *  Created by Team Symphony on 4/1/23, 2:57 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/31/23, 11:31 PM
+ *  Last modified 4/1/23, 2:57 AM
  */
 
 package com.symphony.mrfit.data.profile
@@ -147,8 +147,12 @@ class UserRepository {
     suspend fun addNotification(notification: Notification) {
         val user = auth.currentUser!!
         Log.d(TAG, "Adding to the history of ${user.uid}")
-        database.collection(USER_COLLECTION).document(user.uid)
-            .collection(NOTIFICATION_COLLECTION).add(notification).await()
+        database.collection(USER_COLLECTION)
+            .document(user.uid)
+            .collection(NOTIFICATION_COLLECTION)
+            .document(notification.date!!.toDate().time.toString())
+            .set(notification)
+            .await()
     }
 
     /**
@@ -177,7 +181,15 @@ class UserRepository {
     /**
      * Remove a notification from the user's subcollection
      */
-    suspend fun deleteNotification() {
+    suspend fun deleteNotification(date: String) {
+        val user = auth.currentUser!!
+        Log.d(TAG, "Deleting notification with timestamp: $date")
+        database.collection(USER_COLLECTION)
+            .document(user.uid)
+            .collection(NOTIFICATION_COLLECTION)
+            .document(date)
+            .delete()
+            .await()
 
     }
 

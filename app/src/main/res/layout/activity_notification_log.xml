@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 3/31/23, 11:31 PM
+  ~  Created by Team Symphony on 4/1/23, 2:57 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 3/31/23, 11:31 PM
+  ~  Last modified 4/1/23, 2:02 AM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,7 +34,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/notificationList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 

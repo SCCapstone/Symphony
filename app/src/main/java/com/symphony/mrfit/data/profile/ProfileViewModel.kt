@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 12:26 AM
+ *  Created by Team Symphony on 4/1/23, 2:57 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 12:07 AM
+ *  Last modified 4/1/23, 2:57 AM
  */
 
 package com.symphony.mrfit.data.profile
@@ -84,9 +84,9 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
         }
     }
 
-    fun deleteNotifcation() {
+    fun deleteNotifcation(date: String) {
         viewModelScope.launch {
-            userRepository.deleteNotification()
+            userRepository.deleteNotification(date)
         }
     }
 }

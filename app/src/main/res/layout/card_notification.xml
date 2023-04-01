@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 3/31/23, 11:31 PM
+  ~  Created by Team Symphony on 4/1/23, 2:57 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 3/31/23, 11:31 PM
+  ~  Last modified 4/1/23, 1:35 AM
   -->
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -59,7 +59,8 @@ will add padding in API v21+ as well to have the same measurements with previous
             android:id="@+id/deleteNotifcationButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_delete" />
+            android:text="@string/button_delete"
+            android:visibility="visible" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

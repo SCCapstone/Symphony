@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 12:26 AM
+ *  Created by Team Symphony on 4/1/23, 2:57 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 12:26 AM
+ *  Last modified 4/1/23, 2:05 AM
  */
 
 package com.symphony.mrfit.ui
@@ -75,6 +75,7 @@ class NotificationActivity : AppCompatActivity() {
         val notificationIntent = Intent(applicationContext, Notifications::class.java)
         val title = getString(R.string.app_name)
         val message = binding.messageET.text.toString()
+
         notificationIntent.putExtra(titleExtra, title)
         notificationIntent.putExtra(messageExtra,message)
 
@@ -95,7 +96,7 @@ class NotificationActivity : AppCompatActivity() {
         profileViewModel.addNotification(
             com.symphony.mrfit.data.model.Notification(
                 message,
-                Timestamp(Date())
+                Timestamp(Date(time))
             )
         )
         showAlert(time, message)
@@ -125,7 +126,11 @@ class NotificationActivity : AppCompatActivity() {
                 "Message: " + message +
                         "\nAt: " + dateFormat.format(date) + " " + timeFormat.format(date)
             )
-            .setPositiveButton("Okay") { _, _ -> }
+            .setPositiveButton("Okay") { _, _ ->
+                val intent = Intent(this, NotificationLogActivity::class.java)
+                startActivity(intent)
+                this.finish()
+            }
             .show()
 
     }

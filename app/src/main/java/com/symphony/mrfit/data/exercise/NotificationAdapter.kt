@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 12:26 AM
+ *  Created by Team Symphony on 4/1/23, 3:00 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 12:11 AM
+ *  Last modified 4/1/23, 2:58 AM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.model.Notification
+import com.symphony.mrfit.data.profile.UserRepository
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -24,8 +25,14 @@ import java.util.*
  * Adapter for dynamically populating a card_notification with a passed list of Notifications
  */
 
-class NotificationAdapter(val context: Context, val data: ArrayList<Notification>) :
+class NotificationAdapter(
+    val context: Context,
+    val data: ArrayList<Notification>,
+    val delete: (String) -> Unit
+) :
     RecyclerView.Adapter<NotificationAdapter.ViewHolder>() {
+
+    val repo = UserRepository
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val v = LayoutInflater.from(viewGroup.context)
@@ -43,7 +50,6 @@ class NotificationAdapter(val context: Context, val data: ArrayList<Notification
             Locale.getDefault()
         )
             .format(date)
-
         // If the Notification was from before the current date
         // allow user to delete it
         if (date.before(Date())) {
@@ -53,6 +59,41 @@ class NotificationAdapter(val context: Context, val data: ArrayList<Notification
             holder.cancelButton.visibility = View.VISIBLE
             holder.deleteButton.visibility = View.GONE
         }
+
+        holder.deleteButton.setOnClickListener {
+            delete(data[i].date!!.toDate().time.toString())
+            data.removeAt(i)
+            notifyItemRemoved(i)
+            notifyItemRangeChanged(i, itemCount)
+        }
+
+        /**
+         * TODO: This should remove the upcoming alarm
+         */
+        holder.cancelButton.setOnClickListener {
+            delete(data[i].date!!.toDate().time.toString())
+            data.removeAt(i)
+            notifyItemRemoved(i)
+            notifyItemRangeChanged(i, itemCount)
+        }
+
+        /*
+        holder.cancelButton.setOnClickListener {
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val pendingIntent= PendingIntent.getBroadcast(
+                context,
+                notificationID,
+                Intent(
+                    context,
+                    Notification::class.java
+                ),
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+            )
+            alarmManager.cancel(pendingIntent)
+        }
+
+         */
+
     }
 
     override fun getItemCount(): Int {
