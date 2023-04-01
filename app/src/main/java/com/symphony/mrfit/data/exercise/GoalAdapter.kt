@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 3:10 PM
+ *  Created by Team Symphony on 4/1/23, 4:47 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 3:10 PM
+ *  Last modified 4/1/23, 4:43 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -37,6 +37,9 @@ class GoalAdapter(val context: Context, val data: ArrayList<Goal>, val delete: (
         holder.goalName.text = data[i].name
         holder.goalProgress.text = buildString(i)
 
+        /**
+         * TODO: Crashes if a deletion attempt is done before screen is restarted. WHY!?
+         */
         holder.deleteButton.setOnClickListener {
             delete(data[i].goalID!!)
             data.removeAt(i)

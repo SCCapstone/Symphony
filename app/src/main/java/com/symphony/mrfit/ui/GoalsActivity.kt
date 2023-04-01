@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 3:10 PM
+ *  Created by Team Symphony on 4/1/23, 4:47 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 3:10 PM
+ *  Last modified 4/1/23, 4:42 PM
  */
 
 package com.symphony.mrfit.ui
@@ -106,8 +106,12 @@ class GoalsActivity : AppCompatActivity() {
             }
 
             save.setOnClickListener {
-                val newName = name.text.toString()
-                val newEnd = num.text.toString().toDouble()
+                var newName = "New Goal"
+                if (name.text.isNotEmpty())
+                    newName = name.text.toString()
+                var newEnd = ZERO.toDouble()
+                if (num.text.isNotEmpty())
+                    newEnd = num.text.toString().toDouble()
                 var newType = dropdown.selectedItem.toString()
                 if (newType == "Other") {
                     newType = other.text.toString()
