@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 3/30/23, 5:52 PM
+  ~  Created by Team Symphony on 4/1/23, 4:23 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 3/30/23, 5:18 PM
+  ~  Last modified 4/1/23, 4:20 AM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -27,7 +27,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/exerciseListView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1">
 
         </androidx.recyclerview.widget.RecyclerView>
@@ -57,7 +57,8 @@
                     android:id="@+id/exerciseSearchEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_exercise_search" />
+                    android:hint="@string/hint_exercise_search"
+                    tools:ignore="VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageButton
@@ -66,6 +67,7 @@
                 android:layout_height="50dp"
                 android:adjustViewBounds="true"
                 android:background="@drawable/circle_button"
+                android:contentDescription="@string/button_search"
                 android:padding="2dp"
                 android:scaleType="fitCenter"
                 app:srcCompat="@android:drawable/ic_menu_search" />
@@ -76,7 +78,7 @@
             android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Can't find one you like?\nMake your own!" />
+            android:text="@string/button_make_exercise" />
 
     </LinearLayout>
 

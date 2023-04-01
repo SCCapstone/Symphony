@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/31/23, 8:54 PM
+ *  Created by Team Symphony on 4/1/23, 4:23 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/31/23, 8:54 PM
+ *  Last modified 4/1/23, 4:03 AM
  */
 
 package com.symphony.mrfit.ui
@@ -126,7 +126,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             if (routinePlaylist.text!!.isNotEmpty()) {
                 playMusic(routinePlaylist.text.toString())
             } else {
-                Helper.showSnackBar("Cannot play an empty playlist.", this)
+                Helper.showSnackBar(getString(R.string.empty_playlist_warning), this)
             }
         }
 

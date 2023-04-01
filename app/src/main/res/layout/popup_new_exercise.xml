@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 3/31/23, 11:31 PM
+  ~  Created by Team Symphony on 4/1/23, 4:23 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 3/31/23, 11:31 PM
+  ~  Last modified 4/1/23, 4:23 AM
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,6 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:contentDescription="@string/exercise_image"
                 app:srcCompat="@drawable/ic_launcher_foreground" />
 
             <EditText
@@ -38,6 +39,7 @@
                 android:ems="10"
                 android:hint="@string/hint_exercise_name"
                 android:inputType="textPersonName"
+                android:importantForAutofill="no"
                 android:minHeight="50dp" />
 
         </LinearLayout>
@@ -71,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="How would you measure this exercise?" />
+            android:text="@string/exercise_types_question" />
 
         <GridLayout
             android:layout_width="match_parent"
@@ -118,7 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Reminder: Custom exercises are displayed to all users" />
+            android:text="@string/reminder_message" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -132,6 +134,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:enabled="true"
+                style="?android:attr/buttonBarButtonStyle"
                 android:text="@string/button_cancel" />
 
             <Button
@@ -141,6 +144,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:enabled="true"
+                style="?android:attr/buttonBarButtonStyle"
                 android:text="@string/button_save" />
         </LinearLayout>
 

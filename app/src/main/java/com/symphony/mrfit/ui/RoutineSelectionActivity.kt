@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/25/23, 1:42 AM
+ *  Created by Team Symphony on 4/1/23, 4:23 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/25/23, 1:42 AM
+ *  Last modified 4/1/23, 4:03 AM
  */
 
 package com.symphony.mrfit.ui
@@ -46,7 +46,6 @@ class RoutineSelectionActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        val screen = binding.selectionScreenView
         val spinner = binding.loadingSpinner
         val newRoutine = binding.newWorkoutButton
         val routineList = binding.routineListView

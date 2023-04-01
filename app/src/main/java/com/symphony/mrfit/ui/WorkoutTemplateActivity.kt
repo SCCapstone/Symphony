@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/31/23, 10:18 PM
+ *  Created by Team Symphony on 4/1/23, 4:23 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/31/23, 10:07 PM
+ *  Last modified 4/1/23, 4:03 AM
  */
 
 package com.symphony.mrfit.ui
@@ -93,21 +93,6 @@ class WorkoutTemplateActivity : AppCompatActivity() {
             intent.putExtra(EXTRA_STRING, getString(R.string.picking_exercise))
             gotoExerciseScreen()
         }
-
-        /*
-        //to unhide the reps/sets
-        val toggle = binding.toggleSetsReps
-        val repsLayout = binding.repsLayout
-
-        toggle.setOnClickListener {
-            if (repsLayout.visibility == View.GONE) {
-                repsLayout.visibility = View.VISIBLE
-            } else {
-                repsLayout.visibility=View.GONE
-            }
-        }
-
-         */
 
         // If passed an existing workout, populate the appropriate fields
         if (passedWorkoutID != NEW_ID) {
@@ -248,7 +233,7 @@ class WorkoutTemplateActivity : AppCompatActivity() {
             if (routineListener.error != null) {
                 Log.d(ContentValues.TAG, "Workout saving failed")
                 showSnackBar(
-                    "Attempt to save workout failed, try again",
+                    getString(R.string.exercise_failed),
                     this
                 )
             } else {

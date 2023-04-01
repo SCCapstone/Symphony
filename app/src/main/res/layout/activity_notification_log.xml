@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 4/1/23, 2:57 AM
+  ~  Created by Team Symphony on 4/1/23, 4:23 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/1/23, 2:02 AM
+  ~  Last modified 4/1/23, 4:20 AM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:gravity="center"
-            android:text="Your Notifications"
+            android:text="@string/notifications_title"
             android:textColor="@color/garnet"
             android:textSize="20sp"
             android:textStyle="bold" />

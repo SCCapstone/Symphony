@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 4/1/23, 12:26 AM
+  ~  Created by Team Symphony on 4/1/23, 4:23 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 3/31/23, 11:55 PM
+  ~  Last modified 4/1/23, 4:23 AM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -35,6 +35,7 @@
                     android:layout_height="120dp"
                     android:layout_margin="3dp"
                     app:srcCompat="@drawable/cactuar"
+                    android:contentDescription="@string/profile_picture"
                     tools:ignore="ImageContrastCheck" />
 
                 <TextView
@@ -209,7 +210,7 @@
                             android:layout_weight="1"
                             app:layout_constraintDimensionRatio="1:1"
                             app:srcCompat="@android:drawable/ic_lock_silent_mode"
-                            tools:ignore="ImageContrastCheck" />
+                            tools:ignore="ContentDescription,ImageContrastCheck" />
 
                         <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/notificationsSwitch"
@@ -234,7 +235,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             app:srcCompat="@android:drawable/ic_menu_view"
-                            tools:ignore="ImageContrastCheck" />
+                            tools:ignore="ContentDescription,ImageContrastCheck" />
 
                         <TextView
                             android:id="@+id/textView2"

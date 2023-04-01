@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 12:26 AM
+ *  Created by Team Symphony on 4/1/23, 4:23 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/31/23, 11:55 PM
+ *  Last modified 4/1/23, 4:03 AM
  */
 
 package com.symphony.mrfit.ui
@@ -232,7 +232,7 @@ class UserProfileActivity : AppCompatActivity() {
             val new = input.text.toString()
             profileViewModel.updateCurrentUser(new, null, null, null)
             showSnackBar(
-                "Name has been changed to $new",
+                getString(R.string.name_change, new),
                 this
             )
         }
@@ -256,7 +256,7 @@ class UserProfileActivity : AppCompatActivity() {
             val new = input.text.toString().toInt()
             profileViewModel.updateCurrentUser(null, new, null, null)
             showSnackBar(
-                "Age has been changed to $new",
+                getString(R.string.age_change, new),
                 this
             )
         }
@@ -280,7 +280,7 @@ class UserProfileActivity : AppCompatActivity() {
             val new = input.text.toString().toInt()
             profileViewModel.updateCurrentUser(null, null, new, null)
             showSnackBar(
-                "Height has been changed to $new",
+                getString(R.string.height_change, new),
                 this
             )
         }
@@ -304,7 +304,7 @@ class UserProfileActivity : AppCompatActivity() {
             val new = input.text.toString().toDouble()
             profileViewModel.updateCurrentUser(null, null, null, new)
             showSnackBar(
-                "Weight has been changed to $new",
+                getString(R.string.weight_change, new),
                 this
             )
         }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 3/30/23, 5:52 PM
+  ~  Created by Team Symphony on 4/1/23, 4:23 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 3/30/23, 5:47 PM
+  ~  Last modified 4/1/23, 4:23 AM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -39,11 +39,11 @@
                 android:layout_width="221dp"
                 android:layout_height="52dp"
                 android:layout_marginTop="10dp"
-                android:autoText="false"
                 android:ems="10"
                 android:hint="@string/label_routine_name"
                 android:inputType="textPersonName"
                 android:minHeight="48dp"
+                android:importantForAutofill="no"
                 android:textAlignment="center" />
 
             <LinearLayout
@@ -53,7 +53,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -70,7 +70,7 @@
                     android:id="@+id/openPlaylistButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Play" />
+                    android:text="@string/button_play" />
             </LinearLayout>
         </LinearLayout>
 
@@ -79,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="Add some exercises to make your ideal workout!"
+            android:text="@string/placeholder_exercise_list"
             android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView

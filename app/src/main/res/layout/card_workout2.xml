@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 2/24/23, 11:21 PM
+  ~  Created by Team Symphony on 4/1/23, 4:23 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 2/24/23, 11:20 PM
+  ~  Last modified 4/1/23, 4:20 AM
   -->
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -43,7 +43,7 @@ will add padding in API v21+ as well to have the same measurements with previous
 
         <!-- Text View to display Exercise Name -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
@@ -75,7 +75,7 @@ will add padding in API v21+ as well to have the same measurements with previous
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="10dp" />
+            android:layout_marginEnd="10dp" />
 
         <!-- Text VIew to display Exercise Description -->
 
