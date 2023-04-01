@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~  Created by Team Symphony on 4/1/23, 6:27 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/1/23, 5:47 PM
+  ~  Last modified 4/1/23, 6:07 PM
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,11 +17,12 @@
         android:padding="5dp">
 
         <EditText
-            android:id="@+id/editGoalName"
+            android:id="@+id/newGoalName"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:ems="10"
+            android:gravity="center_horizontal"
             android:hint="Goal Name"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
@@ -32,34 +33,41 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="When is this goal reached?" />
+            android:gravity="center_horizontal"
+            android:text="How's your progress on this goal going?" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:gravity="center|center_vertical"
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/goalNumber"
+                android:id="@+id/progressGoalEditText"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:inputType="number" />
 
-            <Spinner
-                android:id="@+id/goalSpinner"
+            <TextView
+                android:id="@+id/textView4"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:entries="@array/goal_types" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/otherInput"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="/" />
+
+            <EditText
+                android:id="@+id/endGoalEditText"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
                 android:gravity="center_vertical"
-                android:hint="@string/hint_other"
-                android:visibility="gone" />
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/goalTypeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Days" />
 
         </LinearLayout>
 
@@ -69,7 +77,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/cancelGoalButton"
+                android:id="@+id/cancelEditGoalButton"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,7 +87,7 @@
                 android:text="@string/button_cancel" />
 
             <Button
-                android:id="@+id/saveGoalButton"
+                android:id="@+id/saveEditGoalButton"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

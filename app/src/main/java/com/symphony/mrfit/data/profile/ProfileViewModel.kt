@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 5:08 AM
+ *  Created by Team Symphony on 4/1/23, 6:27 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 4:57 AM
+ *  Last modified 4/1/23, 6:18 PM
  */
 
 package com.symphony.mrfit.data.profile
@@ -97,6 +97,12 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
     fun addGoal(goal: Goal) {
         viewModelScope.launch {
             userRepository.addGoal(goal)
+        }
+    }
+
+    fun updateGoal(goal: Goal) {
+        viewModelScope.launch {
+            userRepository.updateGoal(goal)
         }
     }
 

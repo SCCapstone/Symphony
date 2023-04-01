@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 3:42 PM
+ *  Created by Team Symphony on 4/1/23, 6:27 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 3:36 PM
+ *  Last modified 4/1/23, 6:18 PM
  */
 
 package com.symphony.mrfit.data.profile
@@ -199,7 +199,7 @@ class UserRepository {
      */
     suspend fun addGoal(goal: Goal) {
         val user = auth.currentUser!!
-        Log.d(TAG, "Adding to the history of ${user.uid}")
+        Log.d(TAG, "Adding to the goals of ${user.uid}")
         try {
             val docRef = database.collection(USER_COLLECTION)
                 .document(user.uid)
@@ -209,7 +209,23 @@ class UserRepository {
             docRef.update("goalID", docRef.id)
         } catch (e: java.lang.Exception) {
             Log.w(TAG, "Error writing document", e)
-            ""
+        }
+    }
+
+    /**
+     * Update an existing goal with its id
+     */
+    suspend fun updateGoal(goal: Goal) {
+        val user = auth.currentUser!!
+        Log.d(TAG, "Updating goal ${goal.goalID} belonging to ${user.uid}")
+        try {
+            database.collection(USER_COLLECTION)
+                .document(user.uid)
+                .collection(GOAL_COLLECTION)
+                .document(goal.goalID!!)
+                .set(goal)
+        } catch (e: java.lang.Exception) {
+            Log.w(TAG, "Error writing document", e)
         }
     }
 
@@ -219,7 +235,7 @@ class UserRepository {
     suspend fun getGoals(): ArrayList<Goal> {
         val user = auth.currentUser!!
         val goalList = arrayListOf<Goal>()
-        Log.d(TAG, "Getting the history of ${user.uid}")
+        Log.d(TAG, "Getting the goals of ${user.uid}")
         try {
             val result = database.collection(USER_COLLECTION)
                 .document(user.uid)

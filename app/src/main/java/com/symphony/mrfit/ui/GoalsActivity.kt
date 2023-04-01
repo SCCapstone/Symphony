@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 4:47 PM
+ *  Created by Team Symphony on 4/1/23, 6:27 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 4:42 PM
+ *  Last modified 4/1/23, 6:27 PM
  */
 
 package com.symphony.mrfit.ui
@@ -11,10 +11,7 @@ import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Spinner
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -55,6 +52,60 @@ class GoalsActivity : AppCompatActivity() {
             profileViewModel.deleteGoal(goalID)
         }
 
+        fun editGoal(goal: Goal) {
+            val dialog = Dialog(this)
+            dialog.setContentView(R.layout.popup_edit_goal)
+            dialog.setTitle("New Goal")
+
+            val name = dialog.findViewById<EditText>(R.id.editGoalName)
+            val prog = dialog.findViewById<EditText>(R.id.progressGoalEditText)
+            val end = dialog.findViewById<EditText>(R.id.endGoalEditText)
+            val type = dialog.findViewById<TextView>(R.id.goalTypeTextView)
+            val save = dialog.findViewById<Button>(R.id.saveEditGoalButton)
+            val cancel = dialog.findViewById<Button>(R.id.cancelEditGoalButton)
+
+            name.setText(goal.name)
+            prog.setText(goal.progress.toString())
+            end.setText(goal.endGoal.toString())
+            type.text = (goal.quantifier)
+
+            save.setOnClickListener {
+                var newName = goal.name
+                if (name.text.isNotEmpty())
+                    newName = name.text.toString()
+                var newProg = goal.progress
+                if (prog.text.isNotEmpty())
+                    newProg = prog.text.toString().toDouble()
+                var newEnd = ZERO.toDouble()
+                if (end.text.isNotEmpty())
+                    newEnd = end.text.toString().toDouble()
+                profileViewModel.updateGoal(
+                    Goal(
+                        newName,
+                        newProg,
+                        newEnd,
+                        goal.quantifier,
+                        goal.goalID
+                    )
+                )
+
+                if (newProg >= newEnd) {
+                    /**
+                     * TODO: Congratulate the user. Confetti?
+                     */
+                }
+
+                profileViewModel.getGoals()
+                dialog.dismiss()
+            }
+
+            cancel.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            dialog.show()
+        }
+
         spinner.visibility = View.VISIBLE
 
         // Get data of current User and populate the page
@@ -70,7 +121,7 @@ class GoalsActivity : AppCompatActivity() {
             Log.d(ContentValues.TAG, "Filling in username")
             val goals = it ?: return@Observer
 
-            goalsList.adapter = GoalAdapter(this, goals, ::deleteGoal)
+            goalsList.adapter = GoalAdapter(this, goals, ::deleteGoal, ::editGoal)
             spinner.visibility = View.GONE
         })
 
@@ -79,7 +130,7 @@ class GoalsActivity : AppCompatActivity() {
             dialog.setContentView(R.layout.popup_new_goal)
             dialog.setTitle("New Goal")
 
-            val name = dialog.findViewById<EditText>(R.id.editGoalName)
+            val name = dialog.findViewById<EditText>(R.id.newGoalName)
             val num = dialog.findViewById<EditText>(R.id.goalNumber)
             val dropdown = dialog.findViewById<Spinner>(R.id.goalSpinner)
             val other = dialog.findViewById<EditText>(R.id.otherInput)

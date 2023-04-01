@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 4:47 PM
+ *  Created by Team Symphony on 4/1/23, 6:27 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 4:43 PM
+ *  Last modified 4/1/23, 6:27 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.model.Goal
@@ -22,7 +21,12 @@ import java.text.DecimalFormat
  * Adapter for dynamically populating a card_goal with a passed list of Histories
  */
 
-class GoalAdapter(val context: Context, val data: ArrayList<Goal>, val delete: (String) -> Unit) :
+class GoalAdapter(
+    val context: Context,
+    val data: ArrayList<Goal>,
+    val delete: (String) -> Unit,
+    val edit: (Goal) -> Unit
+) :
     RecyclerView.Adapter<GoalAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
@@ -48,7 +52,7 @@ class GoalAdapter(val context: Context, val data: ArrayList<Goal>, val delete: (
         }
 
         holder.itemView.setOnClickListener {
-            Toast.makeText(context, "What happens when I press this", Toast.LENGTH_LONG).show()
+            edit(data[i])
         }
     }
 
