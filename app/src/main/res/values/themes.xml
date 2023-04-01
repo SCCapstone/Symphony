@@ -1,12 +1,12 @@
 <!--
-  ~ Created by Team Symphony 12/2/22, 7:23 PM
-  ~ Copyright (c) 2022 . All rights reserved.
-  ~ Last modified 12/2/22, 3:23 PM
+  ~  Created by Team Symphony on 3/30/23, 5:52 PM
+  ~  Copyright (c) 2023 . All rights reserved.
+  ~  Last modified 3/30/23, 3:51 PM
   -->
 
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.MrFit" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.MrFit" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/garnet</item>
         <item name="colorPrimaryVariant">@color/garnet</item>

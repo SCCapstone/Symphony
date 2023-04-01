@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Pushdown"
+    android:layout_width="320dp"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/LegDay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/leg_day"
+            android:textAlignment="center"
+            tools:ignore="Autofill,LabelFor" />
+
+        <CheckBox
+            android:id="@+id/squats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/squats" />
+
+        <CheckBox
+            android:id="@+id/RDL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rdl" />
+
+        <CheckBox
+            android:id="@+id/lunges"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/lunges" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

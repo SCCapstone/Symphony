@@ -1,71 +1,82 @@
 /*
- * Created by Team Symphony 12/2/22, 7:23 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 4:24 PM
+ *  Created by Team Symphony on 2/25/23, 2:14 AM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/25/23, 2:14 AM
  */
 
 package com.symphony.mrfit.ui
 
-import android.app.AlarmManager
-import android.app.AlertDialog
-import android.app.Notification
-import android.app.PendingIntent
+import android.Manifest
+import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.SystemClock
+import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
-import com.symphony.mrfit.R
+import com.google.android.material.R
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.symphony.mrfit.databinding.ActivityNotificationBinding
+import java.util.*
+import java.util.Calendar
+
+/**
+ * Screen for allowing the User to schedule a notification
+ * TODO: Change the notification's icon and expand functionality
+ */
 
 class NotificationActivity : AppCompatActivity() {
 
-    private var alarmMgr: AlarmManager? = null
-    private lateinit var alarmIntent: PendingIntent
-
     private lateinit var binding: ActivityNotificationBinding
 
-    @RequiresApi(Build.VERSION_CODES.M)
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
+        super.onCreate(savedInstanceState)
         binding = ActivityNotificationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val schedule = binding.scheduleNotificationButton
-        val notifName = binding.title
-        val notifDesc = binding.message
+        if (Build.VERSION.SDK_INT >= 33) {
+            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        } else {
+            hasNotificationPermissionGranted = true
+        }
 
-        schedule.setOnClickListener {
-            /**
-             * TODO: Parse the user inputs to properly title and schedule the notification
-             * Try this tutorial here:
-             *   https://www.tutorialspoint.com/how-to-set-an-android-notification-to-a-specific-date-in-the-future
-             */
-            scheduleNotification(getNotification(notifName.text.toString(), notifDesc.text.toString()), 5000)
+        createNotificationChannel()
+        binding.scheduleNotificationButton.setOnClickListener {
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                scheduleNotification()
+            } else {
+                Toast.makeText(
+                    this,
+                    "Please enable Notifications to use this feature",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun scheduleNotification(notification: Notification, delay: Int) {
-        val notificationIntent = Intent(this, Notifications::class.java)
-        val title = binding.title.text.toString()
-        val message = binding.message.tag.toString()
-        notificationIntent.putExtra(Notifications.NOTIFICATION_ID, 1)
-        notificationIntent.putExtra(Notifications.NOTIFICATION, notification)
-        val pendingIntent = PendingIntent.getBroadcast(
-            this,
-            0,
-            notificationIntent,
-            PendingIntent.FLAG_IMMUTABLE
-        )
-        val futureInMillis: Long = SystemClock.elapsedRealtime() + delay
-        val alarmManager = (getSystemService(Context.ALARM_SERVICE) as AlarmManager)
-        alarmManager[AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis] = pendingIntent
+    private fun scheduleNotification() {
+        val notificationIntent = Intent(applicationContext, Notifications::class.java)
+        val title = binding.titleET.text.toString()
+        val message = binding.messageET.text.toString()
+        notificationIntent.putExtra(titleExtra, title)
+        notificationIntent.putExtra(messageExtra,message)
 
+        val pendingIntent= PendingIntent.getBroadcast(
+            applicationContext,
+            notificationID,
+            notificationIntent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val alarmManager = (getSystemService(Context.ALARM_SERVICE) as AlarmManager)
         val time = getTime()
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
@@ -73,45 +84,39 @@ class NotificationActivity : AppCompatActivity() {
             pendingIntent
         )
         showAlert(time, title, message)
+
     }
 
-    private fun getNotification(title: String, content: String): Notification {
-        val builder: NotificationCompat.Builder =
-            NotificationCompat.Builder(this, Companion.default_notification_channel_id)
-        builder.setContentTitle(title)
-        builder.setContentText(content)
-        builder.setSmallIcon(R.drawable.ic_launcher_foreground)
-        builder.setAutoCancel(true)
-        builder.setChannelId(Companion.NOTIFICATION_CHANNEL_ID)
-        return builder.build()
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createNotificationChannel() {
+        val name = "Notification Channel"
+        val desc = "Description of Channel"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(channelID, name, importance)
+        channel.description = desc
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+
     }
 
-    private fun showAlert(time: Long, title: String, message: String)
-    {
+    private fun showAlert(time: Long, title: String, message: String) {
         val date = Date(time)
         val dateFormat = android.text.format.DateFormat.getLongDateFormat(applicationContext)
         val timeFormat = android.text.format.DateFormat.getTimeFormat(applicationContext)
 
-        /**
-         * this code should be a notif for when it is scheduled but it is erroring
-         * commenting it out for now
-         */
-//        AlertDialog.Builder(context:this)
-//            .setTitle("Notification Scheduled")
-//            .setMessage(
-//            "Title: " + title +
-//                    "\nMessage: " + message +
-//                    "\nAt: " +dateFormat.format(date) + " " + timeFormat.format((date))
-//                .setPositiveButton(int:"Okay"){_,_->}
-//        .show()
+        AlertDialog.Builder(this)
+            .setTitle("Notification Scheduled").setMessage(
+                "Title: " + title +
+                        "\nMessage: " + message +
+                        "\nAt: " + dateFormat.format(date) + " " + timeFormat.format(date)
+            )
+            .setPositiveButton("Okay") { _, _ -> }
+            .show()
+
     }
 
-    /**
-     * just added the GetTime fuction for scheduling the notif
-     * you can comment this out if experiencing errors
-     */
-    private fun getTime() : Long
-    {
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun getTime(): Long {
         val minute = binding.timePicker.minute
         val hour = binding.timePicker.hour
         val day = binding.datePicker.dayOfMonth
@@ -123,9 +128,49 @@ class NotificationActivity : AppCompatActivity() {
         return calendar.timeInMillis
     }
 
-    companion object {
-        const val NOTIFICATION_CHANNEL_ID = "10001"
-        const val default_notification_channel_id = "default"
+    private val notificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            hasNotificationPermissionGranted = isGranted
+            if (!isGranted) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (Build.VERSION.SDK_INT >= 33) {
+                        if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                            showNotificationPermissionRationale()
+                        } else {
+                            showSettingDialog()
+                        }
+                    }
+                }
+            }
+        }
+
+    private fun showSettingDialog() {
+        MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_Material3)
+            .setTitle("Notification Permission")
+            .setMessage(com.symphony.mrfit.R.string.notification_permission_1)
+            .setPositiveButton("Ok") { _, _ ->
+                val intent = Intent(ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.data = Uri.parse("package:$packageName")
+                startActivity(intent)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
+
+    private fun showNotificationPermissionRationale() {
+
+        MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_Material3)
+            .setTitle("Alert")
+            .setMessage(com.symphony.mrfit.R.string.notification_permission_2)
+            .setPositiveButton("Ok") { _, _ ->
+                if (Build.VERSION.SDK_INT >= 33) {
+                    notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    var hasNotificationPermissionGranted = false
 }
 

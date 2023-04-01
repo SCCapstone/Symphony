@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~  Created by Team Symphony on 2/24/23, 11:21 PM
+  ~  Copyright (c) 2023 . All rights reserved.
+  ~  Last modified 2/24/23, 11:20 PM
+  -->
+
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/mrfit_launcher_background"/>
+    <foreground android:drawable="@mipmap/mrfit_launcher_foreground"/>
+</adaptive-icon>

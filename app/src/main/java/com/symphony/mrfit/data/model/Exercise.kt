@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 12/2/22, 7:23 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 3:23 PM
+ *  Created by Team Symphony on 2/26/23, 11:03 AM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 2/26/23, 9:30 AM
  */
 
 package com.symphony.mrfit.data.model
@@ -9,6 +9,6 @@ package com.symphony.mrfit.data.model
 data class Exercise(
         val name: String = "",
         val description: String = "",
-        val exerciseID: String = "",
-        val tags: ArrayList<String>? = null
+        val tags: ArrayList<String>? = null,
+        val exerciseID: String? = null
 )

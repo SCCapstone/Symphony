@@ -1,7 +1,7 @@
 /*
- * Created by Team Symphony 12/2/22, 7:23 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 3:23 PM
+ *  Created by Team Symphony on 3/18/23, 1:06 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 3/18/23, 1:02 PM
  */
 
 package com.symphony.mrfit.ui
@@ -10,15 +10,24 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.symphony.mrfit.R
 
 /**
- * Is this going to be the Home screen or the Welcome screen?
+ * Landing screen, can add functionality here to grab information on User's device
  */
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val user = Firebase.auth.currentUser
+        if (user != null) {
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
         setContentView(R.layout.activity_main)
     }
 

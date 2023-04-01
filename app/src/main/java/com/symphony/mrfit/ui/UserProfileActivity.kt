@@ -1,22 +1,31 @@
 /*
- * Created by Team Symphony 12/2/22, 7:23 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 7:15 PM
+ *  Created by Team Symphony on 3/22/23, 3:03 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 3/18/23, 5:33 PM
  */
 
 package com.symphony.mrfit.ui
 
-import android.content.ContentValues
+import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.ext.SdkExtensions.getExtensionVersion
 import android.text.InputType
 import android.util.Log
+import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.signature.ObjectKey
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -27,6 +36,11 @@ import com.symphony.mrfit.data.login.LoginViewModelFactory
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityUserProfileBinding
+import com.symphony.mrfit.ui.Helper.showSnackBar
+
+/**
+ * Screen for the User's profile. Data can be changed by tapping on it
+ */
 
 class UserProfileActivity : AppCompatActivity() {
 
@@ -36,6 +50,7 @@ class UserProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUserProfileBinding
     private lateinit var repo: LoginRepository
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -50,10 +65,10 @@ class UserProfileActivity : AppCompatActivity() {
             this, LoginViewModelFactory()
         )[LoginViewModel::class.java]
 
-        /**
-         * Declare lots of variables
-         */
-        val edit = binding.editProfileButton
+
+        // Declare lots of variables
+        val screen = binding.profileScreenView
+        val spinner = binding.loadingSpinner
         val goal = binding.goalsButton
         val achievements = binding.achievementsButton
         val history = binding.historyButton
@@ -69,23 +84,67 @@ class UserProfileActivity : AppCompatActivity() {
         val weightText = binding.weightValueTextView
         val pfp = binding.profilePicture
 
-        /**
-         * Get data of current User and populate the page
-         */
+
+        val photoPicker =
+            registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+                // Callback is invoked after the user selects a media item or closes the
+                // photo picker.
+                if (uri != null) {
+                    Log.d("PhotoPicker", "Selected URI: $uri")
+
+                    pfp.setImageURI(uri)
+                    profileViewModel.changeProfilePicture(uri)
+                    Glide.with(this)
+                        .load(uri).circleCrop().into(pfp)
+                } else {
+                    Log.d("PhotoPicker", "No media selected")
+                }
+            }
+
+        val imageSelection =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val selectedImg = result.data!!.data
+
+                    pfp.setImageURI(selectedImg)
+                    profileViewModel.changeProfilePicture(selectedImg!!)
+                    Glide.with(this)
+                        .load(selectedImg).circleCrop().into(pfp)
+                }
+            }
+
+        // Hide the screen till loading is done
+        screen.visibility = View.GONE
+        spinner.visibility = View.VISIBLE
+
+        // Get data of current User and populate the page
         profileViewModel.fetchCurrentUser()
         profileViewModel.loggedInUser.observe(this, Observer {
-            Log.d(ContentValues.TAG, "Populating Profile screen with values from current user")
+            Log.d(TAG, "Populating Profile screen with values from current user")
             val loggedInUser = it ?: return@Observer
 
+            Glide.with(this)
+                .load(profileViewModel.getProfilePicture())
+                .placeholder(R.drawable.cactuar)
+                .circleCrop()
+                .signature(ObjectKey(System.currentTimeMillis().toString()))
+                .into(pfp)
             name.text = loggedInUser.name
             ageText.text = loggedInUser.age?.toString() ?: PLACEHOLDER
             heightText.text = loggedInUser.height?.toString() ?: PLACEHOLDER
             if (heightText.text != PLACEHOLDER) {
-                val t1 = heightText.text.toString().toInt()/12
-                val t2 = heightText.text.toString().toInt()%12
-                heightText.text = getString(R.string.height_value, t1.toString(), t2.toString()) }
+                val t1 = heightText.text.toString().toInt() / 12
+                val t2 = heightText.text.toString().toInt() % 12
+                heightText.text = getString(R.string.height_value, t1.toString(), t2.toString())
+            }
             weightText.text = loggedInUser.weight?.toString() ?: PLACEHOLDER
-            if (weightText.text != PLACEHOLDER) { weightText.text = getString(R.string.weight_value, weightText.text) }
+            if (weightText.text != PLACEHOLDER) {
+                weightText.text = getString(R.string.weight_value, weightText.text)
+            }
+
+            screen.visibility = View.VISIBLE
+            spinner.visibility = View.GONE
         })
 
         name.setOnClickListener {
@@ -105,16 +164,15 @@ class UserProfileActivity : AppCompatActivity() {
         }
 
         pfp.setOnClickListener {
-            Toast.makeText(
-                applicationContext,
-                "This has not been implemented yet",
-                Toast.LENGTH_LONG
-            ).show()
-        }
-
-        edit.setOnClickListener {
-            val intent = Intent(this, EditProfileActivity::class.java)
-            startActivity(intent)
+            // Check if the user is on a version of android that supports to the Photo Picker
+            if (isPhotoPickerAvailable()) {
+                photoPicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            } else {
+                val intent = Intent()
+                intent.action = Intent.ACTION_GET_CONTENT
+                intent.type = "image/*"
+                imageSelection.launch(intent)
+            }
         }
 
         goal.setOnClickListener {
@@ -176,11 +234,10 @@ class UserProfileActivity : AppCompatActivity() {
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val new = input.text.toString()
             profileViewModel.updateCurrentUser(new, null, null, null)
-            Toast.makeText(
-                applicationContext,
+            showSnackBar(
                 "Name has been changed to $new",
-                Toast.LENGTH_LONG
-            ).show()
+                this
+            )
         }
 
         builder.setNegativeButton(android.R.string.cancel) { _, _ ->
@@ -201,11 +258,10 @@ class UserProfileActivity : AppCompatActivity() {
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val new = input.text.toString().toInt()
             profileViewModel.updateCurrentUser(null, new, null, null)
-            Toast.makeText(
-                applicationContext,
+            showSnackBar(
                 "Age has been changed to $new",
-                Toast.LENGTH_LONG
-            ).show()
+                this
+            )
         }
 
         builder.setNegativeButton(android.R.string.cancel) { _, _ ->
@@ -226,11 +282,10 @@ class UserProfileActivity : AppCompatActivity() {
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val new = input.text.toString().toInt()
             profileViewModel.updateCurrentUser(null, null, new, null)
-            Toast.makeText(
-                applicationContext,
+            showSnackBar(
                 "Height has been changed to $new",
-                Toast.LENGTH_LONG
-            ).show()
+                this
+            )
         }
 
         builder.setNegativeButton(android.R.string.cancel) { _, _ ->
@@ -251,11 +306,10 @@ class UserProfileActivity : AppCompatActivity() {
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val new = input.text.toString().toDouble()
             profileViewModel.updateCurrentUser(null, null, null, new)
-            Toast.makeText(
-                applicationContext,
+            showSnackBar(
                 "Weight has been changed to $new",
-                Toast.LENGTH_LONG
-            ).show()
+                this
+            )
         }
 
         builder.setNegativeButton(android.R.string.cancel) { _, _ ->
@@ -285,6 +339,18 @@ class UserProfileActivity : AppCompatActivity() {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
     }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun isPhotoPickerAvailable(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            true
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            getExtensionVersion(Build.VERSION_CODES.R) >= 2
+        } else {
+            false
+        }
+    }
+
 
     companion object {
         private const val PLACEHOLDER = "--"

@@ -1,32 +1,54 @@
 /*
- * Created by Team Symphony 12/2/22, 7:23 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 12/2/22, 7:20 PM
+ *  Created by Team Symphony on 3/31/23, 5:02 PM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 3/31/23, 5:02 PM
  */
 
 package com.symphony.mrfit.ui
 
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import android.view.View
+import android.widget.EditText
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.symphony.mrfit.R
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.model.Workout
 import com.symphony.mrfit.databinding.ActivityWorkoutTemplateBinding
-import java.io.File
+import com.symphony.mrfit.ui.Helper.ZERO
+import com.symphony.mrfit.ui.Helper.showSnackBar
+import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.NEW_ID
+import com.symphony.mrfit.ui.WorkoutRoutineActivity.Companion.EXTRA_ROUTINE
 
 /**
- * View Class for modifying a Workout
+ * Screen for modifying a Workout
  */
 
 class WorkoutTemplateActivity : AppCompatActivity() {
 
     private lateinit var exerciseViewModel: ExerciseViewModel
-    lateinit var binding: ActivityWorkoutTemplateBinding
+    private lateinit var binding: ActivityWorkoutTemplateBinding
+    private lateinit var exerciseName: EditText
+    private val launchExerciseSelection =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+            if (result.resultCode == Activity.RESULT_OK) {
+                // User pick an exercise, so get its data
+                exerciseViewModel.getExercise(result.data?.getStringExtra(EXTRA_IDENTITY)!!)
+            } else if (result.resultCode == Activity.RESULT_CANCELED) {
+                // User did not pick an exercise
+                // If this was supposed to be a new exercise, finish activity to return
+                if (exerciseName.text.toString() == getString(R.string.picking_exercise))
+                    finish()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,83 +58,169 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         exerciseViewModel = ViewModelProvider(
             this, ExerciseViewModelFactory()
         )[ExerciseViewModel::class.java]
+    }
 
-        val workoutName = binding.editWorkOutName
-        val weight = binding.editWeight
+    override fun onStart() {
+        super.onStart()
+
+        exerciseName = binding.editWorkOutName
+        val duration = binding.editDuration
         val reps = binding.editReps
+        val sets = binding.editSets
         val pickExe = binding.pickExerciseButton
-        val fileName = "app/java/workout.txt"
-        val file = File(fileName)
+        val saveButton = binding.saveTemplateButton
+        val deleteButton = binding.deleteTemplateButton
+        val exeCard = binding.exerciseCardView
+        var exeID = ""
 
         /**
          * Retrieve the extras passed to this intent
-         * passedID = The ID of the parent Routine
+         * passedWorkoutID = The ID of the current workout
          * passedName = The Name of the Workout
          * passedRep = The NumberOfReps from the Workout
          * passedList = The workoutList from the parent Routine
          */
-        var passedID: String? = null
-        val passedName: String?
-        val passedRep: String?
-        val passedList: ArrayList<String>?
+        val passedRoutineID = intent.getStringExtra(EXTRA_ROUTINE)
+        val passedWorkoutID = intent.getStringExtra(EXTRA_IDENTITY)
+        val passedName: String? = intent.getStringExtra(EXTRA_STRING)
+        val passedList: ArrayList<String>? = intent.getStringArrayListExtra(EXTRA_LIST)
 
-        if (intent.getStringExtra(EXTRA_IDENTITY) != "null") {
-            Log.d(ContentValues.TAG, "Inside routine ${intent.getStringExtra(EXTRA_IDENTITY)}")
-            passedID = intent.getStringExtra(EXTRA_IDENTITY)
-            passedName = intent.getStringExtra(EXTRA_STRING)
-            passedRep = intent.getStringExtra(EXTRA_REPS)
-            passedList = intent.getStringArrayListExtra(EXTRA_LIST)
-        }
-        else {
-            Log.d(ContentValues.TAG, "New workout routine")
-            passedID = null
-            passedName = "New Workout"
-            passedRep = "0"
-            passedList = ArrayList<String>()
+        // If this is a new exercise, skip past this screen
+        if (passedName == getText(R.string.new_exercise)) {
+            exerciseName.setText(getText(R.string.picking_exercise))
+            gotoExerciseScreen()
         }
 
-        workoutName.setText(passedName)
-        reps.setText(passedRep.toString())
+        //to unhide the reps/sets
+        val toggle = binding.toggleSetsReps
+        val repsLayout = binding.repsLayout
 
+        toggle.setOnClickListener {
+            if (repsLayout.visibility == View.GONE) {
+                repsLayout.visibility = View.VISIBLE
+            } else {
+                repsLayout.visibility=View.GONE
+            }
+        }
+
+        exerciseName.setText(passedName)
+
+        // If passed an existing workout, populate the appropriate fields
+        if (passedWorkoutID != NEW_ID) {
+            deleteButton.visibility = View.VISIBLE
+            duration.setText(intent.getStringExtra(EXTRA_DURA))
+            reps.setText(intent.getStringExtra(EXTRA_REPS))
+            sets.setText(intent.getStringExtra(EXTRA_SETS))
+            exerciseViewModel.getExercise(intent.getStringExtra(EXTRA_EXERCISE)!!)
+        }
+
+        //Launch the Exercise selection activity and await its return
         pickExe.setOnClickListener {
-            val intent = Intent(this, ExerciseActivity::class.java)
-            startActivity(intent)
+            gotoExerciseScreen()
         }
 
-        binding.button2.setOnClickListener {
-            var newWorkoutName: String? = null
-            if(workoutName.text.isNotEmpty()) { newWorkoutName = workoutName.text.toString()}
-            var newWeight: String? = null
-            if(weight.text.isNotEmpty()) { newWeight = weight.text.toString() }
-            var newReps: String? = null
-            if(reps.text.isNotEmpty()) { newReps = reps.text.toString() }
-
-            //val workouts = "Today's Workout$newWorkoutName,$newWeight,$newReps,"
-            //file.writeText(workouts)
+        // Exercise Card should have same functionality as pickExe button
+        exeCard.root.setOnClickListener {
+            gotoExerciseScreen()
+        }
 
 
-            // Add a workout to the database
-            val a = workoutName.text.toString()
-            val b = reps.text.toString().toInt()
-            val c = "ABCD123456"
-            passedList!!.add(c)
-            exerciseViewModel.addWorkout((Workout(a,b,c)), "ABCD123456")
-            exerciseViewModel.addWorkoutToRoutine(passedID, passedList)
+        // Save the workout and return to the parent Routine
+        saveButton.setOnClickListener {
+            var newWorkoutName: String = PLACEHOLDER_NAME
+            if (exerciseName.text.isNotEmpty()) {
+                newWorkoutName = exerciseName.text.toString()
+            }
+            var newDuration: Int = ZERO
+            if (duration.text.isNotEmpty()) {
+                newDuration = duration.text.toString().toInt()
+            }
+            var newReps: Int = ZERO
+            if (reps.text.isNotEmpty()) {
+                newReps = reps.text.toString().toInt()
+            }
+            var newSets: Int = ZERO
+            if (sets.text.isNotEmpty()) {
+                newSets = sets.text.toString().toInt()
+            }
 
-            Toast.makeText(
-                applicationContext,
-                "Your intent to create a workout has been recognized",
-                Toast.LENGTH_LONG
-            ).show()
+            if (passedWorkoutID != NEW_ID) {
+                /**
+                 * TODO: If a field is left blank when updating a workout, preserve the old data
+                 */
+                // Update a workout in the database
+                exerciseViewModel.updateWorkout(
+                    Workout(newWorkoutName, newDuration, newReps, newSets, exeID, passedWorkoutID)
+                )
+            } else {
+                // Add a workout to the database
+                val workoutID = exerciseViewModel.addWorkout(
+                    Workout(newWorkoutName, newDuration, newReps, newSets, exeID)
+                )
+                passedList!!.add(workoutID)
+            }
+
+            // Check if adding a new workout to the list or updating an old one
+            exerciseViewModel.updateRoutineWorkoutList(passedRoutineID!!, passedList!!)
+        }
+
+        // Delete the workout from the parent routine
+        deleteButton.setOnClickListener {
+            passedList!!.remove(passedWorkoutID)
+            exerciseViewModel.updateRoutineWorkoutList(passedRoutineID!!, passedList)
             finish()
         }
 
+        exerciseViewModel.exercise.observe(this, Observer {
+            val exercise = it ?: return@Observer
+
+            pickExe.visibility = View.GONE
+            exeCard.root.visibility = View.VISIBLE
+
+            //exeCard.exerciseImage = exercise.Image
+            exeCard.exerciseNameTextView.text = exercise.name
+            exeCard.exerciseTagsTextView.text = exercise.tags.toString()
+            exeCard.exerciseDescriptionTextView.text = exercise.description
+            exeID = exercise.exerciseID!!
+
+            saveButton.isEnabled = true
+        })
+
+        exerciseViewModel.routineListener.observe(this, Observer {
+            val routineListener = it ?: return@Observer
+
+            //spinner.visibility = View.GONE
+
+            if (routineListener.error != null) {
+                Log.d(ContentValues.TAG, "Workout saving failed")
+                showSnackBar(
+                    "Attempt to save workout failed, try again",
+                    this
+                )
+            } else {
+                Log.d(ContentValues.TAG, "Workout saved, moving back to Routine")
+                finish()
+            }
+            setResult(Activity.RESULT_OK)
+        })
+
+    }
+
+    private fun gotoExerciseScreen() {
+        intent.putExtra(EXTRA_STRING, exerciseName.text.toString())
+        launchExerciseSelection.launch(Intent(this, ExerciseActivity::class.java))
     }
 
     companion object {
         const val EXTRA_IDENTITY = "routine_id"
+        const val EXTRA_EXERCISE = "passed exercise ID"
         const val EXTRA_STRING = "workout_name"
+        const val EXTRA_DURA = "workout_duration"
         const val EXTRA_REPS = "num_reps"
+        const val EXTRA_SETS = "num_sets"
         const val EXTRA_LIST = "workout_list"
+        const val PLACEHOLDER_NAME = "New Exercise"
+        const val PLACEHOLDER_REPS = 0
+        const val PLACEHOLDER_SETS = 0
     }
 }
