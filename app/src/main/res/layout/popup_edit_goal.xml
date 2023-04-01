@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 4/1/23, 6:27 PM
+  ~  Created by Team Symphony on 4/1/23, 6:46 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/1/23, 6:07 PM
+  ~  Last modified 4/1/23, 6:46 PM
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,7 +17,7 @@
         android:padding="5dp">
 
         <EditText
-            android:id="@+id/newGoalName"
+            android:id="@+id/editGoalName"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"

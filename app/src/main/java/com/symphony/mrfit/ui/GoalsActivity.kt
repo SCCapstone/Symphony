@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 6:27 PM
+ *  Created by Team Symphony on 4/1/23, 6:46 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 6:27 PM
+ *  Last modified 4/1/23, 6:46 PM
  */
 
 package com.symphony.mrfit.ui
@@ -24,6 +24,10 @@ import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityGoalsBinding
 import com.symphony.mrfit.ui.Helper.ZERO
+import nl.dionsegijn.konfetti.core.Party
+import nl.dionsegijn.konfetti.core.Position
+import nl.dionsegijn.konfetti.core.emitter.Emitter
+import java.util.concurrent.TimeUnit
 
 class GoalsActivity : AppCompatActivity() {
 
@@ -47,6 +51,16 @@ class GoalsActivity : AppCompatActivity() {
         val goalsList = binding.goalsList
         val newGoal = binding.addGoalButton
         val spinner = binding.loadingSpinner
+        val confetti = binding.konfettiView
+
+        val party = Party(
+            speed = 0f,
+            maxSpeed = 30f,
+            damping = 0.9f,
+            spread = 360,
+            position = Position.Relative(0.5, 0.3),
+            emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100)
+        )
 
         fun deleteGoal(goalID: String) {
             profileViewModel.deleteGoal(goalID)
@@ -65,8 +79,8 @@ class GoalsActivity : AppCompatActivity() {
             val cancel = dialog.findViewById<Button>(R.id.cancelEditGoalButton)
 
             name.setText(goal.name)
-            prog.setText(goal.progress.toString())
-            end.setText(goal.endGoal.toString())
+            prog.hint = goal.progress.toString()
+            end.hint = goal.endGoal.toString()
             type.text = (goal.quantifier)
 
             save.setOnClickListener {
@@ -90,9 +104,9 @@ class GoalsActivity : AppCompatActivity() {
                 )
 
                 if (newProg >= newEnd) {
-                    /**
-                     * TODO: Congratulate the user. Confetti?
-                     */
+                    confetti.start(party)
+                    Toast.makeText(this, "Congrats on reaching your goal!", Toast.LENGTH_SHORT)
+                        .show()
                 }
 
                 profileViewModel.getGoals()
