@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 5:08 AM
+ *  Created by Team Symphony on 4/1/23, 3:42 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 4:57 AM
+ *  Last modified 4/1/23, 3:36 PM
  */
 
 package com.symphony.mrfit.data.profile
@@ -200,11 +200,17 @@ class UserRepository {
     suspend fun addGoal(goal: Goal) {
         val user = auth.currentUser!!
         Log.d(TAG, "Adding to the history of ${user.uid}")
-        database.collection(USER_COLLECTION)
-            .document(user.uid)
-            .collection(GOAL_COLLECTION)
-            .add(goal)
-            .await()
+        try {
+            val docRef = database.collection(USER_COLLECTION)
+                .document(user.uid)
+                .collection(GOAL_COLLECTION)
+                .add(goal)
+                .await()
+            docRef.update("goalID", docRef.id)
+        } catch (e: java.lang.Exception) {
+            Log.w(TAG, "Error writing document", e)
+            ""
+        }
     }
 
     /**
