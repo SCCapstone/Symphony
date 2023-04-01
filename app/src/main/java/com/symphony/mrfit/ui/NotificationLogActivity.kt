@@ -1,15 +1,21 @@
 /*
- *  Created by Team Symphony on 4/1/23, 2:57 AM
+ *  Created by Team Symphony on 4/1/23, 3:42 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 2:57 AM
+ *  Last modified 4/1/23, 3:42 AM
  */
 
 package com.symphony.mrfit.ui
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.ContentValues
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -46,6 +52,23 @@ class NotificationLogActivity : AppCompatActivity() {
             profileViewModel.deleteNotifcation(date)
         }
 
+        @RequiresApi(Build.VERSION_CODES.M)
+        fun cancelNotification(time: String) {
+            val notificationIntent = Intent(applicationContext, Notifications::class.java)
+            notificationIntent.data = Uri.parse(time)
+            Log.e("Notifications", "Cancelling alarm: $time")
+
+            val pendingIntent = PendingIntent.getBroadcast(
+                applicationContext,
+                time.toLong().toInt(),
+                notificationIntent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+            )
+
+            val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+            alarmManager.cancel(pendingIntent)
+        }
+
         spinner.visibility = View.VISIBLE
 
         //Get data of current User and populate the page
@@ -61,7 +84,7 @@ class NotificationLogActivity : AppCompatActivity() {
 
             notifications.reverse()
             notificationList.adapter =
-                NotificationAdapter(this, notifications, ::deleteNotification)
+                NotificationAdapter(this, notifications, ::deleteNotification, ::cancelNotification)
             spinner.visibility = View.GONE
         })
     }

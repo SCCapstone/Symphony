@@ -1,13 +1,14 @@
 /*
- *  Created by Team Symphony on 4/1/23, 3:00 AM
+ *  Created by Team Symphony on 4/1/23, 3:42 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 2:58 AM
+ *  Last modified 4/1/23, 3:25 AM
  */
 
 package com.symphony.mrfit.data.exercise
 
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,8 @@ import java.util.*
 class NotificationAdapter(
     val context: Context,
     val data: ArrayList<Notification>,
-    val delete: (String) -> Unit
+    val delete: (String) -> Unit,
+    val cancel: (String) -> Unit
 ) :
     RecyclerView.Adapter<NotificationAdapter.ViewHolder>() {
 
@@ -71,7 +73,10 @@ class NotificationAdapter(
          * TODO: This should remove the upcoming alarm
          */
         holder.cancelButton.setOnClickListener {
-            delete(data[i].date!!.toDate().time.toString())
+            val time = data[i].date!!.toDate().time.toString()
+            cancel(time)
+            Log.e("Notifications", "Cancelling alarm: $time")
+            delete(time)
             data.removeAt(i)
             notifyItemRemoved(i)
             notifyItemRangeChanged(i, itemCount)

@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 2:57 AM
+ *  Created by Team Symphony on 4/1/23, 3:42 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 2:05 AM
+ *  Last modified 4/1/23, 3:42 AM
  */
 
 package com.symphony.mrfit.ui
@@ -15,6 +15,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -75,24 +76,26 @@ class NotificationActivity : AppCompatActivity() {
         val notificationIntent = Intent(applicationContext, Notifications::class.java)
         val title = getString(R.string.app_name)
         val message = binding.messageET.text.toString()
+        val time = getTime()
 
         notificationIntent.putExtra(titleExtra, title)
         notificationIntent.putExtra(messageExtra,message)
+        notificationIntent.data = Uri.parse(time.toString())
 
         val pendingIntent= PendingIntent.getBroadcast(
             applicationContext,
-            notificationID,
+            time.toInt(),
             notificationIntent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         val alarmManager = (getSystemService(Context.ALARM_SERVICE) as AlarmManager)
-        val time = getTime()
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             time,
             pendingIntent
         )
+        Log.e("Notifications", "Created alarm: $time")
         profileViewModel.addNotification(
             com.symphony.mrfit.data.model.Notification(
                 message,
