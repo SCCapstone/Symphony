@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/31/23, 8:54 PM
+ *  Created by Team Symphony on 3/31/23, 10:18 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/31/23, 8:54 PM
+ *  Last modified 3/31/23, 10:07 PM
  */
 
 package com.symphony.mrfit.ui
@@ -119,23 +119,15 @@ class WorkoutTemplateActivity : AppCompatActivity() {
 
             if (passedDuration != null) {
                 duration.setText(passedDuration)
-            } else {
-                binding.durationLayout.visibility = View.GONE
             }
             if (passedDistance != null) {
                 distance.setText(passedDistance)
-            } else {
-                binding.distanceLayout.visibility = View.GONE
             }
             if (passedReps != INT_NULL) {
                 reps.setText(passedReps.toString())
-            } else {
-                binding.repsLayout.visibility = View.GONE
             }
             if (passedSets != INT_NULL) {
                 sets.setText(passedSets.toString())
-            } else {
-                binding.setsLayout.visibility = View.GONE
             }
 
             exerciseViewModel.getExercise(intent.getStringExtra(EXTRA_EXERCISE)!!)
@@ -209,7 +201,29 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         exerciseViewModel.exercise.observe(this, Observer {
             val exercise = it ?: return@Observer
 
+            // Toggle visibility depending on the exercise's flags
+            if (exercise.repsFlag) {
+                binding.repsLayout.visibility = View.VISIBLE
+            } else {
+                binding.repsLayout.visibility = View.GONE
+            }
+            if (exercise.setsFlag) {
+                binding.setsLayout.visibility = View.VISIBLE
+            } else {
+                binding.setsLayout.visibility = View.GONE
+            }
+            if (exercise.durationFlag) {
+                binding.durationLayout.visibility = View.VISIBLE
+            } else {
+                binding.durationLayout.visibility = View.GONE
+            }
+            if (exercise.distanceFlag) {
+                binding.distanceLayout.visibility = View.VISIBLE
+            } else {
+                binding.distanceLayout.visibility = View.GONE
+            }
 
+            // Populate the exercise card with information
             Glide.with(this)
                 .load(
                     storage.reference

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 3/22/23, 3:03 PM
+  ~  Created by Team Symphony on 3/31/23, 10:18 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 3/18/23, 1:55 PM
+  ~  Last modified 3/31/23, 10:02 PM
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -36,82 +36,113 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Exercise Name"
+                android:hint="@string/hint_exercise_name"
                 android:inputType="textPersonName"
                 android:minHeight="50dp" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/tagsLayout"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/exerciseTagsLabelTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Tags:"
-                android:textAlignment="center" />
-
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTags"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Cardio, At home, etc"
-                android:inputType="text" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/descLayout"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/exerciseDescTextView"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Description:"
-                android:textAlignment="center" />
+                android:hint="@string/hint_tags" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editDesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Description"
-                android:inputType="textMultiLine|text"
-                android:minHeight="60dp" />
-
-        </LinearLayout>
+                android:hint="@string/hint_description" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="How would you measure this exercise?" />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:orientation="horizontal"
+            android:rowCount="2">
+
+            <CheckBox
+                android:id="@+id/repsCheckBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:text="@string/hint_reps" />
+
+            <CheckBox
+                android:id="@+id/setsCheckBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:text="@string/hint_sets" />
+
+            <CheckBox
+                android:id="@+id/durationCheckBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:text="@string/hint_duration" />
+
+            <CheckBox
+                android:id="@+id/distanceCheckBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:text="@string/hint_distance" />
+        </GridLayout>
+
+        <TextView
+            android:id="@+id/reminderMessageTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="Reminder: Custom exercises are displayed to all users" />
 
-        <Button
-            android:id="@+id/saveExerciseButton"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="true"
-            android:text="Save" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/cancelExerciseButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="true"
-            android:text="Cancel" />
+            <Button
+                android:id="@+id/cancelExerciseButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:enabled="true"
+                android:text="@string/button_cancel" />
+
+            <Button
+                android:id="@+id/saveExerciseButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:enabled="true"
+                android:text="@string/button_save" />
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -1,7 +1,7 @@
 <!--
-  ~  Created by Team Symphony on 3/31/23, 8:54 PM
+  ~  Created by Team Symphony on 3/31/23, 10:18 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 3/31/23, 7:30 PM
+  ~  Last modified 3/31/23, 9:32 PM
   -->
 
 <resources>
@@ -102,4 +102,8 @@
     <string name="hint_sets">Sets</string>
     <string name="hint_duration">Duration</string>
     <string name="hint_distance">Distance</string>
+    <string name="hint_tags">Tags</string>
+    <string name="hint_exercise_name">Exercise Name</string>
+    <string name="hint_description">Description</string>
+    <string name="button_cancel">Cancel</string>
 </resources>
