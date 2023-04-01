@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/31/23, 10:18 PM
+ *  Created by Team Symphony on 4/1/23, 7:44 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/31/23, 10:12 PM
+ *  Last modified 4/1/23, 7:41 PM
  */
 
 package com.symphony.mrfit.ui
@@ -182,6 +182,11 @@ class ExerciseActivity : AppCompatActivity() {
         this.setResult(Activity.RESULT_OK, intent)
         this.finish()
 
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 
     companion object {

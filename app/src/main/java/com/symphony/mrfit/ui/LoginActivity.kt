@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 4:23 AM
+ *  Created by Team Symphony on 4/1/23, 7:44 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 4:23 AM
+ *  Last modified 4/1/23, 7:44 PM
  */
 
 package com.symphony.mrfit.ui
@@ -292,13 +292,18 @@ class LoginActivity : AppCompatActivity() {
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
             loginViewModel.passwordReset(input.text.toString())
             showSnackBar(
-                getString(R.string.reset_email_sent, input.text.toString()),this
+                getString(R.string.reset_email_sent, input.text.toString()), this
             )
         }
 
         builder.setNegativeButton(android.R.string.cancel) { _, _ ->
         }
         builder.show()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 
 }

@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 5:08 AM
+ *  Created by Team Symphony on 4/1/23, 7:44 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 5:08 AM
+ *  Last modified 4/1/23, 7:41 PM
  */
 
 package com.symphony.mrfit.ui
@@ -99,5 +99,10 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, RoutineSelectionActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 }
