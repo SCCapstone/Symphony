@@ -4,12 +4,17 @@
  *  Last modified 2/24/23, 11:20 PM
  */
 
+
 package com.symphony.mrfit.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
 import android.widget.CalendarView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.symphony.mrfit.R
 
@@ -34,6 +39,15 @@ class Calendar : AppCompatActivity() {
 
                 date.text = Date
             }
+
+        /*reference to button*/
+        val setEventButton = findViewById<Button>(R.id.setevent)
+
+        /*on click, it goes to event page*/
+        setEventButton.setOnClickListener {
+            val intent = Intent(this,Event::class.java)
+            startActivity(intent)
+        }
 
     }
 }

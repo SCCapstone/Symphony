@@ -5,8 +5,9 @@
   ~  Last modified 2/24/23, 11:20 PM
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.Calendar">
@@ -15,28 +16,37 @@
 
     <TextView
         android:id="@+id/idTVDate"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:gravity="center"
         android:padding="8dp"
         android:text="Calendar"
         android:textAlignment="center"
         android:textColor="@color/garnet"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="157dp"
+        tools:layout_editor_absoluteY="16dp"
+        tools:ignore="MissingConstraints" />
 
     <CalendarView
         android:id="@+id/calendarView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/idTVDate"
-        android:layout_marginTop="30dp" />
+        tools:layout_editor_absoluteX="30dp"
+        tools:layout_editor_absoluteY="75dp"
+        tools:ignore="MissingConstraints" />
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/setevent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Event"
+        tools:layout_editor_absoluteX="147dp"
+        tools:layout_editor_absoluteY="433dp"
+        tools:ignore="MissingConstraints" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 <!--<LinearLayout-->
 <!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
