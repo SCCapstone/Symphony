@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/31/23, 11:31 PM
+ *  Created by Team Symphony on 4/1/23, 12:26 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/31/23, 11:31 PM
+ *  Last modified 4/1/23, 12:07 AM
  */
 
 package com.symphony.mrfit.data.profile
@@ -80,7 +80,7 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
 
     fun getNotifications() {
         viewModelScope.launch {
-            _workoutHistory.value = userRepository.getWorkoutHistory()
+            _notifications.value = userRepository.getNotifications()
         }
     }
 

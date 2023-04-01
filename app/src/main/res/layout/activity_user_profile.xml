@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 2/26/23, 9:27 AM
+  ~  Created by Team Symphony on 4/1/23, 12:26 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 2/26/23, 9:22 AM
+  ~  Last modified 3/31/23, 11:55 PM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -178,11 +178,6 @@
                         android:layout_height="wrap_content"
                         android:text="@string/button_workout_history" />
 
-                    <Button
-                        android:id="@+id/progressButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/button_workout_progress" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -255,6 +250,12 @@
                             android:layout_weight="1"
                             android:entries="@array/privacy_array" />
                     </LinearLayout>
+
+                    <Button
+                        android:id="@+id/notificationsButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/button_notifications" />
 
                     <Button
                         android:id="@+id/logoutButton"

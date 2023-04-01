@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/31/23, 11:31 PM
+ *  Created by Team Symphony on 4/1/23, 12:26 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/31/23, 11:31 PM
+ *  Last modified 4/1/23, 12:11 AM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 /**
- * Adapter for dynamically populating a card_history with a passed list of Histories
+ * Adapter for dynamically populating a card_notification with a passed list of Notifications
  */
 
 class NotificationAdapter(val context: Context, val data: ArrayList<Notification>) :
@@ -29,7 +29,7 @@ class NotificationAdapter(val context: Context, val data: ArrayList<Notification
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val v = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.card_history, viewGroup, false)
+            .inflate(R.layout.card_notification, viewGroup, false)
         v.setOnClickListener { }
         return ViewHolder(v)
     }
@@ -39,7 +39,7 @@ class NotificationAdapter(val context: Context, val data: ArrayList<Notification
         holder.notificationMessage.text = data[i].message
         val date = data[i].date!!.toDate()
         holder.notificationTimestamp.text = SimpleDateFormat(
-            "MMMM dd, yyyy at hh:mm a",
+            "MMMM dd, yyyy 'at' hh:mm a",
             Locale.getDefault()
         )
             .format(date)

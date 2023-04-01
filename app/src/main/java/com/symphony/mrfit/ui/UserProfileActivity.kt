@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/22/23, 3:03 PM
+ *  Created by Team Symphony on 4/1/23, 12:26 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/18/23, 5:33 PM
+ *  Last modified 3/31/23, 11:55 PM
  */
 
 package com.symphony.mrfit.ui
@@ -72,7 +72,7 @@ class UserProfileActivity : AppCompatActivity() {
         val goal = binding.goalsButton
         val achievements = binding.achievementsButton
         val history = binding.historyButton
-        val progress = binding.progressButton
+        val notifications = binding.notificationsButton
         val logout = binding.logoutButton
         val delete = binding.deleteButton
         val name = binding.profileNameTextView
@@ -199,12 +199,9 @@ class UserProfileActivity : AppCompatActivity() {
             ).show()
         }
 
-        progress.setOnClickListener {
-            Toast.makeText(
-                applicationContext,
-                "This has not been implemented yet",
-                Toast.LENGTH_LONG
-            ).show()
+        notifications.setOnClickListener {
+            val intent = Intent(applicationContext, NotificationLogActivity::class.java)
+            startActivity(intent)
         }
 
         logout.setOnClickListener {
