@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/31/23, 5:02 PM
+ *  Created by Team Symphony on 3/31/23, 8:54 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/31/23, 4:41 PM
+ *  Last modified 3/31/23, 8:54 PM
  */
 
 package com.symphony.mrfit.ui
@@ -109,14 +109,10 @@ class WorkoutRoutineActivity : AppCompatActivity() {
                 routinePlaylist.setText(BLANK)
             }
             if (routine.workoutList != null) {
-                spinner.visibility = View.GONE
-                if (routine.workoutList.isNotEmpty()) {
-                    spinner.visibility = View.VISIBLE
-                    placeholderText.visibility = View.GONE
-                    workoutList.visibility = View.VISIBLE
-                    passedList = routine.workoutList
-                    exerciseViewModel.getWorkouts(routine.workoutList)
-                }
+                placeholderText.visibility = View.GONE
+                workoutList.visibility = View.VISIBLE
+                passedList = routine.workoutList
+                exerciseViewModel.getWorkouts(routine.workoutList)
             }
         })
         exerciseViewModel.workoutList.observe(this, Observer {

@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/31/23, 5:02 PM
+ *  Created by Team Symphony on 3/31/23, 8:54 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/31/23, 5:02 PM
+ *  Last modified 3/31/23, 8:54 PM
  */
 
 package com.symphony.mrfit.ui
@@ -12,17 +12,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import com.symphony.mrfit.R
+import com.symphony.mrfit.data.exercise.ExerciseRepository
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.model.Workout
 import com.symphony.mrfit.databinding.ActivityWorkoutTemplateBinding
-import com.symphony.mrfit.ui.Helper.ZERO
 import com.symphony.mrfit.ui.Helper.showSnackBar
 import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.NEW_ID
 import com.symphony.mrfit.ui.WorkoutRoutineActivity.Companion.EXTRA_ROUTINE
@@ -32,10 +35,9 @@ import com.symphony.mrfit.ui.WorkoutRoutineActivity.Companion.EXTRA_ROUTINE
  */
 
 class WorkoutTemplateActivity : AppCompatActivity() {
-
     private lateinit var exerciseViewModel: ExerciseViewModel
     private lateinit var binding: ActivityWorkoutTemplateBinding
-    private lateinit var exerciseName: EditText
+    private lateinit var status: String
     private val launchExerciseSelection =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 
@@ -45,7 +47,7 @@ class WorkoutTemplateActivity : AppCompatActivity() {
             } else if (result.resultCode == Activity.RESULT_CANCELED) {
                 // User did not pick an exercise
                 // If this was supposed to be a new exercise, finish activity to return
-                if (exerciseName.text.toString() == getString(R.string.picking_exercise))
+                if (status == getString(R.string.picking_exercise))
                     finish()
             }
         }
@@ -63,11 +65,12 @@ class WorkoutTemplateActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        exerciseName = binding.editWorkOutName
+        val storage: FirebaseStorage = Firebase.storage
+
         val duration = binding.editDuration
+        val distance = binding.editDistance
         val reps = binding.editReps
         val sets = binding.editSets
-        val pickExe = binding.pickExerciseButton
         val saveButton = binding.saveTemplateButton
         val deleteButton = binding.deleteTemplateButton
         val exeCard = binding.exerciseCardView
@@ -82,15 +85,16 @@ class WorkoutTemplateActivity : AppCompatActivity() {
          */
         val passedRoutineID = intent.getStringExtra(EXTRA_ROUTINE)
         val passedWorkoutID = intent.getStringExtra(EXTRA_IDENTITY)
-        val passedName: String? = intent.getStringExtra(EXTRA_STRING)
         val passedList: ArrayList<String>? = intent.getStringArrayListExtra(EXTRA_LIST)
 
         // If this is a new exercise, skip past this screen
-        if (passedName == getText(R.string.new_exercise)) {
-            exerciseName.setText(getText(R.string.picking_exercise))
+        status = intent.getStringExtra(EXTRA_STRING).toString()
+        if (status == getString(R.string.new_exercise)) {
+            intent.putExtra(EXTRA_STRING, getString(R.string.picking_exercise))
             gotoExerciseScreen()
         }
 
+        /*
         //to unhide the reps/sets
         val toggle = binding.toggleSetsReps
         val repsLayout = binding.repsLayout
@@ -103,23 +107,41 @@ class WorkoutTemplateActivity : AppCompatActivity() {
             }
         }
 
-        exerciseName.setText(passedName)
+         */
 
         // If passed an existing workout, populate the appropriate fields
         if (passedWorkoutID != NEW_ID) {
+            val passedDuration = intent.getStringExtra(EXTRA_DURA)
+            val passedDistance = intent.getStringExtra(EXTRA_DIST)
+            val passedReps = intent.getIntExtra(EXTRA_REPS, INT_NULL)
+            val passedSets = intent.getIntExtra(EXTRA_SETS, INT_NULL)
             deleteButton.visibility = View.VISIBLE
-            duration.setText(intent.getStringExtra(EXTRA_DURA))
-            reps.setText(intent.getStringExtra(EXTRA_REPS))
-            sets.setText(intent.getStringExtra(EXTRA_SETS))
+
+            if (passedDuration != null) {
+                duration.setText(passedDuration)
+            } else {
+                binding.durationLayout.visibility = View.GONE
+            }
+            if (passedDistance != null) {
+                distance.setText(passedDistance)
+            } else {
+                binding.distanceLayout.visibility = View.GONE
+            }
+            if (passedReps != INT_NULL) {
+                reps.setText(passedReps.toString())
+            } else {
+                binding.repsLayout.visibility = View.GONE
+            }
+            if (passedSets != INT_NULL) {
+                sets.setText(passedSets.toString())
+            } else {
+                binding.setsLayout.visibility = View.GONE
+            }
+
             exerciseViewModel.getExercise(intent.getStringExtra(EXTRA_EXERCISE)!!)
         }
 
-        //Launch the Exercise selection activity and await its return
-        pickExe.setOnClickListener {
-            gotoExerciseScreen()
-        }
-
-        // Exercise Card should have same functionality as pickExe button
+        // When tapping the exercise card, go to exercise selection
         exeCard.root.setOnClickListener {
             gotoExerciseScreen()
         }
@@ -127,21 +149,26 @@ class WorkoutTemplateActivity : AppCompatActivity() {
 
         // Save the workout and return to the parent Routine
         saveButton.setOnClickListener {
-            var newWorkoutName: String = PLACEHOLDER_NAME
-            if (exerciseName.text.isNotEmpty()) {
-                newWorkoutName = exerciseName.text.toString()
+            val newWorkoutName = exeCard.exerciseNameTextView.text.toString()
+            val newDuration: String? = if (duration.text!!.isNotEmpty()) {
+                duration.text.toString()
+            } else {
+                null
             }
-            var newDuration: Int = ZERO
-            if (duration.text.isNotEmpty()) {
-                newDuration = duration.text.toString().toInt()
+            val newDistance: String? = if (distance.text!!.isNotEmpty()) {
+                distance.text.toString()
+            } else {
+                null
             }
-            var newReps: Int = ZERO
-            if (reps.text.isNotEmpty()) {
-                newReps = reps.text.toString().toInt()
+            val newReps: Int? = if (reps.text!!.isNotEmpty()) {
+                reps.text.toString().toInt()
+            } else {
+                null
             }
-            var newSets: Int = ZERO
-            if (sets.text.isNotEmpty()) {
-                newSets = sets.text.toString().toInt()
+            val newSets: Int? = if (sets.text!!.isNotEmpty()) {
+                sets.text.toString().toInt()
+            } else {
+                null
             }
 
             if (passedWorkoutID != NEW_ID) {
@@ -150,12 +177,20 @@ class WorkoutTemplateActivity : AppCompatActivity() {
                  */
                 // Update a workout in the database
                 exerciseViewModel.updateWorkout(
-                    Workout(newWorkoutName, newDuration, newReps, newSets, exeID, passedWorkoutID)
+                    Workout(
+                        newWorkoutName,
+                        newDuration,
+                        newDistance,
+                        newReps,
+                        newSets,
+                        exeID,
+                        passedWorkoutID
+                    )
                 )
             } else {
                 // Add a workout to the database
                 val workoutID = exerciseViewModel.addWorkout(
-                    Workout(newWorkoutName, newDuration, newReps, newSets, exeID)
+                    Workout(newWorkoutName, newDuration, newDistance, newReps, newSets, exeID)
                 )
                 passedList!!.add(workoutID)
             }
@@ -174,14 +209,19 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         exerciseViewModel.exercise.observe(this, Observer {
             val exercise = it ?: return@Observer
 
-            pickExe.visibility = View.GONE
-            exeCard.root.visibility = View.VISIBLE
 
-            //exeCard.exerciseImage = exercise.Image
+            Glide.with(this)
+                .load(
+                    storage.reference
+                        .child(ExerciseRepository.EXERCISE_PICTURE)
+                        .child(exercise.exerciseID!!)
+                )
+                .placeholder(R.drawable.cactuar)
+                .into(exeCard.exerciseImage)
             exeCard.exerciseNameTextView.text = exercise.name
             exeCard.exerciseTagsTextView.text = exercise.tags.toString()
             exeCard.exerciseDescriptionTextView.text = exercise.description
-            exeID = exercise.exerciseID!!
+            exeID = exercise.exerciseID
 
             saveButton.isEnabled = true
         })
@@ -207,7 +247,6 @@ class WorkoutTemplateActivity : AppCompatActivity() {
     }
 
     private fun gotoExerciseScreen() {
-        intent.putExtra(EXTRA_STRING, exerciseName.text.toString())
         launchExerciseSelection.launch(Intent(this, ExerciseActivity::class.java))
     }
 
@@ -216,11 +255,13 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         const val EXTRA_EXERCISE = "passed exercise ID"
         const val EXTRA_STRING = "workout_name"
         const val EXTRA_DURA = "workout_duration"
+        const val EXTRA_DIST = "workout_distance"
         const val EXTRA_REPS = "num_reps"
         const val EXTRA_SETS = "num_sets"
         const val EXTRA_LIST = "workout_list"
         const val PLACEHOLDER_NAME = "New Exercise"
         const val PLACEHOLDER_REPS = 0
         const val PLACEHOLDER_SETS = 0
+        const val INT_NULL = -99999
     }
 }

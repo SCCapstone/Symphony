@@ -1,7 +1,7 @@
 <!--
-  ~  Created by Team Symphony on 3/31/23, 5:02 PM
+  ~  Created by Team Symphony on 3/31/23, 8:54 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 3/31/23, 2:39 PM
+  ~  Last modified 3/31/23, 7:30 PM
   -->
 
 <resources>
@@ -98,4 +98,8 @@
     <string name="new_workout">New Workout</string>
     <string name="new_exercise">New Exercise</string>
     <string name="picking_exercise">Picking Exercise</string>
+    <string name="hint_reps">Reps</string>
+    <string name="hint_sets">Sets</string>
+    <string name="hint_duration">Duration</string>
+    <string name="hint_distance">Distance</string>
 </resources>
