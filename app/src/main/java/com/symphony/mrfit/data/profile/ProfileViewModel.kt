@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/26/23, 9:27 AM
+ *  Created by Team Symphony on 3/31/23, 11:31 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/26/23, 9:27 AM
+ *  Last modified 3/31/23, 11:31 PM
  */
 
 package com.symphony.mrfit.data.profile
@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.storage.StorageReference
 import com.symphony.mrfit.data.model.History
+import com.symphony.mrfit.data.model.Notification
 import com.symphony.mrfit.data.model.User
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -28,6 +29,9 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
 
     private val _workoutHistory = MutableLiveData<ArrayList<History>>()
     val workoutHistory: LiveData<ArrayList<History>> = _workoutHistory
+
+    private val _notifications = MutableLiveData<ArrayList<Notification>>()
+    val notifications: LiveData<ArrayList<Notification>> = _notifications
 
     fun fetchCurrentUser() {
         viewModelScope.launch {
@@ -65,6 +69,24 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
     fun getWorkoutHistory() {
         viewModelScope.launch {
             _workoutHistory.value = userRepository.getWorkoutHistory()
+        }
+    }
+
+    fun addNotification(notification: Notification) {
+        viewModelScope.launch {
+            userRepository.addNotification(notification)
+        }
+    }
+
+    fun getNotifications() {
+        viewModelScope.launch {
+            _workoutHistory.value = userRepository.getWorkoutHistory()
+        }
+    }
+
+    fun deleteNotifcation() {
+        viewModelScope.launch {
+            userRepository.deleteNotification()
         }
     }
 }
