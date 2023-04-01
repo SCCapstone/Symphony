@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~  Created by Team Symphony on 2/26/23, 11:03 AM
-  ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 2/26/23, 11:00 AM
-  -->
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -25,6 +19,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MrFit"
         tools:targetApi="31">
+        <activity
+            android:name=".WorkoutDetail"
+            android:exported="false"
+            android:label="@string/title_activity_workout_detail"
+            android:theme="@style/Theme.MrFit.NoActionBar" />
         <activity
             android:name=".AddStockExercises"
             android:exported="false" />
@@ -120,7 +119,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
         <activity
             android:name=".ui.StoreActivity"
             android:exported="false">

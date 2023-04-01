@@ -27,29 +27,15 @@
 
         <Button
             android:id="@+id/ArmsButton"
-            android:layout_width="match_parent"
+            android:layout_width="320dp"
             android:layout_height="107dp"
             android:text="@string/arms" />
 
         <Button
             android:id="@+id/LegsButton"
-            android:layout_width="match_parent"
+            android:layout_width="320dp"
             android:layout_height="105dp"
             android:text="@string/legs" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center|bottom"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/BackButton"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center|bottom"
-                android:text="Back" />
-        </LinearLayout>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
