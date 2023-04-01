@@ -1,15 +1,12 @@
 <!--
-  ~  Created by Team Symphony on 4/1/23, 4:23 AM
+  ~  Created by Team Symphony on 4/1/23, 3:10 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/1/23, 4:20 AM
+  ~  Last modified 4/1/23, 2:34 PM
   -->
 
 <resources>
     <!-- CONSTANTS, DO NOT CHANGE -->
     <string name="google_client_id">876037032436-a3e9qhm47smke0n2duem9fgb45sgiidk.apps.googleusercontent.com</string>
-    <string name="facebook_app_id">1282611015641916</string>
-    <string name="fb_login_protocol_scheme">fb1282611015641916</string>
-    <string name="facebook_client_token">55d764848b923fd2eb5519986f8db733</string>
     <string name="PLACEHOLDER_NUMBER">999</string>
     <string name="PLACEHOLDER_TEXT">Lorem Ipsum</string>
     <string name="ZERO">0</string>
@@ -124,4 +121,12 @@
     <string name="exercise_image">Exercise image</string>
     <string name="exercise_types_question">How would you measure this exercise?</string>
     <string name="reminder_message">Reminder: Custom exercises are displayed to all users</string>
+    <string name="goals_title">Your Goals</string>
+    <string name="goal_format">%s \/ %s %s</string>
+    <string name="days">days</string>
+    <string name="miles">miles</string>
+    <string name="reps">reps</string>
+    <string name="sets">sets</string>
+    <string name="other">other</string>
+    <string name="hint_other">Other</string>
 </resources>

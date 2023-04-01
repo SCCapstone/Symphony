@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 4:23 AM
+ *  Created by Team Symphony on 4/1/23, 3:10 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 4:03 AM
+ *  Last modified 4/1/23, 2:58 PM
  */
 
 package com.symphony.mrfit.ui
@@ -126,7 +126,7 @@ class UserProfileActivity : AppCompatActivity() {
 
             Glide.with(this)
                 .load(profileViewModel.getProfilePicture())
-                .placeholder(R.drawable.cactuar)
+                .placeholder(com.firebase.ui.auth.R.drawable.fui_ic_anonymous_white_24dp)
                 .circleCrop()
                 .signature(ObjectKey(System.currentTimeMillis().toString()))
                 .into(pfp)
@@ -176,11 +176,8 @@ class UserProfileActivity : AppCompatActivity() {
         }
 
         goal.setOnClickListener {
-            Toast.makeText(
-                applicationContext,
-                "This has not been implemented yet",
-                Toast.LENGTH_LONG
-            ).show()
+            val intent = Intent(this, GoalsActivity::class.java)
+            startActivity(intent)
         }
 
         achievements.setOnClickListener {
