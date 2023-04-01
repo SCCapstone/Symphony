@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 7:08 PM
+ *  Created by Team Symphony on 4/1/23, 7:44 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 7:00 PM
+ *  Last modified 4/1/23, 7:41 PM
  */
 
 package com.symphony.mrfit.ui
@@ -211,6 +211,11 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             // Unrecognized playlist, do nothing
             Toast.makeText(this, "Could not parse playlist link", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 
     companion object {
