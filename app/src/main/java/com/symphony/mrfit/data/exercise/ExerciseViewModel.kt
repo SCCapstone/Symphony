@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/30/23, 3:45 PM
+ *  Created by Team Symphony on 3/31/23, 10:18 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/30/23, 3:20 PM
+ *  Last modified 3/31/23, 9:11 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -103,15 +103,13 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
     }
 
     fun addExercise(
-        name: String,
-        description: String,
-        tags: ArrayList<String>,
+        exercise: Exercise,
         image: Uri
     ): String {
         var newID = ""
         runBlocking {
             val job =
-                launch { newID = exerciseRepository.addExercise(name, description, tags, image) }
+                launch { newID = exerciseRepository.addExercise(exercise, image) }
             job.join()
         }
         return newID

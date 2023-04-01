@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/22/23, 3:03 PM
+ *  Created by Team Symphony on 4/1/23, 4:23 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/18/23, 5:33 PM
+ *  Last modified 4/1/23, 4:03 AM
  */
 
 package com.symphony.mrfit.ui
@@ -72,7 +72,7 @@ class UserProfileActivity : AppCompatActivity() {
         val goal = binding.goalsButton
         val achievements = binding.achievementsButton
         val history = binding.historyButton
-        val progress = binding.progressButton
+        val notifications = binding.notificationsButton
         val logout = binding.logoutButton
         val delete = binding.deleteButton
         val name = binding.profileNameTextView
@@ -199,12 +199,9 @@ class UserProfileActivity : AppCompatActivity() {
             ).show()
         }
 
-        progress.setOnClickListener {
-            Toast.makeText(
-                applicationContext,
-                "This has not been implemented yet",
-                Toast.LENGTH_LONG
-            ).show()
+        notifications.setOnClickListener {
+            val intent = Intent(applicationContext, NotificationLogActivity::class.java)
+            startActivity(intent)
         }
 
         logout.setOnClickListener {
@@ -235,7 +232,7 @@ class UserProfileActivity : AppCompatActivity() {
             val new = input.text.toString()
             profileViewModel.updateCurrentUser(new, null, null, null)
             showSnackBar(
-                "Name has been changed to $new",
+                getString(R.string.name_change, new),
                 this
             )
         }
@@ -259,7 +256,7 @@ class UserProfileActivity : AppCompatActivity() {
             val new = input.text.toString().toInt()
             profileViewModel.updateCurrentUser(null, new, null, null)
             showSnackBar(
-                "Age has been changed to $new",
+                getString(R.string.age_change, new),
                 this
             )
         }
@@ -283,7 +280,7 @@ class UserProfileActivity : AppCompatActivity() {
             val new = input.text.toString().toInt()
             profileViewModel.updateCurrentUser(null, null, new, null)
             showSnackBar(
-                "Height has been changed to $new",
+                getString(R.string.height_change, new),
                 this
             )
         }
@@ -307,7 +304,7 @@ class UserProfileActivity : AppCompatActivity() {
             val new = input.text.toString().toDouble()
             profileViewModel.updateCurrentUser(null, null, null, new)
             showSnackBar(
-                "Weight has been changed to $new",
+                getString(R.string.weight_change, new),
                 this
             )
         }

@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/31/23, 5:02 PM
+ *  Created by Team Symphony on 4/1/23, 4:23 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/31/23, 4:41 PM
+ *  Last modified 4/1/23, 4:03 AM
  */
 
 package com.symphony.mrfit.ui
@@ -109,14 +109,10 @@ class WorkoutRoutineActivity : AppCompatActivity() {
                 routinePlaylist.setText(BLANK)
             }
             if (routine.workoutList != null) {
-                spinner.visibility = View.GONE
-                if (routine.workoutList.isNotEmpty()) {
-                    spinner.visibility = View.VISIBLE
-                    placeholderText.visibility = View.GONE
-                    workoutList.visibility = View.VISIBLE
-                    passedList = routine.workoutList
-                    exerciseViewModel.getWorkouts(routine.workoutList)
-                }
+                placeholderText.visibility = View.GONE
+                workoutList.visibility = View.VISIBLE
+                passedList = routine.workoutList
+                exerciseViewModel.getWorkouts(routine.workoutList)
             }
         })
         exerciseViewModel.workoutList.observe(this, Observer {
@@ -130,7 +126,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             if (routinePlaylist.text!!.isNotEmpty()) {
                 playMusic(routinePlaylist.text.toString())
             } else {
-                Helper.showSnackBar("Cannot play an empty playlist.", this)
+                Helper.showSnackBar(getString(R.string.empty_playlist_warning), this)
             }
         }
 

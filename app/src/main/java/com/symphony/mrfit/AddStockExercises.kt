@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/22/23, 3:03 PM
+ *  Created by Team Symphony on 3/31/23, 10:18 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/22/23, 2:58 PM
+ *  Last modified 3/31/23, 10:18 PM
  */
 
 package com.symphony.mrfit
@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
+import com.symphony.mrfit.data.model.Exercise
 import com.symphony.mrfit.databinding.ActivityAddStockExercisesBinding
 import com.symphony.mrfit.ui.ExerciseActivity
 
@@ -34,116 +35,136 @@ class AddStockExercises : AppCompatActivity() {
          */
 
         exerciseViewModel.addExercise(
-            "Walking",
-            "A brisk walk anywhere, anytime.",
-            arrayListOf(
-                "Low-Intensity",
-                "Aerobic",
-                "Cardio",
-                "At Home"
+            Exercise(
+                "Walking",
+                "A brisk walk anywhere, anytime.",
+                arrayListOf(
+                    "Low-Intensity",
+                    "Aerobic",
+                    "Cardio",
+                    "At Home"
+                )
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
 
         exerciseViewModel.addExercise(
-            "Jogging",
-            "Trotting or running at a slow or leisurely pace.",
-            arrayListOf(
-                "Low-Intensity",
-                "Aerobic",
-                "Cardio",
-                "At Home"
+            Exercise(
+                "Jogging",
+                "Trotting or running at a slow or leisurely pace.",
+                arrayListOf(
+                    "Low-Intensity",
+                    "Aerobic",
+                    "Cardio",
+                    "At Home"
+                )
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
 
         exerciseViewModel.addExercise(
-            "Running",
-            "Rapidly propelling yourself forward on foot.",
-            arrayListOf(
-                "High-Intensity",
-                "Aerobic",
-                "Cardio"
+            Exercise(
+                "Running",
+                "Rapidly propelling yourself forward on foot.",
+                arrayListOf(
+                    "High-Intensity",
+                    "Aerobic",
+                    "Cardio"
+                )
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
 
         exerciseViewModel.addExercise(
-            "Squats",
-            "Lowers your hips from a standing position and then stands back up.",
-            arrayListOf(
-                "Lower body",
-                "Strength training",
-                "Calisthenics",
-                "At home"
+            Exercise(
+                "Squats",
+                "Lowers your hips from a standing position and then stands back up.",
+                arrayListOf(
+                    "Lower body",
+                    "Strength training",
+                    "Calisthenics",
+                    "At home"
+                )
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
 
         exerciseViewModel.addExercise(
-            "Lunges",
-            "Pose with one leg forward with knee bent and foot flat on the ground while the other leg is positioned behind",
-            arrayListOf(
-                "Lower body",
-                "Legs",
-                "Strength training",
-                "At home"
+            Exercise(
+                "Lunges",
+                "Pose with one leg forward with knee bent and foot flat on the ground while the other leg is positioned behind",
+                arrayListOf(
+                    "Lower body",
+                    "Legs",
+                    "Strength training",
+                    "At home"
+                )
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
 
         exerciseViewModel.addExercise(
-            "Push-Ups",
-            "Raising and lowering the body using the arms.",
-            arrayListOf(
-                "Upper body",
-                "Calisthenics",
-                "At home"
+            Exercise(
+                "Push-Ups",
+                "Raising and lowering the body using the arms.",
+                arrayListOf(
+                    "Upper body",
+                    "Calisthenics",
+                    "At home"
+                )
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
 
         exerciseViewModel.addExercise(
-            "Sit-Ups",
-            "Lie on your back with legs bent, then bend at the waist and move their head and torso towards your legs.",
-            arrayListOf(
-                "Core",
-                "Lower body",
-                "Calisthenics",
-                "At home"
+            Exercise(
+                "Sit-Ups",
+                "Lie on your back with legs bent, then bend at the waist and move their head and torso towards your legs.",
+                arrayListOf(
+                    "Core",
+                    "Lower body",
+                    "Calisthenics",
+                    "At home"
+                )
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
 
         exerciseViewModel.addExercise(
-            "Crunches",
-            "Lie on your back with legs bent, then bend at the waist and move their head and torso towards your legs.",
-            arrayListOf(
-                "Core",
-                "Calisthenics",
-                "At home"
+            Exercise(
+                "Crunches",
+                "Lie on your back with legs bent, then bend at the waist and move their head and torso towards your legs.",
+                arrayListOf(
+                    "Core",
+                    "Calisthenics",
+                    "At home"
+                )
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
 
         exerciseViewModel.addExercise(
-            "Dumbbell press",
-            "",
-            arrayListOf(
-                "Upper body",
-                "Strength training",
-                "At home"
+            Exercise(
+                "Dumbbell press",
+                "",
+                arrayListOf(
+                    "Upper body",
+                    "Strength training",
+                    "At home"
+                )
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
 
         exerciseViewModel.addExercise(
-            "Dumbbell row",
-            "",
-            arrayListOf(
-                "Upper body",
-                "Strength training",
-                "At home"
+            Exercise(
+                "Dumbbell row",
+                "",
+                arrayListOf(
+                    "Upper body",
+                    "Strength training",
+                    "At home"
+                )
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )

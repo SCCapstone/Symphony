@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 2/24/23, 11:21 PM
+  ~  Created by Team Symphony on 4/1/23, 4:23 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 2/24/23, 11:20 PM
+  ~  Last modified 4/1/23, 4:20 AM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -23,7 +23,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,7 +55,9 @@
             android:id="@+id/finishWorkoutButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/button_finish_workout" />
+            android:layout_margin="20dp"
+            android:text="@string/button_finish_workout"
+            tools:ignore="VisualLintButtonSize" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

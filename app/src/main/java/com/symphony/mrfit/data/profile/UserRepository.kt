@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/26/23, 11:03 AM
+ *  Created by Team Symphony on 4/1/23, 2:57 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/26/23, 10:46 AM
+ *  Last modified 4/1/23, 2:57 AM
  */
 
 package com.symphony.mrfit.data.profile
@@ -20,6 +20,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.symphony.mrfit.data.model.History
+import com.symphony.mrfit.data.model.Notification
 import com.symphony.mrfit.data.model.User
 import kotlinx.coroutines.tasks.await
 
@@ -141,6 +142,58 @@ class UserRepository {
     }
 
     /**
+     * Add a new Notification to the user's notification subcollection
+     */
+    suspend fun addNotification(notification: Notification) {
+        val user = auth.currentUser!!
+        Log.d(TAG, "Adding to the history of ${user.uid}")
+        database.collection(USER_COLLECTION)
+            .document(user.uid)
+            .collection(NOTIFICATION_COLLECTION)
+            .document(notification.date!!.toDate().time.toString())
+            .set(notification)
+            .await()
+    }
+
+    /**
+     * Get a user's scheduled and past notifications
+     */
+    suspend fun getNotifications(): ArrayList<Notification> {
+        val user = auth.currentUser!!
+        val notificationList = arrayListOf<Notification>()
+        Log.d(TAG, "Getting the history of ${user.uid}")
+        try {
+            val result = database.collection(USER_COLLECTION)
+                .document(user.uid)
+                .collection(NOTIFICATION_COLLECTION)
+                .get()
+                .await()
+
+            for (document in result) {
+                notificationList.add(document.toObject())
+            }
+        } catch (e: java.lang.Exception) {
+            Log.d(TAG, "Error getting documents: ", e)
+        }
+        return notificationList
+    }
+
+    /**
+     * Remove a notification from the user's subcollection
+     */
+    suspend fun deleteNotification(date: String) {
+        val user = auth.currentUser!!
+        Log.d(TAG, "Deleting notification with timestamp: $date")
+        database.collection(USER_COLLECTION)
+            .document(user.uid)
+            .collection(NOTIFICATION_COLLECTION)
+            .document(date)
+            .delete()
+            .await()
+
+    }
+
+    /**
      * Add or change a profile picture to a User's Firebase profile
      */
     suspend fun changeProfilePicture(uri: Uri) {
@@ -156,6 +209,7 @@ class UserRepository {
     companion object {
         const val USER_COLLECTION = "users"
         const val HISTORY_COLLECTION = "_history"
+        const val NOTIFICATION_COLLECTION = "_notifications"
         const val PROFILE_PICTURE = "profilePictures/"
     }
 }

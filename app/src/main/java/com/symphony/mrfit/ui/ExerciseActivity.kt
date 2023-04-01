@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/22/23, 3:03 PM
+ *  Created by Team Symphony on 3/31/23, 10:18 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/22/23, 3:03 PM
+ *  Last modified 3/31/23, 10:12 PM
  */
 
 package com.symphony.mrfit.ui
@@ -15,6 +15,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.result.PickVisualMediaRequest
@@ -30,6 +31,7 @@ import com.symphony.mrfit.R
 import com.symphony.mrfit.data.exercise.ExerciseAdapter
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
+import com.symphony.mrfit.data.model.Exercise
 import com.symphony.mrfit.databinding.ActivityExerciseBinding
 
 /**
@@ -110,18 +112,29 @@ class ExerciseActivity : AppCompatActivity() {
             dialog.setContentView(R.layout.popup_new_exercise)
             dialog.setTitle("New Exercise")
 
-            val image = dialog.findViewById(R.id.editExerciseImage) as ImageView
-            val name = dialog.findViewById(R.id.editExerciseName) as EditText
-            val desc = dialog.findViewById(R.id.editDesc) as EditText
-            val tags = dialog.findViewById(R.id.editTags) as EditText
-            val save = dialog.findViewById(R.id.saveExerciseButton) as Button
-            val cancel = dialog.findViewById(R.id.cancelExerciseButton) as Button
+            val image = dialog.findViewById<ImageView>(R.id.editExerciseImage)
+            val name = dialog.findViewById<EditText>(R.id.editExerciseName)
+            val desc = dialog.findViewById<EditText>(R.id.editDesc)
+            val tags = dialog.findViewById<EditText>(R.id.editTags)
+            val reps = dialog.findViewById<CheckBox>(R.id.repsCheckBox)
+            val sets = dialog.findViewById<CheckBox>(R.id.setsCheckBox)
+            val duration = dialog.findViewById<CheckBox>(R.id.durationCheckBox)
+            val distance = dialog.findViewById<CheckBox>(R.id.distanceCheckBox)
+            val save = dialog.findViewById<Button>(R.id.saveExerciseButton)
+            val cancel = dialog.findViewById<Button>(R.id.cancelExerciseButton)
 
             thumbnail.observe(this, Observer {
                 val thumbnail = it ?: return@Observer
 
                 Glide.with(this).load(thumbnail).into(image)
             })
+
+            tags.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus)
+                    tags.hint = "At home, Cardio, etc."
+                if (!hasFocus)
+                    tags.hint = ""
+            }
 
             image.setOnClickListener {
                 val intent = Intent()
@@ -136,11 +149,18 @@ class ExerciseActivity : AppCompatActivity() {
             save.setOnClickListener {
                 val newName = name.text.toString()
                 val newDesc = desc.text.toString()
-                val newTags = ArrayList(tags.text.toString().split(","))
+                val newTags = ArrayList(tags.text.toString().split(",", ", "))
+                val newExercise = Exercise(
+                    name = newName,
+                    description = newDesc,
+                    tags = newTags,
+                    repsFlag = reps.isChecked,
+                    setsFlag = sets.isChecked,
+                    durationFlag = duration.isChecked,
+                    distanceFlag = distance.isChecked
+                )
                 val newID = exerciseViewModel.addExercise(
-                    newName,
-                    newDesc,
-                    newTags,
+                    newExercise,
                     thumbnail.value!!
                 )
 

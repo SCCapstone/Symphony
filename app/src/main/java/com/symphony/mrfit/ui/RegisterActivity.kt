@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 4/1/23, 4:23 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 4/1/23, 4:03 AM
  */
 
 package com.symphony.mrfit.ui
@@ -172,7 +172,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun showRegisterFailed() {
-        showSnackBar("Registration failed", this)
+        showSnackBar(getString(R.string.registration_failed), this)
     }
 
 }
