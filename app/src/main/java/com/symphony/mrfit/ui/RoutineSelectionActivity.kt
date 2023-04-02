@@ -91,7 +91,7 @@ class RoutineSelectionActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_STRING = "passed routine name"
         const val EXTRA_LIST = "passed routine exercises"
-        const val NEW_ROUTINE = "New Routine"
+        const val NEW_ROUTINE = "New Template"
         const val NEW_WORKOUT = "New Workout"
         const val NEW_ID = "NEW"
     }
