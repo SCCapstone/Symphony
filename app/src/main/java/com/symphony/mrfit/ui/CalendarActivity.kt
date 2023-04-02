@@ -7,6 +7,7 @@
 package com.symphony.mrfit.ui
 
 import android.app.AlarmManager
+import android.app.DatePickerDialog
 import android.app.PendingIntent
 import android.content.ContentValues
 import android.content.Intent
@@ -14,6 +15,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.DatePicker
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -25,6 +27,7 @@ import com.applandeo.materialcalendarview.listeners.OnDayClickListener
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.exercise.NotificationAdapter
 import com.symphony.mrfit.data.model.Notification
+import com.symphony.mrfit.data.model.Workout
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityCalendarBinding
@@ -37,6 +40,8 @@ class CalendarActivity : AppCompatActivity() {
     private var layoutManager: RecyclerView.LayoutManager? = null
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var binding: ActivityCalendarBinding
+    var selectedDate : String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,6 +130,7 @@ class CalendarActivity : AppCompatActivity() {
                 )
             }
         })
+
 
         /**
          * TODO: Pass the currently selected date to the new intent
