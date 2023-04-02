@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 6:27 PM
+ *  Created by Team Symphony on 4/1/23, 10:04 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 6:18 PM
+ *  Last modified 4/1/23, 10:04 PM
  */
 
 package com.symphony.mrfit.data.profile
@@ -102,14 +102,33 @@ class UserRepository {
     suspend fun addWorkoutHistory(history: History) {
         val user = auth.currentUser!!
         Log.d(TAG, "Adding to the history of ${user.uid}")
-        database.collection(USER_COLLECTION).document(user.uid)
-            .collection(HISTORY_COLLECTION).add(history).await()
+        try {
+            val docRef = database.collection(USER_COLLECTION).document(user.uid)
+                .collection(HISTORY_COLLECTION).add(history).await()
+            docRef.update("historyID", docRef.id)
+        } catch (e: java.lang.Exception) {
+            Log.d(TAG, "Error writing documents: ", e)
+        }
+    }
+
+    /**
+     * Delete a given history via its ID
+     */
+    suspend fun deleteWorkoutHistory(historyID: String) {
+        val user = auth.currentUser!!
+        Log.d(TAG, "Deleting history $historyID belonging to ${user.uid}")
+        database.collection(USER_COLLECTION)
+            .document(user.uid)
+            .collection(HISTORY_COLLECTION)
+            .document(historyID)
+            .delete()
+            .await()
     }
 
     /**
      * Get a user's complete Workout History
      */
-    suspend fun getWorkoutHistory() : ArrayList<History>{
+    suspend fun getWorkoutHistory(): ArrayList<History> {
         val user = auth.currentUser!!
         val historyList = arrayListOf<History>()
         Log.d(TAG, "Getting the history of ${user.uid}")
@@ -162,7 +181,7 @@ class UserRepository {
     suspend fun getNotifications(): ArrayList<Notification> {
         val user = auth.currentUser!!
         val notificationList = arrayListOf<Notification>()
-        Log.d(TAG, "Getting the history of ${user.uid}")
+        Log.d(TAG, "Getting the notifications of ${user.uid}")
         try {
             val result = database.collection(USER_COLLECTION)
                 .document(user.uid)

@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 3:42 AM
+ *  Created by Team Symphony on 4/1/23, 10:04 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 3:25 AM
+ *  Last modified 4/1/23, 9:50 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -69,9 +69,6 @@ class NotificationAdapter(
             notifyItemRangeChanged(i, itemCount)
         }
 
-        /**
-         * TODO: This should remove the upcoming alarm
-         */
         holder.cancelButton.setOnClickListener {
             val time = data[i].date!!.toDate().time.toString()
             cancel(time)
@@ -81,23 +78,6 @@ class NotificationAdapter(
             notifyItemRemoved(i)
             notifyItemRangeChanged(i, itemCount)
         }
-
-        /*
-        holder.cancelButton.setOnClickListener {
-            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val pendingIntent= PendingIntent.getBroadcast(
-                context,
-                notificationID,
-                Intent(
-                    context,
-                    Notification::class.java
-                ),
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
-            )
-            alarmManager.cancel(pendingIntent)
-        }
-
-         */
 
     }
 

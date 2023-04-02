@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 7:44 PM
+ *  Created by Team Symphony on 4/1/23, 10:04 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 7:41 PM
+ *  Last modified 4/1/23, 9:30 PM
  */
 
 package com.symphony.mrfit.ui
@@ -189,21 +189,18 @@ class UserProfileActivity : AppCompatActivity() {
         }
 
         history.setOnClickListener {
-            Toast.makeText(
-                applicationContext,
-                "This has not been implemented yet",
-                Toast.LENGTH_LONG
-            ).show()
+            val intent = Intent(this, WorkoutHistoryActivity::class.java)
+            startActivity(intent)
         }
 
         notifications.setOnClickListener {
-            val intent = Intent(applicationContext, NotificationLogActivity::class.java)
+            val intent = Intent(this, NotificationLogActivity::class.java)
             startActivity(intent)
         }
 
         logout.setOnClickListener {
             loginViewModel.logout()
-            val intent = Intent(applicationContext, LoginActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -327,7 +324,7 @@ class UserProfileActivity : AppCompatActivity() {
 
     private fun deleteAccount() {
         loginViewModel.delete()
-        val intent = Intent(applicationContext, LoginActivity::class.java)
+        val intent = Intent(this, LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

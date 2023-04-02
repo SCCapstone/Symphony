@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 7:44 PM
+ *  Created by Team Symphony on 4/1/23, 10:04 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 7:41 PM
+ *  Last modified 4/1/23, 8:42 PM
  */
 
 package com.symphony.mrfit.ui
@@ -27,6 +27,7 @@ import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityCurrentWorkoutBinding
 import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_LIST
 import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_STRING
+import com.symphony.mrfit.ui.WorkoutRoutineActivity.Companion.EXTRA_ROUTINE
 import java.util.*
 
 /**
@@ -72,8 +73,9 @@ class CurrentWorkoutActivity : AppCompatActivity() {
          * Retrieve the extras passed to this intent
          * passedList = The workoutList from the parent Routine
          */
-        val passedRoutineName = intent.extras!!.getString(EXTRA_STRING)
-        val passedList = intent.extras!!.getStringArrayList(EXTRA_LIST)
+        val passedRoutineName = intent.getStringExtra(EXTRA_STRING)
+        val passedRoutineID = intent.getStringExtra(EXTRA_ROUTINE)
+        val passedList = intent.getStringArrayListExtra(EXTRA_LIST)
 
 
         // Set the layout of the list of workouts presented to the user
@@ -99,7 +101,8 @@ class CurrentWorkoutActivity : AppCompatActivity() {
                 History(
                     passedRoutineName!!,
                     Timestamp(Date()),
-                    SystemClock.elapsedRealtime() - timer.base
+                    SystemClock.elapsedRealtime() - timer.base,
+                    passedRoutineID
                 )
             )
             Toast.makeText(

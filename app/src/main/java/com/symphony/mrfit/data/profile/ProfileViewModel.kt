@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 6:27 PM
+ *  Created by Team Symphony on 4/1/23, 10:04 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 6:18 PM
+ *  Last modified 4/1/23, 9:15 PM
  */
 
 package com.symphony.mrfit.data.profile
@@ -67,6 +67,12 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
     fun addWorkoutToHistory(history: History) {
         viewModelScope.launch {
             userRepository.addWorkoutHistory(history)
+        }
+    }
+
+    fun deleteWorkoutFromHistory(historyID: String) {
+        viewModelScope.launch {
+            userRepository.deleteWorkoutHistory(historyID)
         }
     }
 

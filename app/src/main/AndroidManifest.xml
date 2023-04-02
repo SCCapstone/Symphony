@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 4/1/23, 7:08 PM
+  ~  Created by Team Symphony on 4/1/23, 10:04 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/1/23, 7:08 PM
+  ~  Last modified 4/1/23, 10:04 PM
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
@@ -25,6 +25,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MrFit"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.WorkoutHistoryActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity" />
         <activity
             android:name=".ui.GoalsActivity"
             android:exported="false"
