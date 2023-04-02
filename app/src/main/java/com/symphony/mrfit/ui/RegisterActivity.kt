@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 7:44 PM
+ *  Created by Team Symphony on 4/2/23, 1:04 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 7:41 PM
+ *  Last modified 4/2/23, 1:04 AM
  */
 
 package com.symphony.mrfit.ui
@@ -21,7 +21,6 @@ import com.symphony.mrfit.R
 import com.symphony.mrfit.data.login.LoginResult
 import com.symphony.mrfit.data.login.LoginViewModel
 import com.symphony.mrfit.data.login.LoginViewModelFactory
-import com.symphony.mrfit.data.model.Workout
 import com.symphony.mrfit.databinding.ActivityRegisterBinding
 import com.symphony.mrfit.ui.Helper.showSnackBar
 
@@ -99,13 +98,6 @@ class RegisterActivity : AppCompatActivity() {
                 }
                 false
             }
-
-                val home = binding.BackButton
-                home.setOnClickListener {
-                    val intent = Intent(this, Workout::class.java)
-                    startActivity(intent)
-
-                }
         }
 
         register.setOnClickListener {
