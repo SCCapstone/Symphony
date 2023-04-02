@@ -65,11 +65,11 @@
     <string name="message_exercise_search">What kind of exercise would you like?</string>
     <string name="button_new_workout">New Workout</string>
     <string name="button_start_workout">Start Workout</string>
-    <string name="button_save_routine">Save Routine</string>
-    <string name="button_delete_routine">Delete Routine</string>
+    <string name="button_save_routine">Save Template</string>
+    <string name="button_delete_routine">Delete Template</string>
     <string name="workout_name">Workout Name</string>
     <string name="save_and_export">Save and Export</string>
-    <string name="label_routine_name">Routine Name</string>
+    <string name="label_routine_name">Template Name</string>
     <string name="button_new_exercise">New Exercise</string>
     <string name="button_add_exercise">Add an Exercise</string>
     <string name="button_finish_workout">Finish Workout</string>
@@ -130,7 +130,7 @@
     <string name="other">other</string>
     <string name="hint_other">Other</string>
     <string name="history_title">Your History</string>
-    <string name="button_open_routine">Open this\nRoutine</string>
+    <string name="button_open_routine">Open this\nTemplate</string>
     <string name="button_ok">OK</string>
     <string name="title_activity_workout_detail">WorkoutDetail</string>
     <!-- Strings used for fragments for navigation -->
