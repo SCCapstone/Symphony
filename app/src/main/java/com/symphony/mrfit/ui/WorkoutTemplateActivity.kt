@@ -60,6 +60,13 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         exerciseViewModel = ViewModelProvider(
             this, ExerciseViewModelFactory()
         )[ExerciseViewModel::class.java]
+
+            val home = binding.BackButton
+            home.setOnClickListener {
+                val intent = Intent(this, Workout::class.java)
+                startActivity(intent)
+
+            }
     }
 
     override fun onStart() {

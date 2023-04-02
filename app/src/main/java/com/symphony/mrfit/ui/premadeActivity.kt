@@ -10,6 +10,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.symphony.mrfit.R
+import com.symphony.mrfit.data.model.Workout
 import com.symphony.mrfit.databinding.ActivityPremadeBinding
 
 
@@ -23,6 +24,13 @@ class PreMade : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_premade)
+
+        val home = binding.BackButton
+        home.setOnClickListener {
+            val intent = Intent(this, Workout::class.java)
+            startActivity(intent)
+
+        }
 
         val arms = binding.ArmsButton
         arms.setOnClickListener {

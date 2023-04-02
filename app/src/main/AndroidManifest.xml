@@ -26,6 +26,11 @@
         android:theme="@style/Theme.MrFit"
         tools:targetApi="31">
         <activity
+            android:name=".WorkoutDetail"
+            android:exported="false"
+            android:label="@string/title_activity_workout_detail"
+            android:theme="@style/Theme.MrFit.NoActionBar" />
+        <activity
             android:name=".ui.PostWorkoutActivity"
             android:exported="false"
             android:parentActivityName=".ui.MainActivity" />
@@ -145,6 +150,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <activity
             android:name=".ui.StoreActivity"
             android:exported="false">
