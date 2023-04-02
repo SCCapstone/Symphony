@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 4:23 AM
+ *  Created by Team Symphony on 4/2/23, 4:31 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 4:03 AM
+ *  Last modified 4/2/23, 4:31 AM
  */
 
 package com.symphony.mrfit.ui
@@ -16,7 +16,6 @@ import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -126,7 +125,7 @@ class UserProfileActivity : AppCompatActivity() {
 
             Glide.with(this)
                 .load(profileViewModel.getProfilePicture())
-                .placeholder(R.drawable.cactuar)
+                .placeholder(com.firebase.ui.auth.R.drawable.fui_ic_anonymous_white_24dp)
                 .circleCrop()
                 .signature(ObjectKey(System.currentTimeMillis().toString()))
                 .into(pfp)
@@ -176,37 +175,23 @@ class UserProfileActivity : AppCompatActivity() {
         }
 
         goal.setOnClickListener {
-            Toast.makeText(
-                applicationContext,
-                "This has not been implemented yet",
-                Toast.LENGTH_LONG
-            ).show()
-        }
-
-        achievements.setOnClickListener {
-            Toast.makeText(
-                applicationContext,
-                "This has not been implemented yet",
-                Toast.LENGTH_LONG
-            ).show()
+            val intent = Intent(this, GoalsActivity::class.java)
+            startActivity(intent)
         }
 
         history.setOnClickListener {
-            Toast.makeText(
-                applicationContext,
-                "This has not been implemented yet",
-                Toast.LENGTH_LONG
-            ).show()
+            val intent = Intent(this, WorkoutHistoryActivity::class.java)
+            startActivity(intent)
         }
 
         notifications.setOnClickListener {
-            val intent = Intent(applicationContext, NotificationLogActivity::class.java)
+            val intent = Intent(this, NotificationLogActivity::class.java)
             startActivity(intent)
         }
 
         logout.setOnClickListener {
             loginViewModel.logout()
-            val intent = Intent(applicationContext, LoginActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -330,7 +315,7 @@ class UserProfileActivity : AppCompatActivity() {
 
     private fun deleteAccount() {
         loginViewModel.delete()
-        val intent = Intent(applicationContext, LoginActivity::class.java)
+        val intent = Intent(this, LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -346,6 +331,11 @@ class UserProfileActivity : AppCompatActivity() {
         } else {
             false
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 
 

@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 4:23 AM
+ *  Created by Team Symphony on 4/1/23, 10:04 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 4:03 AM
+ *  Last modified 4/1/23, 8:42 PM
  */
 
 package com.symphony.mrfit.ui
@@ -89,7 +89,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
          * passedName = The Name of the parent Routine
          * passedList = The workoutList from the parent Routine
          */
-        passedRoutineID = intent.extras!!.getString(EXTRA_IDENTITY)!!
+        passedRoutineID = intent.getStringExtra(EXTRA_IDENTITY)!!
         var passedList = ArrayList<String>()
 
 
@@ -141,6 +141,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             save()
             val intent = Intent(this, CurrentWorkoutActivity::class.java)
             intent.putExtra(EXTRA_STRING, newRoutineName)
+            intent.putExtra(EXTRA_ROUTINE, passedRoutineID)
             intent.putExtra(EXTRA_LIST, passedList)
             startActivity(intent)
         }
@@ -211,6 +212,11 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             // Unrecognized playlist, do nothing
             Toast.makeText(this, "Could not parse playlist link", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 
     companion object {

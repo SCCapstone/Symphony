@@ -1,13 +1,14 @@
 /*
- *  Created by Team Symphony on 2/25/23, 1:08 AM
+ *  Created by Team Symphony on 4/2/23, 3:50 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/25/23, 12:33 AM
+ *  Last modified 4/2/23, 2:45 AM
  */
 
 package com.symphony.mrfit.ui
 
 import android.app.Activity
 import com.google.android.material.snackbar.Snackbar
+import java.util.*
 
 /**
  * Object for holding helper functions and consts
@@ -24,5 +25,11 @@ object Helper {
                 message, Snackbar.LENGTH_SHORT
             ).show()
         }
+    }
+
+    fun toCalendar(date: Date): Calendar {
+        val cal = Calendar.getInstance()
+        cal.time = date
+        return cal
     }
 }

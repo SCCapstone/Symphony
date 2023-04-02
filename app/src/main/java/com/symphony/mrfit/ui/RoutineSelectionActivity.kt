@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 4:23 AM
+ *  Created by Team Symphony on 4/1/23, 7:44 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 4:03 AM
+ *  Last modified 4/1/23, 7:44 PM
  */
 
 package com.symphony.mrfit.ui
@@ -78,9 +78,14 @@ class RoutineSelectionActivity : AppCompatActivity() {
         val intent = Intent(this, WorkoutRoutineActivity::class.java)
         val routineID = exerciseViewModel.addRoutine(NEW_ROUTINE, BLANK, ArrayList())
         intent.putExtra(EXTRA_IDENTITY, routineID)
-        intent.putExtra(EXTRA_STRING,NEW_WORKOUT)
-        intent.putExtra(EXTRA_LIST,ArrayList<String>())
+        intent.putExtra(EXTRA_STRING, NEW_WORKOUT)
+        intent.putExtra(EXTRA_LIST, ArrayList<String>())
         startActivity(intent)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 
     companion object {

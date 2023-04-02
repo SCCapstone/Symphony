@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 4:23 AM
+ *  Created by Team Symphony on 4/1/23, 7:44 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 4:03 AM
+ *  Last modified 4/1/23, 7:41 PM
  */
 
 package com.symphony.mrfit.ui
@@ -60,6 +60,13 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         exerciseViewModel = ViewModelProvider(
             this, ExerciseViewModelFactory()
         )[ExerciseViewModel::class.java]
+
+            val home = binding.BackButton
+            home.setOnClickListener {
+                val intent = Intent(this, Workout::class.java)
+                startActivity(intent)
+
+            }
     }
 
     override fun onStart() {
@@ -247,6 +254,11 @@ class WorkoutTemplateActivity : AppCompatActivity() {
 
     private fun gotoExerciseScreen() {
         launchExerciseSelection.launch(Intent(this, ExerciseActivity::class.java))
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 
     companion object {

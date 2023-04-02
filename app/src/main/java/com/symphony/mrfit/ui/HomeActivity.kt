@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/26/23, 11:03 AM
+ *  Created by Team Symphony on 4/2/23, 4:31 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/26/23, 10:54 AM
+ *  Last modified 4/2/23, 4:31 AM
  */
 
 package com.symphony.mrfit.ui
@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
-import com.symphony.mrfit.R
 import com.symphony.mrfit.data.exercise.HistoryAdapter
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
@@ -70,7 +69,7 @@ class HomeActivity : AppCompatActivity() {
 
             Glide.with(this)
                 .load(profileViewModel.getProfilePicture())
-                .placeholder(R.drawable.cactuar)
+                .placeholder(com.firebase.ui.auth.R.drawable.fui_ic_anonymous_white_24dp)
                 .circleCrop()
                 .signature(ObjectKey(System.currentTimeMillis().toString()))
                 .into(pfp)
@@ -92,7 +91,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         scheduleWorkout.setOnClickListener {
-            val intent = Intent(this, NotificationActivity::class.java)
+            val intent = Intent(this, CalendarActivity::class.java)
             startActivity(intent)
         }
 
@@ -100,5 +99,10 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, RoutineSelectionActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 }

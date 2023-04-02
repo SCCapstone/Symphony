@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 2:57 AM
+ *  Created by Team Symphony on 4/1/23, 10:04 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 2:57 AM
+ *  Last modified 4/1/23, 10:04 PM
  */
 
 package com.symphony.mrfit.data.profile
@@ -19,6 +19,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import com.symphony.mrfit.data.model.Goal
 import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.data.model.Notification
 import com.symphony.mrfit.data.model.User
@@ -101,14 +102,33 @@ class UserRepository {
     suspend fun addWorkoutHistory(history: History) {
         val user = auth.currentUser!!
         Log.d(TAG, "Adding to the history of ${user.uid}")
-        database.collection(USER_COLLECTION).document(user.uid)
-            .collection(HISTORY_COLLECTION).add(history).await()
+        try {
+            val docRef = database.collection(USER_COLLECTION).document(user.uid)
+                .collection(HISTORY_COLLECTION).add(history).await()
+            docRef.update("historyID", docRef.id)
+        } catch (e: java.lang.Exception) {
+            Log.d(TAG, "Error writing documents: ", e)
+        }
+    }
+
+    /**
+     * Delete a given history via its ID
+     */
+    suspend fun deleteWorkoutHistory(historyID: String) {
+        val user = auth.currentUser!!
+        Log.d(TAG, "Deleting history $historyID belonging to ${user.uid}")
+        database.collection(USER_COLLECTION)
+            .document(user.uid)
+            .collection(HISTORY_COLLECTION)
+            .document(historyID)
+            .delete()
+            .await()
     }
 
     /**
      * Get a user's complete Workout History
      */
-    suspend fun getWorkoutHistory() : ArrayList<History>{
+    suspend fun getWorkoutHistory(): ArrayList<History> {
         val user = auth.currentUser!!
         val historyList = arrayListOf<History>()
         Log.d(TAG, "Getting the history of ${user.uid}")
@@ -161,7 +181,7 @@ class UserRepository {
     suspend fun getNotifications(): ArrayList<Notification> {
         val user = auth.currentUser!!
         val notificationList = arrayListOf<Notification>()
-        Log.d(TAG, "Getting the history of ${user.uid}")
+        Log.d(TAG, "Getting the notifications of ${user.uid}")
         try {
             val result = database.collection(USER_COLLECTION)
                 .document(user.uid)
@@ -194,6 +214,79 @@ class UserRepository {
     }
 
     /**
+     * Add a new Goal to the user's goal subcollection
+     */
+    suspend fun addGoal(goal: Goal) {
+        val user = auth.currentUser!!
+        Log.d(TAG, "Adding to the goals of ${user.uid}")
+        try {
+            val docRef = database.collection(USER_COLLECTION)
+                .document(user.uid)
+                .collection(GOAL_COLLECTION)
+                .add(goal)
+                .await()
+            docRef.update("goalID", docRef.id)
+        } catch (e: java.lang.Exception) {
+            Log.w(TAG, "Error writing document", e)
+        }
+    }
+
+    /**
+     * Update an existing goal with its id
+     */
+    suspend fun updateGoal(goal: Goal) {
+        val user = auth.currentUser!!
+        Log.d(TAG, "Updating goal ${goal.goalID} belonging to ${user.uid}")
+        try {
+            database.collection(USER_COLLECTION)
+                .document(user.uid)
+                .collection(GOAL_COLLECTION)
+                .document(goal.goalID!!)
+                .set(goal)
+        } catch (e: java.lang.Exception) {
+            Log.w(TAG, "Error writing document", e)
+        }
+    }
+
+    /**
+     * Get a user's scheduled and past goals
+     */
+    suspend fun getGoals(): ArrayList<Goal> {
+        val user = auth.currentUser!!
+        val goalList = arrayListOf<Goal>()
+        Log.d(TAG, "Getting the goals of ${user.uid}")
+        try {
+            val result = database.collection(USER_COLLECTION)
+                .document(user.uid)
+                .collection(GOAL_COLLECTION)
+                .get()
+                .await()
+
+            for (document in result) {
+                goalList.add(document.toObject())
+            }
+        } catch (e: java.lang.Exception) {
+            Log.d(TAG, "Error getting documents: ", e)
+        }
+        return goalList
+    }
+
+    /**
+     * Remove a goal from the user's subcollection
+     */
+    suspend fun deleteGoal(goalID: String) {
+        val user = auth.currentUser!!
+        Log.d(TAG, "Deleting goal with ID: $goalID")
+        database.collection(USER_COLLECTION)
+            .document(user.uid)
+            .collection(GOAL_COLLECTION)
+            .document(goalID)
+            .delete()
+            .await()
+
+    }
+
+    /**
      * Add or change a profile picture to a User's Firebase profile
      */
     suspend fun changeProfilePicture(uri: Uri) {
@@ -210,6 +303,7 @@ class UserRepository {
         const val USER_COLLECTION = "users"
         const val HISTORY_COLLECTION = "_history"
         const val NOTIFICATION_COLLECTION = "_notifications"
+        const val GOAL_COLLECTION = "_goals"
         const val PROFILE_PICTURE = "profilePictures/"
     }
 }

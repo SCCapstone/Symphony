@@ -51,6 +51,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.0"
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
 
     // Testing dependencies
     testImplementation 'junit:junit:4.13.2'
@@ -98,4 +100,10 @@ dependencies {
     // Add the dependency for Glide
     implementation 'com.github.bumptech.glide:glide:4.15.0'
     kapt 'com.github.bumptech.glide:compiler:4.15.0'
+
+    // Konfetti by https://github.com/DanielMartinus/Konfetti
+    implementation 'nl.dionsegijn:konfetti-xml:2.0.2'
+
+    // MaterialCalendarView by https://github.com/Applandeo/Material-Calendar-View
+    implementation 'com.applandeo:material-calendar-view:1.9.0-rc03'
 }

@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/31/23, 10:18 PM
+ *  Created by Team Symphony on 4/2/23, 4:31 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/31/23, 10:18 PM
+ *  Last modified 4/2/23, 4:31 AM
  */
 
 package com.symphony.mrfit
@@ -43,7 +43,11 @@ class AddStockExercises : AppCompatActivity() {
                     "Aerobic",
                     "Cardio",
                     "At Home"
-                )
+                ),
+                repsFlag = false,
+                setsFlag = false,
+                distanceFlag = true,
+                durationFlag = true
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
@@ -57,7 +61,11 @@ class AddStockExercises : AppCompatActivity() {
                     "Aerobic",
                     "Cardio",
                     "At Home"
-                )
+                ),
+                repsFlag = false,
+                setsFlag = false,
+                distanceFlag = true,
+                durationFlag = true
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
@@ -70,7 +78,11 @@ class AddStockExercises : AppCompatActivity() {
                     "High-Intensity",
                     "Aerobic",
                     "Cardio"
-                )
+                ),
+                repsFlag = false,
+                setsFlag = false,
+                distanceFlag = true,
+                durationFlag = true
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
@@ -84,7 +96,11 @@ class AddStockExercises : AppCompatActivity() {
                     "Strength training",
                     "Calisthenics",
                     "At home"
-                )
+                ),
+                repsFlag = true,
+                setsFlag = true,
+                distanceFlag = false,
+                durationFlag = false
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
@@ -98,7 +114,11 @@ class AddStockExercises : AppCompatActivity() {
                     "Legs",
                     "Strength training",
                     "At home"
-                )
+                ),
+                repsFlag = true,
+                setsFlag = true,
+                distanceFlag = false,
+                durationFlag = false
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
@@ -111,7 +131,11 @@ class AddStockExercises : AppCompatActivity() {
                     "Upper body",
                     "Calisthenics",
                     "At home"
-                )
+                ),
+                repsFlag = true,
+                setsFlag = true,
+                distanceFlag = false,
+                durationFlag = false
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
@@ -125,7 +149,11 @@ class AddStockExercises : AppCompatActivity() {
                     "Lower body",
                     "Calisthenics",
                     "At home"
-                )
+                ),
+                repsFlag = true,
+                setsFlag = true,
+                distanceFlag = false,
+                durationFlag = false
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
@@ -138,7 +166,11 @@ class AddStockExercises : AppCompatActivity() {
                     "Core",
                     "Calisthenics",
                     "At home"
-                )
+                ),
+                repsFlag = true,
+                setsFlag = true,
+                distanceFlag = false,
+                durationFlag = false
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
@@ -151,7 +183,11 @@ class AddStockExercises : AppCompatActivity() {
                     "Upper body",
                     "Strength training",
                     "At home"
-                )
+                ),
+                repsFlag = true,
+                setsFlag = true,
+                distanceFlag = false,
+                durationFlag = false
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
@@ -164,7 +200,11 @@ class AddStockExercises : AppCompatActivity() {
                     "Upper body",
                     "Strength training",
                     "At home"
-                )
+                ),
+                repsFlag = true,
+                setsFlag = true,
+                distanceFlag = false,
+                durationFlag = false
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )

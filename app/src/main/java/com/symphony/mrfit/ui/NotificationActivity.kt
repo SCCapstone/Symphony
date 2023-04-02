@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 3:42 AM
+ *  Created by Team Symphony on 4/2/23, 4:25 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 3:42 AM
+ *  Last modified 4/2/23, 4:25 AM
  */
 
 package com.symphony.mrfit.ui
@@ -29,7 +29,6 @@ import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityNotificationBinding
 import java.util.*
-import java.util.Calendar
 
 /**
  * Screen for allowing the User to schedule a notification
@@ -60,7 +59,15 @@ class NotificationActivity : AppCompatActivity() {
         createNotificationChannel()
         binding.scheduleNotificationButton.setOnClickListener {
             if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-                scheduleNotification()
+                if (binding.messageET.text!!.isNotEmpty()) {
+                    scheduleNotification()
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Cannot schedule empty notification",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             } else {
                 Toast.makeText(
                     this,
@@ -130,8 +137,6 @@ class NotificationActivity : AppCompatActivity() {
                         "\nAt: " + dateFormat.format(date) + " " + timeFormat.format(date)
             )
             .setPositiveButton("Okay") { _, _ ->
-                val intent = Intent(this, NotificationLogActivity::class.java)
-                startActivity(intent)
                 this.finish()
             }
             .show()
@@ -192,6 +197,11 @@ class NotificationActivity : AppCompatActivity() {
             }
             .setNegativeButton("Cancel", null)
             .show()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 
     var hasNotificationPermissionGranted = false

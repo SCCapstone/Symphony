@@ -35,33 +35,25 @@ will add padding in API v21+ as well to have the same measurements with previous
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/notificationMessage"
-                android:layout_width="match_parent"
+                android:id="@+id/historyName"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Notification Message" />
+                android:text="history name" />
 
             <TextView
-                android:id="@+id/notificationTimeAndDate"
-                android:layout_width="match_parent"
+                android:id="@+id/historyProgress"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Scheduled for Date and Time" />
+                android:text="Exercised for hh:mm:ss on MMMM dd, yyyy" />
+
         </LinearLayout>
 
         <Button
-            android:id="@+id/cancelNotificationButton"
+            android:id="@+id/deleteHistoryButton"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_cancel"
-            style="?android:attr/buttonBarButtonStyle"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/deleteNotifcationButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_delete"
-            style="?android:attr/buttonBarButtonStyle"
-            android:visibility="visible" />
+            android:text="@string/button_delete" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

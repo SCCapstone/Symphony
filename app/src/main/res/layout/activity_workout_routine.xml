@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 4/1/23, 4:23 AM
+  ~  Created by Team Symphony on 4/2/23, 1:04 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/1/23, 4:23 AM
+  ~  Last modified 4/2/23, 1:01 AM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -72,6 +72,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/button_play" />
             </LinearLayout>
+
         </LinearLayout>
 
         <TextView
@@ -143,6 +144,7 @@
             android:layout_margin="2dp"
             android:text="@string/button_delete_routine" />
 
+
     </GridLayout>
 
     <ProgressBar
@@ -157,5 +159,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

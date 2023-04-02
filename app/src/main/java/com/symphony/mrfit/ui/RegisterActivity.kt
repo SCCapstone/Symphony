@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 4:23 AM
+ *  Created by Team Symphony on 4/2/23, 1:04 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 4:03 AM
+ *  Last modified 4/2/23, 1:04 AM
  */
 
 package com.symphony.mrfit.ui
@@ -173,6 +173,11 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun showRegisterFailed() {
         showSnackBar(getString(R.string.registration_failed), this)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 
 }

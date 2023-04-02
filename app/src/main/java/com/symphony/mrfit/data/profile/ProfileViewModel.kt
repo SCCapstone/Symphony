@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 2:57 AM
+ *  Created by Team Symphony on 4/1/23, 10:04 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 2:57 AM
+ *  Last modified 4/1/23, 9:15 PM
  */
 
 package com.symphony.mrfit.data.profile
@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.storage.StorageReference
+import com.symphony.mrfit.data.model.Goal
 import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.data.model.Notification
 import com.symphony.mrfit.data.model.User
@@ -32,6 +33,9 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
 
     private val _notifications = MutableLiveData<ArrayList<Notification>>()
     val notifications: LiveData<ArrayList<Notification>> = _notifications
+
+    private val _goals = MutableLiveData<ArrayList<Goal>>()
+    val goals: LiveData<ArrayList<Goal>> = _goals
 
     fun fetchCurrentUser() {
         viewModelScope.launch {
@@ -66,6 +70,12 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
         }
     }
 
+    fun deleteWorkoutFromHistory(historyID: String) {
+        viewModelScope.launch {
+            userRepository.deleteWorkoutHistory(historyID)
+        }
+    }
+
     fun getWorkoutHistory() {
         viewModelScope.launch {
             _workoutHistory.value = userRepository.getWorkoutHistory()
@@ -84,9 +94,33 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
         }
     }
 
-    fun deleteNotifcation(date: String) {
+    fun deleteNotification(date: String) {
         viewModelScope.launch {
             userRepository.deleteNotification(date)
+        }
+    }
+
+    fun addGoal(goal: Goal) {
+        viewModelScope.launch {
+            userRepository.addGoal(goal)
+        }
+    }
+
+    fun updateGoal(goal: Goal) {
+        viewModelScope.launch {
+            userRepository.updateGoal(goal)
+        }
+    }
+
+    fun getGoals() {
+        viewModelScope.launch {
+            _goals.value = userRepository.getGoals()
+        }
+    }
+
+    fun deleteGoal(goalID: String) {
+        viewModelScope.launch {
+            userRepository.deleteGoal(goalID)
         }
     }
 }
