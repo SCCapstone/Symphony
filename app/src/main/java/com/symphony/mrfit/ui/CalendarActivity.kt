@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 4:25 AM
+ *  Created by Team Symphony on 4/2/23, 4:54 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 4:25 AM
+ *  Last modified 4/2/23, 4:54 AM
  */
 
 package com.symphony.mrfit.ui
@@ -46,6 +46,10 @@ class CalendarActivity : AppCompatActivity() {
         profileViewModel = ViewModelProvider(
             this, ProfileViewModelFactory()
         )[ProfileViewModel::class.java]
+    }
+
+    override fun onStart() {
+        super.onStart()
 
         val calendar = binding.calendarView
         val alarmList = binding.calendarNotificationsRecyclerView
@@ -124,7 +128,7 @@ class CalendarActivity : AppCompatActivity() {
 
         /**
          * TODO: Pass the currently selected date to the new intent
-         *  Reload the current activity when the notification creation is done
+         *  then receive selected date to position selected day
          */
         newAlarm.setOnClickListener {
             val intent = Intent(this, NotificationActivity::class.java)
