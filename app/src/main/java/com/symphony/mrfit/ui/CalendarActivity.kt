@@ -1,11 +1,12 @@
 /*
- *  Created by Team Symphony on 4/2/23, 2:50 PM
+ *  Created by Team Symphony on 4/2/23, 6:07 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 12:42 PM
+ *  Last modified 4/2/23, 6:06 PM
  */
 
 package com.symphony.mrfit.ui
 
+import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.ContentValues
@@ -14,12 +15,14 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.applandeo.materialcalendarview.CalendarView
 import com.applandeo.materialcalendarview.EventDay
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener
 import com.symphony.mrfit.R
@@ -28,6 +31,7 @@ import com.symphony.mrfit.data.model.Notification
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityCalendarBinding
+import com.symphony.mrfit.ui.Helper.EXTRA_DATE
 import com.symphony.mrfit.ui.Helper.toCalendar
 import java.text.SimpleDateFormat
 import java.util.*
@@ -37,6 +41,17 @@ class CalendarActivity : AppCompatActivity() {
     private var layoutManager: RecyclerView.LayoutManager? = null
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var binding: ActivityCalendarBinding
+    private lateinit var calendar: CalendarView
+    private val launchNotificationBuilder =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+            if (result.resultCode == Activity.RESULT_OK) {
+                val cal = Calendar.getInstance()
+                cal.timeInMillis = result.data!!.getLongExtra(EXTRA_DATE, 0)
+                calendar.setDate(cal)
+                profileViewModel.getNotifications()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +66,7 @@ class CalendarActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        val calendar = binding.calendarView
+        calendar = binding.calendarView
         val alarmList = binding.calendarNotificationsRecyclerView
         val newAlarm = binding.addAlertButton
         val notifDays = ArrayList<Notification>()
@@ -93,7 +108,9 @@ class CalendarActivity : AppCompatActivity() {
 
             for (n in notifications) {
                 notifDays.add(n)
-                if (sameDay.format(n.date!!.toDate()).equals(sameDay.format(Date()))) {
+                val notificationDate = n.date!!.toDate()
+                val selectedDate = calendar.firstSelectedDate.time
+                if (sameDay.format(notificationDate).equals(sameDay.format(selectedDate))) {
                     todayAlerts.add(n)
                 }
                 alertDays.add(
@@ -114,7 +131,9 @@ class CalendarActivity : AppCompatActivity() {
                 val clickedDay = eventDay.calendar
                 val todayAlerts = ArrayList<Notification>()
                 for (n in notifDays) {
-                    if (sameDay.format(n.date!!.toDate()).equals(sameDay.format(clickedDay.time))) {
+                    val notificationDate = n.date!!.toDate()
+                    val clickedDate = clickedDay.time
+                    if (sameDay.format(notificationDate).equals(sameDay.format(clickedDate))) {
                         todayAlerts.add(n)
                     }
                 }
@@ -133,7 +152,8 @@ class CalendarActivity : AppCompatActivity() {
          */
         newAlarm.setOnClickListener {
             val intent = Intent(this, NotificationActivity::class.java)
-            startActivity(intent)
+            intent.putExtra(EXTRA_DATE, calendar.firstSelectedDate.timeInMillis)
+            launchNotificationBuilder.launch(intent)
         }
     }
 

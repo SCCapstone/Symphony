@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 4:25 AM
+ *  Created by Team Symphony on 4/2/23, 6:07 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 4:25 AM
+ *  Last modified 4/2/23, 6:07 PM
  */
 
 package com.symphony.mrfit.ui
@@ -28,11 +28,12 @@ import com.symphony.mrfit.R
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityNotificationBinding
+import com.symphony.mrfit.ui.Helper.EXTRA_DATE
+import com.symphony.mrfit.ui.Helper.ZERO
 import java.util.*
 
 /**
  * Screen for allowing the User to schedule a notification
- * TODO: Change the notification's icon and expand functionality
  */
 
 class NotificationActivity : AppCompatActivity() {
@@ -40,7 +41,6 @@ class NotificationActivity : AppCompatActivity() {
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var binding: ActivityNotificationBinding
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -49,11 +49,27 @@ class NotificationActivity : AppCompatActivity() {
         profileViewModel = ViewModelProvider(
             this, ProfileViewModelFactory()
         )[ProfileViewModel::class.java]
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onStart() {
+        super.onStart()
 
         if (Build.VERSION.SDK_INT >= 33) {
             notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         } else {
             hasNotificationPermissionGranted = true
+        }
+
+        val date = intent.getLongExtra(EXTRA_DATE, ZERO.toLong())
+        if (date != ZERO.toLong()) {
+            val cal = Calendar.getInstance()
+            cal.timeInMillis = date
+            val year = cal.get(Calendar.YEAR)
+            val month = cal.get(Calendar.MONTH)
+            val day = cal.get(Calendar.DAY_OF_MONTH)
+
+            binding.datePicker.updateDate(year, month, day)
         }
 
         createNotificationChannel()
@@ -137,6 +153,16 @@ class NotificationActivity : AppCompatActivity() {
                         "\nAt: " + dateFormat.format(date) + " " + timeFormat.format(date)
             )
             .setPositiveButton("Okay") { _, _ ->
+                val day = binding.datePicker.dayOfMonth
+                val month = binding.datePicker.month
+                val year = binding.datePicker.year
+
+                val calendar = Calendar.getInstance()
+                calendar.set(year, month, day)
+
+                val intent = Intent()
+                intent.putExtra(EXTRA_DATE, calendar.timeInMillis)
+                this.setResult(Activity.RESULT_OK, intent)
                 this.finish()
             }
             .show()

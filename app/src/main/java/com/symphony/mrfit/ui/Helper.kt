@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 3:50 AM
+ *  Created by Team Symphony on 4/2/23, 6:07 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 2:45 AM
+ *  Last modified 4/2/23, 5:25 PM
  */
 
 package com.symphony.mrfit.ui
@@ -18,6 +18,7 @@ import java.util.*
 object Helper {
     const val BLANK = ""
     const val ZERO = 0
+    const val EXTRA_DATE = "passed_date"
     fun showSnackBar(message: String?, activity: Activity?) {
         if (null != activity && null != message) {
             Snackbar.make(
