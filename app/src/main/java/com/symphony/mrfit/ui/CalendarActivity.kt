@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 4:55 AM
+ *  Created by Team Symphony on 4/2/23, 2:50 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 4:55 AM
+ *  Last modified 4/2/23, 12:42 PM
  */
 
 package com.symphony.mrfit.ui
@@ -59,6 +59,7 @@ class CalendarActivity : AppCompatActivity() {
 
         fun deleteNotification(date: String) {
             profileViewModel.deleteNotification(date)
+            profileViewModel.getNotifications()
         }
 
         @RequiresApi(Build.VERSION_CODES.M)
@@ -134,5 +135,10 @@ class CalendarActivity : AppCompatActivity() {
             val intent = Intent(this, NotificationActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 }

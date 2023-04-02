@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/31/23, 10:18 PM
+ *  Created by Team Symphony on 4/2/23, 2:50 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/31/23, 9:11 PM
+ *  Last modified 4/2/23, 12:44 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -130,6 +130,24 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
     fun getExercisesBySearch(searchTerm: String) {
         viewModelScope.launch {
             _exerciseList.value = exerciseRepository.getExerciseList(searchTerm)
+        }
+    }
+
+    fun getExercisesByUser() {
+        viewModelScope.launch {
+            _exerciseList.value = exerciseRepository.getExerciseList()
+        }
+    }
+
+    fun updateExercise(exercise: Exercise) {
+        viewModelScope.launch {
+            exerciseRepository.updateExercise(exercise)
+        }
+    }
+
+    fun deleteExercise(exeID: String) {
+        viewModelScope.launch {
+            exerciseRepository.deleteExercise(exeID)
         }
     }
 

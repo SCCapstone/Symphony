@@ -1,7 +1,7 @@
 <!--
-  ~  Created by Team Symphony on 4/2/23, 3:50 AM
+  ~  Created by Team Symphony on 4/2/23, 2:50 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/2/23, 1:35 AM
+  ~  Last modified 4/2/23, 12:42 PM
   -->
 
 <resources>
@@ -44,7 +44,7 @@
     <string name="logout_button">Logout</string>
     <string name="button_delete_account">Delete Account</string>
     <string name="user_stuff_label">Manage all your cool stuff!</string>
-    <string name="button_achievements">Achievements</string>
+    <string name="button_custom_exercises">Custom Exercises</string>
     <string name="button_workout_history">Workout History</string>
     <string name="button_workout_progress">Workout Progress</string>
     <string name="label_settings">Settings</string>
@@ -141,4 +141,5 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="exercises_title">Your Exercises</string>
 </resources>

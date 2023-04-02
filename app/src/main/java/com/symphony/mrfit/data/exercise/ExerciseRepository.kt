@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/31/23, 10:18 PM
+ *  Created by Team Symphony on 4/2/23, 2:50 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/31/23, 9:11 PM
+ *  Last modified 4/2/23, 2:50 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -40,6 +40,9 @@ class ExerciseRepository {
         return try {
             val docRef = database.collection(EXERCISE_COLLECTION).add(exercise).await()
             docRef.update("exerciseID", docRef.id)
+            if (exercise.ownerID == null) {
+                docRef.update("ownerID", auth.currentUser!!.uid)
+            }
             Log.d(TAG, "New exercise added at ${docRef.id}!")
             changeExerciseImage(docRef.id, image)
             docRef.id
@@ -62,13 +65,57 @@ class ExerciseRepository {
             Log.w(TAG, "Error getting document", e)
             null
         }
+    }
 
+    /**
+     * Update an exercise
+     */
+    suspend fun updateExercise(exercise: Exercise) {
+        Log.d(TAG, "Updating Exercise ${exercise.exerciseID} from Firestore")
+        try {
+            database.collection(EXERCISE_COLLECTION).document(exercise.exerciseID!!).set(exercise)
+                .await()
+        } catch (e: java.lang.Exception) {
+            Log.d(TAG, "Error writing document: ", e)
+        }
+    }
+
+    /**
+     * Remove a specific Exercise by it's ID
+     */
+    suspend fun deleteExercise(exeID: String) {
+        Log.d(TAG, "Removing Exercise $exeID from Firestore")
+        database.collection(EXERCISE_COLLECTION).document(exeID).delete().await()
+    }
+
+    /**
+     * Retrieve an array list of exercises belonging to the current User
+     */
+    suspend fun getExerciseList(): ArrayList<Exercise> {
+        val user = auth.currentUser!!
+        val exeList = ArrayList<Exercise>()
+        Log.d(TAG, "Getting exercises belonging to ${user.uid}")
+        try {
+            val result = database.collection(EXERCISE_COLLECTION)
+                .whereEqualTo(OWNER_FIELD, user.uid)
+                .get()
+                .await()
+
+            for (document in result) {
+                Log.d(TAG, "${document.id} => ${document.data}")
+                val t = document.toObject<Exercise>()
+                exeList.add(t)
+            }
+        } catch (e: java.lang.Exception) {
+            Log.d(TAG, "Error getting documents: ", e)
+        }
+        return exeList
     }
 
     /**
      * Retrieve an array list of exercises by a search term
      */
-    suspend fun getExerciseList(searchTerm: String) : ArrayList<Exercise>{
+    suspend fun getExerciseList(searchTerm: String): ArrayList<Exercise> {
         Log.d(TAG, "Accessing database with a search term")
         val exeList = arrayListOf<Exercise>()
         if (searchTerm != "") {
@@ -147,7 +194,7 @@ class ExerciseRepository {
      * Add or change an exercise's picture
      */
     suspend fun changeExerciseImage(exeID: String, uri: Uri) {
-        Log.d(TAG, "Updating the user's profile picture to $uri")
+        Log.d(TAG, "Updating the image of $exeID to $uri")
         val ref = storage.reference.child(EXERCISE_PICTURE).child(exeID)
         ref.putFile(uri).await()
     }
@@ -315,6 +362,7 @@ class ExerciseRepository {
         const val EXERCISE_COLLECTION = "exercises"
         const val WORKOUT_COLLECTION = "workouts"
         const val ROUTINE_COLLECTION = "routines"
+        const val OWNER_FIELD = "ownerID"
         const val TAGS_FIELD = "tags"
         const val EXERCISE_PICTURE = "exercisePictures/"
     }

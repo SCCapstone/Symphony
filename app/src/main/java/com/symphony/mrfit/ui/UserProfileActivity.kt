@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 4:31 AM
+ *  Created by Team Symphony on 4/2/23, 2:50 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 4:31 AM
+ *  Last modified 4/2/23, 2:10 PM
  */
 
 package com.symphony.mrfit.ui
@@ -69,7 +69,7 @@ class UserProfileActivity : AppCompatActivity() {
         val screen = binding.profileScreenView
         val spinner = binding.loadingSpinner
         val goal = binding.goalsButton
-        val achievements = binding.achievementsButton
+        val customExe = binding.customExercisesButton
         val history = binding.historyButton
         val notifications = binding.notificationsButton
         val logout = binding.logoutButton
@@ -179,13 +179,18 @@ class UserProfileActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        notifications.setOnClickListener {
+            val intent = Intent(this, NotificationLogActivity::class.java)
+            startActivity(intent)
+        }
+
         history.setOnClickListener {
             val intent = Intent(this, WorkoutHistoryActivity::class.java)
             startActivity(intent)
         }
 
-        notifications.setOnClickListener {
-            val intent = Intent(this, NotificationLogActivity::class.java)
+        customExe.setOnClickListener {
+            val intent = Intent(this, CustomExercisesActivity::class.java)
             startActivity(intent)
         }
 

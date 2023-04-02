@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 4:31 AM
+ *  Created by Team Symphony on 4/2/23, 2:50 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 4:31 AM
+ *  Last modified 4/2/23, 12:02 PM
  */
 
 package com.symphony.mrfit
@@ -47,7 +47,8 @@ class AddStockExercises : AppCompatActivity() {
                 repsFlag = false,
                 setsFlag = false,
                 distanceFlag = true,
-                durationFlag = true
+                durationFlag = true,
+                ownerID = getString(R.string.app_name)
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
@@ -65,7 +66,8 @@ class AddStockExercises : AppCompatActivity() {
                 repsFlag = false,
                 setsFlag = false,
                 distanceFlag = true,
-                durationFlag = true
+                durationFlag = true,
+                ownerID = getString(R.string.app_name)
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
@@ -82,7 +84,8 @@ class AddStockExercises : AppCompatActivity() {
                 repsFlag = false,
                 setsFlag = false,
                 distanceFlag = true,
-                durationFlag = true
+                durationFlag = true,
+                ownerID = getString(R.string.app_name)
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
@@ -100,7 +103,8 @@ class AddStockExercises : AppCompatActivity() {
                 repsFlag = true,
                 setsFlag = true,
                 distanceFlag = false,
-                durationFlag = false
+                durationFlag = false,
+                ownerID = getString(R.string.app_name)
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
@@ -118,7 +122,8 @@ class AddStockExercises : AppCompatActivity() {
                 repsFlag = true,
                 setsFlag = true,
                 distanceFlag = false,
-                durationFlag = false
+                durationFlag = false,
+                ownerID = getString(R.string.app_name)
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
@@ -135,7 +140,8 @@ class AddStockExercises : AppCompatActivity() {
                 repsFlag = true,
                 setsFlag = true,
                 distanceFlag = false,
-                durationFlag = false
+                durationFlag = false,
+                ownerID = getString(R.string.app_name)
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
@@ -153,7 +159,8 @@ class AddStockExercises : AppCompatActivity() {
                 repsFlag = true,
                 setsFlag = true,
                 distanceFlag = false,
-                durationFlag = false
+                durationFlag = false,
+                ownerID = getString(R.string.app_name)
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
@@ -170,7 +177,8 @@ class AddStockExercises : AppCompatActivity() {
                 repsFlag = true,
                 setsFlag = true,
                 distanceFlag = false,
-                durationFlag = false
+                durationFlag = false,
+                ownerID = getString(R.string.app_name)
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
@@ -187,7 +195,8 @@ class AddStockExercises : AppCompatActivity() {
                 repsFlag = true,
                 setsFlag = true,
                 distanceFlag = false,
-                durationFlag = false
+                durationFlag = false,
+                ownerID = getString(R.string.app_name)
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )
@@ -204,7 +213,8 @@ class AddStockExercises : AppCompatActivity() {
                 repsFlag = true,
                 setsFlag = true,
                 distanceFlag = false,
-                durationFlag = false
+                durationFlag = false,
+                ownerID = getString(R.string.app_name)
             ),
             Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
         )

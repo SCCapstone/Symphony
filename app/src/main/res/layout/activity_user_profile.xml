@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 4/2/23, 3:50 AM
+  ~  Created by Team Symphony on 4/2/23, 2:50 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/2/23, 1:35 AM
+  ~  Last modified 4/2/23, 2:10 PM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -180,10 +180,10 @@
                         android:text="@string/button_workout_history" />
 
                     <Button
-                        android:id="@+id/achievementsButton"
+                        android:id="@+id/customExercisesButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/button_achievements" />
+                        android:text="@string/button_custom_exercises" />
 
                 </LinearLayout>
 
@@ -227,35 +227,6 @@
                             android:checked="true"
                             android:switchMinWidth="60dp"
                             android:text="@string/label_push_notifications" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/imageView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            app:srcCompat="@android:drawable/ic_menu_view"
-                            tools:ignore="ContentDescription,ImageContrastCheck" />
-
-                        <TextView
-                            android:id="@+id/textView2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/label_profile_visibility" />
-
-                        <Spinner
-                            android:id="@+id/spinner"
-                            android:layout_width="wrap_content"
-                            android:layout_height="48dp"
-                            android:layout_weight="1"
-                            android:entries="@array/privacy_array" />
                     </LinearLayout>
 
                     <Button
