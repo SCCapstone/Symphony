@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 4/2/23, 12:52 AM
+  ~  Created by Team Symphony on 4/2/23, 3:50 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/1/23, 11:49 PM
+  ~  Last modified 4/2/23, 2:38 AM
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,10 +26,8 @@
         android:theme="@style/Theme.MrFit"
         tools:targetApi="31">
         <activity
-            android:name=".WorkoutDetail"
-            android:exported="false"
-            android:label="@string/title_activity_workout_detail"
-            android:theme="@style/Theme.MrFit.NoActionBar" />
+            android:name=".ui.CalendarActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.PostWorkoutActivity"
             android:exported="false"
@@ -91,13 +89,6 @@
             android:enabled="true" />
 
         <activity
-            android:name=".ui.Calendar"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".ui.UserProfileActivity"
             android:exported="false"
             android:parentActivityName=".ui.MainActivity">
@@ -146,14 +137,6 @@
             android:exported="false"
             android:parentActivityName=".ui.MainActivity"
             android:windowSoftInputMode="adjustPan">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-
-        <activity
-            android:name=".ui.StoreActivity"
-            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

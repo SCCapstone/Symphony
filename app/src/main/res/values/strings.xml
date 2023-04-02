@@ -1,7 +1,7 @@
 <!--
-  ~  Created by Team Symphony on 4/1/23, 11:17 PM
+  ~  Created by Team Symphony on 4/2/23, 3:50 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/1/23, 10:54 PM
+  ~  Last modified 4/2/23, 1:35 AM
   -->
 
 <resources>
@@ -43,7 +43,7 @@
     <string name="goals_button">Goals</string>
     <string name="logout_button">Logout</string>
     <string name="button_delete_account">Delete Account</string>
-    <string name="user_progress_label">Track Your Progress!</string>
+    <string name="user_stuff_label">Manage all your cool stuff!</string>
     <string name="button_achievements">Achievements</string>
     <string name="button_workout_history">Workout History</string>
     <string name="button_workout_progress">Workout Progress</string>

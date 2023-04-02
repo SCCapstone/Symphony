@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 10:04 PM
+ *  Created by Team Symphony on 4/2/23, 3:50 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 9:30 PM
+ *  Last modified 4/2/23, 2:38 AM
  */
 
 package com.symphony.mrfit.ui
@@ -16,7 +16,6 @@ import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -181,11 +180,8 @@ class UserProfileActivity : AppCompatActivity() {
         }
 
         achievements.setOnClickListener {
-            Toast.makeText(
-                applicationContext,
-                "This has not been implemented yet",
-                Toast.LENGTH_LONG
-            ).show()
+            val intent = Intent(this, CalendarActivity::class.java)
+            startActivity(intent)
         }
 
         history.setOnClickListener {

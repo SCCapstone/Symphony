@@ -103,4 +103,7 @@ dependencies {
 
     // Konfetti by https://github.com/DanielMartinus/Konfetti
     implementation 'nl.dionsegijn:konfetti-xml:2.0.2'
+
+    // MaterialCalendarView by https://github.com/Applandeo/Material-Calendar-View
+    implementation 'com.applandeo:material-calendar-view:1.9.0-rc03'
 }
