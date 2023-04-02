@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 3:50 AM
+ *  Created by Team Symphony on 4/2/23, 4:31 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 2:38 AM
+ *  Last modified 4/2/23, 4:31 AM
  */
 
 package com.symphony.mrfit.ui
@@ -176,11 +176,6 @@ class UserProfileActivity : AppCompatActivity() {
 
         goal.setOnClickListener {
             val intent = Intent(this, GoalsActivity::class.java)
-            startActivity(intent)
-        }
-
-        achievements.setOnClickListener {
-            val intent = Intent(this, CalendarActivity::class.java)
             startActivity(intent)
         }
 

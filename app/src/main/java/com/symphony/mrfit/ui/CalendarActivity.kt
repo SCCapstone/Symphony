@@ -1,20 +1,29 @@
 /*
- *  Created by Team Symphony on 4/2/23, 3:50 AM
+ *  Created by Team Symphony on 4/2/23, 4:25 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 3:50 AM
+ *  Last modified 4/2/23, 4:25 AM
  */
 
 package com.symphony.mrfit.ui
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.ContentValues
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.applandeo.materialcalendarview.EventDay
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener
 import com.symphony.mrfit.R
+import com.symphony.mrfit.data.exercise.NotificationAdapter
 import com.symphony.mrfit.data.model.Notification
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
@@ -25,6 +34,7 @@ import java.util.*
 
 class CalendarActivity : AppCompatActivity() {
 
+    private var layoutManager: RecyclerView.LayoutManager? = null
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var binding: ActivityCalendarBinding
 
@@ -38,25 +48,58 @@ class CalendarActivity : AppCompatActivity() {
         )[ProfileViewModel::class.java]
 
         val calendar = binding.calendarView
-        val alarmText = binding.notificationsForToday
+        val alarmList = binding.calendarNotificationsRecyclerView
+        val newAlarm = binding.addAlertButton
         val notifDays = ArrayList<Notification>()
+        val sameDay = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
+
+        fun deleteNotification(date: String) {
+            profileViewModel.deleteNotification(date)
+        }
+
+        @RequiresApi(Build.VERSION_CODES.M)
+        fun cancelNotification(time: String) {
+            val notificationIntent = Intent(applicationContext, Notifications::class.java)
+            notificationIntent.data = Uri.parse(time)
+            Log.e("Notifications", "Cancelling alarm: $time")
+
+            val pendingIntent = PendingIntent.getBroadcast(
+                applicationContext,
+                time.toLong().toInt(),
+                notificationIntent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+            )
+
+            val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+            alarmManager.cancel(pendingIntent)
+        }
+
+
+        layoutManager = LinearLayoutManager(this)
+        alarmList.layoutManager = layoutManager
 
         profileViewModel.getNotifications()
         profileViewModel.notifications.observe(this, Observer {
             Log.d(ContentValues.TAG, "Filling in username")
             val notifications = it ?: return@Observer
             val alertDays = ArrayList<EventDay>()
+            val todayAlerts = ArrayList<Notification>()
             notifDays.clear()
 
             for (n in notifications) {
                 notifDays.add(n)
+                if (sameDay.format(n.date!!.toDate()).equals(sameDay.format(Date()))) {
+                    todayAlerts.add(n)
+                }
                 alertDays.add(
                     EventDay(
-                        toCalendar(n.date!!.toDate()),
-                        R.drawable.notification_icon
+                        toCalendar(n.date.toDate()),
+                        R.drawable.alert_icon
                     )
                 )
             }
+            alarmList.adapter =
+                NotificationAdapter(this, todayAlerts, ::deleteNotification, ::cancelNotification)
 
             calendar.setEvents(alertDays)
         })
@@ -64,19 +107,28 @@ class CalendarActivity : AppCompatActivity() {
         calendar.setOnDayClickListener(object : OnDayClickListener {
             override fun onDayClick(eventDay: EventDay) {
                 val clickedDay = eventDay.calendar
-                val sameDay = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
-                val outputFormat = SimpleDateFormat("MMMM dd, yy 'at' hh:mm a", Locale.getDefault())
-                var myString = ""
+                val todayAlerts = ArrayList<Notification>()
                 for (n in notifDays) {
                     if (sameDay.format(n.date!!.toDate()).equals(sameDay.format(clickedDay.time))) {
-                        /**
-                         * TODO: Throw results into a RecyclerView
-                         */
-                        myString += "${n.message} at ${outputFormat.format(n.date.toDate())}\n"
+                        todayAlerts.add(n)
                     }
                 }
-                alarmText.text = myString
+                alarmList.adapter = NotificationAdapter(
+                    applicationContext,
+                    todayAlerts,
+                    ::deleteNotification,
+                    ::cancelNotification
+                )
             }
         })
+
+        /**
+         * TODO: Pass the currently selected date to the new intent
+         *  Reload the current activity when the notification creation is done
+         */
+        newAlarm.setOnClickListener {
+            val intent = Intent(this, NotificationActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 7:44 PM
+ *  Created by Team Symphony on 4/2/23, 4:31 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 7:41 PM
+ *  Last modified 4/2/23, 4:31 AM
  */
 
 package com.symphony.mrfit.ui
@@ -91,7 +91,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         scheduleWorkout.setOnClickListener {
-            val intent = Intent(this, NotificationActivity::class.java)
+            val intent = Intent(this, CalendarActivity::class.java)
             startActivity(intent)
         }
 

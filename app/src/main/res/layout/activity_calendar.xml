@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 4/2/23, 3:50 AM
+  ~  Created by Team Symphony on 4/2/23, 4:25 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/2/23, 3:38 AM
+  ~  Last modified 4/2/23, 4:14 AM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -32,24 +32,24 @@
             app:todayLabelColor="@color/design_default_color_on_secondary"
             app:type="one_day_picker" />
 
-        <TextView
-            android:id="@+id/notificationsForToday"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/calendarNotificationsRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Title scheduled for MMMM dd, yyyy and hh:mm" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/scheduleNewNotificationButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Button" />
-        </LinearLayout>
+            android:layout_height="match_parent" />
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addAlertButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:clickable="true"
+        android:contentDescription="@string/button_new_exercise"
+        android:src="@drawable/alert_icon_new"
+        app:backgroundTint="@color/garnet"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="ContentDescription,KeyboardInaccessibleWidget" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
