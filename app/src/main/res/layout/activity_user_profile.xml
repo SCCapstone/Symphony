@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 4/2/23, 2:50 PM
+  ~  Created by Team Symphony on 4/2/23, 8:15 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/2/23, 2:10 PM
+  ~  Last modified 4/2/23, 8:10 PM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,6 +26,7 @@
                 android:id="@+id/linearLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/dropshadow_background"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -33,7 +34,7 @@
                     android:id="@+id/profilePicture"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
-                    android:layout_margin="3dp"
+                    android:layout_margin="6dp"
                     android:contentDescription="@string/profile_picture"
                     app:srcCompat="@drawable/cactuar"
                     tools:ignore="ImageContrastCheck" />
@@ -74,7 +75,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        android:background="#EEEEEE"
+                        android:background="@drawable/dropshadow_background"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="5dp">
@@ -99,7 +100,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        android:background="#EEEEEE"
+                        android:background="@drawable/dropshadow_background"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="5dp">
@@ -124,7 +125,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        android:background="#EEEEEE"
+                        android:background="@drawable/dropshadow_background"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="5dp">
@@ -145,13 +146,14 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/stuffLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="10dp"
-                    android:background="#EEEEEE"
+                    android:background="@drawable/dropshadow_background"
                     android:orientation="vertical"
                     android:padding="5dp">
 
@@ -188,12 +190,14 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/settingLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:background="#EEEEEE"
-                    android:orientation="vertical">
+                    android:background="@drawable/dropshadow_background"
+                    android:orientation="vertical"
+                    android:padding="5dp">
 
                     <TextView
                         android:id="@+id/settingsLabelTextView"

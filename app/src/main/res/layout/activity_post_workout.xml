@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 4/2/23, 12:52 AM
+  ~  Created by Team Symphony on 4/2/23, 8:15 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/2/23, 12:11 AM
+  ~  Last modified 4/2/23, 8:15 PM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -30,7 +30,7 @@
             android:layout_marginBottom="10dp"
             android:contentDescription="@string/app_name"
             android:padding="5dp"
-            android:src="@drawable/cactuar" />
+            android:src="@drawable/mip_logo" />
 
         <TextView
             android:id="@+id/postWorkoutTitle"
@@ -67,14 +67,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Update my\ngoals" />
+                android:text="@string/button_update_goals" />
 
             <Button
                 android:id="@+id/returnHomeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Return\nHome" />
+                android:text="@string/button_return_home" />
         </LinearLayout>
     </LinearLayout>
 
