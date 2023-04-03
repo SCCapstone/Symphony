@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 8:15 PM
+ *  Created by Team Symphony on 4/2/23, 10:27 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 8:04 PM
+ *  Last modified 4/2/23, 10:22 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -45,7 +45,7 @@ class WorkoutAdapter2 (val context: Context, val data: ArrayList<Workout>): Recy
                     .child(ExerciseRepository.EXERCISE_PICTURE)
                     .child(data[i].exercise!!)
             )
-            .placeholder(R.drawable.cactuar)
+            .placeholder(R.drawable.glide_placeholder)
             .into(holder.exerciseImage)
 
         // Toggle the checkbox when the card is tapped

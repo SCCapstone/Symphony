@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 4:31 AM
+ *  Created by Team Symphony on 4/2/23, 10:27 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 4:31 AM
+ *  Last modified 4/2/23, 10:22 PM
  */
 
 package com.symphony.mrfit.ui
@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
+import com.symphony.mrfit.R
 import com.symphony.mrfit.data.exercise.HistoryAdapter
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
@@ -69,7 +70,7 @@ class HomeActivity : AppCompatActivity() {
 
             Glide.with(this)
                 .load(profileViewModel.getProfilePicture())
-                .placeholder(com.firebase.ui.auth.R.drawable.fui_ic_anonymous_white_24dp)
+                .placeholder(R.drawable.placeholder_profile_picture)
                 .circleCrop()
                 .signature(ObjectKey(System.currentTimeMillis().toString()))
                 .into(pfp)

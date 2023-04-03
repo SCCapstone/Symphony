@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 2:50 PM
+ *  Created by Team Symphony on 4/2/23, 10:27 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 1:53 PM
+ *  Last modified 4/2/23, 10:22 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -50,7 +50,7 @@ class ExerciseAdapter (val context:Context, val data: ArrayList<Exercise>): Recy
                     .child(EXERCISE_PICTURE)
                     .child(data[i].exerciseID!!)
             )
-            .placeholder(R.drawable.cactuar)
+            .placeholder(R.drawable.glide_placeholder)
             .into(holder.exeImage)
 
         holder.itemView.setOnClickListener {

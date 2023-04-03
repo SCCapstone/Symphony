@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 7:44 PM
+ *  Created by Team Symphony on 4/2/23, 10:27 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 7:41 PM
+ *  Last modified 4/2/23, 10:27 PM
  */
 
 package com.symphony.mrfit.ui
@@ -190,6 +190,7 @@ class ExerciseActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val PLACEHOLDER_THUMBNAIL = "android.resource://com.symphony.mrfit/drawable/cactuar"
+        const val PLACEHOLDER_THUMBNAIL =
+            "android.resource://com.symphony.mrfit/drawable/glide_placeholder"
     }
 }

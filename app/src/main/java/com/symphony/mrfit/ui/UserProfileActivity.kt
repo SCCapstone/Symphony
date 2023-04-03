@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 2:50 PM
+ *  Created by Team Symphony on 4/2/23, 10:27 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 2:10 PM
+ *  Last modified 4/2/23, 10:22 PM
  */
 
 package com.symphony.mrfit.ui
@@ -125,7 +125,7 @@ class UserProfileActivity : AppCompatActivity() {
 
             Glide.with(this)
                 .load(profileViewModel.getProfilePicture())
-                .placeholder(com.firebase.ui.auth.R.drawable.fui_ic_anonymous_white_24dp)
+                .placeholder(R.drawable.placeholder_profile_picture)
                 .circleCrop()
                 .signature(ObjectKey(System.currentTimeMillis().toString()))
                 .into(pfp)
