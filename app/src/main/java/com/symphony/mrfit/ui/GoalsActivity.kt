@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 7:44 PM
+ *  Created by Team Symphony on 4/2/23, 9:44 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 7:41 PM
+ *  Last modified 4/2/23, 9:32 PM
  */
 
 package com.symphony.mrfit.ui
@@ -70,6 +70,7 @@ class GoalsActivity : AppCompatActivity() {
             val dialog = Dialog(this)
             dialog.setContentView(R.layout.popup_edit_goal)
             dialog.setTitle("New Goal")
+            Toast.makeText(this, "Opening goal ${goal.goalID}", Toast.LENGTH_SHORT).show()
 
             val name = dialog.findViewById<EditText>(R.id.editGoalName)
             val prog = dialog.findViewById<EditText>(R.id.progressGoalEditText)
@@ -90,7 +91,7 @@ class GoalsActivity : AppCompatActivity() {
                 var newProg = goal.progress
                 if (prog.text.isNotEmpty())
                     newProg = prog.text.toString().toDouble()
-                var newEnd = ZERO.toDouble()
+                var newEnd = goal.endGoal
                 if (end.text.isNotEmpty())
                     newEnd = end.text.toString().toDouble()
                 profileViewModel.updateGoal(

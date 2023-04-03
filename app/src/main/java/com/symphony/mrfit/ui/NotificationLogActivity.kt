@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 7:44 PM
+ *  Created by Team Symphony on 4/2/23, 9:44 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 7:41 PM
+ *  Last modified 4/2/23, 9:42 PM
  */
 
 package com.symphony.mrfit.ui
@@ -46,6 +46,7 @@ class NotificationLogActivity : AppCompatActivity() {
         super.onStart()
 
         val notificationList = binding.notificationList
+        val newNotif = binding.addNotificationButton
         val spinner = binding.loadingSpinner
 
         fun deleteNotification(date: String) {
@@ -87,6 +88,11 @@ class NotificationLogActivity : AppCompatActivity() {
                 NotificationAdapter(this, notifications, ::deleteNotification, ::cancelNotification)
             spinner.visibility = View.GONE
         })
+
+        newNotif.setOnClickListener {
+            val intent = Intent(this, CalendarActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

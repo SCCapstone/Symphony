@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 2:50 PM
+ *  Created by Team Symphony on 4/2/23, 9:44 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 2:50 PM
+ *  Last modified 4/2/23, 9:44 PM
  */
 
 package com.symphony.mrfit.ui
@@ -12,10 +12,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.ImageView
+import android.widget.*
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -25,11 +22,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.signature.ObjectKey
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.exercise.ExerciseAdapter2
-import com.symphony.mrfit.data.exercise.ExerciseRepository
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.model.Exercise
@@ -119,7 +116,10 @@ class CustomExercisesActivity : AppCompatActivity() {
         thumbnail.observe(this, Observer {
             val thumbnail = it ?: return@Observer
 
-            Glide.with(this).load(thumbnail).into(image)
+            Glide.with(this)
+                .load(thumbnail)
+                .signature(ObjectKey(System.currentTimeMillis().toString()))
+                .into(image)
         })
 
         tags.setOnFocusChangeListener { _, hasFocus ->
@@ -135,30 +135,40 @@ class CustomExercisesActivity : AppCompatActivity() {
             intent.type = "image/*"
             photoPicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
-
-        /**
-         * TODO: If a field is empty, replace it with placeholder text
-         */
         save.setOnClickListener {
-            val newName = name.text.toString()
-            val newDesc = desc.text.toString()
-            val newTags = ArrayList(tags.text.toString().split(",", ", "))
-            val newExercise = Exercise(
-                name = newName,
-                description = newDesc,
-                tags = newTags,
-                repsFlag = reps.isChecked,
-                setsFlag = sets.isChecked,
-                durationFlag = duration.isChecked,
-                distanceFlag = distance.isChecked
-            )
-            exerciseViewModel.addExercise(
-                newExercise,
-                thumbnail.value!!
-            )
+            if (name.text.isNotEmpty()) {
+                val newName = name.text.toString()
+                var newDesc = ""
+                if (desc.text.isNotEmpty())
+                    newDesc = desc.text.toString()
+                var newTags = ArrayList<String>()
+                if (tags.text.isNotEmpty())
+                    newTags = ArrayList(tags.text.toString().split(",", ", "))
+                val newExercise = Exercise(
+                    name = newName,
+                    description = newDesc,
+                    tags = newTags,
+                    repsFlag = reps.isChecked,
+                    setsFlag = sets.isChecked,
+                    durationFlag = duration.isChecked,
+                    distanceFlag = distance.isChecked
+                )
+                exerciseViewModel.addExercise(
+                    newExercise,
+                    thumbnail.value!!
+                )
 
-            exerciseViewModel.getExercisesByUser()
-            dialog.dismiss()
+                exerciseViewModel.getExercisesByUser()
+                thumbnail.value = Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
+                dialog.dismiss()
+            } else {
+                Toast.makeText(
+                    this,
+                    "You must name your exercise",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
         }
 
         cancel.setOnClickListener {
@@ -183,6 +193,7 @@ class CustomExercisesActivity : AppCompatActivity() {
         val distance = dialog.findViewById<CheckBox>(R.id.distanceCheckBox)
         val save = dialog.findViewById<Button>(R.id.saveExerciseButton)
         val cancel = dialog.findViewById<Button>(R.id.cancelExerciseButton)
+        var loadDefault = true
 
         name.setText(exercise.name)
         desc.setText(exercise.description)
@@ -191,19 +202,20 @@ class CustomExercisesActivity : AppCompatActivity() {
         sets.isChecked = exercise.setsFlag
         duration.isChecked = exercise.durationFlag
         distance.isChecked = exercise.distanceFlag
-        Glide.with(this)
-            .load(
-                storage.reference
-                    .child(ExerciseRepository.EXERCISE_PICTURE)
-                    .child(exercise.exerciseID!!)
-            )
-            .placeholder(R.drawable.cactuar)
-            .into(image)
 
         thumbnail.observe(this, Observer {
             val thumbnail = it ?: return@Observer
 
-            Glide.with(this).load(thumbnail).into(image)
+            if (loadDefault) {
+                Glide.with(this)
+                    .load(exerciseViewModel.getExerciseImage(exercise.exerciseID!!))
+                    .into(image)
+                loadDefault = false
+            } else {
+                Glide.with(this)
+                    .load(thumbnail)
+                    .into(image)
+            }
         })
 
         tags.setOnFocusChangeListener { _, hasFocus ->
@@ -224,9 +236,15 @@ class CustomExercisesActivity : AppCompatActivity() {
          * TODO: If a field is empty, replace it with placeholder text
          */
         save.setOnClickListener {
-            val newName = name.text.toString()
-            val newDesc = desc.text.toString()
-            val newTags = ArrayList(tags.text.toString().split(",", ", "))
+            var newName = exercise.name
+            if (name.text.isNotEmpty())
+                newName = name.text.toString()
+            var newDesc = ""
+            if (desc.text.isNotEmpty())
+                newDesc = desc.text.toString()
+            var newTags = ArrayList<String>()
+            if (tags.text.isNotEmpty())
+                newTags = ArrayList(tags.text.toString().split(",", ", "))
             val newExercise = Exercise(
                 name = newName,
                 description = newDesc,
@@ -239,10 +257,11 @@ class CustomExercisesActivity : AppCompatActivity() {
                 exerciseID = exercise.exerciseID
             )
 
-            dialog.dismiss()
             exerciseViewModel.updateExercise(newExercise)
-            exerciseViewModel.changeExerciseImage(exercise.exerciseID, thumbnail.value!!)
+            exerciseViewModel.changeExerciseImage(exercise.exerciseID!!, thumbnail.value!!)
             exerciseViewModel.getExercisesByUser()
+            thumbnail.value = Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
+            dialog.dismiss()
         }
 
         cancel.setOnClickListener {

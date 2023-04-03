@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 10:04 PM
+ *  Created by Team Symphony on 4/2/23, 9:44 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 10:04 PM
+ *  Last modified 4/2/23, 9:42 PM
  */
 
 package com.symphony.mrfit.data.profile
@@ -105,7 +105,7 @@ class UserRepository {
         try {
             val docRef = database.collection(USER_COLLECTION).document(user.uid)
                 .collection(HISTORY_COLLECTION).add(history).await()
-            docRef.update("historyID", docRef.id)
+            docRef.update("historyID", docRef.id).await()
         } catch (e: java.lang.Exception) {
             Log.d(TAG, "Error writing documents: ", e)
         }
@@ -159,6 +159,19 @@ class UserRepository {
         return storage.reference
             .child(PROFILE_PICTURE)
             .child(auth.currentUser!!.uid)
+    }
+
+    /**
+     * Add or change a profile picture to a User's Firebase profile
+     */
+    suspend fun changeProfilePicture(uri: Uri) {
+        Log.d(TAG, "Updating the user's profile picture to $uri")
+        val ref = storage.reference.child(PROFILE_PICTURE).child(auth.currentUser!!.uid)
+        val profileUpdates = userProfileChangeRequest {
+            photoUri = Uri.parse(ref.toString())
+        }
+        auth.currentUser!!.updateProfile(profileUpdates).await()
+        ref.putFile(uri)
     }
 
     /**
@@ -225,7 +238,7 @@ class UserRepository {
                 .collection(GOAL_COLLECTION)
                 .add(goal)
                 .await()
-            docRef.update("goalID", docRef.id)
+            docRef.update("goalID", docRef.id).await()
         } catch (e: java.lang.Exception) {
             Log.w(TAG, "Error writing document", e)
         }
@@ -284,19 +297,6 @@ class UserRepository {
             .delete()
             .await()
 
-    }
-
-    /**
-     * Add or change a profile picture to a User's Firebase profile
-     */
-    suspend fun changeProfilePicture(uri: Uri) {
-        Log.d(TAG, "Updating the user's profile picture to $uri")
-        val ref = storage.reference.child(PROFILE_PICTURE).child(auth.currentUser!!.uid)
-        val profileUpdates = userProfileChangeRequest {
-            photoUri = Uri.parse(ref.toString())
-        }
-        auth.currentUser!!.updateProfile(profileUpdates).await()
-        ref.putFile(uri)
     }
 
     companion object {
