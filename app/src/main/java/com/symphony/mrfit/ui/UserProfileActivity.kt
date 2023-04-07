@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 10:27 PM
+ *  Created by Team Symphony on 4/7/23, 7:13 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 10:22 PM
+ *  Last modified 4/7/23, 7:13 PM
  */
 
 package com.symphony.mrfit.ui
@@ -25,6 +25,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
+import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -195,6 +196,9 @@ class UserProfileActivity : AppCompatActivity() {
         }
 
         logout.setOnClickListener {
+            // Attempt to log out of google if User signed in with it
+            val signInClient = Identity.getSignInClient(this)
+            signInClient.signOut()
             loginViewModel.logout()
             val intent = Intent(this, LoginActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -319,6 +323,9 @@ class UserProfileActivity : AppCompatActivity() {
     }
 
     private fun deleteAccount() {
+        // Attempt to log out of google if User signed in with it
+        val signInClient = Identity.getSignInClient(this)
+        signInClient.signOut()
         loginViewModel.delete()
         val intent = Intent(this, LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

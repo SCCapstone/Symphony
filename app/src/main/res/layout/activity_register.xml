@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 3/30/23, 5:52 PM
+  ~  Created by Team Symphony on 4/7/23, 7:13 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 3/30/23, 4:31 PM
+  ~  Last modified 4/7/23, 6:43 PM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -54,6 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_email"
+                android:inputType="textEmailAddress"
                 android:minHeight="48dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,6 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_password"
+                android:inputType="textPassword"
                 android:minHeight="48dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -82,6 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_confirm_password"
+                android:inputType="textPassword"
                 android:minHeight="48dp" />
         </com.google.android.material.textfield.TextInputLayout>
 

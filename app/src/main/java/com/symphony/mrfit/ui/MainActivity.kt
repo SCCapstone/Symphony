@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/18/23, 1:06 PM
+ *  Created by Team Symphony on 4/7/23, 7:13 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/18/23, 1:02 PM
+ *  Last modified 4/7/23, 7:13 PM
  */
 
 package com.symphony.mrfit.ui
@@ -10,6 +10,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.symphony.mrfit.R
@@ -19,16 +20,40 @@ import com.symphony.mrfit.R
  */
 
 class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-        val user = Firebase.auth.currentUser
-        if (user != null) {
+    private val authStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+        val firebaseUser = firebaseAuth.currentUser
+        if (firebaseUser != null) {
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
             finish()
         }
+    }
+    private val firebaseAuth = FirebaseAuth.getInstance()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // If User is already logged in, skip to Home screen
+        // firebaseAuth.addAuthStateListener(this.authStateListener)
+        val user = Firebase.auth.currentUser
+        if (user != null) {
+            // User is signed in
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish()
+        } else {
+            // No user is signed in
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        firebaseAuth.removeAuthStateListener(this.authStateListener)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

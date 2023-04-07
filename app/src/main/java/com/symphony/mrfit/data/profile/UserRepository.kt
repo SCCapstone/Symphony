@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 9:44 PM
+ *  Created by Team Symphony on 4/7/23, 7:13 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 9:42 PM
+ *  Last modified 4/7/23, 7:13 PM
  */
 
 package com.symphony.mrfit.data.profile
@@ -19,6 +19,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import com.symphony.mrfit.data.login.LoginRepository
 import com.symphony.mrfit.data.model.Goal
 import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.data.model.Notification
@@ -52,7 +53,14 @@ class UserRepository {
         Log.d(TAG, "Retrieving User ${auth.currentUser!!.uid} from Firestore")
         val doc = auth.currentUser!!.uid
         val docRef = database.collection(USER_COLLECTION).document(doc)
-        return try { val snapshot = docRef.get().await()
+        return try {
+            val snapshot = docRef.get().await()
+            // Something wrong happened when deleting this user, fix it
+            if (snapshot.get("userID") == null) {
+                LoginRepository().delete()
+                LoginRepository().logout()
+                User("delete")
+            }
             snapshot.toObject<User>()
         } catch (e: java.lang.Exception) {
             Log.w(TAG, "Error getting document", e)
@@ -87,13 +95,17 @@ class UserRepository {
     /**
      * Only called when a user is being deleted, remove their document from Firestore
      */
-    fun removeUser() {
+    suspend fun removeUser() {
         val user = auth.currentUser!!
         Log.d(TAG, "Removing User ${user.uid} from Firestore")
-        database.collection(USER_COLLECTION).document(user.uid)
-            .delete()
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
+        try {
+            database.collection(USER_COLLECTION).document(user.uid)
+                .delete()
+                .await()
+            Log.d(TAG, "DocumentSnapshot successfully deleted!")
+        } catch (e: java.lang.Exception) {
+            Log.w(TAG, "Error deleting document", e)
+        }
     }
 
     /**

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 4/1/23, 6:46 PM
+  ~  Created by Team Symphony on 4/7/23, 7:13 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/1/23, 6:46 PM
+  ~  Last modified 4/7/23, 6:49 PM
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -25,7 +25,7 @@
             android:gravity="center_horizontal"
             android:hint="Goal Name"
             android:importantForAutofill="no"
-            android:inputType="textPersonName"
+            android:inputType="textShortMessage|text"
             android:minHeight="50dp" />
 
         <TextView

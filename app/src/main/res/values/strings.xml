@@ -1,7 +1,7 @@
 <!--
-  ~  Created by Team Symphony on 4/2/23, 8:15 PM
+  ~  Created by Team Symphony on 4/7/23, 7:13 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/2/23, 8:15 PM
+  ~  Last modified 4/7/23, 1:26 PM
   -->
 
 <resources>
@@ -107,9 +107,9 @@
     <string name="login_failed">Login failed</string>
     <string name="registration_failed">Registration failed</string>
     <string name="name_change">Name has been changed to %s</string>
-    <string name="age_change">Age has been changed to %i</string>
-    <string name="height_change">Height has been changed to %i</string>
-    <string name="weight_change">Weight has been changed to %i</string>
+    <string name="age_change">Age has been changed to %d</string>
+    <string name="height_change">Height has been changed to %d</string>
+    <string name="weight_change">Weight has been changed to %f</string>
     <string name="empty_playlist_warning">Cannot play an empty playlist</string>
     <string name="exercise_failed">Attempt to save exercise failed, try again</string>
     <string name="button_search">Search</string>
