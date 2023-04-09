@@ -118,10 +118,10 @@ class WorkoutAdapter (val context: Context, val data: ArrayList<Workout>, privat
             myString += "for "
         }
         if (duration != null) {
-            myString += "$duration "
+            myString += "Duration: $duration minutes "
         }
         if (distance != null) {
-            myString += "$distance "
+            myString += "Distance: $distance miles"
         }
         return myString
     }
