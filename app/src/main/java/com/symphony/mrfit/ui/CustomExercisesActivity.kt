@@ -1,17 +1,19 @@
 /*
- *  Created by Team Symphony on 4/2/23, 9:44 PM
+ *  Created by Team Symphony on 4/19/23, 5:18 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 9:44 PM
+ *  Last modified 4/19/23, 5:17 PM
  */
 
 package com.symphony.mrfit.ui
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -88,6 +90,7 @@ class CustomExercisesActivity : AppCompatActivity() {
         })
 
         newExeButton.setOnClickListener {
+            it.clearFocus()
             newExercise()
         }
     }
@@ -123,8 +126,15 @@ class CustomExercisesActivity : AppCompatActivity() {
         })
 
         tags.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus)
+            if (hasFocus) {
                 tags.hint = "At home, Cardio, etc."
+                val inputMethodManager: InputMethodManager =
+                    getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.showSoftInput(
+                    tags,
+                    InputMethodManager.SHOW_IMPLICIT
+                )
+            }
             if (!hasFocus)
                 tags.hint = ""
         }
@@ -219,8 +229,15 @@ class CustomExercisesActivity : AppCompatActivity() {
         })
 
         tags.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus)
+            if (hasFocus) {
                 tags.hint = "At home, Cardio, etc."
+                val inputMethodManager: InputMethodManager =
+                    getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.showSoftInput(
+                    tags,
+                    InputMethodManager.SHOW_IMPLICIT
+                )
+            }
             if (!hasFocus)
                 tags.hint = ""
         }

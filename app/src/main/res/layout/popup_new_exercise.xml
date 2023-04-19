@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 4/7/23, 7:13 PM
+  ~  Created by Team Symphony on 4/19/23, 5:18 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/7/23, 7:12 PM
+  ~  Last modified 4/19/23, 5:18 PM
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -9,6 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/border_thin"
+    android:focusable="false"
     android:padding="5dp">
 
     <LinearLayout
