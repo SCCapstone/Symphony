@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 12:52 AM
+ *  Created by Team Symphony on 4/19/23, 4:23 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 12:52 AM
+ *  Last modified 4/19/23, 4:15 PM
  */
 
 package com.symphony.mrfit.ui
@@ -74,6 +74,7 @@ class CurrentWorkoutActivity : AppCompatActivity() {
         val workoutList = binding.currentWorkoutRecycler
         val timer = binding.workoutTimer
         val finishButton = binding.finishWorkoutButton
+        val cancelButton = binding.finishWorkoutButton
 
         /**
          * Retrieve the extras passed to this intent
@@ -100,6 +101,8 @@ class CurrentWorkoutActivity : AppCompatActivity() {
         // Start the timer and end it when the user is done with their workout
         timer.base = SystemClock.elapsedRealtime()
         timer.start()
+
+        cancelButton.setOnClickListener { onSupportNavigateUp() }
 
         finishButton.setOnClickListener {
             timer.stop()
