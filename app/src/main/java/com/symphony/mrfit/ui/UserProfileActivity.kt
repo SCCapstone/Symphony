@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/19/23, 2:57 PM
+ *  Created by Team Symphony on 4/19/23, 7:07 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/19/23, 2:52 PM
+ *  Last modified 4/19/23, 7:07 PM
  */
 
 package com.symphony.mrfit.ui
@@ -13,6 +13,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.ext.SdkExtensions.getExtensionVersion
 import android.text.InputType
+import android.text.method.DigitsKeyListener
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -38,6 +39,8 @@ import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityUserProfileBinding
 import com.symphony.mrfit.ui.Helper.showSnackBar
+import java.text.DecimalFormat
+import java.util.*
 
 /**
  * Screen for the User's profile. Data can be changed by tapping on it
@@ -50,6 +53,7 @@ class UserProfileActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityUserProfileBinding
     private lateinit var repo: LoginRepository
+    private val format = DecimalFormat("0.#")
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -135,9 +139,9 @@ class UserProfileActivity : AppCompatActivity() {
             ageText.text = loggedInUser.age?.toString() ?: PLACEHOLDER
             heightText.text = loggedInUser.height?.toString() ?: PLACEHOLDER
             if (heightText.text != PLACEHOLDER) {
-                val t1 = heightText.text.toString().toInt() / 12
-                val t2 = heightText.text.toString().toInt() % 12
-                heightText.text = getString(R.string.height_value, t1.toString(), t2.toString())
+                val t1 = heightText.text.toString().toDouble().toInt() / 12
+                val t2 = format.format(heightText.text.toString().toDouble() % 12)
+                heightText.text = getString(R.string.height_value, t1.toString(), t2)
             }
             weightText.text = loggedInUser.weight?.toString() ?: PLACEHOLDER
             if (weightText.text != PLACEHOLDER) {
@@ -252,7 +256,7 @@ class UserProfileActivity : AppCompatActivity() {
 
         val input = EditText(this)
         input.hint = "Age"
-        input.inputType = InputType.TYPE_CLASS_TEXT
+        input.inputType = InputType.TYPE_CLASS_NUMBER
         builder.setView(input)
 
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
@@ -284,15 +288,16 @@ class UserProfileActivity : AppCompatActivity() {
 
         val input = EditText(this)
         input.hint = "Height"
-        input.inputType = InputType.TYPE_CLASS_TEXT
+        input.inputType = InputType.TYPE_NUMBER_FLAG_DECIMAL
+        input.keyListener = DigitsKeyListener(false, true)
         builder.setView(input)
 
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
             if (input.text.isNotEmpty()) {
-                val new = input.text.toString().toInt()
+                val new = input.text.toString().toDouble()
                 profileViewModel.updateCurrentUser(null, null, new, null)
                 showSnackBar(
-                    getString(R.string.height_change, new),
+                    getString(R.string.height_change, new.toString()),
                     this
                 )
             } else {
@@ -316,7 +321,8 @@ class UserProfileActivity : AppCompatActivity() {
 
         val input = EditText(this)
         input.hint = "Weight"
-        input.inputType = InputType.TYPE_CLASS_TEXT
+        input.inputType = InputType.TYPE_NUMBER_FLAG_DECIMAL
+        input.keyListener = DigitsKeyListener(false, true)
         builder.setView(input)
 
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
@@ -324,7 +330,7 @@ class UserProfileActivity : AppCompatActivity() {
                 val new = input.text.toString().toDouble()
                 profileViewModel.updateCurrentUser(null, null, null, new)
                 showSnackBar(
-                    getString(R.string.weight_change, new),
+                    getString(R.string.weight_change, new.toString()),
                     this
                 )
             } else {
