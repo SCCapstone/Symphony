@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/19/23, 2:57 PM
+ *  Created by Team Symphony on 4/19/23, 3:34 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/19/23, 2:57 PM
+ *  Last modified 4/19/23, 3:19 PM
  */
 
 package com.symphony.mrfit.ui
@@ -64,6 +64,7 @@ class GoalsActivity : AppCompatActivity() {
 
         fun deleteGoal(goalID: String) {
             profileViewModel.deleteGoal(goalID)
+            profileViewModel.getGoals()
         }
 
         fun editGoal(goal: Goal) {

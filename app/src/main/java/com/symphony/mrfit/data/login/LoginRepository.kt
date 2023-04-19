@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/7/23, 7:13 PM
+ *  Created by Team Symphony on 4/19/23, 3:34 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/7/23, 7:13 PM
+ *  Last modified 4/19/23, 3:10 PM
  */
 
 package com.symphony.mrfit.data.login
@@ -86,7 +86,7 @@ class LoginRepository {
         Firebase.auth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d(TAG, "Email sent.")
+                    Log.d(TAG, "Email sent to $email")
                 }
             }
     }
