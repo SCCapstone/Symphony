@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/7/23, 7:13 PM
+ *  Created by Team Symphony on 4/19/23, 2:57 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/7/23, 7:13 PM
+ *  Last modified 4/19/23, 2:52 PM
  */
 
 package com.symphony.mrfit.ui
@@ -16,6 +16,7 @@ import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -223,12 +224,20 @@ class UserProfileActivity : AppCompatActivity() {
         builder.setView(input)
 
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
-            val new = input.text.toString()
-            profileViewModel.updateCurrentUser(new, null, null, null)
-            showSnackBar(
-                getString(R.string.name_change, new),
-                this
-            )
+            if (input.text.isNotEmpty()) {
+                val new = input.text.toString()
+                profileViewModel.updateCurrentUser(new, null, null, null)
+                showSnackBar(
+                    getString(R.string.name_change, new),
+                    this
+                )
+            } else {
+                Toast.makeText(
+                    this,
+                    "Cannot have an empty name",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         builder.setNegativeButton(android.R.string.cancel) { _, _ ->
@@ -247,12 +256,20 @@ class UserProfileActivity : AppCompatActivity() {
         builder.setView(input)
 
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
-            val new = input.text.toString().toInt()
-            profileViewModel.updateCurrentUser(null, new, null, null)
-            showSnackBar(
-                getString(R.string.age_change, new),
-                this
-            )
+            if (input.text.isNotEmpty()) {
+                val new = input.text.toString().toInt()
+                profileViewModel.updateCurrentUser(null, new, null, null)
+                showSnackBar(
+                    getString(R.string.age_change, new),
+                    this
+                )
+            } else {
+                Toast.makeText(
+                    this,
+                    "Cannot have an empty age",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         builder.setNegativeButton(android.R.string.cancel) { _, _ ->
@@ -271,12 +288,20 @@ class UserProfileActivity : AppCompatActivity() {
         builder.setView(input)
 
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
-            val new = input.text.toString().toInt()
-            profileViewModel.updateCurrentUser(null, null, new, null)
-            showSnackBar(
-                getString(R.string.height_change, new),
-                this
-            )
+            if (input.text.isNotEmpty()) {
+                val new = input.text.toString().toInt()
+                profileViewModel.updateCurrentUser(null, null, new, null)
+                showSnackBar(
+                    getString(R.string.height_change, new),
+                    this
+                )
+            } else {
+                Toast.makeText(
+                    this,
+                    "Cannot have an height name",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         builder.setNegativeButton(android.R.string.cancel) { _, _ ->
@@ -295,12 +320,20 @@ class UserProfileActivity : AppCompatActivity() {
         builder.setView(input)
 
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
-            val new = input.text.toString().toDouble()
-            profileViewModel.updateCurrentUser(null, null, null, new)
-            showSnackBar(
-                getString(R.string.weight_change, new),
-                this
-            )
+            if (input.text.isNotEmpty()) {
+                val new = input.text.toString().toDouble()
+                profileViewModel.updateCurrentUser(null, null, null, new)
+                showSnackBar(
+                    getString(R.string.weight_change, new),
+                    this
+                )
+            } else {
+                Toast.makeText(
+                    this,
+                    "Cannot have an empty weight",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         builder.setNegativeButton(android.R.string.cancel) { _, _ ->

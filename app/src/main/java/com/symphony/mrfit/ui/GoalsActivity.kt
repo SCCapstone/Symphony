@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 9:44 PM
+ *  Created by Team Symphony on 4/19/23, 2:57 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 9:32 PM
+ *  Last modified 4/19/23, 2:57 PM
  */
 
 package com.symphony.mrfit.ui
@@ -180,7 +180,9 @@ class GoalsActivity : AppCompatActivity() {
                     newEnd = num.text.toString().toDouble()
                 var newType = dropdown.selectedItem.toString()
                 if (newType == "Other") {
-                    newType = other.text.toString()
+                    if (other.text.isNotEmpty()) {
+                        newType = other.text.toString()
+                    }
                 }
 
                 profileViewModel.addGoal(
