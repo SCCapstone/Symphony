@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 10:04 PM
+ *  Created by Team Symphony on 4/19/23, 7:07 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 9:15 PM
+ *  Last modified 4/19/23, 6:49 PM
  */
 
 package com.symphony.mrfit.data.profile
@@ -43,7 +43,7 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
         }
     }
 
-    fun updateCurrentUser(name: String?, age: Int?, height: Int?, weight: Double?) {
+    fun updateCurrentUser(name: String?, age: Int?, height: Double?, weight: Double?) {
         viewModelScope.launch {
             _loggedInUser.value = userRepository.updateCurrentUser(name, age, height, weight)
         }
