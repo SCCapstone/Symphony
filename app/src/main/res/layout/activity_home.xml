@@ -43,11 +43,12 @@
                     android:layout_margin="6dp"
                     android:layout_weight="0"
                     android:contentDescription="@string/profile_picture"
-                    app:srcCompat="@drawable/placeholder_profile_picture" />
+                    app:srcCompat="@drawable/placeholder_profile_picture"
+                    tools:ignore="ImageContrastCheck" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="216dp"
+                    android:layout_height="122dp"
                     android:layout_marginStart="10dp"
                     android:layout_weight="0"
                     android:gravity="center_vertical"
@@ -57,16 +58,27 @@
                         android:id="@+id/templateNameTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/welcome" />
+                        android:text="@string/welcome"
+                        android:textColor="#616161" />
 
                     <TextView
                         android:id="@+id/homeNameTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="212dp"
+                        android:layout_height="86dp"
                         android:text="@string/PLACEHOLDER_TEXT"
                         android:textSize="34sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="TextSizeCheck" />
+
                 </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="32dp"
+                    android:layout_height="73dp"
+                    app:srcCompat="@drawable/settings"
+                    android:contentDescription="TODO"
+                    tools:ignore="ContentDescription,HardcodedText" />
 
             </LinearLayout>
 
