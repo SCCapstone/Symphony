@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/20/23, 2:11 AM
+ *  Created by Team Symphony on 4/20/23, 7:03 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/20/23, 2:01 AM
+ *  Last modified 4/20/23, 6:13 PM
  */
 
 package com.symphony.mrfit.ui
@@ -173,6 +173,9 @@ class NotificationActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Parse the pickers for the selected date and time
+     */
     @RequiresApi(Build.VERSION_CODES.M)
     private fun getTime(): Long {
         val minute = binding.timePicker.minute

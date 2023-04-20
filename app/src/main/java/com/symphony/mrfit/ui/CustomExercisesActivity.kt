@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/20/23, 1:04 AM
+ *  Created by Team Symphony on 4/20/23, 7:03 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/20/23, 1:04 AM
+ *  Last modified 4/20/23, 7:03 PM
  */
 
 package com.symphony.mrfit.ui
@@ -142,8 +142,10 @@ class CustomExercisesActivity : AppCompatActivity() {
                 .into(image)
         })
 
-        // Add secondary hint text when the tags field to show User proper entry
-        // Remove this hint when tags field loses focus
+        /**
+         * Add secondary hint text when the tags field to show User proper entry
+         * Remove this hint when tags field loses focus
+         */
         tags.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 tags.hint = "At home, Cardio, etc."
@@ -165,7 +167,10 @@ class CustomExercisesActivity : AppCompatActivity() {
             photoPicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
-        // Save the new exercise to the database, name cannot be empty
+        /**
+         * Make a new Exercise and save it to the database
+         * Name cannot be empty
+         */
         materialDialog.setPositiveButton(getString(R.string.button_save)) { dialog, _ ->
             if (name.text.isNotEmpty()) {
                 val newName = name.text.toString()

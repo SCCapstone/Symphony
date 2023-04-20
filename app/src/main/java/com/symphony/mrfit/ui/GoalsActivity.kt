@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/20/23, 1:04 AM
+ *  Created by Team Symphony on 4/20/23, 7:03 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/20/23, 1:04 AM
+ *  Last modified 4/20/23, 5:47 PM
  */
 
 package com.symphony.mrfit.ui
@@ -198,8 +198,10 @@ class GoalsActivity : AppCompatActivity() {
 
             }
 
-            // Save the editted goal
-            // If a field is empty, the old value persists
+            /**
+             * Save the edited goal
+             * If a field is empty, the old value persists
+             */
             materialDialog.setPositiveButton(getString(R.string.button_save)) { dialog, _ ->
                 var newName = goal.name
                 if (name.text.isNotEmpty())

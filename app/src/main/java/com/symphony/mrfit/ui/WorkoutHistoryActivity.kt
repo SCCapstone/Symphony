@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/20/23, 1:04 AM
+ *  Created by Team Symphony on 4/20/23, 7:03 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/20/23, 1:04 AM
+ *  Last modified 4/20/23, 4:59 PM
  */
 
 package com.symphony.mrfit.ui
@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.symphony.mrfit.ManualWorkoutActivity
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.exercise.HistoryAdapter2
 import com.symphony.mrfit.data.model.History
@@ -53,6 +54,7 @@ class WorkoutHistoryActivity : AppCompatActivity() {
         super.onStart()
 
         val historyList = binding.historyList
+        val manualHistory = binding.addHistoryButton
         val spinner = binding.loadingSpinner
 
         spinner.visibility = View.VISIBLE
@@ -73,6 +75,10 @@ class WorkoutHistoryActivity : AppCompatActivity() {
                 HistoryAdapter2(this, workoutHistory, ::deleteHistory, ::openHistory)
             spinner.visibility = View.GONE
         })
+
+        manualHistory.setOnClickListener {
+            newHistory()
+        }
     }
 
     /**
@@ -126,6 +132,14 @@ class WorkoutHistoryActivity : AppCompatActivity() {
         }
 
         materialDialog.show()
+    }
+
+    /**
+     * Navigate to a screen to manually add a History to the User's database
+     */
+    private fun newHistory() {
+        val intent = Intent(this, ManualWorkoutActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onSupportNavigateUp(): Boolean {
