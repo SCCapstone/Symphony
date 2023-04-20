@@ -1,7 +1,7 @@
 <!--
-  ~  Created by Team Symphony on 4/19/23, 7:07 PM
+  ~  Created by Team Symphony on 4/20/23, 1:04 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/19/23, 6:58 PM
+  ~  Last modified 4/20/23, 1:04 AM
   -->
 
 <resources>
@@ -130,8 +130,8 @@
     <string name="other">other</string>
     <string name="hint_other">Other</string>
     <string name="history_title">Your History</string>
-    <string name="button_open_routine">Open this\nTemplate</string>
-    <string name="button_ok">OK</string>
+    <string name="button_open_routine">Open this Template</string>
+    <string name="button_ok">Okay</string>
     <string name="title_activity_workout_detail">WorkoutDetail</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

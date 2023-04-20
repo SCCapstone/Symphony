@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/20/23, 12:13 AM
+ *  Created by Team Symphony on 4/20/23, 1:04 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/20/23, 12:13 AM
+ *  Last modified 4/20/23, 1:04 AM
  */
 
 package com.symphony.mrfit.ui
@@ -55,59 +55,6 @@ class WorkoutHistoryActivity : AppCompatActivity() {
         val historyList = binding.historyList
         val spinner = binding.loadingSpinner
 
-        /**
-         * Remove the associated History from the database
-         */
-        fun deleteHistory(historyID: String) {
-            profileViewModel.deleteWorkoutFromHistory(historyID)
-        }
-
-        /**
-         * Create a dialog for more detail on the associated History
-         * Allow the user to navigate directly to its Template if desired
-         */
-        fun openHistory(history: History) {
-            // Create the dialog and inflate its view like an activity
-            val materialDialog = MaterialAlertDialogBuilder(this)
-            val dialogView = LayoutInflater.from(this)
-                .inflate(R.layout.popup_workout_history, null, false)
-
-            materialDialog.setView(dialogView)
-
-            val name = dialogView.findViewById<TextView>(R.id.workoutHistoryName)
-            val startMessage = dialogView.findViewById<TextView>(R.id.historyStartedTextView)
-            val endMessage = dialogView.findViewById<TextView>(R.id.historyEndedTextView)
-
-            // Populate the dialog with appropriate info from the History
-            name.text = history.name
-            startMessage.text = SimpleDateFormat(
-                "'Started at' MMMM dd, yyyy 'at' hh:mm a",
-                Locale.getDefault()
-            )
-                .format(history.date!!.toDate().time - history.duration!!)
-            endMessage.text = SimpleDateFormat(
-                "'Finished at' MMMM dd, yyyy 'at' hh:mm a",
-                Locale.getDefault()
-            )
-                .format(history.date.toDate())
-
-            // Navigate to the associated Template
-            // Finish this activity so a back press returns to the User's Profile
-            materialDialog.setNegativeButton("Open this Template") { dialog, _ ->
-                val intent = Intent(this, WorkoutRoutineActivity::class.java)
-                intent.putExtra(EXTRA_IDENTITY, history.routine)
-                startActivity(intent)
-                dialog.dismiss()
-                this.finish()
-            }
-
-            materialDialog.setPositiveButton("Okay") { dialog, _ ->
-                dialog.dismiss()
-            }
-
-            materialDialog.show()
-        }
-
         spinner.visibility = View.VISIBLE
 
         //Get data of current User and populate the page
@@ -126,6 +73,59 @@ class WorkoutHistoryActivity : AppCompatActivity() {
                 HistoryAdapter2(this, workoutHistory, ::deleteHistory, ::openHistory)
             spinner.visibility = View.GONE
         })
+    }
+
+    /**
+     * Remove the associated History from the database
+     */
+    private fun deleteHistory(historyID: String) {
+        profileViewModel.deleteWorkoutFromHistory(historyID)
+    }
+
+    /**
+     * Create a dialog for more detail on the associated History
+     * Allow the user to navigate directly to its Template if desired
+     */
+    private fun openHistory(history: History) {
+        // Create the dialog and inflate its view like an activity
+        val materialDialog = MaterialAlertDialogBuilder(this)
+        val dialogView = LayoutInflater.from(this)
+            .inflate(R.layout.popup_workout_history, null, false)
+
+        materialDialog.setView(dialogView)
+
+        val name = dialogView.findViewById<TextView>(R.id.workoutHistoryName)
+        val startMessage = dialogView.findViewById<TextView>(R.id.historyStartedTextView)
+        val endMessage = dialogView.findViewById<TextView>(R.id.historyEndedTextView)
+
+        // Populate the dialog with appropriate info from the History
+        name.text = history.name
+        startMessage.text = SimpleDateFormat(
+            "'Started at' MMMM dd, yyyy 'at' hh:mm a",
+            Locale.getDefault()
+        )
+            .format(history.date!!.toDate().time - history.duration!!)
+        endMessage.text = SimpleDateFormat(
+            "'Finished at' MMMM dd, yyyy 'at' hh:mm a",
+            Locale.getDefault()
+        )
+            .format(history.date.toDate())
+
+        // Navigate to the associated Template
+        // Finish this activity so a back press returns to the User's Profile
+        materialDialog.setNeutralButton(getString(R.string.button_open_routine)) { dialog, _ ->
+            val intent = Intent(this, WorkoutRoutineActivity::class.java)
+            intent.putExtra(EXTRA_IDENTITY, history.routine)
+            startActivity(intent)
+            dialog.dismiss()
+            this.finish()
+        }
+
+        materialDialog.setPositiveButton(getString(R.string.button_ok)) { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        materialDialog.show()
     }
 
     override fun onSupportNavigateUp(): Boolean {

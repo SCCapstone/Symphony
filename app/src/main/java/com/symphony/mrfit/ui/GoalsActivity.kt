@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/19/23, 11:58 PM
+ *  Created by Team Symphony on 4/20/23, 1:04 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/19/23, 11:57 PM
+ *  Last modified 4/20/23, 1:04 AM
  */
 
 package com.symphony.mrfit.ui
@@ -200,7 +200,7 @@ class GoalsActivity : AppCompatActivity() {
 
             // Save the editted goal
             // If a field is empty, the old value persists
-            materialDialog.setPositiveButton("Save") { dialog, _ ->
+            materialDialog.setPositiveButton(getString(R.string.button_save)) { dialog, _ ->
                 var newName = goal.name
                 if (name.text.isNotEmpty())
                     newName = name.text.toString()
@@ -240,7 +240,7 @@ class GoalsActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
 
-            materialDialog.setNegativeButton("cancel") { dialog, _ ->
+            materialDialog.setNegativeButton(getString(R.string.button_cancel)) { dialog, _ ->
                 dialog.dismiss()
             }
 
