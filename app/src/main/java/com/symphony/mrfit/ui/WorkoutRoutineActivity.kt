@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 10:04 PM
+ *  Created by Team Symphony on 4/20/23, 2:11 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 8:42 PM
+ *  Last modified 4/20/23, 2:08 AM
  */
 
 package com.symphony.mrfit.ui
@@ -181,7 +181,9 @@ class WorkoutRoutineActivity : AppCompatActivity() {
         save()
     }
 
-    // Save the current routine info
+    /**
+     * Save the current routine
+     */
     private fun save() {
         var newRoutineName = NEW_ROUTINE
         if (routineName.text.isNotEmpty()) {
@@ -194,7 +196,10 @@ class WorkoutRoutineActivity : AppCompatActivity() {
         exerciseViewModel.updateRoutine(newRoutineName, newRoutinePlaylist, passedRoutineID)
     }
 
-    // Find which music service to link to
+    /**
+     * Attempt to link to a music service
+     * Parse the text in the playlist field for which service to use
+     */
     private fun playMusic(playlist: String) {
         // Check if the linked playlist is from Youtube
         if (playlist.contains("youtube")) {

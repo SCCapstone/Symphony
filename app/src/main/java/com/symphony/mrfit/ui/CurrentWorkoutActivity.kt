@@ -1,18 +1,17 @@
 /*
- *  Created by Team Symphony on 4/19/23, 4:23 PM
+ *  Created by Team Symphony on 4/20/23, 2:11 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/19/23, 4:15 PM
+ *  Last modified 4/20/23, 2:11 AM
  */
 
 package com.symphony.mrfit.ui
 
-import android.app.Dialog
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
-import android.widget.Button
+import android.view.LayoutInflater
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +19,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Timestamp
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
@@ -78,6 +78,8 @@ class CurrentWorkoutActivity : AppCompatActivity() {
 
         /**
          * Retrieve the extras passed to this intent
+         * passedRoutineName = The name of the parent routine
+         * passedRoutineID = The ID of the parent routine
          * passedList = The workoutList from the parent Routine
          */
         val passedRoutineName = intent.getStringExtra(EXTRA_STRING)
@@ -104,6 +106,10 @@ class CurrentWorkoutActivity : AppCompatActivity() {
 
         cancelButton.setOnClickListener { onSupportNavigateUp() }
 
+        /**
+         * When finishing a workout, save it to the User's history and display
+         * a congratulation dialog
+         */
         finishButton.setOnClickListener {
             timer.stop()
             val timeSpent = SystemClock.elapsedRealtime() - timer.base
@@ -122,13 +128,15 @@ class CurrentWorkoutActivity : AppCompatActivity() {
             ).show()
 
 
-            val dialog = Dialog(this)
-            dialog.setContentView(R.layout.activity_post_workout)
-            dialog.setTitle("Post Workout")
+            // Create the dialog and inflate its view like an activity
+            val materialDialog = MaterialAlertDialogBuilder(this)
+            val dialogView = LayoutInflater.from(this)
+                .inflate(R.layout.activity_post_workout, null, false)
 
-            val goals = dialog.findViewById<Button>(R.id.gotoGoalsButton)
-            val home = dialog.findViewById<Button>(R.id.returnHomeButton)
-            val text = dialog.findViewById<TextView>(R.id.postWorkoutTime)
+            materialDialog.setView(dialogView)
+                .setTitle("Post Exercise")
+
+            val text = dialogView.findViewById<TextView>(R.id.postWorkoutTime)
             val startTime = SimpleDateFormat(
                 "'You started this workout at' hh:mm a",
                 Locale.getDefault()
@@ -157,19 +165,19 @@ class CurrentWorkoutActivity : AppCompatActivity() {
 
             text.text = startTime + endTime + totalTime
 
-            dialog.setOnCancelListener {
+            materialDialog.setOnCancelListener {
                 gotoHome()
             }
 
-            home.setOnClickListener {
+            materialDialog.setPositiveButton(getString(R.string.button_return_home)) { _, _ ->
                 gotoHome()
             }
 
-            goals.setOnClickListener {
+            materialDialog.setNeutralButton(getString(R.string.button_update_goals)) { _, _ ->
                 gotoGoals()
             }
 
-            dialog.show()
+            materialDialog.show()
         }
     }
 

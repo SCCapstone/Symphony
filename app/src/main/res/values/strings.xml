@@ -1,7 +1,7 @@
 <!--
-  ~  Created by Team Symphony on 4/20/23, 1:04 AM
+  ~  Created by Team Symphony on 4/20/23, 2:11 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/20/23, 1:04 AM
+  ~  Last modified 4/20/23, 2:09 AM
   -->
 
 <resources>
@@ -142,6 +142,6 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="exercises_title">Your Exercises</string>
-    <string name="button_update_goals">Update my\ngoals</string>
-    <string name="button_return_home">Return\nHome</string>
+    <string name="button_update_goals">Update my goals</string>
+    <string name="button_return_home">Return Home</string>
 </resources>
