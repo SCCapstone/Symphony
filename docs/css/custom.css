@@ -58,3 +58,5 @@
     margin-bottom: 10px;
   }
 }
+
+.circular-square { border-radius: 50%; }
