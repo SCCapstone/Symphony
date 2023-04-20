@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 4/19/23, 10:42 PM
+  ~  Created by Team Symphony on 4/19/23, 11:58 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/19/23, 10:21 PM
+  ~  Last modified 4/19/23, 11:57 PM
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/border_thin"
     android:padding="5dp">
 
     <LinearLayout
@@ -48,7 +47,8 @@
                 android:layout_height="wrap_content"
                 android:digits="0123456789."
                 android:gravity="center"
-                android:inputType="number"
+                android:inputType="textShortMessage|number"
+                android:maxLength="5"
                 android:minEms="2" />
 
             <TextView
@@ -63,7 +63,8 @@
                 android:layout_height="wrap_content"
                 android:digits="0123456789."
                 android:gravity="center"
-                android:inputType="number"
+                android:inputType="textShortMessage|number"
+                android:maxLength="5"
                 android:minEms="2" />
 
             <Spinner
@@ -86,7 +87,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/cancelEditGoalButton"
