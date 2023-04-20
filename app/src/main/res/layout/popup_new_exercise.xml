@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 4/19/23, 5:18 PM
+  ~  Created by Team Symphony on 4/20/23, 12:13 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/19/23, 5:18 PM
+  ~  Last modified 4/20/23, 12:01 AM
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/border_thin"
     android:focusable="false"
     android:padding="5dp">
 
@@ -128,26 +127,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/cancelExerciseButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:enabled="true"
-                style="?android:attr/buttonBarButtonStyle"
                 android:text="@string/button_cancel" />
 
             <Button
                 android:id="@+id/saveExerciseButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:enabled="true"
-                style="?android:attr/buttonBarButtonStyle"
                 android:text="@string/button_save" />
         </LinearLayout>
 

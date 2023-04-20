@@ -1,24 +1,24 @@
 /*
- *  Created by Team Symphony on 4/1/23, 11:17 PM
+ *  Created by Team Symphony on 4/20/23, 12:13 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 11:17 PM
+ *  Last modified 4/20/23, 12:13 AM
  */
 
 package com.symphony.mrfit.ui
 
-import android.app.Dialog
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.exercise.HistoryAdapter2
 import com.symphony.mrfit.data.model.History
@@ -28,6 +28,10 @@ import com.symphony.mrfit.databinding.ActivityWorkoutHistoryBinding
 import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_IDENTITY
 import java.text.SimpleDateFormat
 import java.util.*
+
+/**
+ * Screen for the User to manage their workout History
+ */
 
 class WorkoutHistoryActivity : AppCompatActivity() {
 
@@ -51,23 +55,31 @@ class WorkoutHistoryActivity : AppCompatActivity() {
         val historyList = binding.historyList
         val spinner = binding.loadingSpinner
 
+        /**
+         * Remove the associated History from the database
+         */
         fun deleteHistory(historyID: String) {
             profileViewModel.deleteWorkoutFromHistory(historyID)
         }
 
+        /**
+         * Create a dialog for more detail on the associated History
+         * Allow the user to navigate directly to its Template if desired
+         */
         fun openHistory(history: History) {
-            val dialog = Dialog(this)
-            dialog.setContentView(R.layout.popup_workout_history)
-            dialog.setTitle("Workout History")
+            // Create the dialog and inflate its view like an activity
+            val materialDialog = MaterialAlertDialogBuilder(this)
+            val dialogView = LayoutInflater.from(this)
+                .inflate(R.layout.popup_workout_history, null, false)
 
-            val name = dialog.findViewById<TextView>(R.id.workoutHistoryName)
-            val startMessage = dialog.findViewById<TextView>(R.id.historyStartedTextView)
-            val endMessage = dialog.findViewById<TextView>(R.id.historyEndedTextView)
-            val openRoutine = dialog.findViewById<Button>(R.id.openHistoryRoutineButton)
-            val ok = dialog.findViewById<Button>(R.id.okHistoryButton)
+            materialDialog.setView(dialogView)
 
+            val name = dialogView.findViewById<TextView>(R.id.workoutHistoryName)
+            val startMessage = dialogView.findViewById<TextView>(R.id.historyStartedTextView)
+            val endMessage = dialogView.findViewById<TextView>(R.id.historyEndedTextView)
+
+            // Populate the dialog with appropriate info from the History
             name.text = history.name
-
             startMessage.text = SimpleDateFormat(
                 "'Started at' MMMM dd, yyyy 'at' hh:mm a",
                 Locale.getDefault()
@@ -79,8 +91,9 @@ class WorkoutHistoryActivity : AppCompatActivity() {
             )
                 .format(history.date.toDate())
 
-
-            openRoutine.setOnClickListener {
+            // Navigate to the associated Template
+            // Finish this activity so a back press returns to the User's Profile
+            materialDialog.setNegativeButton("Open this Template") { dialog, _ ->
                 val intent = Intent(this, WorkoutRoutineActivity::class.java)
                 intent.putExtra(EXTRA_IDENTITY, history.routine)
                 startActivity(intent)
@@ -88,11 +101,11 @@ class WorkoutHistoryActivity : AppCompatActivity() {
                 this.finish()
             }
 
-            ok.setOnClickListener {
+            materialDialog.setPositiveButton("Okay") { dialog, _ ->
                 dialog.dismiss()
             }
 
-            dialog.show()
+            materialDialog.show()
         }
 
         spinner.visibility = View.VISIBLE
