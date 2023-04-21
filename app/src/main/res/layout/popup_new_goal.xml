@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~  Created by Team Symphony on 4/19/23, 11:58 PM
+  ~  Copyright (c) 2023 . All rights reserved.
+  ~  Last modified 4/19/23, 11:57 PM
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <EditText
+            android:id="@+id/newGoalName"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Goal Name"
+            android:importantForAutofill="no"
+            android:inputType="textShortMessage"
+            android:minHeight="50dp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="When is this goal reached?" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/goalNumber"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:digits="0123456789."
+                android:gravity="center_vertical"
+                android:inputType="number" />
+
+            <Spinner
+                android:id="@+id/goalSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:entries="@array/goal_types" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/otherInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:hint="@string/hint_other"
+                android:inputType="textShortMessage"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/cancelGoalButton"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:enabled="true"
+                android:text="@string/button_cancel" />
+
+            <Button
+                android:id="@+id/saveGoalButton"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:enabled="true"
+                android:text="@string/button_save" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

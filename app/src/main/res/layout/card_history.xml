@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 2/25/23, 1:42 AM
+  ~  Created by Team Symphony on 4/1/23, 4:23 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 2/25/23, 1:42 AM
+  ~  Last modified 4/1/23, 4:20 AM
   -->
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="0dp"
@@ -25,14 +26,8 @@ will add padding in API v21+ as well to have the same measurements with previous
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@drawable/border"
+        android:background="@drawable/border_thick"
         android:gravity="center">
-
-        <!-- Image View to display an image for the exercise -->
-
-        <!-- Text View to display Exercise Name -->
-
-        <!-- Text VIew to display Exercise Description -->
 
         <TextView
             android:id="@+id/historyNameTextView"
@@ -50,15 +45,15 @@ will add padding in API v21+ as well to have the same measurements with previous
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="right"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="RtlHardcoded">
 
             <TextView
                 android:id="@+id/historyTimestamp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="4"
+                android:layout_marginEnd="10dp"
                 android:drawablePadding="2dp"
                 android:text="@string/PLACEHOLDER_TEXT"
                 android:textAlignment="viewEnd"
@@ -68,9 +63,8 @@ will add padding in API v21+ as well to have the same measurements with previous
                 android:id="@+id/historyDurationTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="4"
                 android:drawablePadding="2dp"
                 android:text="@string/PLACEHOLDER_TEXT"
                 android:textAlignment="viewEnd"

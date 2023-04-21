@@ -29,13 +29,16 @@
 
         <!-- Image View to display an image for the exercise -->
         <ImageView
-        android:id="@+id/workoutImage"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_margin="10dp"
-        android:contentDescription="@string/app_name"
-        android:padding="5dp"
-        android:src="@drawable/cactuar" />
+            android:id="@+id/workoutImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/app_name"
+            android:padding="5dp"
+            android:src="@drawable/cactuar" />
 
         <!-- Text View to display Exercise Name -->
         <TextView

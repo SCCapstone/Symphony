@@ -1,22 +1,26 @@
 /*
- *  Created by Team Symphony on 2/25/23, 2:50 AM
+ *  Created by Team Symphony on 4/20/23, 2:11 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/25/23, 2:47 AM
+ *  Last modified 4/20/23, 2:08 AM
  */
 
 package com.symphony.mrfit.ui
 
+import android.content.ActivityNotFoundException
 import android.content.ContentValues
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.symphony.mrfit.R
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.exercise.WorkoutAdapter
@@ -39,6 +43,9 @@ class WorkoutRoutineActivity : AppCompatActivity() {
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var exerciseViewModel: ExerciseViewModel
     private lateinit var binding: ActivityWorkoutRoutineBinding
+    private lateinit var routineName: EditText
+    private lateinit var routinePlaylist: EditText
+    private lateinit var passedRoutineID: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,14 +69,18 @@ class WorkoutRoutineActivity : AppCompatActivity() {
 
         // Bind variables to View elements
         val spinner = binding.loadingSpinner
-        val routineName = binding.routineNameEditText
-        val routineDesc = binding.workoutDescriptionEditText
+        routineName = binding.routineNameEditText
+        routinePlaylist = binding.workoutPlaylistEditText
         val workoutList = binding.workoutListView
         val startWorkout = binding.startWorkoutButton
         val newExercise = binding.newExerciseButton
         val saveWorkout = binding.saveWorkoutButton
         val deleteWorkout = binding.deleteWorkoutButton
+        val playMusic = binding.openPlaylistButton
+        val placeholderText = binding.workoutListPlaceholder
 
+        placeholderText.visibility = View.VISIBLE
+        workoutList.visibility = View.GONE
         spinner.visibility = View.VISIBLE
 
         /**
@@ -78,7 +89,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
          * passedName = The Name of the parent Routine
          * passedList = The workoutList from the parent Routine
          */
-        val passedRoutineID = intent.extras!!.getString(EXTRA_IDENTITY)
+        passedRoutineID = intent.getStringExtra(EXTRA_IDENTITY)!!
         var passedList = ArrayList<String>()
 
 
@@ -86,33 +97,20 @@ class WorkoutRoutineActivity : AppCompatActivity() {
         layoutManager = LinearLayoutManager(this)
         workoutList.layoutManager = layoutManager
 
-        // Save the current routine info
-        fun save() {
-            var newRoutineName = NEW_ROUTINE
-            if (routineName.text.isNotEmpty()) {
-                newRoutineName = routineName.text.toString()
-            }
-            var newRoutineDesc = BLANK
-            if (routineDesc.text.isNotEmpty()) {
-                newRoutineDesc = routineDesc.text.toString()
-            }
-            exerciseViewModel.updateRoutine(newRoutineName, newRoutineDesc, passedRoutineID!!)
-
-        }
-
-
         // Populate the list with the workouts associated with this routine
-        exerciseViewModel.getRoutine(passedRoutineID!!)
+        exerciseViewModel.getRoutine(passedRoutineID)
         exerciseViewModel.routine.observe(this, Observer {
             val routine = it ?: return@Observer
 
             routineName.setText(routine.name)
-            if (routine.description != null) {
-                routineDesc.setText(routine.description)
+            if (routine.playlist != null) {
+                routinePlaylist.setText(routine.playlist)
             } else {
-                routineDesc.setText(BLANK)
+                routinePlaylist.setText(BLANK)
             }
             if (routine.workoutList != null) {
+                placeholderText.visibility = View.GONE
+                workoutList.visibility = View.VISIBLE
                 passedList = routine.workoutList
                 exerciseViewModel.getWorkouts(routine.workoutList)
             }
@@ -123,6 +121,14 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             spinner.visibility = View.GONE
         })
 
+        // Attempt to launch a playlist
+        playMusic.setOnClickListener {
+            if (routinePlaylist.text!!.isNotEmpty()) {
+                playMusic(routinePlaylist.text.toString())
+            } else {
+                Helper.showSnackBar(getString(R.string.empty_playlist_warning), this)
+            }
+        }
 
         // Start the current workout then save it to the User's history,
         // then return to their Home screen
@@ -135,6 +141,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             save()
             val intent = Intent(this, CurrentWorkoutActivity::class.java)
             intent.putExtra(EXTRA_STRING, newRoutineName)
+            intent.putExtra(EXTRA_ROUTINE, passedRoutineID)
             intent.putExtra(EXTRA_LIST, passedList)
             startActivity(intent)
         }
@@ -145,7 +152,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             val intent = Intent(this, WorkoutTemplateActivity::class.java)
             intent.putExtra(EXTRA_ROUTINE, passedRoutineID)
             intent.putExtra(EXTRA_IDENTITY, NEW_ID)
-            intent.putExtra(WorkoutTemplateActivity.EXTRA_STRING,"New Workout")
+            intent.putExtra(WorkoutTemplateActivity.EXTRA_STRING, getText(R.string.new_exercise))
             intent.putExtra(WorkoutTemplateActivity.EXTRA_LIST, passedList)
             startActivity(intent)
         }
@@ -167,6 +174,54 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             finish()
 
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        save()
+    }
+
+    /**
+     * Save the current routine
+     */
+    private fun save() {
+        var newRoutineName = NEW_ROUTINE
+        if (routineName.text.isNotEmpty()) {
+            newRoutineName = routineName.text.toString()
+        }
+        var newRoutinePlaylist = BLANK
+        if (routinePlaylist.text!!.isNotEmpty()) {
+            newRoutinePlaylist = routinePlaylist.text.toString()
+        }
+        exerciseViewModel.updateRoutine(newRoutineName, newRoutinePlaylist, passedRoutineID)
+    }
+
+    /**
+     * Attempt to link to a music service
+     * Parse the text in the playlist field for which service to use
+     */
+    private fun playMusic(playlist: String) {
+        // Check if the linked playlist is from Youtube
+        if (playlist.contains("youtube")) {
+            val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse(playlist))
+            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(playlist))
+            try {
+                startActivity(appIntent)
+            } catch (e: ActivityNotFoundException) {
+                startActivity(webIntent)
+            }
+        } else if (playlist.contains("spotify")) {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(playlist))
+            startActivity(intent)
+        } else {
+            // Unrecognized playlist, do nothing
+            Toast.makeText(this, "Could not parse playlist link", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 
     companion object {

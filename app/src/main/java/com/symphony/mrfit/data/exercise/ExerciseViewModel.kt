@@ -1,15 +1,17 @@
 /*
- *  Created by Team Symphony on 2/25/23, 12:28 AM
+ *  Created by Team Symphony on 4/2/23, 2:50 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/25/23, 12:28 AM
+ *  Last modified 4/2/23, 12:44 PM
  */
 
 package com.symphony.mrfit.data.exercise
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.storage.StorageReference
 import com.symphony.mrfit.data.model.Exercise
 import com.symphony.mrfit.data.model.Workout
 import com.symphony.mrfit.data.model.WorkoutRoutine
@@ -94,10 +96,23 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
         }
     }
 
-    fun updateRoutine(name: String, desc: String, routineID: String) {
+    fun updateRoutine(name: String, playlist: String, routineID: String) {
         viewModelScope.launch {
-            exerciseRepository.updateRoutine(name, desc, routineID)
+            exerciseRepository.updateRoutine(name, playlist, routineID)
         }
+    }
+
+    fun addExercise(
+        exercise: Exercise,
+        image: Uri
+    ): String {
+        var newID = ""
+        runBlocking {
+            val job =
+                launch { newID = exerciseRepository.addExercise(exercise, image) }
+            job.join()
+        }
+        return newID
     }
 
     fun getExercise(exeID: String) {
@@ -115,6 +130,39 @@ class ExerciseViewModel(private val exerciseRepository: ExerciseRepository): Vie
     fun getExercisesBySearch(searchTerm: String) {
         viewModelScope.launch {
             _exerciseList.value = exerciseRepository.getExerciseList(searchTerm)
+        }
+    }
+
+    fun getExercisesByUser() {
+        viewModelScope.launch {
+            _exerciseList.value = exerciseRepository.getExerciseList()
+        }
+    }
+
+    fun updateExercise(exercise: Exercise) {
+        viewModelScope.launch {
+            exerciseRepository.updateExercise(exercise)
+        }
+    }
+
+    fun deleteExercise(exeID: String) {
+        viewModelScope.launch {
+            exerciseRepository.deleteExercise(exeID)
+        }
+    }
+
+    fun getExerciseImage(exeID: String): StorageReference? {
+        var ref: StorageReference? = null
+        runBlocking {
+            val job = launch { ref = exerciseRepository.getExerciseImage(exeID) }
+            job.join()
+        }
+        return ref
+    }
+
+    fun changeExerciseImage(exeID: String, uri: Uri) {
+        viewModelScope.launch {
+            exerciseRepository.changeExerciseImage(exeID, uri)
         }
     }
 

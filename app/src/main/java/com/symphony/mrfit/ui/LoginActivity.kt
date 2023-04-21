@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 4/1/23, 7:44 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 4/1/23, 7:44 PM
  */
 
 package com.symphony.mrfit.ui
@@ -26,13 +26,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.facebook.AccessToken
-import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
@@ -64,7 +61,6 @@ class LoginActivity : AppCompatActivity() {
     private val signInLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
         handleSignInResult(result.data)
     }
-    private lateinit var callbackManager: CallbackManager
 
     private var database: FirebaseFirestore = Firebase.firestore
 
@@ -94,32 +90,6 @@ class LoginActivity : AppCompatActivity() {
         /**
          * TODO: Split into MVVM model
          */
-        // region Meta Sign In
-        // Initialize Facebook Login button
-        callbackManager = CallbackManager.Factory.create()
-
-        /*
-        metaLogin.setPermissions("email", "public_profile")
-        metaLogin.registerCallback(callbackManager, object :
-            FacebookCallback<LoginResult> {
-            override fun onSuccess(result: LoginResult) {
-                Log.d(TAG, "facebook:onSuccess:$result")
-                handleFacebookAccessToken(result.accessToken)
-            }
-
-            override fun onCancel() {
-                Log.d(TAG, "facebook:onCancel")
-                // updateUI(null)
-            }
-
-            override fun onError(error: FacebookException) {
-                Log.d(TAG, "facebook:onError", error)
-                // updateUI(null)
-            }
-        })
-
-         */
-        // endregion Meta Sign In
 
         // Configure Google Sign In
         signInClient = Identity.getSignInClient(this)
@@ -155,12 +125,11 @@ class LoginActivity : AppCompatActivity() {
         }
 
         emailLogin.setOnClickListener {
-            if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
+            if (email.text!!.isNotEmpty() && password.text!!.isNotEmpty()) {
                 spinner.visibility = View.VISIBLE
                 loginViewModel.emailLogin(email.text.toString(), password.text.toString())
-            }
-            else {
-                showSnackBar("Cannot sign in with empty field.",this)
+            } else {
+                showSnackBar(getString(R.string.empty_login_warning), this)
             }
         }
 
@@ -283,32 +252,6 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-    /*
-    private fun oneTapSignIn() {
-        // Configure One Tap UI
-        val oneTapRequest = BeginSignInRequest.builder()
-            .setGoogleIdTokenRequestOptions(
-                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-                    .setSupported(true)
-                    .setServerClientId(getString(R.string.default_web_client_id))
-                    .setFilterByAuthorizedAccounts(true)
-                    .build()
-            )
-            .build()
-
-        // Display the One Tap UI
-        signInClient.beginSignIn(oneTapRequest)
-            .addOnSuccessListener { result ->
-                launchSignIn(result.pendingIntent)
-            }
-            .addOnFailureListener { e ->
-                // No saved credentials found. Launch the One Tap sign-up flow, or
-                // do nothing and continue presenting the signed-out UI.
-            }
-    }
-
-     */
-
     private fun launchSignIn(pendingIntent: PendingIntent) {
         try {
             val intentSenderRequest = IntentSenderRequest.Builder(pendingIntent)
@@ -319,40 +262,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
     // endregion Google Sign In
-
-    // Handle Meta Sign In, move this to the repository later
-    private fun handleFacebookAccessToken(token: AccessToken) {
-        Log.d(TAG, "handleFacebookAccessToken:$token")
-
-        val credential = FacebookAuthProvider.getCredential(token.token)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithCredential:success")
-                    val user = auth.currentUser
-                    val newUser = User(userID = user!!.uid, name = user.displayName)
-                    // If this is the first time signing in a user, add them to the database
-                    val new = task.result.additionalUserInfo!!.isNewUser
-                    if (new) {
-                        database.collection("users").document(newUser.userID).set(newUser)
-                            .addOnSuccessListener {
-                                Log.d(TAG, "DocumentSnapshot successfully written!")
-                            }
-                            .addOnFailureListener { e ->
-                                Log.w(TAG, "Error writing document", e)
-                            }
-                    }
-                    gotoHomeScreen(LoginResult(success = newUser.name))
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    showSnackBar("Authentication failed", this)
-                    //updateUI(null)
-                }
-            }
-    }
-
 
     // After a successful login, go to the home screen
     private fun gotoHomeScreen(model: LoginResult) {
@@ -368,7 +277,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun showLoginFailed() {
-        showSnackBar("Login failed", this)
+        showSnackBar(getString(R.string.login_failed), this)
     }
 
     private fun resetAlert() {val builder = AlertDialog.Builder(this)
@@ -383,13 +292,18 @@ class LoginActivity : AppCompatActivity() {
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
             loginViewModel.passwordReset(input.text.toString())
             showSnackBar(
-                getString(R.string.reset_email_sent, input.text.toString()),this
+                getString(R.string.reset_email_sent, input.text.toString()), this
             )
         }
 
         builder.setNegativeButton(android.R.string.cancel) { _, _ ->
         }
         builder.show()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 
 }

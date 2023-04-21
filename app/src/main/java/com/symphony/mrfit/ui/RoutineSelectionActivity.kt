@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/25/23, 1:42 AM
+ *  Created by Team Symphony on 4/1/23, 7:44 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/25/23, 1:42 AM
+ *  Last modified 4/1/23, 7:44 PM
  */
 
 package com.symphony.mrfit.ui
@@ -46,7 +46,6 @@ class RoutineSelectionActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        val screen = binding.selectionScreenView
         val spinner = binding.loadingSpinner
         val newRoutine = binding.newWorkoutButton
         val routineList = binding.routineListView
@@ -79,15 +78,20 @@ class RoutineSelectionActivity : AppCompatActivity() {
         val intent = Intent(this, WorkoutRoutineActivity::class.java)
         val routineID = exerciseViewModel.addRoutine(NEW_ROUTINE, BLANK, ArrayList())
         intent.putExtra(EXTRA_IDENTITY, routineID)
-        intent.putExtra(EXTRA_STRING,NEW_WORKOUT)
-        intent.putExtra(EXTRA_LIST,ArrayList<String>())
+        intent.putExtra(EXTRA_STRING, NEW_WORKOUT)
+        intent.putExtra(EXTRA_LIST, ArrayList<String>())
         startActivity(intent)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 
     companion object {
         const val EXTRA_STRING = "passed routine name"
         const val EXTRA_LIST = "passed routine exercises"
-        const val NEW_ROUTINE = "New Routine"
+        const val NEW_ROUTINE = "New Template"
         const val NEW_WORKOUT = "New Workout"
         const val NEW_ID = "NEW"
     }

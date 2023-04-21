@@ -1,17 +1,15 @@
 <!--
-  ~  Created by Team Symphony on 2/25/23, 2:14 AM
+  ~  Created by Team Symphony on 4/21/23, 3:22 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 2/25/23, 2:11 AM
+  ~  Last modified 4/21/23, 3:17 PM
   -->
 
 <resources>
     <!-- CONSTANTS, DO NOT CHANGE -->
     <string name="google_client_id">876037032436-a3e9qhm47smke0n2duem9fgb45sgiidk.apps.googleusercontent.com</string>
-    <string name="facebook_app_id">1282611015641916</string>
-    <string name="fb_login_protocol_scheme">fb1282611015641916</string>
-    <string name="facebook_client_token">55d764848b923fd2eb5519986f8db733</string>
     <string name="PLACEHOLDER_NUMBER">999</string>
     <string name="PLACEHOLDER_TEXT">Lorem Ipsum</string>
+    <string name="ZERO">0</string>
 
     <!-- Feel free to change this stuff -->
     <string name="app_name">MrFit</string>
@@ -24,9 +22,7 @@
     <string name="register_title">Register for MrFit</string>
     <string name="register_message">Returning User?</string>
     <string name="register_to_login">Log In!</string>
-    <string name="login_failed">Could not complete login</string>
     <string name="invalid_confirm">Must match Password</string>
-    <string name="register_failed">Could not complete registration</string>
     <string name="forgot_password">Forgot your password?</string>
     <string name="button_edit">Edit</string>
     <string name="height_value">%1$s\" %2$s\'</string>
@@ -47,8 +43,8 @@
     <string name="goals_button">Goals</string>
     <string name="logout_button">Logout</string>
     <string name="button_delete_account">Delete Account</string>
-    <string name="user_progress_label">Track Your Progress!</string>
-    <string name="button_achievements">Achievements</string>
+    <string name="user_stuff_label">Manage all your cool stuff!</string>
+    <string name="button_custom_exercises">Custom Exercises</string>
     <string name="button_workout_history">Workout History</string>
     <string name="button_workout_progress">Workout Progress</string>
     <string name="label_settings">Settings</string>
@@ -62,22 +58,91 @@
     <string name="message_welcome_screen">Welcome to MrFit!</string>
     <string name="message_welcome_screen_2">Tap to Continue</string>
     <string name="hint_confirm_password">Confirm Password</string>
-    <string name="reset_alert_message">Please enter an email address to send a password reset request to, and give it a moment to arrive</string>
+    <string name="reset_alert_message">Please enter an email address to send a password reset request to. This may take a few minutes to arrive, if it does not then please check your spam folder.</string>
     <string name="reset_alert_title">Forgot Password</string>
-    <string name="workout_description">Workout Description</string>
+    <string name="workout_playlist">Workout Playlist</string>
     <string name="button_schedule">Schedule A Workout</string>
     <string name="message_exercise_search">What kind of exercise would you like?</string>
     <string name="button_new_workout">New Workout</string>
     <string name="button_start_workout">Start Workout</string>
-    <string name="button_save_routine">Save Routine</string>
-    <string name="button_delete_routine">Delete Routine</string>
+    <string name="button_save_routine">Save Template</string>
+    <string name="button_delete_routine">Delete Template</string>
     <string name="workout_name">Workout Name</string>
     <string name="save_and_export">Save and Export</string>
-    <string name="label_routine_name">Routine Name</string>
+    <string name="label_routine_name">Template Name</string>
     <string name="button_new_exercise">New Exercise</string>
     <string name="button_add_exercise">Add an Exercise</string>
     <string name="button_finish_workout">Finish Workout</string>
     <string name="num_of_reps">%1$i\ Reps"</string>
     <string name="notification_permission_1">Notification permission is required to schedule alerts, please allow notification permission from settings</string>
     <string name="notification_permission_2">Notification permission is required for this feature. If you wish to schedule a workout, please enable MrFit to send Notifications in your settings.</string>
+    <string name="arm_day">Arm Day</string>
+    <string name="curls">Curls</string>
+    <string name="pushdown">pushdown</string>
+    <string name="extensions">extensions</string>
+    <string name="leg_day">Leg Day</string>
+    <string name="squats">squats</string>
+    <string name="rdl">rdl</string>>
+    <string name="lunges">lunges</string>
+    <string name="pick_a_workout">Pick a Workout</string>
+    <string name="arms">arms</string>>
+    <string name="legs">legs</string>
+    <string name="hint_exercise_search">Search by Tags</string>
+    <string name="button_page_left"><![CDATA[<-]]></string>
+    <string name="button_page_right"><![CDATA[->]]></string>
+    <string name="new_workout">New Workout</string>
+    <string name="new_exercise">New Exercise</string>
+    <string name="picking_exercise">Picking Exercise</string>
+    <string name="hint_reps">Reps</string>
+    <string name="hint_sets">Sets</string>
+    <string name="hint_duration">Duration</string>
+    <string name="hint_distance">Distance</string>
+    <string name="hint_tags">Tags</string>
+    <string name="hint_exercise_name">Exercise Name</string>
+    <string name="hint_description">Description</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_delete">Delete</string>
+    <string name="button_notifications">Notifications</string>
+    <string name="empty_login_warning">Cannot sign in with empty field.</string>
+    <string name="login_failed">Login failed</string>
+    <string name="registration_failed">Registration failed</string>
+    <string name="name_change">Name has been changed to %s</string>
+    <string name="age_change">Age has been changed to %d</string>
+    <string name="height_change">Height has been changed to %s</string>
+    <string name="weight_change">Weight has been changed to %s</string>
+    <string name="empty_playlist_warning">Cannot play an empty playlist</string>
+    <string name="exercise_failed">Attempt to save exercise failed, try again</string>
+    <string name="button_search">Search</string>
+    <string name="button_make_exercise">Can\'t find one you like?\nMake your own!</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="notifications_title">Your Notifications</string>
+    <string name="button_play">Play</string>
+    <string name="placeholder_exercise_list">Add some exercises to make your ideal workout!</string>
+    <string name="exercise_image">Exercise image</string>
+    <string name="exercise_types_question">How would you measure this exercise?</string>
+    <string name="reminder_message">Reminder: Custom exercises are displayed to all users</string>
+    <string name="goals_title">Your Goals</string>
+    <string name="goal_format">%s \/ %s %s</string>
+    <string name="days">days</string>
+    <string name="miles">miles</string>
+    <string name="reps">reps</string>
+    <string name="sets">sets</string>
+    <string name="other">other</string>
+    <string name="hint_other">Other</string>
+    <string name="history_title">Your History</string>
+    <string name="button_open_routine">Open this Template</string>
+    <string name="button_ok">Okay</string>
+    <string name="title_activity_workout_detail">WorkoutDetail</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="exercises_title">Your Exercises</string>
+    <string name="button_update_goals">Update my goals</string>
+    <string name="button_return_home">Return Home</string>
+    <string name="button_old_workout">Add an old Workout</string>
 </resources>
