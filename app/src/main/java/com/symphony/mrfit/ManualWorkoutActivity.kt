@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/21/23, 1:29 PM
+ *  Created by Team Symphony on 4/21/23, 3:22 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/21/23, 1:29 PM
+ *  Last modified 4/21/23, 3:22 PM
  */
 
 package com.symphony.mrfit
@@ -12,9 +12,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.widget.TextView
-import android.widget.TimePicker
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -23,13 +21,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.applandeo.materialcalendarview.EventDay
-import com.applandeo.materialcalendarview.listeners.OnDayClickListener
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Timestamp
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
-import com.symphony.mrfit.data.exercise.RoutineAdapter
+import com.symphony.mrfit.data.exercise.RoutineAdapter2
 import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
@@ -67,19 +62,39 @@ class ManualWorkoutActivity : AppCompatActivity() {
                 val t = Calendar.getInstance()
                 t.timeInMillis = endTime
                 if (newStart.after(t)) {
-                    // Times are off, set the start time to 1 minute after the new start time
-                    t.set(
-                        newStart.get(Calendar.YEAR),
-                        newStart.get(Calendar.MONTH),
-                        newStart.get(Calendar.DAY_OF_MONTH),
-                        newStart.get(Calendar.HOUR),
-                        newStart.get(Calendar.MINUTE) + 1
-                    )
+                    // Times are off, set the end time to at least 1 minute after the new start time
+                    val diff = intent.getLongExtra(TIME_DIFF, ONE_MINUTE.toLong())
+                    t.timeInMillis = newStart.timeInMillis + diff
                 }
+                startTime = newStart.timeInMillis
+                endTime = t.timeInMillis
 
                 // Set the text views
-                startTimeSelection.text = dateFormat.format(newStart.time)
-                endTimeSelection.text = dateFormat.format(t.time)
+                setText()
+            } else if (result.resultCode == Activity.RESULT_CANCELED) {
+                /* Intentionally left blank */
+            }
+        }
+
+    private val launchEndTimePicker =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+            if (result.resultCode == Activity.RESULT_OK) {
+                // User picked a time, sanity check it is before the current end time
+                val newEnd = Calendar.getInstance()
+                newEnd.timeInMillis = result.data!!.getLongExtra(EXTRA_TIME, 0)
+                val t = Calendar.getInstance()
+                t.timeInMillis = startTime
+                if (newEnd.before(t)) {
+                    // Times are off, set the start time to at least 1 minute before the new end time
+                    val diff = intent.getLongExtra(TIME_DIFF, ONE_MINUTE.toLong())
+                    t.timeInMillis = newEnd.timeInMillis - diff
+                }
+                endTime = newEnd.timeInMillis
+                startTime = t.timeInMillis
+
+                // Set the text views
+                setText()
             } else if (result.resultCode == Activity.RESULT_CANCELED) {
                 /* Intentionally left blank */
             }
@@ -108,29 +123,26 @@ class ManualWorkoutActivity : AppCompatActivity() {
         endTimeSelection = binding.endTimeSelection
         val save = binding.saveManualWorkoutButton
 
-        // Get stored values, if any
-        val savedStart = intent.getStringExtra(SAVED_START)
-        val savedEnd = intent.getStringExtra(SAVED_END)
+        var selectedThing = intent.getIntExtra(SAVED_SELECTION, -999)
+        var routineName = ""
+        var routineID = ""
+        var selection = false
+
+        fun update(name: String, id: String, num: Int) {
+            routineName = name
+            routineID = id
+            selection = true
+            selectedThing = num
+        }
 
         // Set the layout of the grid of routines presented to the user
         layoutManager = GridLayoutManager(this, 2)
         routineList.layoutManager = layoutManager
 
         // Initialize the current date time, will be overwritten later if needed
-        if (savedStart != null) {
-            startTime = savedStart.toLong()
-            startTimeSelection.text = dateFormat.format(startTime)
-        } else {
-            startTime = Date().time
-            startTimeSelection.text = dateFormat.format(startTime)
-        }
-        if (savedEnd != null) {
-            endTime = savedEnd.toLong()
-            endTimeSelection.text = dateFormat.format(endTime)
-        } else {
-            endTime = Date().time + 1
-            endTimeSelection.text = dateFormat.format(endTime)
-        }
+        startTime = intent.getLongExtra(SAVED_START, Date().time)
+        endTime = intent.getLongExtra(SAVED_END, Date().time + ONE_MINUTE)
+        setText()
 
         // Initialize the routine list, then listen to it to update the UI
         exerciseViewModel.getUserRoutines()
@@ -138,136 +150,36 @@ class ManualWorkoutActivity : AppCompatActivity() {
             Log.d(ContentValues.TAG, "Updating routine list")
             val workoutRoutineList = it ?: return@Observer
 
-            routineList.adapter = RoutineAdapter(this, workoutRoutineList)
+            routineList.adapter = RoutineAdapter2(this, workoutRoutineList, ::update, selectedThing)
 
         })
 
         /**
-         * Open a dialog for the user to select a start time
+         * Navigate to a screen for the user to select a start time, await its result
          * If selected time is after end time, adjust end time accordingly
          */
         startTimePicker.setOnClickListener {
-            launchStartTimePicker.launch(Intent(this, DateTimeActivity::class.java))
-            /*
-            // Create the dialog and inflate its view like an activity
-            val materialDialog = MaterialAlertDialogBuilder(this)
-            val dialogView = LayoutInflater.from(this)
-                .inflate(R.layout.popup_date_and_time_picker, null, false)
-
-            materialDialog.setView(dialogView)
-
-            val datePicker =
-                findViewById<com.applandeo.materialcalendarview.CalendarView>(R.id.dialogDatePicker)
-            val timePicker = findViewById<TimePicker>(R.id.dialogTimePicker)
-            val cal = Calendar.getInstance()
-            cal.timeInMillis = endTime
-            var year = cal.get(Calendar.YEAR)
-            var month = cal.get(Calendar.MONTH)
-            var day = cal.get(Calendar.DAY_OF_MONTH)
-            var hour = cal.get(Calendar.HOUR)
-            var minute = cal.get(Calendar.MINUTE)
-
-            timePicker.setOnTimeChangedListener { _, selectedHour, selectedMinute ->
-                hour = selectedHour
-                minute = selectedMinute
-            }
-
-            datePicker.setOnDayClickListener(object : OnDayClickListener {
-                override fun onDayClick(eventDay: EventDay) {
-                    val clickedDay = eventDay.calendar
-                    year = clickedDay.get(Calendar.YEAR)
-                    month = clickedDay.get(Calendar.MONTH)
-                    day = clickedDay.get(Calendar.DAY_OF_MONTH)
-                }
-            })
-
-            materialDialog.setPositiveButton(getString(R.string.button_ok)) { dialog, _ ->
-                // Check if the end time needs to be adjusted
-                val newStart = Calendar.getInstance()
-                newStart.set(year, month, day, hour, minute)
-                val t = Calendar.getInstance()
-                t.timeInMillis = endTime
-                if (newStart.after(t)) {
-                    // Times are off, set the start time to 1 minute after the new start time
-                    t.set(year, month, day, hour, minute + 1)
-                }
-
-                // Set the text views
-                startTimeSelection.text = dateFormat.format(newStart.time)
-                endTimeSelection.text = dateFormat.format(t.time)
-
-                dialog.dismiss()
-            }
-
-            materialDialog.setNegativeButton(getString(R.string.button_cancel)) { dialog, _ ->
-                dialog.dismiss()
-            }
-
-            materialDialog.show()
-             */
+            intent.putExtra(SAVED_START, startTime)
+            intent.putExtra(SAVED_END, endTime)
+            intent.putExtra(SAVED_SELECTION, selectedThing)
+            intent.putExtra(TIME_DIFF, endTime - startTime)
+            val picker = Intent(this, DateTimeActivity::class.java)
+            picker.putExtra(EXTRA_TIME, startTime)
+            launchStartTimePicker.launch(picker)
         }
 
         /**
-         * Open a dialog for the user to select an end time
+         * Navigate to a screen for the user to select an end time, await its result
          * If selected time is before start time, adjust start time accordingly
          */
         endTimePicker.setOnClickListener {
-            // Create the dialog and inflate its view like an activity
-            val materialDialog = MaterialAlertDialogBuilder(this)
-            val dialogView = LayoutInflater.from(this)
-                .inflate(R.layout.popup_date_and_time_picker, null, false)
-
-            materialDialog.setView(dialogView)
-
-            val datePicker =
-                findViewById<com.applandeo.materialcalendarview.CalendarView>(R.id.dialogDatePicker)
-            val timePicker = findViewById<TimePicker>(R.id.dialogTimePicker)
-            val cal = Calendar.getInstance()
-            cal.timeInMillis = endTime
-            datePicker.setDate(cal)
-            var year = cal.get(Calendar.YEAR)
-            var month = cal.get(Calendar.MONTH)
-            var day = cal.get(Calendar.DAY_OF_MONTH)
-            var hour = cal.get(Calendar.HOUR)
-            var minute = cal.get(Calendar.MINUTE)
-
-            timePicker.setOnTimeChangedListener { _, selectedHour, selectedMinute ->
-                hour = selectedHour
-                minute = selectedMinute
-            }
-
-            datePicker.setOnDayClickListener(object : OnDayClickListener {
-                override fun onDayClick(eventDay: EventDay) {
-                    val clickedDay = eventDay.calendar
-                    year = clickedDay.get(Calendar.YEAR)
-                    month = clickedDay.get(Calendar.MONTH)
-                    day = clickedDay.get(Calendar.DAY_OF_MONTH)
-                }
-            })
-
-            materialDialog.setPositiveButton(getString(R.string.button_ok)) { dialog, _ ->
-                // Check if the start time needs to be adjusted
-                val newEnd = Calendar.getInstance()
-                newEnd.set(year, month, day, hour, minute)
-                val t = Calendar.getInstance()
-                t.timeInMillis = startTime
-                if (newEnd.before(t)) {
-                    // Times are off, set the start time to 1 minute before the new end time
-                    t.set(year, month, day, hour, minute - 1)
-                }
-
-                // Set the text views
-                endTimeSelection.text = dateFormat.format(newEnd.time)
-                startTimeSelection.text = dateFormat.format(t.time)
-
-                dialog.dismiss()
-            }
-
-            materialDialog.setNegativeButton(getString(R.string.button_cancel)) { dialog, _ ->
-                dialog.dismiss()
-            }
-
-            materialDialog.show()
+            intent.putExtra(SAVED_START, startTime)
+            intent.putExtra(SAVED_END, endTime)
+            intent.putExtra(SAVED_SELECTION, selectedThing)
+            intent.putExtra(TIME_DIFF, endTime - startTime)
+            val picker = Intent(this, DateTimeActivity::class.java)
+            picker.putExtra(EXTRA_TIME, endTime)
+            launchEndTimePicker.launch(picker)
         }
 
         /**
@@ -276,15 +188,14 @@ class ManualWorkoutActivity : AppCompatActivity() {
          * The end time must not be before the start time
          */
         save.setOnClickListener {
-            val selection = true
             if (selection) {
                 if (startTime < endTime) {
                     profileViewModel.addWorkoutToHistory(
                         History(
-                            "REPLACE ME",
+                            routineName,
                             Timestamp(Date(startTime)),
                             endTime - startTime,
-                            "REPLACE ME"
+                            routineID
                         )
                     )
                     finish()
@@ -305,9 +216,22 @@ class ManualWorkoutActivity : AppCompatActivity() {
         }
     }
 
+    private fun setText() {
+        startTimeSelection.text = dateFormat.format(startTime)
+        endTimeSelection.text = dateFormat.format(endTime)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
+    }
+
     companion object {
         const val EXTRA_TIME = "passed time"
         const val SAVED_START = "saved start time"
         const val SAVED_END = "saved end time"
+        const val SAVED_SELECTION = "saved selection"
+        const val TIME_DIFF = "difference between times"
+        const val ONE_MINUTE = 60000
     }
 }

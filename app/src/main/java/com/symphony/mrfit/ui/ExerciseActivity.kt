@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/21/23, 1:29 PM
+ *  Created by Team Symphony on 4/21/23, 3:22 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/21/23, 1:28 PM
+ *  Last modified 4/21/23, 1:31 PM
  */
 
 package com.symphony.mrfit.ui
@@ -187,15 +187,13 @@ class ExerciseActivity : AppCompatActivity() {
                     durationFlag = duration.isChecked,
                     distanceFlag = distance.isChecked
                 )
-                exerciseViewModel.addExercise(
+                val newID = exerciseViewModel.addExercise(
                     newExercise,
                     thumbnail.value!!
                 )
 
-                exerciseViewModel.getExercisesByUser()
-                thumbnail.value = Uri.parse(PLACEHOLDER_THUMBNAIL)
                 dialog.dismiss()
-                goBack()
+                goBack(newID)
             } else {
                 Toast.makeText(
                     this,

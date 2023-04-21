@@ -1,7 +1,7 @@
 <!--
-  ~  Created by Team Symphony on 4/21/23, 1:29 PM
+  ~  Created by Team Symphony on 4/21/23, 3:22 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/21/23, 12:39 PM
+  ~  Last modified 4/21/23, 3:17 PM
   -->
 
 <resources>
@@ -144,4 +144,5 @@
     <string name="exercises_title">Your Exercises</string>
     <string name="button_update_goals">Update my goals</string>
     <string name="button_return_home">Return Home</string>
+    <string name="button_old_workout">Add an old Workout</string>
 </resources>

@@ -1,11 +1,13 @@
 /*
- *  Created by Team Symphony on 4/21/23, 1:29 PM
+ *  Created by Team Symphony on 4/21/23, 3:22 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/21/23, 1:29 PM
+ *  Last modified 4/21/23, 2:03 PM
  */
 
 package com.symphony.mrfit.ui
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
@@ -58,11 +60,22 @@ class DateTimeActivity : AppCompatActivity() {
         })
 
         okay.setOnClickListener {
-
+            val t = Calendar.getInstance()
+            t.set(year, month, day, hour, minute)
+            val intent = Intent()
+            intent.putExtra(EXTRA_TIME, t.timeInMillis)
+            this.setResult(Activity.RESULT_OK, intent)
+            this.finish()
         }
 
         cancel.setOnClickListener {
-
+            this.setResult(Activity.RESULT_CANCELED)
+            this.finish()
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 }
