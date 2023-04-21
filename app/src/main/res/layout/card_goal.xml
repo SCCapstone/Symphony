@@ -38,7 +38,8 @@ will add padding in API v21+ as well to have the same measurements with previous
                 android:id="@+id/goalName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Goal name" />
+                android:text="Goal name"
+                android:maxLength="35"/>
 
             <TextView
                 android:id="@+id/goalProgress"
