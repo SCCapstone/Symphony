@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/20/23, 2:11 AM
+ *  Created by Team Symphony on 4/21/23, 1:29 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/20/23, 2:11 AM
+ *  Last modified 4/21/23, 1:28 PM
  */
 
 package com.symphony.mrfit.ui
@@ -195,6 +195,7 @@ class ExerciseActivity : AppCompatActivity() {
                 exerciseViewModel.getExercisesByUser()
                 thumbnail.value = Uri.parse(PLACEHOLDER_THUMBNAIL)
                 dialog.dismiss()
+                goBack()
             } else {
                 Toast.makeText(
                     this,

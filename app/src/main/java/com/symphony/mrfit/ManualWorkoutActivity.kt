@@ -1,18 +1,22 @@
 /*
- *  Created by Team Symphony on 4/20/23, 7:03 PM
+ *  Created by Team Symphony on 4/21/23, 1:29 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/20/23, 7:03 PM
+ *  Last modified 4/21/23, 1:29 PM
  */
 
 package com.symphony.mrfit
 
+import android.app.Activity
 import android.content.ContentValues
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -30,6 +34,7 @@ import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityManualWorkoutBinding
+import com.symphony.mrfit.ui.DateTimeActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -43,8 +48,42 @@ class ManualWorkoutActivity : AppCompatActivity() {
     private lateinit var exerciseViewModel: ExerciseViewModel
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var binding: ActivityManualWorkoutBinding
+    private lateinit var startTimeSelection: TextView
+    private lateinit var endTimeSelection: TextView
     private var startTime: Long = 0
     private var endTime: Long = 0
+    private val dateFormat = SimpleDateFormat(
+        "MMMM dd, yyyy 'at' hh:mm a",
+        Locale.getDefault()
+    )
+
+    private val launchStartTimePicker =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+            if (result.resultCode == Activity.RESULT_OK) {
+                // User picked a time, sanity check it is before the current end time
+                val newStart = Calendar.getInstance()
+                newStart.timeInMillis = result.data!!.getLongExtra(EXTRA_TIME, 0)
+                val t = Calendar.getInstance()
+                t.timeInMillis = endTime
+                if (newStart.after(t)) {
+                    // Times are off, set the start time to 1 minute after the new start time
+                    t.set(
+                        newStart.get(Calendar.YEAR),
+                        newStart.get(Calendar.MONTH),
+                        newStart.get(Calendar.DAY_OF_MONTH),
+                        newStart.get(Calendar.HOUR),
+                        newStart.get(Calendar.MINUTE) + 1
+                    )
+                }
+
+                // Set the text views
+                startTimeSelection.text = dateFormat.format(newStart.time)
+                endTimeSelection.text = dateFormat.format(t.time)
+            } else if (result.resultCode == Activity.RESULT_CANCELED) {
+                /* Intentionally left blank */
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,23 +104,33 @@ class ManualWorkoutActivity : AppCompatActivity() {
         val routineList = binding.templateRecyclerList
         val startTimePicker = binding.startTimeRow
         val endTimePicker = binding.endTimeRow
-        val startTimeSelection = binding.startTimeSelection
-        val endTimeSelection = binding.endTimeSelection
+        startTimeSelection = binding.startTimeSelection
+        endTimeSelection = binding.endTimeSelection
         val save = binding.saveManualWorkoutButton
-        val dateFormat = SimpleDateFormat(
-            "MMMM dd, yyyy 'at' hh:mm a",
-            Locale.getDefault()
-        )
+
+        // Get stored values, if any
+        val savedStart = intent.getStringExtra(SAVED_START)
+        val savedEnd = intent.getStringExtra(SAVED_END)
 
         // Set the layout of the grid of routines presented to the user
         layoutManager = GridLayoutManager(this, 2)
         routineList.layoutManager = layoutManager
 
         // Initialize the current date time, will be overwritten later if needed
-        startTimeSelection.text = dateFormat.format(Date())
-        endTimeSelection.text = dateFormat.format(Date())
-        startTime = Date().time
-        endTime = Date().time + 1
+        if (savedStart != null) {
+            startTime = savedStart.toLong()
+            startTimeSelection.text = dateFormat.format(startTime)
+        } else {
+            startTime = Date().time
+            startTimeSelection.text = dateFormat.format(startTime)
+        }
+        if (savedEnd != null) {
+            endTime = savedEnd.toLong()
+            endTimeSelection.text = dateFormat.format(endTime)
+        } else {
+            endTime = Date().time + 1
+            endTimeSelection.text = dateFormat.format(endTime)
+        }
 
         // Initialize the routine list, then listen to it to update the UI
         exerciseViewModel.getUserRoutines()
@@ -98,6 +147,8 @@ class ManualWorkoutActivity : AppCompatActivity() {
          * If selected time is after end time, adjust end time accordingly
          */
         startTimePicker.setOnClickListener {
+            launchStartTimePicker.launch(Intent(this, DateTimeActivity::class.java))
+            /*
             // Create the dialog and inflate its view like an activity
             val materialDialog = MaterialAlertDialogBuilder(this)
             val dialogView = LayoutInflater.from(this)
@@ -153,6 +204,7 @@ class ManualWorkoutActivity : AppCompatActivity() {
             }
 
             materialDialog.show()
+             */
         }
 
         /**
@@ -251,5 +303,11 @@ class ManualWorkoutActivity : AppCompatActivity() {
                 ).show()
             }
         }
+    }
+
+    companion object {
+        const val EXTRA_TIME = "passed time"
+        const val SAVED_START = "saved start time"
+        const val SAVED_END = "saved end time"
     }
 }
