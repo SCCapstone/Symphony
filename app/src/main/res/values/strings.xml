@@ -1,7 +1,7 @@
 <!--
-  ~  Created by Team Symphony on 4/7/23, 7:13 PM
+  ~  Created by Team Symphony on 4/21/23, 3:22 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/7/23, 1:26 PM
+  ~  Last modified 4/21/23, 3:17 PM
   -->
 
 <resources>
@@ -58,7 +58,7 @@
     <string name="message_welcome_screen">Welcome to MrFit!</string>
     <string name="message_welcome_screen_2">Tap to Continue</string>
     <string name="hint_confirm_password">Confirm Password</string>
-    <string name="reset_alert_message">Please enter an email address to send a password reset request to, and give it a moment to arrive</string>
+    <string name="reset_alert_message">Please enter an email address to send a password reset request to. This may take a few minutes to arrive, if it does not then please check your spam folder.</string>
     <string name="reset_alert_title">Forgot Password</string>
     <string name="workout_playlist">Workout Playlist</string>
     <string name="button_schedule">Schedule A Workout</string>
@@ -108,8 +108,8 @@
     <string name="registration_failed">Registration failed</string>
     <string name="name_change">Name has been changed to %s</string>
     <string name="age_change">Age has been changed to %d</string>
-    <string name="height_change">Height has been changed to %d</string>
-    <string name="weight_change">Weight has been changed to %f</string>
+    <string name="height_change">Height has been changed to %s</string>
+    <string name="weight_change">Weight has been changed to %s</string>
     <string name="empty_playlist_warning">Cannot play an empty playlist</string>
     <string name="exercise_failed">Attempt to save exercise failed, try again</string>
     <string name="button_search">Search</string>
@@ -130,8 +130,8 @@
     <string name="other">other</string>
     <string name="hint_other">Other</string>
     <string name="history_title">Your History</string>
-    <string name="button_open_routine">Open this\nTemplate</string>
-    <string name="button_ok">OK</string>
+    <string name="button_open_routine">Open this Template</string>
+    <string name="button_ok">Okay</string>
     <string name="title_activity_workout_detail">WorkoutDetail</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -142,6 +142,7 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="exercises_title">Your Exercises</string>
-    <string name="button_update_goals">Update my\ngoals</string>
-    <string name="button_return_home">Return\nHome</string>
+    <string name="button_update_goals">Update my goals</string>
+    <string name="button_return_home">Return Home</string>
+    <string name="button_old_workout">Add an old Workout</string>
 </resources>

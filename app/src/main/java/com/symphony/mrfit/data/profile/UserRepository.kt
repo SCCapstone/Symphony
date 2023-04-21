@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/7/23, 7:13 PM
+ *  Created by Team Symphony on 4/19/23, 7:07 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/7/23, 7:13 PM
+ *  Last modified 4/19/23, 7:07 PM
  */
 
 package com.symphony.mrfit.data.profile
@@ -72,10 +72,11 @@ class UserRepository {
      * Read data from Edit Profile form and update Firestore accordingly
      */
     suspend fun updateCurrentUser(
-    newName: String?,
-    newAge: Int?,
-    newHeight: Int?,
-    newWeight: Double?) : User? {
+        newName: String?,
+        newAge: Int?,
+        newHeight: Double?,
+        newWeight: Double?
+    ) : User? {
         val user = getCurrentUser()
         val uid = auth.currentUser!!.uid
         Log.d(TAG, "Updating User $uid in Firestore")

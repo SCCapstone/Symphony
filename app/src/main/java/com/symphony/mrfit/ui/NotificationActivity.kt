@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 6:07 PM
+ *  Created by Team Symphony on 4/20/23, 7:03 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 6:07 PM
+ *  Last modified 4/20/23, 6:13 PM
  */
 
 package com.symphony.mrfit.ui
@@ -55,12 +55,14 @@ class NotificationActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
+        // Check if on an Android version that needs notification permissions
         if (Build.VERSION.SDK_INT >= 33) {
             notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         } else {
             hasNotificationPermissionGranted = true
         }
 
+        // Get the date passed from the calendar and set the date dials to it
         val date = intent.getLongExtra(EXTRA_DATE, ZERO.toLong())
         if (date != ZERO.toLong()) {
             val cal = Calendar.getInstance()
@@ -74,7 +76,9 @@ class NotificationActivity : AppCompatActivity() {
 
         createNotificationChannel()
         binding.scheduleNotificationButton.setOnClickListener {
+            // Check and ask for permissions if needed
             if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                // Do not allow an empty message
                 if (binding.messageET.text!!.isNotEmpty()) {
                     scheduleNotification()
                 } else {
@@ -169,6 +173,9 @@ class NotificationActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Parse the pickers for the selected date and time
+     */
     @RequiresApi(Build.VERSION_CODES.M)
     private fun getTime(): Long {
         val minute = binding.timePicker.minute

@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 10:27 PM
+ *  Created by Team Symphony on 4/19/23, 5:18 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 10:22 PM
+ *  Last modified 4/19/23, 4:59 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -64,6 +64,7 @@ class ExerciseAdapter2(
         }
 
         holder.itemView.setOnClickListener {
+            it.clearFocus()
             edit(data[i])
         }
 

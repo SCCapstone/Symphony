@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 4/7/23, 7:13 PM
+  ~  Created by Team Symphony on 4/19/23, 11:58 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/7/23, 6:49 PM
+  ~  Last modified 4/19/23, 11:57 PM
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -44,10 +44,13 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/progressGoalEditText"
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:inputType="number" />
+                android:digits="0123456789."
+                android:gravity="center"
+                android:inputType="textShortMessage|number"
+                android:maxLength="5"
+                android:minEms="2" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -57,24 +60,36 @@
 
             <EditText
                 android:id="@+id/endGoalEditText"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:gravity="center_vertical"
-                android:inputType="number" />
-
-            <TextView
-                android:id="@+id/goalTypeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Days" />
+                android:digits="0123456789."
+                android:gravity="center"
+                android:inputType="textShortMessage|number"
+                android:maxLength="5"
+                android:minEms="2" />
+
+            <Spinner
+                android:id="@+id/editGoalSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/goal_types" />
+
+            <EditText
+                android:id="@+id/editGoalOther"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Other"
+                android:inputType="textPersonName"
+                android:visibility="gone" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/cancelEditGoalButton"

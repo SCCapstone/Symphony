@@ -1,18 +1,23 @@
 /*
- *  Created by Team Symphony on 4/2/23, 9:44 PM
+ *  Created by Team Symphony on 4/20/23, 7:03 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 9:44 PM
+ *  Last modified 4/20/23, 7:03 PM
  */
 
 package com.symphony.mrfit.ui
 
-import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
+import android.view.inputmethod.InputMethodManager
+import android.widget.CheckBox
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.symphony.mrfit.R
@@ -31,6 +37,10 @@ import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.model.Exercise
 import com.symphony.mrfit.databinding.ActivityCustomExercisesBinding
+
+/**
+ * Screen for the User to manage their custom Exercises
+ */
 
 class CustomExercisesActivity : AppCompatActivity() {
 
@@ -88,31 +98,41 @@ class CustomExercisesActivity : AppCompatActivity() {
         })
 
         newExeButton.setOnClickListener {
+            it.clearFocus()
             newExercise()
         }
     }
 
+    /**
+     * Remove the associated Exercise from the database
+     */
     private fun deleteExercise(exeID: String) {
         exerciseViewModel.deleteExercise(exeID)
         exerciseViewModel.getExercisesByUser()
     }
 
+    /**
+     * Create a dialog for the User to create a new Exercise
+     */
     private fun newExercise() {
-        val dialog = Dialog(this)
-        dialog.setContentView(R.layout.popup_new_exercise)
-        dialog.setTitle("New Exercise")
+        // Create the dialog and inflate its view like an activity
+        val materialDialog = MaterialAlertDialogBuilder(this)
+        val dialogView = LayoutInflater.from(this)
+            .inflate(R.layout.popup_new_exercise, null, false)
 
-        val image = dialog.findViewById<ImageView>(R.id.editExerciseImage)
-        val name = dialog.findViewById<EditText>(R.id.editExerciseName)
-        val desc = dialog.findViewById<EditText>(R.id.editDesc)
-        val tags = dialog.findViewById<EditText>(R.id.editTags)
-        val reps = dialog.findViewById<CheckBox>(R.id.repsCheckBox)
-        val sets = dialog.findViewById<CheckBox>(R.id.setsCheckBox)
-        val duration = dialog.findViewById<CheckBox>(R.id.durationCheckBox)
-        val distance = dialog.findViewById<CheckBox>(R.id.distanceCheckBox)
-        val save = dialog.findViewById<Button>(R.id.saveExerciseButton)
-        val cancel = dialog.findViewById<Button>(R.id.cancelExerciseButton)
+        materialDialog.setView(dialogView)
+            .setTitle("New Exercise")
 
+        val image = dialogView.findViewById<ImageView>(R.id.editExerciseImage)
+        val name = dialogView.findViewById<EditText>(R.id.editExerciseName)
+        val desc = dialogView.findViewById<EditText>(R.id.editDesc)
+        val tags = dialogView.findViewById<EditText>(R.id.editTags)
+        val reps = dialogView.findViewById<CheckBox>(R.id.repsCheckBox)
+        val sets = dialogView.findViewById<CheckBox>(R.id.setsCheckBox)
+        val duration = dialogView.findViewById<CheckBox>(R.id.durationCheckBox)
+        val distance = dialogView.findViewById<CheckBox>(R.id.distanceCheckBox)
+
+        // Observe some livedata to know when the user has selected an image
         thumbnail.observe(this, Observer {
             val thumbnail = it ?: return@Observer
 
@@ -122,9 +142,20 @@ class CustomExercisesActivity : AppCompatActivity() {
                 .into(image)
         })
 
+        /**
+         * Add secondary hint text when the tags field to show User proper entry
+         * Remove this hint when tags field loses focus
+         */
         tags.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus)
+            if (hasFocus) {
                 tags.hint = "At home, Cardio, etc."
+                val inputMethodManager: InputMethodManager =
+                    getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.showSoftInput(
+                    tags,
+                    InputMethodManager.SHOW_IMPLICIT
+                )
+            }
             if (!hasFocus)
                 tags.hint = ""
         }
@@ -135,7 +166,12 @@ class CustomExercisesActivity : AppCompatActivity() {
             intent.type = "image/*"
             photoPicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
-        save.setOnClickListener {
+
+        /**
+         * Make a new Exercise and save it to the database
+         * Name cannot be empty
+         */
+        materialDialog.setPositiveButton(getString(R.string.button_save)) { dialog, _ ->
             if (name.text.isNotEmpty()) {
                 val newName = name.text.toString()
                 var newDesc = ""
@@ -171,30 +207,38 @@ class CustomExercisesActivity : AppCompatActivity() {
             }
         }
 
-        cancel.setOnClickListener {
+        materialDialog.setNegativeButton(getString(R.string.button_cancel)) { dialog, _ ->
             dialog.dismiss()
         }
 
-        dialog.show()
+        materialDialog.show()
     }
 
+    /**
+     * Create a dialog for the User to edit an Exercise
+     * Should be passed to the recycler's adapter
+     */
     private fun editExercise(exercise: Exercise) {
-        val dialog = Dialog(this)
-        dialog.setContentView(R.layout.popup_new_exercise)
-        dialog.setTitle("Edit Exercise")
+        // Create the dialog and inflate its view like an activity
+        val materialDialog = MaterialAlertDialogBuilder(this)
+        val dialogView = LayoutInflater.from(this)
+            .inflate(R.layout.popup_new_exercise, null, false)
 
-        val image = dialog.findViewById<ImageView>(R.id.editExerciseImage)
-        val name = dialog.findViewById<EditText>(R.id.editExerciseName)
-        val desc = dialog.findViewById<EditText>(R.id.editDesc)
-        val tags = dialog.findViewById<EditText>(R.id.editTags)
-        val reps = dialog.findViewById<CheckBox>(R.id.repsCheckBox)
-        val sets = dialog.findViewById<CheckBox>(R.id.setsCheckBox)
-        val duration = dialog.findViewById<CheckBox>(R.id.durationCheckBox)
-        val distance = dialog.findViewById<CheckBox>(R.id.distanceCheckBox)
-        val save = dialog.findViewById<Button>(R.id.saveExerciseButton)
-        val cancel = dialog.findViewById<Button>(R.id.cancelExerciseButton)
+        materialDialog.setView(dialogView)
+            .setTitle("Edit Exercise")
+
+
+        val image = dialogView.findViewById<ImageView>(R.id.editExerciseImage)
+        val name = dialogView.findViewById<EditText>(R.id.editExerciseName)
+        val desc = dialogView.findViewById<EditText>(R.id.editDesc)
+        val tags = dialogView.findViewById<EditText>(R.id.editTags)
+        val reps = dialogView.findViewById<CheckBox>(R.id.repsCheckBox)
+        val sets = dialogView.findViewById<CheckBox>(R.id.setsCheckBox)
+        val duration = dialogView.findViewById<CheckBox>(R.id.durationCheckBox)
+        val distance = dialogView.findViewById<CheckBox>(R.id.distanceCheckBox)
         var loadDefault = true
 
+        // Populate the dialog with info from the Exercise
         name.setText(exercise.name)
         desc.setText(exercise.description)
         tags.setText(exercise.tags.toString().drop(1).dropLast(1))
@@ -203,6 +247,7 @@ class CustomExercisesActivity : AppCompatActivity() {
         duration.isChecked = exercise.durationFlag
         distance.isChecked = exercise.distanceFlag
 
+        // Observe some livedata to know when the user has changed the picture
         thumbnail.observe(this, Observer {
             val thumbnail = it ?: return@Observer
 
@@ -218,9 +263,18 @@ class CustomExercisesActivity : AppCompatActivity() {
             }
         })
 
+        // Add secondary hint text when the tags field to show User proper entry
+        // Remove this hint when tags field loses focus
         tags.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus)
+            if (hasFocus) {
                 tags.hint = "At home, Cardio, etc."
+                val inputMethodManager: InputMethodManager =
+                    getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.showSoftInput(
+                    tags,
+                    InputMethodManager.SHOW_IMPLICIT
+                )
+            }
             if (!hasFocus)
                 tags.hint = ""
         }
@@ -232,17 +286,16 @@ class CustomExercisesActivity : AppCompatActivity() {
             photoPicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
-        /**
-         * TODO: If a field is empty, replace it with placeholder text
-         */
-        save.setOnClickListener {
+        // Save any changes to the Exercise
+        // If a field is blank, the old data persists
+        materialDialog.setPositiveButton(getString(R.string.button_save)) { dialog, _ ->
             var newName = exercise.name
             if (name.text.isNotEmpty())
                 newName = name.text.toString()
-            var newDesc = ""
+            var newDesc = exercise.description
             if (desc.text.isNotEmpty())
                 newDesc = desc.text.toString()
-            var newTags = ArrayList<String>()
+            var newTags = exercise.tags
             if (tags.text.isNotEmpty())
                 newTags = ArrayList(tags.text.toString().split(",", ", "))
             val newExercise = Exercise(
@@ -264,11 +317,11 @@ class CustomExercisesActivity : AppCompatActivity() {
             dialog.dismiss()
         }
 
-        cancel.setOnClickListener {
+        materialDialog.setNegativeButton(getString(R.string.button_cancel)) { dialog, _ ->
             dialog.dismiss()
         }
 
-        dialog.show()
+        materialDialog.show()
     }
 
     override fun onSupportNavigateUp(): Boolean {
