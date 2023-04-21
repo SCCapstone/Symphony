@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 4/21/23, 3:22 PM
+  ~  Created by Team Symphony on 4/21/23, 5:28 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/21/23, 1:42 PM
+  ~  Last modified 4/21/23, 5:17 PM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -42,7 +42,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="@string/button_cancel" />
+                android:text="@string/button_cancel"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/dateTimeOK"
