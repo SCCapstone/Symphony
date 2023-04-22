@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 10:27 PM
+ *  Created by Team Symphony on 4/22/23, 6:21 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 10:27 PM
+ *  Last modified 4/22/23, 6:13 AM
  */
 
 package com.symphony.mrfit
@@ -28,10 +28,6 @@ class AddStockExercises : AppCompatActivity() {
         exerciseViewModel = ViewModelProvider(
             this, ExerciseViewModelFactory()
         )[ExerciseViewModel::class.java]
-
-        /**
-         * TODO: Replace all Uri parses with appropriate images
-         */
 
         exerciseViewModel.addExercise(
             Exercise(

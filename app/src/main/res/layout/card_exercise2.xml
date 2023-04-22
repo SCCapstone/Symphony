@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 4/2/23, 2:50 PM
+  ~  Created by Team Symphony on 4/22/23, 6:21 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/2/23, 2:50 PM
+  ~  Last modified 4/22/23, 6:19 AM
   -->
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -9,7 +9,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="0dp"
-    app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="8dp"
     app:cardElevation="5dp"
     app:cardMaxElevation="5dp"
@@ -55,7 +54,6 @@ will add padding in API v21+ as well to have the same measurements with previous
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/PLACEHOLDER_TEXT"
-                android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
