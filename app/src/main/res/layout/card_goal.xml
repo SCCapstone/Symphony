@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 4/2/23, 3:50 AM
+  ~  Created by Team Symphony on 4/21/23, 5:08 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/2/23, 1:29 AM
+  ~  Last modified 4/21/23, 5:00 PM
   -->
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -24,7 +24,7 @@ will add padding in API v21+ as well to have the same measurements with previous
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp">
 
