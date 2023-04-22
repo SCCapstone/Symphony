@@ -18,6 +18,8 @@ class RegisterActivityTest {
     @get:Rule
     var activityScenarioRule = activityScenarioRule<RegisterActivity>()
 
+
+
     /*tests if register works*/
     @Test
     fun checkValidRegister() {
