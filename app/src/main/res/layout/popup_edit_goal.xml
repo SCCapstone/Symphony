@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 4/19/23, 11:58 PM
+  ~  Created by Team Symphony on 4/21/23, 10:43 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/19/23, 11:57 PM
+  ~  Last modified 4/21/23, 10:39 PM
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/border_thin"
     android:padding="5dp">
 
     <LinearLayout
