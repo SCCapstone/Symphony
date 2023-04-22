@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/20/23, 2:11 AM
+ *  Created by Team Symphony on 4/21/23, 10:36 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/20/23, 2:11 AM
+ *  Last modified 4/21/23, 10:36 PM
  */
 
 package com.symphony.mrfit.ui
@@ -134,16 +134,15 @@ class CurrentWorkoutActivity : AppCompatActivity() {
                 .inflate(R.layout.activity_post_workout, null, false)
 
             materialDialog.setView(dialogView)
-                .setTitle("Post Exercise")
 
             val text = dialogView.findViewById<TextView>(R.id.postWorkoutTime)
             val startTime = SimpleDateFormat(
-                "'You started this workout at' hh:mm a",
+                "'You started this workout at 'hh:mm a",
                 Locale.getDefault()
             )
                 .format(Date().time - timeSpent)
             val endTime = SimpleDateFormat(
-                "' and finished at ' hh:mm a",
+                "' and finished at 'hh:mm a",
                 Locale.getDefault()
             )
                 .format(Date())
