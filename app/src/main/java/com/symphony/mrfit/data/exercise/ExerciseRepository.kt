@@ -83,8 +83,14 @@ class ExerciseRepository {
     /**
      * Remove a specific Exercise by it's ID
      */
+//    suspend fun deleteExercise(exeID: String) {
+//        Log.d(TAG, "Removing Exercise $exeID from Firestore")
+//        database.collection(EXERCISE_COLLECTION).document(exeID).delete().await()
+//    }
     suspend fun deleteExercise(exeID: String) {
         Log.d(TAG, "Removing Exercise $exeID from Firestore")
+        val storageRef = storage.reference.child(EXERCISE_PICTURE).child(exeID)
+        storageRef.delete().await()
         database.collection(EXERCISE_COLLECTION).document(exeID).delete().await()
     }
 

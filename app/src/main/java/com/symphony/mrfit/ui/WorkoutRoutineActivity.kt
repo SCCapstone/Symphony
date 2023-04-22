@@ -179,7 +179,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             exerciseViewModel.deleteRoutine(passedRoutineID)
             Toast.makeText(
                 applicationContext,
-                "This workout has been removed from your list",
+                "This template has been removed from your list",
                 Toast.LENGTH_SHORT
             ).show()
             finish()
