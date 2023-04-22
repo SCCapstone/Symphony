@@ -1,16 +1,14 @@
+/*
+ *  Created by Team Symphony on 4/22/23, 3:13 AM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 4/22/23, 2:45 AM
+ */
+
 package com.symphony.mrfit.ui
 
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.ext.junit.rules.activityScenarioRule
 import org.junit.Rule
 import org.junit.Test
-import com.symphony.mrfit.R
-
-
-
 
 class GoalsActivityTest {
     @get:Rule

@@ -1,14 +1,15 @@
 /*
- *  Created by Team Symphony on 4/21/23, 5:08 PM
+ *  Created by Team Symphony on 4/22/23, 3:13 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/21/23, 4:12 PM
+ *  Last modified 4/22/23, 2:45 AM
  */
 
 package com.symphony.mrfit.ui
 
 import androidx.test.espresso.Espresso
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
@@ -29,8 +30,8 @@ class RegisterActivityTest {
      */
     @Test
     fun checkActivityVisibility() {
-        Espresso.onView(ViewMatchers.withId(R.id.layout_registerActivity))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.layout_registerActivity))
+            .check(matches(isDisplayed()))
     }
 
     /**
@@ -38,19 +39,19 @@ class RegisterActivityTest {
      */
     @Test
     fun checkViewVisibility() {
-        Espresso.onView(ViewMatchers.withId(R.id.registerEmail))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.registerEmail))
+            .check(matches(isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.registerPassword))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.registerPassword))
+            .check(matches(isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.confirmPassword))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.confirmPassword))
+            .check(matches(isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.registerButton))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.registerButton))
+            .check(matches(isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.toLoginTextView))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.toLoginTextView))
+            .check(matches(isDisplayed()))
     }
 }

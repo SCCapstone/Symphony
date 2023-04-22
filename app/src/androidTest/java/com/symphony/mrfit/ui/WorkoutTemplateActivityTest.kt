@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/21/23, 10:18 PM
+ *  Created by Team Symphony on 4/22/23, 3:13 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/21/23, 10:18 PM
+ *  Last modified 4/22/23, 2:45 AM
  */
 
 package com.symphony.mrfit.ui
@@ -9,8 +9,9 @@ package com.symphony.mrfit.ui
 import android.content.Intent
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
@@ -45,8 +46,8 @@ class WorkoutTemplateActivityTest {
      */
     @Test
     fun checkActivityVisibility() {
-        Espresso.onView(ViewMatchers.withId(R.id.layout_exerciseBuilderActivity))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.layout_exerciseBuilderActivity))
+            .check(matches(isDisplayed()))
     }
 
     /**
@@ -55,31 +56,31 @@ class WorkoutTemplateActivityTest {
     @Test
     fun checkViewVisibility() {
         Thread.sleep(500)
-        Espresso.onView(ViewMatchers.withId(R.id.templateScreenView))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.templateScreenView))
+            .check(matches(isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.exerciseCardView))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.exerciseCardView))
+            .check(matches(isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.editDuration))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.editDuration))
+            .check(matches(isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.editDistance))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.editDistance))
+            .check(matches(isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.repsAndSetsLayout))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.repsAndSetsLayout))
+            .check(matches(isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.editReps))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.editReps))
+            .check(matches(isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.editSets))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.editSets))
+            .check(matches(isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.deleteTemplateButton))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.deleteTemplateButton))
+            .check(matches(isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.saveTemplateButton))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.saveTemplateButton))
+            .check(matches(isDisplayed()))
     }
 }

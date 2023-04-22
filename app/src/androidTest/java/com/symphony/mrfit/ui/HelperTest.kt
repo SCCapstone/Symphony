@@ -1,16 +1,14 @@
+/*
+ *  Created by Team Symphony on 4/22/23, 3:13 AM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 4/22/23, 2:45 AM
+ */
+
 package com.symphony.mrfit.ui
 
 import android.app.Activity
-import android.view.View
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
-import com.google.android.material.snackbar.Snackbar
-import org.hamcrest.CoreMatchers.*
-import org.junit.Assert.assertEquals
-import org.junit.Before
+import androidx.test.espresso.matcher.ViewMatchers.assertThat
+import org.hamcrest.CoreMatchers.`is`
 import org.junit.Test
 import java.util.*
 
