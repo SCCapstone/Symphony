@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/22/23, 6:21 AM
+ *  Created by Team Symphony on 4/22/23, 7:14 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/22/23, 6:05 AM
+ *  Last modified 4/22/23, 7:14 PM
  */
 
 package com.symphony.mrfit.ui
@@ -22,7 +22,9 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import com.symphony.mrfit.R
-import com.symphony.mrfit.data.exercise.*
+import com.symphony.mrfit.data.exercise.ExerciseRepository
+import com.symphony.mrfit.data.exercise.ExerciseViewModel
+import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.model.Workout
 import com.symphony.mrfit.databinding.ActivityWorkoutTemplateBinding
 import com.symphony.mrfit.ui.Helper.showSnackBar
@@ -192,7 +194,6 @@ class WorkoutTemplateActivity : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
             finish()
-            recreate()
         }
 
         exerciseViewModel.exercise.observe(this, Observer {
