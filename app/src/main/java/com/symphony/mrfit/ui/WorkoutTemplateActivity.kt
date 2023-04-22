@@ -12,6 +12,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -21,9 +22,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import com.symphony.mrfit.R
-import com.symphony.mrfit.data.exercise.ExerciseRepository
-import com.symphony.mrfit.data.exercise.ExerciseViewModel
-import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
+import com.symphony.mrfit.data.exercise.*
 import com.symphony.mrfit.data.model.Workout
 import com.symphony.mrfit.databinding.ActivityWorkoutTemplateBinding
 import com.symphony.mrfit.ui.Helper.showSnackBar
@@ -187,7 +186,13 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         deleteButton.setOnClickListener {
             passedList!!.remove(passedWorkoutID)
             exerciseViewModel.updateRoutineWorkoutList(passedRoutineID!!, passedList)
+            Toast.makeText(
+                applicationContext,
+                "This workout has been removed from your template",
+                Toast.LENGTH_SHORT
+            ).show()
             finish()
+            recreate()
         }
 
         exerciseViewModel.exercise.observe(this, Observer {
