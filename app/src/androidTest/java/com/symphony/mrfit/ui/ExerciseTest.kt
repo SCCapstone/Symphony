@@ -13,7 +13,7 @@ import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.symphony.mrfit.R
-import org.hamcrest.Matchers.not
+import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -21,21 +21,21 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4ClassRunner::class)
 @LargeTest
-class HomeActivityTest {
+class ExerciseTest {
 
     @Before
     fun setUp() {
     }
 
     @get:Rule
-    var activityScenarioRule = activityScenarioRule<HomeActivity>()
+    var activityScenarioRule = activityScenarioRule<ExerciseActivity>()
 
     /**
      * Test if the activity is displayed and visible to user
      */
     @Test
     fun checkActivityVisibility() {
-        Espresso.onView(ViewMatchers.withId(R.id.layout_homeActivity))
+        Espresso.onView(ViewMatchers.withId(R.id.layout_exerciseSelectionActivity))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
@@ -44,40 +44,26 @@ class HomeActivityTest {
      */
     @Test
     fun checkViewVisibility() {
-        Thread.sleep(1000)
-        Espresso.onView(ViewMatchers.withId(R.id.homeScreenView))
+        Thread.sleep(500)
+        Espresso.onView(ViewMatchers.withId(R.id.exerciseScreenView))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.userLayout))
+        Espresso.onView(ViewMatchers.withId(R.id.exerciseListView))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.homeProfilePicture))
+        Espresso.onView(ViewMatchers.withId(R.id.exerciseSearchTextView))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.homeWelcomeTextView))
+        Espresso.onView(ViewMatchers.withId(R.id.exerciseSearchEditText))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.homeNameTextView))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.homeScreenView))
+        Espresso.onView(ViewMatchers.withId(R.id.exerciseSearchButton))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.settingsCog))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-
-        Espresso.onView(ViewMatchers.withId(R.id.scheduleButton))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-
-        Espresso.onView(ViewMatchers.withId(R.id.pastWorkout))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-
-        Espresso.onView(ViewMatchers.withId(R.id.workoutButton))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-
-        Espresso.onView(ViewMatchers.withId(R.id.historyList))
+        Espresso.onView(ViewMatchers.withId(R.id.button2))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
         Espresso.onView(ViewMatchers.withId(R.id.loadingSpinner))
-            .check(ViewAssertions.matches(not(ViewMatchers.isDisplayed())))
+            .check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())))
     }
 }

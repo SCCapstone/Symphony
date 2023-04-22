@@ -6,6 +6,8 @@
 
 package com.symphony.mrfit.ui
 
+import android.content.Intent
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
@@ -13,7 +15,6 @@ import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.symphony.mrfit.R
-import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -21,21 +22,30 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4ClassRunner::class)
 @LargeTest
-class HomeActivityTest {
+class WorkoutTemplateActivityTest {
 
     @Before
     fun setUp() {
     }
 
     @get:Rule
-    var activityScenarioRule = activityScenarioRule<HomeActivity>()
+    var activityScenarioRule = activityScenarioRule<WorkoutTemplateActivity>(
+        intent = Intent(
+            ApplicationProvider.getApplicationContext(),
+            WorkoutTemplateActivity::class.java
+        )
+            .putExtra(WorkoutRoutineActivity.EXTRA_ROUTINE, "test")
+            .putExtra(WorkoutTemplateActivity.EXTRA_IDENTITY, "test")
+            .putExtra(WorkoutTemplateActivity.EXTRA_EXERCISE, "test")
+            .putExtra(WorkoutTemplateActivity.EXTRA_LIST, ArrayList<String>())
+    )
 
     /**
      * Test if the activity is displayed and visible to user
      */
     @Test
     fun checkActivityVisibility() {
-        Espresso.onView(ViewMatchers.withId(R.id.layout_homeActivity))
+        Espresso.onView(ViewMatchers.withId(R.id.layout_exerciseBuilderActivity))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
@@ -44,40 +54,32 @@ class HomeActivityTest {
      */
     @Test
     fun checkViewVisibility() {
-        Thread.sleep(1000)
-        Espresso.onView(ViewMatchers.withId(R.id.homeScreenView))
+        Thread.sleep(500)
+        Espresso.onView(ViewMatchers.withId(R.id.templateScreenView))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.userLayout))
+        Espresso.onView(ViewMatchers.withId(R.id.exerciseCardView))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.homeProfilePicture))
+        Espresso.onView(ViewMatchers.withId(R.id.editDuration))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.homeWelcomeTextView))
+        Espresso.onView(ViewMatchers.withId(R.id.editDistance))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.homeNameTextView))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.homeScreenView))
+        Espresso.onView(ViewMatchers.withId(R.id.repsAndSetsLayout))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.settingsCog))
+        Espresso.onView(ViewMatchers.withId(R.id.editReps))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.scheduleButton))
+        Espresso.onView(ViewMatchers.withId(R.id.editSets))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.pastWorkout))
+        Espresso.onView(ViewMatchers.withId(R.id.deleteTemplateButton))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.workoutButton))
+        Espresso.onView(ViewMatchers.withId(R.id.saveTemplateButton))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-
-        Espresso.onView(ViewMatchers.withId(R.id.historyList))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-
-        Espresso.onView(ViewMatchers.withId(R.id.loadingSpinner))
-            .check(ViewAssertions.matches(not(ViewMatchers.isDisplayed())))
     }
 }
