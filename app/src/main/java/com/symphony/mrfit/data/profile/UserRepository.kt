@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 10:04 PM
+ *  Created by Team Symphony on 4/19/23, 7:07 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 10:04 PM
+ *  Last modified 4/19/23, 7:07 PM
  */
 
 package com.symphony.mrfit.data.profile
@@ -19,6 +19,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import com.symphony.mrfit.data.login.LoginRepository
 import com.symphony.mrfit.data.model.Goal
 import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.data.model.Notification
@@ -52,7 +53,14 @@ class UserRepository {
         Log.d(TAG, "Retrieving User ${auth.currentUser!!.uid} from Firestore")
         val doc = auth.currentUser!!.uid
         val docRef = database.collection(USER_COLLECTION).document(doc)
-        return try { val snapshot = docRef.get().await()
+        return try {
+            val snapshot = docRef.get().await()
+            // Something wrong happened when deleting this user, fix it
+            if (snapshot.get("userID") == null) {
+                LoginRepository().delete()
+                LoginRepository().logout()
+                User("delete")
+            }
             snapshot.toObject<User>()
         } catch (e: java.lang.Exception) {
             Log.w(TAG, "Error getting document", e)
@@ -64,10 +72,11 @@ class UserRepository {
      * Read data from Edit Profile form and update Firestore accordingly
      */
     suspend fun updateCurrentUser(
-    newName: String?,
-    newAge: Int?,
-    newHeight: Int?,
-    newWeight: Double?) : User? {
+        newName: String?,
+        newAge: Int?,
+        newHeight: Double?,
+        newWeight: Double?
+    ) : User? {
         val user = getCurrentUser()
         val uid = auth.currentUser!!.uid
         Log.d(TAG, "Updating User $uid in Firestore")
@@ -87,13 +96,17 @@ class UserRepository {
     /**
      * Only called when a user is being deleted, remove their document from Firestore
      */
-    fun removeUser() {
+    suspend fun removeUser() {
         val user = auth.currentUser!!
         Log.d(TAG, "Removing User ${user.uid} from Firestore")
-        database.collection(USER_COLLECTION).document(user.uid)
-            .delete()
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
+        try {
+            database.collection(USER_COLLECTION).document(user.uid)
+                .delete()
+                .await()
+            Log.d(TAG, "DocumentSnapshot successfully deleted!")
+        } catch (e: java.lang.Exception) {
+            Log.w(TAG, "Error deleting document", e)
+        }
     }
 
     /**
@@ -105,7 +118,7 @@ class UserRepository {
         try {
             val docRef = database.collection(USER_COLLECTION).document(user.uid)
                 .collection(HISTORY_COLLECTION).add(history).await()
-            docRef.update("historyID", docRef.id)
+            docRef.update("historyID", docRef.id).await()
         } catch (e: java.lang.Exception) {
             Log.d(TAG, "Error writing documents: ", e)
         }
@@ -159,6 +172,19 @@ class UserRepository {
         return storage.reference
             .child(PROFILE_PICTURE)
             .child(auth.currentUser!!.uid)
+    }
+
+    /**
+     * Add or change a profile picture to a User's Firebase profile
+     */
+    suspend fun changeProfilePicture(uri: Uri) {
+        Log.d(TAG, "Updating the user's profile picture to $uri")
+        val ref = storage.reference.child(PROFILE_PICTURE).child(auth.currentUser!!.uid)
+        val profileUpdates = userProfileChangeRequest {
+            photoUri = Uri.parse(ref.toString())
+        }
+        auth.currentUser!!.updateProfile(profileUpdates).await()
+        ref.putFile(uri)
     }
 
     /**
@@ -225,7 +251,7 @@ class UserRepository {
                 .collection(GOAL_COLLECTION)
                 .add(goal)
                 .await()
-            docRef.update("goalID", docRef.id)
+            docRef.update("goalID", docRef.id).await()
         } catch (e: java.lang.Exception) {
             Log.w(TAG, "Error writing document", e)
         }
@@ -284,19 +310,6 @@ class UserRepository {
             .delete()
             .await()
 
-    }
-
-    /**
-     * Add or change a profile picture to a User's Firebase profile
-     */
-    suspend fun changeProfilePicture(uri: Uri) {
-        Log.d(TAG, "Updating the user's profile picture to $uri")
-        val ref = storage.reference.child(PROFILE_PICTURE).child(auth.currentUser!!.uid)
-        val profileUpdates = userProfileChangeRequest {
-            photoUri = Uri.parse(ref.toString())
-        }
-        auth.currentUser!!.updateProfile(profileUpdates).await()
-        ref.putFile(uri)
     }
 
     companion object {

@@ -1,7 +1,7 @@
 <!--
-  ~  Created by Team Symphony on 4/2/23, 2:50 PM
+  ~  Created by Team Symphony on 4/19/23, 7:07 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/2/23, 12:42 PM
+  ~  Last modified 4/19/23, 6:58 PM
   -->
 
 <resources>
@@ -58,18 +58,18 @@
     <string name="message_welcome_screen">Welcome to MrFit!</string>
     <string name="message_welcome_screen_2">Tap to Continue</string>
     <string name="hint_confirm_password">Confirm Password</string>
-    <string name="reset_alert_message">Please enter an email address to send a password reset request to, and give it a moment to arrive</string>
+    <string name="reset_alert_message">Please enter an email address to send a password reset request to. This may take a few minutes to arrive, if it does not then please check your spam folder.</string>
     <string name="reset_alert_title">Forgot Password</string>
     <string name="workout_playlist">Workout Playlist</string>
     <string name="button_schedule">Schedule A Workout</string>
     <string name="message_exercise_search">What kind of exercise would you like?</string>
     <string name="button_new_workout">New Workout</string>
     <string name="button_start_workout">Start Workout</string>
-    <string name="button_save_routine">Save Routine</string>
-    <string name="button_delete_routine">Delete Routine</string>
+    <string name="button_save_routine">Save Template</string>
+    <string name="button_delete_routine">Delete Template</string>
     <string name="workout_name">Workout Name</string>
     <string name="save_and_export">Save and Export</string>
-    <string name="label_routine_name">Routine Name</string>
+    <string name="label_routine_name">Template Name</string>
     <string name="button_new_exercise">New Exercise</string>
     <string name="button_add_exercise">Add an Exercise</string>
     <string name="button_finish_workout">Finish Workout</string>
@@ -107,9 +107,9 @@
     <string name="login_failed">Login failed</string>
     <string name="registration_failed">Registration failed</string>
     <string name="name_change">Name has been changed to %s</string>
-    <string name="age_change">Age has been changed to %i</string>
-    <string name="height_change">Height has been changed to %i</string>
-    <string name="weight_change">Weight has been changed to %i</string>
+    <string name="age_change">Age has been changed to %d</string>
+    <string name="height_change">Height has been changed to %s</string>
+    <string name="weight_change">Weight has been changed to %s</string>
     <string name="empty_playlist_warning">Cannot play an empty playlist</string>
     <string name="exercise_failed">Attempt to save exercise failed, try again</string>
     <string name="button_search">Search</string>
@@ -130,7 +130,7 @@
     <string name="other">other</string>
     <string name="hint_other">Other</string>
     <string name="history_title">Your History</string>
-    <string name="button_open_routine">Open this\nRoutine</string>
+    <string name="button_open_routine">Open this\nTemplate</string>
     <string name="button_ok">OK</string>
     <string name="title_activity_workout_detail">WorkoutDetail</string>
     <!-- Strings used for fragments for navigation -->
@@ -142,4 +142,6 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="exercises_title">Your Exercises</string>
+    <string name="button_update_goals">Update my\ngoals</string>
+    <string name="button_return_home">Return\nHome</string>
 </resources>

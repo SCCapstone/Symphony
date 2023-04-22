@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 4:31 AM
+ *  Created by Team Symphony on 4/7/23, 7:13 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 4:31 AM
+ *  Last modified 4/7/23, 7:13 PM
  */
 
 package com.symphony.mrfit.ui
@@ -11,6 +11,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +19,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
+import com.google.firebase.auth.FirebaseAuth
+import com.symphony.mrfit.R
 import com.symphony.mrfit.data.exercise.HistoryAdapter
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
@@ -28,6 +31,14 @@ class HomeActivity : AppCompatActivity() {
     private var layoutManager: RecyclerView.LayoutManager? = null
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var binding: ActivityHomeBinding
+    private val authStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+        val firebaseUser = firebaseAuth.currentUser
+        if (firebaseUser == null) {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+    }
+    private val firebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,11 +46,14 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         profileViewModel = ViewModelProvider(
-            this, ProfileViewModelFactory())[ProfileViewModel::class.java]
+            this, ProfileViewModelFactory()
+        )[ProfileViewModel::class.java]
     }
 
     override fun onStart() {
         super.onStart()
+        // Return to the login screen if the User is somehow not logged in
+        firebaseAuth.addAuthStateListener(this.authStateListener)
 
         val screen = binding.homeScreenView
         val spinner = binding.loadingSpinner
@@ -50,7 +64,6 @@ class HomeActivity : AppCompatActivity() {
         val startWorkout = binding.workoutButton
         val historyList = binding.historyList
 
-        // Hide the screen till loading is done
         screen.visibility = View.GONE
         spinner.visibility = View.VISIBLE
 
@@ -64,12 +77,19 @@ class HomeActivity : AppCompatActivity() {
         historyList.layoutManager = layoutManager
 
         profileViewModel.loggedInUser.observe(this, Observer {
-            Log.d(ContentValues.TAG, "Filling in username")
             val loggedInUser = it ?: return@Observer
+
+            if (loggedInUser.userID == "delete") {
+                Toast.makeText(
+                    this,
+                    "We're sorry! There was an error in your account and it had to be reset. Please log back in.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
 
             Glide.with(this)
                 .load(profileViewModel.getProfilePicture())
-                .placeholder(com.firebase.ui.auth.R.drawable.fui_ic_anonymous_white_24dp)
+                .placeholder(R.drawable.placeholder_profile_picture)
                 .circleCrop()
                 .signature(ObjectKey(System.currentTimeMillis().toString()))
                 .into(pfp)
@@ -99,6 +119,11 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, RoutineSelectionActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        firebaseAuth.removeAuthStateListener(this.authStateListener)
     }
 
     override fun onSupportNavigateUp(): Boolean {

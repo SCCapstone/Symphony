@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 10:04 PM
+ *  Created by Team Symphony on 4/2/23, 10:27 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 10:04 PM
+ *  Last modified 4/2/23, 10:22 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -38,17 +38,14 @@ class WorkoutAdapter2 (val context: Context, val data: ArrayList<Workout>): Recy
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
 
         holder.workoutTitle.text = data[i].workoutName
-        holder.workoutReps.text =
-            "${data[i].numberOfSets} Sets of " +
-                    "${data[i].numberOfReps} Reps for " +
-                    "${data[i].duration} Minutes"
+        holder.workoutReps.text = buildString(i)
         Glide.with(context)
             .load(
                 storage.reference
                     .child(ExerciseRepository.EXERCISE_PICTURE)
                     .child(data[i].exercise!!)
             )
-            .placeholder(R.drawable.cactuar)
+            .placeholder(R.drawable.glide_placeholder)
             .into(holder.exerciseImage)
 
         // Toggle the checkbox when the card is tapped
@@ -74,5 +71,41 @@ class WorkoutAdapter2 (val context: Context, val data: ArrayList<Workout>): Recy
             workoutReps = workoutView.findViewById(R.id.workoutRepsTextView)
             checkbox = workoutView.findViewById(R.id.checkBox6)
         }
+    }
+
+    private fun buildString(i: Int): String {
+        var myString = ""
+        val reps = data[i].numberOfReps
+        val sets = data[i].numberOfSets
+        val distance = data[i].distance
+        val duration = data[i].duration
+
+        if (sets != null) {
+            myString += if (sets == 1) {
+                "$sets set "
+            } else {
+                "$sets sets "
+            }
+        }
+        if (reps != null && sets != null) {
+            myString += "of "
+        }
+        if (reps != null) {
+            myString += if (reps == 1) {
+                "$reps rep "
+            } else {
+                "$reps reps "
+            }
+        }
+        if (myString != "" && (duration != null || distance != null)) {
+            myString += "for "
+        }
+        if (duration != null) {
+            myString += "$duration "
+        }
+        if (distance != null) {
+            myString += "$distance "
+        }
+        return myString
     }
 }

@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 7:44 PM
+ *  Created by Team Symphony on 4/19/23, 10:42 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 7:41 PM
+ *  Last modified 4/19/23, 10:42 PM
  */
 
 package com.symphony.mrfit.ui
@@ -27,6 +27,7 @@ import com.symphony.mrfit.ui.Helper.ZERO
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.emitter.Emitter
+import java.text.DecimalFormat
 import java.util.concurrent.TimeUnit
 
 class GoalsActivity : AppCompatActivity() {
@@ -52,6 +53,7 @@ class GoalsActivity : AppCompatActivity() {
         val newGoal = binding.addGoalButton
         val spinner = binding.loadingSpinner
         val confetti = binding.konfettiView
+        val goalTypes = resources.getStringArray(R.array.goal_types)
 
         val party = Party(
             speed = 0f,
@@ -64,9 +66,11 @@ class GoalsActivity : AppCompatActivity() {
 
         fun deleteGoal(goalID: String) {
             profileViewModel.deleteGoal(goalID)
+            profileViewModel.getGoals()
         }
 
         fun editGoal(goal: Goal) {
+            val format = DecimalFormat("0.#")
             val dialog = Dialog(this)
             dialog.setContentView(R.layout.popup_edit_goal)
             dialog.setTitle("New Goal")
@@ -74,14 +78,41 @@ class GoalsActivity : AppCompatActivity() {
             val name = dialog.findViewById<EditText>(R.id.editGoalName)
             val prog = dialog.findViewById<EditText>(R.id.progressGoalEditText)
             val end = dialog.findViewById<EditText>(R.id.endGoalEditText)
-            val type = dialog.findViewById<TextView>(R.id.goalTypeTextView)
+            val dropdown = dialog.findViewById<Spinner>(R.id.editGoalSpinner)
+            val other = dialog.findViewById<EditText>(R.id.editGoalOther)
             val save = dialog.findViewById<Button>(R.id.saveEditGoalButton)
             val cancel = dialog.findViewById<Button>(R.id.cancelEditGoalButton)
 
             name.setText(goal.name)
-            prog.hint = goal.progress.toString()
-            end.hint = goal.endGoal.toString()
-            type.text = (goal.quantifier)
+            prog.hint = format.format(goal.progress)
+            end.hint = format.format(goal.endGoal)
+            val i = goalTypes.indexOf(goal.quantifier)
+            if (i >= 0) {
+                dropdown.setSelection(i)
+            } else {
+                dropdown.setSelection(goalTypes.size - 1)
+                other.visibility = View.VISIBLE
+            }
+            other.hint = goal.quantifier
+
+            dropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    if (position == dropdown.adapter.count - 1) {
+                        other.visibility = View.VISIBLE
+                    } else {
+                        other.visibility = View.GONE
+                    }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+            }
 
             save.setOnClickListener {
                 var newName = goal.name
@@ -90,15 +121,24 @@ class GoalsActivity : AppCompatActivity() {
                 var newProg = goal.progress
                 if (prog.text.isNotEmpty())
                     newProg = prog.text.toString().toDouble()
-                var newEnd = ZERO.toDouble()
+                var newEnd = goal.endGoal
                 if (end.text.isNotEmpty())
                     newEnd = end.text.toString().toDouble()
+                var newType = dropdown.selectedItem.toString()
+                if (newType == "Other") {
+                    newType = if (other.text.isNotEmpty()) {
+                        other.text.toString()
+                    } else {
+                        goal.quantifier
+                    }
+                }
+
                 profileViewModel.updateGoal(
                     Goal(
                         newName,
                         newProg,
                         newEnd,
-                        goal.quantifier,
+                        newType,
                         goal.goalID
                     )
                 )
@@ -179,7 +219,9 @@ class GoalsActivity : AppCompatActivity() {
                     newEnd = num.text.toString().toDouble()
                 var newType = dropdown.selectedItem.toString()
                 if (newType == "Other") {
-                    newType = other.text.toString()
+                    if (other.text.isNotEmpty()) {
+                        newType = other.text.toString()
+                    }
                 }
 
                 profileViewModel.addGoal(

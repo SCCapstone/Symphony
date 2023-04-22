@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 2:50 PM
+ *  Created by Team Symphony on 4/2/23, 10:27 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 12:02 PM
+ *  Last modified 4/2/23, 10:27 PM
  */
 
 package com.symphony.mrfit
@@ -14,7 +14,6 @@ import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.model.Exercise
 import com.symphony.mrfit.databinding.ActivityAddStockExercisesBinding
-import com.symphony.mrfit.ui.ExerciseActivity
 
 class AddStockExercises : AppCompatActivity() {
 
@@ -50,7 +49,7 @@ class AddStockExercises : AppCompatActivity() {
                 durationFlag = true,
                 ownerID = getString(R.string.app_name)
             ),
-            Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
+            Uri.parse("android.resource://com.symphony.mrfit/drawable/stock_walking")
         )
 
         exerciseViewModel.addExercise(
@@ -69,7 +68,7 @@ class AddStockExercises : AppCompatActivity() {
                 durationFlag = true,
                 ownerID = getString(R.string.app_name)
             ),
-            Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
+            Uri.parse("android.resource://com.symphony.mrfit/drawable/stock_jogging")
         )
 
         exerciseViewModel.addExercise(
@@ -87,7 +86,7 @@ class AddStockExercises : AppCompatActivity() {
                 durationFlag = true,
                 ownerID = getString(R.string.app_name)
             ),
-            Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
+            Uri.parse("android.resource://com.symphony.mrfit/drawable/stock_running")
         )
 
         exerciseViewModel.addExercise(
@@ -106,7 +105,7 @@ class AddStockExercises : AppCompatActivity() {
                 durationFlag = false,
                 ownerID = getString(R.string.app_name)
             ),
-            Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
+            Uri.parse("android.resource://com.symphony.mrfit/drawable/stock_squats")
         )
 
         exerciseViewModel.addExercise(
@@ -125,7 +124,7 @@ class AddStockExercises : AppCompatActivity() {
                 durationFlag = false,
                 ownerID = getString(R.string.app_name)
             ),
-            Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
+            Uri.parse("android.resource://com.symphony.mrfit/drawable/stock_lunges")
         )
 
         exerciseViewModel.addExercise(
@@ -143,7 +142,7 @@ class AddStockExercises : AppCompatActivity() {
                 durationFlag = false,
                 ownerID = getString(R.string.app_name)
             ),
-            Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
+            Uri.parse("android.resource://com.symphony.mrfit/drawable/stock_push_ups")
         )
 
         exerciseViewModel.addExercise(
@@ -162,7 +161,7 @@ class AddStockExercises : AppCompatActivity() {
                 durationFlag = false,
                 ownerID = getString(R.string.app_name)
             ),
-            Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
+            Uri.parse("android.resource://com.symphony.mrfit/drawable/stock_sit_up")
         )
 
         exerciseViewModel.addExercise(
@@ -180,13 +179,13 @@ class AddStockExercises : AppCompatActivity() {
                 durationFlag = false,
                 ownerID = getString(R.string.app_name)
             ),
-            Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
+            Uri.parse("android.resource://com.symphony.mrfit/drawable/stock_crunch")
         )
 
         exerciseViewModel.addExercise(
             Exercise(
                 "Dumbbell press",
-                "",
+                "Regularly raise a weight from head height to above it then back down",
                 arrayListOf(
                     "Upper body",
                     "Strength training",
@@ -198,13 +197,13 @@ class AddStockExercises : AppCompatActivity() {
                 durationFlag = false,
                 ownerID = getString(R.string.app_name)
             ),
-            Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
+            Uri.parse("android.resource://com.symphony.mrfit/drawable/stock_press")
         )
 
         exerciseViewModel.addExercise(
             Exercise(
                 "Dumbbell row",
-                "",
+                "Holding a weight and bracing yourself facing down, regularly move a weight from your chest to the floor",
                 arrayListOf(
                     "Upper body",
                     "Strength training",
@@ -216,7 +215,7 @@ class AddStockExercises : AppCompatActivity() {
                 durationFlag = false,
                 ownerID = getString(R.string.app_name)
             ),
-            Uri.parse(ExerciseActivity.PLACEHOLDER_THUMBNAIL)
+            Uri.parse("android.resource://com.symphony.mrfit/drawable/stock_row")
         )
     }
 }

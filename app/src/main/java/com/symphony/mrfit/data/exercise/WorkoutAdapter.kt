@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/31/23, 8:54 PM
+ *  Created by Team Symphony on 4/2/23, 10:27 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/31/23, 8:42 PM
+ *  Last modified 4/2/23, 10:22 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -51,7 +51,7 @@ class WorkoutAdapter (val context: Context, val data: ArrayList<Workout>, privat
                     .child(ExerciseRepository.EXERCISE_PICTURE)
                     .child(data[i].exercise!!)
             )
-            .placeholder(R.drawable.cactuar)
+            .placeholder(R.drawable.glide_placeholder)
             .into(holder.exerciseImage)
 
         /**
@@ -118,10 +118,10 @@ class WorkoutAdapter (val context: Context, val data: ArrayList<Workout>, privat
             myString += "for "
         }
         if (duration != null) {
-            myString += "$duration "
+            myString += "Duration: $duration minutes "
         }
         if (distance != null) {
-            myString += "$distance "
+            myString += "Distance: $distance miles"
         }
         return myString
     }
