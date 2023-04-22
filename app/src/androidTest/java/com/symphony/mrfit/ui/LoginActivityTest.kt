@@ -1,14 +1,13 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 4/22/23, 6:21 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 4/22/23, 6:05 AM
  */
 
 package com.symphony.mrfit.ui
 
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -33,7 +32,8 @@ class LoginActivityTest {
      */
     @Test
     fun checkActivityVisibility() {
-        onView(withId(R.id.layout_loginActivity)).check(matches(isDisplayed()))
+        Espresso.onView(withId(R.id.layout_loginActivity))
+            .check(matches(isDisplayed()))
     }
 
     /**
@@ -41,19 +41,19 @@ class LoginActivityTest {
      */
     @Test
     fun checkViewVisibility() {
-        onView(withId(R.id.loginEmail))
+        Espresso.onView(withId(R.id.loginEmail))
             .check(matches(isDisplayed()))
 
-        onView(withId(R.id.loginPassword))
+        Espresso.onView(withId(R.id.loginPassword))
             .check(matches(isDisplayed()))
 
-        onView(withId(R.id.loginButton))
+        Espresso.onView(withId(R.id.loginButton))
             .check(matches(isDisplayed()))
 
-        onView(withId(R.id.googleButton))
+        Espresso.onView(withId(R.id.googleButton))
             .check(matches(isDisplayed()))
 
-        onView(withId(R.id.toRegisterTextView))
+        Espresso.onView(withId(R.id.toRegisterTextView))
             .check(matches(isDisplayed()))
     }
 
@@ -62,37 +62,36 @@ class LoginActivityTest {
      */
     @Test
     fun checkFailedLogin() {
-        onView(withId(R.id.loginEmail))
-            .perform(ViewActions.typeText(TEST_EMAIL), ViewActions.closeSoftKeyboard())
-        onView(withId(R.id.loginPassword))
-            .perform(ViewActions.typeText(TEST_PASS), ViewActions.closeSoftKeyboard())
-        onView(withId(R.id.loginButton))
+        Espresso.onView(withId(R.id.loginEmail))
+            .perform(typeText(TEST_EMAIL), closeSoftKeyboard())
+        Espresso.onView(withId(R.id.loginPassword))
+            .perform(typeText(TEST_PASS), closeSoftKeyboard())
+        Espresso.onView(withId(R.id.loginButton))
             .perform(click())
 
-        onView(withId(R.id.layout_loginActivity)).check(matches(isDisplayed()))
+        Espresso.onView(withId(R.id.layout_loginActivity))
+            .check(matches(isDisplayed()))
     }
 
     /**
      * Test if login works
      */
-    /*
     @Test
     fun checkValidLogin() {
-        onView(withId(R.id.loginEmail))
-            .perform(ViewActions.typeText(REAL_EMAIL), ViewActions.closeSoftKeyboard())
-        onView(withId(R.id.loginPassword))
-            .perform(ViewActions.typeText(REAL_PASS), ViewActions.closeSoftKeyboard())
-        onView(withId(R.id.loginButton))
+        Espresso.onView(withId(R.id.loginEmail))
+            .perform(typeText(REAL_EMAIL), closeSoftKeyboard())
+        Espresso.onView(withId(R.id.loginPassword))
+            .perform(typeText(REAL_PASS), closeSoftKeyboard())
+        Espresso.onView(withId(R.id.loginButton))
             .perform(click())
-        onView(withId(R.id.layout_loginActivity)).check(matches(isDisplayed()))
+        Espresso.onView(withId(R.id.layout_loginActivity))
+            .check(matches(isDisplayed()))
     }
-
-     */
 
     companion object {
 
-        const val REAL_EMAIL = "test@symphony.com"
-        const val REAL_PASS = "abcd1234"
+        const val REAL_EMAIL = "demo@symphony.com"
+        const val REAL_PASS = "pass123"
         const val TEST_EMAIL = "fake_email@symphony.com"
         const val TEST_PASS = "1234abcd"
     }

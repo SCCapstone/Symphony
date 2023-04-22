@@ -1,22 +1,26 @@
 /*
- *  Created by Team Symphony on 4/19/23, 10:42 PM
+ *  Created by Team Symphony on 4/20/23, 7:03 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/19/23, 10:42 PM
+ *  Last modified 4/20/23, 5:47 PM
  */
 
 package com.symphony.mrfit.ui
 
-import android.app.Dialog
 import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.EditText
+import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.exercise.GoalAdapter
 import com.symphony.mrfit.data.model.Goal
@@ -29,6 +33,10 @@ import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import java.text.DecimalFormat
 import java.util.concurrent.TimeUnit
+
+/**
+ * Screen for the User to manage their Goals
+ */
 
 class GoalsActivity : AppCompatActivity() {
 
@@ -64,37 +72,25 @@ class GoalsActivity : AppCompatActivity() {
             emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100)
         )
 
-        fun deleteGoal(goalID: String) {
-            profileViewModel.deleteGoal(goalID)
-            profileViewModel.getGoals()
-        }
+        /**
+         * Create a dialog for the user to make a new Goal
+         */
+        fun newGoal() {
+            // Create the dialog and inflate its view like an activity
+            val materialDialog = MaterialAlertDialogBuilder(this)
+            val dialogView = LayoutInflater.from(this)
+                .inflate(R.layout.popup_new_goal, null, false)
 
-        fun editGoal(goal: Goal) {
-            val format = DecimalFormat("0.#")
-            val dialog = Dialog(this)
-            dialog.setContentView(R.layout.popup_edit_goal)
-            dialog.setTitle("New Goal")
+            materialDialog.setView(dialogView)
+                .setTitle("New Goal")
 
-            val name = dialog.findViewById<EditText>(R.id.editGoalName)
-            val prog = dialog.findViewById<EditText>(R.id.progressGoalEditText)
-            val end = dialog.findViewById<EditText>(R.id.endGoalEditText)
-            val dropdown = dialog.findViewById<Spinner>(R.id.editGoalSpinner)
-            val other = dialog.findViewById<EditText>(R.id.editGoalOther)
-            val save = dialog.findViewById<Button>(R.id.saveEditGoalButton)
-            val cancel = dialog.findViewById<Button>(R.id.cancelEditGoalButton)
+            val name = dialogView.findViewById<EditText>(R.id.newGoalName)
+            val num = dialogView.findViewById<EditText>(R.id.goalNumber)
+            val dropdown = dialogView.findViewById<Spinner>(R.id.goalSpinner)
+            val other = dialogView.findViewById<EditText>(R.id.otherInput)
 
-            name.setText(goal.name)
-            prog.hint = format.format(goal.progress)
-            end.hint = format.format(goal.endGoal)
-            val i = goalTypes.indexOf(goal.quantifier)
-            if (i >= 0) {
-                dropdown.setSelection(i)
-            } else {
-                dropdown.setSelection(goalTypes.size - 1)
-                other.visibility = View.VISIBLE
-            }
-            other.hint = goal.quantifier
-
+            // When "Other", the last option is selected in the spinner
+            // make the associated EditText visible
             dropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
@@ -114,7 +110,99 @@ class GoalsActivity : AppCompatActivity() {
 
             }
 
-            save.setOnClickListener {
+            // Save the new Goal, if any fields are empty use placeholders
+            materialDialog.setPositiveButton("Save") { dialog, _ ->
+                var newName = "New Goal"
+                if (name.text.isNotEmpty())
+                    newName = name.text.toString()
+                var newEnd = ZERO.toDouble()
+                if (num.text.isNotEmpty())
+                    newEnd = num.text.toString().toDouble()
+                var newType = dropdown.selectedItem.toString()
+                if (newType == "Other") {
+                    if (other.text.isNotEmpty()) {
+                        newType = other.text.toString()
+                    }
+                }
+
+                profileViewModel.addGoal(
+                    Goal(
+                        newName,
+                        ZERO.toDouble(),
+                        newEnd,
+                        newType
+                    )
+                )
+
+                profileViewModel.getGoals()
+                dialog.dismiss()
+            }
+
+            materialDialog.setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+
+            materialDialog.show()
+        }
+
+        /**
+         * Create a dialog for the user to edit an existing Goal
+         * Should be passed to the recycler's adapter
+         */
+        fun editGoal(goal: Goal) {
+            // Create the dialog and inflate its view like an activity
+            val format = DecimalFormat("0.#")
+            val materialDialog = MaterialAlertDialogBuilder(this)
+            val dialogView = LayoutInflater.from(this)
+                .inflate(R.layout.popup_edit_goal, null, false)
+
+            materialDialog.setView(dialogView)
+
+            val name = dialogView.findViewById<EditText>(R.id.editGoalName)
+            val prog = dialogView.findViewById<EditText>(R.id.progressGoalEditText)
+            val end = dialogView.findViewById<EditText>(R.id.endGoalEditText)
+            val dropdown = dialogView.findViewById<Spinner>(R.id.editGoalSpinner)
+            val other = dialogView.findViewById<EditText>(R.id.editGoalOther)
+
+            // Populate the dialog with appropriate info from the Goal
+            name.setText(goal.name)
+            prog.hint = format.format(goal.progress)
+            end.hint = format.format(goal.endGoal)
+            val i = goalTypes.indexOf(goal.quantifier)
+            if (i >= 0) {
+                dropdown.setSelection(i)
+            } else {
+                dropdown.setSelection(goalTypes.size - 1)
+                other.visibility = View.VISIBLE
+            }
+            other.hint = goal.quantifier
+
+            // When "Other", the last option is selected in the spinner
+            // make the associated EditText visible
+            dropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    if (position == dropdown.adapter.count - 1) {
+                        other.visibility = View.VISIBLE
+                    } else {
+                        other.visibility = View.GONE
+                    }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+            }
+
+            /**
+             * Save the edited goal
+             * If a field is empty, the old value persists
+             */
+            materialDialog.setPositiveButton(getString(R.string.button_save)) { dialog, _ ->
                 var newName = goal.name
                 if (name.text.isNotEmpty())
                     newName = name.text.toString()
@@ -143,6 +231,7 @@ class GoalsActivity : AppCompatActivity() {
                     )
                 )
 
+                // User finished their goal, grats
                 if (newProg >= newEnd) {
                     confetti.start(party)
                     Toast.makeText(this, "Congrats on reaching your goal!", Toast.LENGTH_SHORT)
@@ -153,11 +242,20 @@ class GoalsActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
 
-            cancel.setOnClickListener {
+            materialDialog.setNegativeButton(getString(R.string.button_cancel)) { dialog, _ ->
                 dialog.dismiss()
             }
 
-            dialog.show()
+            materialDialog.show()
+        }
+
+        /**
+         * Remove the associated Goal from the database
+         * Should be passed to the recycler's adapter
+         */
+        fun deleteGoal(goalID: String) {
+            profileViewModel.deleteGoal(goalID)
+            profileViewModel.getGoals()
         }
 
         spinner.visibility = View.VISIBLE
@@ -180,69 +278,9 @@ class GoalsActivity : AppCompatActivity() {
         })
 
         newGoal.setOnClickListener {
-            val dialog = Dialog(this)
-            dialog.setContentView(R.layout.popup_new_goal)
-            dialog.setTitle("New Goal")
-
-            val name = dialog.findViewById<EditText>(R.id.newGoalName)
-            val num = dialog.findViewById<EditText>(R.id.goalNumber)
-            val dropdown = dialog.findViewById<Spinner>(R.id.goalSpinner)
-            val other = dialog.findViewById<EditText>(R.id.otherInput)
-            val save = dialog.findViewById<Button>(R.id.saveGoalButton)
-            val cancel = dialog.findViewById<Button>(R.id.cancelGoalButton)
-
-            dropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    if (position == dropdown.adapter.count - 1) {
-                        other.visibility = View.VISIBLE
-                    } else {
-                        other.visibility = View.GONE
-                    }
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-
-            }
-
-            save.setOnClickListener {
-                var newName = "New Goal"
-                if (name.text.isNotEmpty())
-                    newName = name.text.toString()
-                var newEnd = ZERO.toDouble()
-                if (num.text.isNotEmpty())
-                    newEnd = num.text.toString().toDouble()
-                var newType = dropdown.selectedItem.toString()
-                if (newType == "Other") {
-                    if (other.text.isNotEmpty()) {
-                        newType = other.text.toString()
-                    }
-                }
-
-                profileViewModel.addGoal(
-                    Goal(
-                        newName,
-                        ZERO.toDouble(),
-                        newEnd,
-                        newType
-                    )
-                )
-
-                profileViewModel.getGoals()
-                dialog.dismiss()
-            }
-
-            cancel.setOnClickListener {
-                dialog.dismiss()
-            }
-
-            dialog.show()
+            newGoal()
         }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

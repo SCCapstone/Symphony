@@ -40,39 +40,52 @@ android {
     }
 }
 
+
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.core:core-ktx:1.10.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
-    implementation 'com.google.firebase:firebase-database:20.1.0'
+    implementation 'com.google.firebase:firebase-database-ktx:20.2.0'
+    implementation 'com.google.firebase:firebase-database:20.2.0'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.0"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
 
     // Testing dependencies
+    implementation 'androidx.arch.core:core-testing:2.2.0'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.junit.jupiter:junit-jupiter'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation('androidx.test.espresso:espresso-contrib:3.5.1') {
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude module: 'recyclerview-v7'
+        exclude module: "protobuf-lite"
+    }
+    androidTestImplementation "org.hamcrest:hamcrest:2.2"
     androidTestImplementation 'androidx.test:runner:1.5.2'
     androidTestImplementation 'androidx.test:rules:1.5.0'
     androidTestImplementation 'androidx.test:core:1.5.0'
     androidTestImplementation 'androidx.test:core-ktx:1.5.0'
     androidTestImplementation 'androidx.test.ext:junit-ktx:1.1.5'
 
+    // https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy
+    implementation 'net.bytebuddy:byte-buddy-android:1.14.4'
+
     // Optional -- Mockito framework
-    testImplementation 'org.mockito:mockito-core:5.0.0'
+    testImplementation 'org.mockito:mockito-core:5.3.1'
+    testImplementation 'org.mockito:mockito-android:5.3.1'
     testImplementation 'org.mockito.kotlin:mockito-kotlin:4.1.0'
-    testImplementation 'io.mockk:mockk:1.13.4'
+    testImplementation 'io.mockk:mockk:1.13.5'
 
     // Import the BoM for the Firebase platform
-    implementation platform('com.google.firebase:firebase-bom:31.1.0')
+    implementation platform('com.google.firebase:firebase-bom:31.5.0')
 
     // Add the dependency for the Firebase library
     // When using the BoM, you don't specify versions in Firebase library dependencies
@@ -95,11 +108,11 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-storage:8.0.2'
 
     // Also add the dependency for the Google Play services library and specify its version
-    implementation 'com.google.android.gms:play-services-auth:20.4.1'
+    implementation 'com.google.android.gms:play-services-auth:20.5.0'
 
     // Add the dependency for Glide
-    implementation 'com.github.bumptech.glide:glide:4.15.0'
-    kapt 'com.github.bumptech.glide:compiler:4.15.0'
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+    kapt 'com.github.bumptech.glide:compiler:4.15.1'
 
     // Konfetti by https://github.com/DanielMartinus/Konfetti
     implementation 'nl.dionsegijn:konfetti-xml:2.0.2'

@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/7/23, 7:13 PM
+ *  Created by Team Symphony on 4/20/23, 2:11 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/7/23, 7:13 PM
+ *  Last modified 4/20/23, 2:01 AM
  */
 
 package com.symphony.mrfit.ui
@@ -42,12 +42,15 @@ class MainActivity : AppCompatActivity() {
         // firebaseAuth.addAuthStateListener(this.authStateListener)
         val user = Firebase.auth.currentUser
         if (user != null) {
-            // User is signed in
+            // User is signed in, proceed to Home
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
             finish()
         } else {
-            // No user is signed in
+            // No user is signed in, proceed to Login
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 

@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 10:04 PM
+ *  Created by Team Symphony on 4/22/23, 6:21 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 8:42 PM
+ *  Last modified 4/22/23, 6:05 AM
  */
 
 package com.symphony.mrfit.ui
@@ -43,9 +43,14 @@ class WorkoutRoutineActivity : AppCompatActivity() {
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var exerciseViewModel: ExerciseViewModel
     private lateinit var binding: ActivityWorkoutRoutineBinding
-    private lateinit var routineName: EditText
+    private lateinit var workoutList: RecyclerView
+    private lateinit var routineNameText: EditText
     private lateinit var routinePlaylist: EditText
     private lateinit var passedRoutineID: String
+    private var routineName: String? = null
+    private var playlist: String? = null
+    private var exercises: ArrayList<String> = ArrayList()
+    private var passedList: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,14 +69,13 @@ class WorkoutRoutineActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-
         Log.d(ContentValues.TAG, "Activity has (Re)Started")
 
         // Bind variables to View elements
         val spinner = binding.loadingSpinner
-        routineName = binding.routineNameEditText
+        routineNameText = binding.routineNameEditText
         routinePlaylist = binding.workoutPlaylistEditText
-        val workoutList = binding.workoutListView
+        workoutList = binding.workoutListView
         val startWorkout = binding.startWorkoutButton
         val newExercise = binding.newExerciseButton
         val saveWorkout = binding.saveWorkoutButton
@@ -81,43 +85,55 @@ class WorkoutRoutineActivity : AppCompatActivity() {
 
         placeholderText.visibility = View.VISIBLE
         workoutList.visibility = View.GONE
-        spinner.visibility = View.VISIBLE
 
         /**
          * Retrieve the extras passed to this intent
          * passedID = The ID of the parent Routine
          * passedName = The Name of the parent Routine
          * passedList = The workoutList from the parent Routine
+         * savedName = The Name of the template if it was navigated away from
+         * savedMusic = The playlist for the template if it was navigated away from
          */
         passedRoutineID = intent.getStringExtra(EXTRA_IDENTITY)!!
-        var passedList = ArrayList<String>()
-
+        routineName = intent.getStringExtra(SAVED_NAME)
+        playlist = intent.getStringExtra(SAVED_PLAYLIST)
 
         // Set the layout of the list of workouts presented to the user
         layoutManager = LinearLayoutManager(this)
         workoutList.layoutManager = layoutManager
-
-        // Populate the list with the workouts associated with this routine
         exerciseViewModel.getRoutine(passedRoutineID)
         exerciseViewModel.routine.observe(this, Observer {
             val routine = it ?: return@Observer
 
-            routineName.setText(routine.name)
-            if (routine.playlist != null) {
-                routinePlaylist.setText(routine.playlist)
+            if (routineName != null) {
+                routineNameText.setText(routineName)
+                routinePlaylist.setText(playlist)
+            } else {
+                routineName = routine.name
+            }
+            routineNameText.setText(routineName)
+            if (playlist != null) {
+                routinePlaylist.setText(playlist)
+            } else if (routine.playlist != null) {
+                playlist = routine.playlist
+                routinePlaylist.setText(playlist)
             } else {
                 routinePlaylist.setText(BLANK)
             }
             if (routine.workoutList != null) {
-                placeholderText.visibility = View.GONE
-                workoutList.visibility = View.VISIBLE
-                passedList = routine.workoutList
-                exerciseViewModel.getWorkouts(routine.workoutList)
+                if (routine.workoutList.isNotEmpty()) {
+                    exercises = routine.workoutList
+                    spinner.visibility = View.VISIBLE
+                    passedList = routine.workoutList
+                    exerciseViewModel.getWorkouts(exercises)
+                }
             }
         })
         exerciseViewModel.workoutList.observe(this, Observer {
             val workList = it ?: return@Observer
             workoutList.adapter = WorkoutAdapter(this, workList, passedRoutineID, passedList)
+            placeholderText.visibility = View.GONE
+            workoutList.visibility = View.VISIBLE
             spinner.visibility = View.GONE
         })
 
@@ -134,13 +150,9 @@ class WorkoutRoutineActivity : AppCompatActivity() {
         // then return to their Home screen
         startWorkout.setOnClickListener {
             // Check if the routine name is empty
-            var newRoutineName = NEW_ROUTINE
-            if (routineName.text.isNotEmpty()) {
-                newRoutineName = routineName.text.toString()
-            }
-            save()
+            saveRoutine()
             val intent = Intent(this, CurrentWorkoutActivity::class.java)
-            intent.putExtra(EXTRA_STRING, newRoutineName)
+            intent.putExtra(EXTRA_STRING, routineName)
             intent.putExtra(EXTRA_ROUTINE, passedRoutineID)
             intent.putExtra(EXTRA_LIST, passedList)
             startActivity(intent)
@@ -148,7 +160,6 @@ class WorkoutRoutineActivity : AppCompatActivity() {
 
         // Navigate to a screen to make a new workout
         newExercise.setOnClickListener {
-            save()
             val intent = Intent(this, WorkoutTemplateActivity::class.java)
             intent.putExtra(EXTRA_ROUTINE, passedRoutineID)
             intent.putExtra(EXTRA_IDENTITY, NEW_ID)
@@ -159,7 +170,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
 
         // Save the current Routine and go back to the user's Home screen
         saveWorkout.setOnClickListener {
-            save()
+            saveRoutine()
             finish()
         }
 
@@ -178,23 +189,41 @@ class WorkoutRoutineActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        save()
+        tempSave()
     }
 
-    // Save the current routine info
-    private fun save() {
-        var newRoutineName = NEW_ROUTINE
-        if (routineName.text.isNotEmpty()) {
-            newRoutineName = routineName.text.toString()
+    private fun tempSave() {
+        val n: String? = if (routineNameText.text.isNotEmpty())
+            routineNameText.text.toString()
+        else
+            routineName
+        val p: String? = if (routinePlaylist.text.isNotEmpty())
+            routinePlaylist.text.toString()
+        else
+            playlist
+        intent.putExtra(SAVED_NAME, n)
+        intent.putExtra(SAVED_PLAYLIST, p)
+    }
+
+    /**
+     * Save the current routine
+     */
+    private fun saveRoutine() {
+        routineName = NEW_ROUTINE
+        if (routineNameText.text.isNotEmpty()) {
+            routineName = routineNameText.text.toString()
         }
         var newRoutinePlaylist = BLANK
         if (routinePlaylist.text!!.isNotEmpty()) {
             newRoutinePlaylist = routinePlaylist.text.toString()
         }
-        exerciseViewModel.updateRoutine(newRoutineName, newRoutinePlaylist, passedRoutineID)
+        exerciseViewModel.updateRoutine(routineName!!, newRoutinePlaylist, passedRoutineID)
     }
 
-    // Find which music service to link to
+    /**
+     * Attempt to link to a music service
+     * Parse the text in the playlist field for which service to use
+     */
     private fun playMusic(playlist: String) {
         // Check if the linked playlist is from Youtube
         if (playlist.contains("youtube")) {
@@ -220,9 +249,10 @@ class WorkoutRoutineActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val DEFAULT_DESC = "Workout Description"
         const val EXTRA_ROUTINE = "passed routine id"
         const val NEW_ID = "NEW"
+        const val SAVED_NAME = "saved template name"
+        const val SAVED_PLAYLIST = "saved playlist"
     }
 
 }

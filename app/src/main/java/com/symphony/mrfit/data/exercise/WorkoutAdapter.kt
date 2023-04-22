@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 10:27 PM
+ *  Created by Team Symphony on 4/22/23, 6:21 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 10:22 PM
+ *  Last modified 4/22/23, 6:05 AM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -31,7 +31,12 @@ import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_LIST
  * a passed list of Workouts, as well as the parent Routine's ID and workoutList
  */
 
-class WorkoutAdapter (val context: Context, val data: ArrayList<Workout>, private val rID: String, private val rList: ArrayList<String>): RecyclerView.Adapter<WorkoutAdapter.ViewHolder>() {
+class WorkoutAdapter(
+    val context: Context,
+    val data: ArrayList<Workout>,
+    private val rID: String,
+    private val rList: ArrayList<String>
+) : RecyclerView.Adapter<WorkoutAdapter.ViewHolder>() {
 
     private var storage: FirebaseStorage = Firebase.storage
 

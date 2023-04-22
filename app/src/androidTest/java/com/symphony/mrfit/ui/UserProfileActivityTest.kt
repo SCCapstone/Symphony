@@ -1,38 +1,164 @@
+/*
+ *  Created by Team Symphony on 4/22/23, 6:21 AM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 4/22/23, 6:05 AM
+ */
+
 package com.symphony.mrfit.ui
 
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.activityScenarioRule
+import androidx.test.filters.LargeTest
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.symphony.mrfit.R
-import org.junit.Assert.*
+import org.hamcrest.CoreMatchers.not
+import org.junit.Before
 import org.junit.Rule
-
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(AndroidJUnit4ClassRunner::class)
+@LargeTest
 class UserProfileActivityTest {
+
+    @Before
+    fun setUp() {
+    }
 
     @get:Rule
     var activityScenarioRule = activityScenarioRule<UserProfileActivity>()
 
-    /*tests if you can logout from user profile*/
+    /**
+     * Test if the activity is displayed and visible to user
+     */
+    @Test
+    fun checkActivityVisibility() {
+        Espresso.onView(withId(R.id.layout_profileActivity))
+            .check(matches(isDisplayed()))
+    }
+
+    /**
+     * Test if all the appropriate components are visible
+     */
     @Test
     fun checkViewVisibility() {
-        onView(withId(R.id.profileScreenView))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Thread.sleep(500)
+        Espresso.onView(withId(R.id.profileScreenView))
+            .check(matches(isDisplayed()))
 
-        onView(withId(R.id.profileNameTextView))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.profilePicture))
+            .check(matches(isDisplayed()))
 
-        onView(withId(R.id.weightLayout))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.profileNameTextView))
+            .check(matches(isDisplayed()))
 
-        onView(withId(R.id.ageLayout))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.editProfileButton))
+            .check(matches(not(isDisplayed())))
 
-        onView(withId(R.id.heightLayout))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.heightLayout))
+            .check(matches(isDisplayed()))
+
+        Espresso.onView(withId(R.id.weightLayout))
+            .check(matches(isDisplayed()))
+
+        Espresso.onView(withId(R.id.ageLayout))
+            .check(matches(isDisplayed()))
+
+        Espresso.onView(withId(R.id.stuffLayout))
+            .check(matches(isDisplayed()))
+
+        Espresso.onView(withId(R.id.goalsButton))
+            .check(matches(isDisplayed()))
+
+        Espresso.onView(withId(R.id.notificationsButton))
+            .check(matches(isDisplayed()))
+
+        Espresso.onView(withId(R.id.historyButton))
+            .check(matches(isDisplayed()))
+
+        Espresso.onView(withId(R.id.customExercisesButton))
+            .check(matches(isDisplayed()))
+
+        Espresso.onView(withId(R.id.settingLayout))
+            .check(matches(isDisplayed()))
+
+        Espresso.onView(withId(R.id.notificationToggle))
+            .check(matches(not(isDisplayed())))
+
+        Espresso.onView(withId(R.id.logoutButton))
+            .check(matches(isDisplayed()))
+
+        Espresso.onView(withId(R.id.deleteButton))
+            .check(matches(isDisplayed()))
+
+        Espresso.onView(withId(R.id.loadingSpinner))
+            .check(matches(not(isDisplayed())))
+    }
+
+    /**
+     * Test if the Notifications button navigates properly
+     */
+    @Test
+    fun notificationsButtonTest() {
+        Espresso.onView(withId(R.id.notificationsButton))
+            .perform(click())
+        Espresso.onView(withId(R.id.layout_notificationLogActivity))
+            .check(matches(isDisplayed()))
+        Espresso.pressBack()
+        Thread.sleep(500)
+    }
+
+    /**
+     * Test if the Goals button navigates properly
+     */
+    @Test
+    fun goalsButtonTest() {
+        Espresso.onView(withId(R.id.goalsButton))
+            .perform(click())
+        Espresso.onView(withId(R.id.layout_goalsActivity))
+            .check(matches(isDisplayed()))
+        Espresso.pressBack()
+        Thread.sleep(500)
+    }
+
+    /**
+     * Test if the History button navigates properly
+     */
+    @Test
+    fun historyButtonTest() {
+        Espresso.onView(withId(R.id.historyButton))
+            .perform(click())
+        Espresso.onView(withId(R.id.layout_workoutHistoryActivity))
+            .check(matches(isDisplayed()))
+        Espresso.pressBack()
+        Thread.sleep(500)
+    }
+
+    /**
+     * Test if the Exercises button navigates properly
+     */
+    @Test
+    fun exerciseButtonTest() {
+        Espresso.onView(withId(R.id.customExercisesButton))
+            .perform(click())
+        Espresso.onView(withId(R.id.layout_customExerciseActivity))
+            .check(matches(isDisplayed()))
+        Espresso.pressBack()
+        Thread.sleep(500)
+    }
+
+    /**
+     * Test if the Logout button navigates properly
+     */
+    @Test
+    fun logoutButtonTest() {
+        Espresso.onView(withId(R.id.logoutButton))
+            .perform(click())
+        Espresso.onView(withId(R.id.layout_loginActivity))
+            .check(matches(isDisplayed()))
     }
 }

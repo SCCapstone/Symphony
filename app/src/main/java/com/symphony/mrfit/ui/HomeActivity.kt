@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/7/23, 7:13 PM
+ *  Created by Team Symphony on 4/21/23, 3:22 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/7/23, 7:13 PM
+ *  Last modified 4/21/23, 3:17 PM
  */
 
 package com.symphony.mrfit.ui
@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
 import com.google.firebase.auth.FirebaseAuth
+import com.symphony.mrfit.ManualWorkoutActivity
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.exercise.HistoryAdapter
 import com.symphony.mrfit.data.profile.ProfileViewModel
@@ -61,6 +62,7 @@ class HomeActivity : AppCompatActivity() {
         val name = binding.homeNameTextView
         val pfp = binding.homeProfilePicture
         val scheduleWorkout = binding.scheduleButton
+        val manualWorkout = binding.pastWorkout
         val startWorkout = binding.workoutButton
         val historyList = binding.historyList
 
@@ -112,6 +114,11 @@ class HomeActivity : AppCompatActivity() {
 
         scheduleWorkout.setOnClickListener {
             val intent = Intent(this, CalendarActivity::class.java)
+            startActivity(intent)
+        }
+
+        manualWorkout.setOnClickListener {
+            val intent = Intent(this, ManualWorkoutActivity::class.java)
             startActivity(intent)
         }
 

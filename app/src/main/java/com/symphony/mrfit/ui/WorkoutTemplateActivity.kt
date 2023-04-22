@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 7:44 PM
+ *  Created by Team Symphony on 4/22/23, 6:21 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 7:41 PM
+ *  Last modified 4/22/23, 6:05 AM
  */
 
 package com.symphony.mrfit.ui
@@ -222,7 +222,7 @@ class WorkoutTemplateActivity : AppCompatActivity() {
                         .child(ExerciseRepository.EXERCISE_PICTURE)
                         .child(exercise.exerciseID!!)
                 )
-                .placeholder(R.drawable.cactuar)
+                .placeholder(R.drawable.glide_placeholder)
                 .into(exeCard.exerciseImage)
             exeCard.exerciseNameTextView.text = exercise.name
             exeCard.exerciseTagsTextView.text = exercise.tags.toString()

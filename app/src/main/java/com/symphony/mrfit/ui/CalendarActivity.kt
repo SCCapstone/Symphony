@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 6:07 PM
+ *  Created by Team Symphony on 4/20/23, 2:11 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 6:06 PM
+ *  Last modified 4/20/23, 2:08 AM
  */
 
 package com.symphony.mrfit.ui
@@ -35,6 +35,10 @@ import com.symphony.mrfit.ui.Helper.EXTRA_DATE
 import com.symphony.mrfit.ui.Helper.toCalendar
 import java.text.SimpleDateFormat
 import java.util.*
+
+/**
+ * Screen featuring a Material UI-based Calendar widget for easy date selection
+ */
 
 class CalendarActivity : AppCompatActivity() {
 
@@ -77,6 +81,10 @@ class CalendarActivity : AppCompatActivity() {
             profileViewModel.getNotifications()
         }
 
+        /**
+         * Cancel a pending notification
+         * PendingIntent must match the notificaiton to be cancelled
+         */
         @RequiresApi(Build.VERSION_CODES.M)
         fun cancelNotification(time: String) {
             val notificationIntent = Intent(applicationContext, Notifications::class.java)
@@ -98,6 +106,7 @@ class CalendarActivity : AppCompatActivity() {
         layoutManager = LinearLayoutManager(this)
         alarmList.layoutManager = layoutManager
 
+        // Populate the calendar with current notifications
         profileViewModel.getNotifications()
         profileViewModel.notifications.observe(this, Observer {
             Log.d(ContentValues.TAG, "Filling in username")
@@ -106,6 +115,7 @@ class CalendarActivity : AppCompatActivity() {
             val todayAlerts = ArrayList<Notification>()
             notifDays.clear()
 
+            // Iterate over all notifications, note any on the currently selected date
             for (n in notifications) {
                 notifDays.add(n)
                 val notificationDate = n.date!!.toDate()
@@ -126,6 +136,7 @@ class CalendarActivity : AppCompatActivity() {
             calendar.setEvents(alertDays)
         })
 
+        // When a new day is selected, check for notifications on that date
         calendar.setOnDayClickListener(object : OnDayClickListener {
             override fun onDayClick(eventDay: EventDay) {
                 val clickedDay = eventDay.calendar
@@ -146,10 +157,6 @@ class CalendarActivity : AppCompatActivity() {
             }
         })
 
-        /**
-         * TODO: Pass the currently selected date to the new intent
-         *  then receive selected date to position selected day on restart
-         */
         newAlarm.setOnClickListener {
             val intent = Intent(this, NotificationActivity::class.java)
             intent.putExtra(EXTRA_DATE, calendar.firstSelectedDate.timeInMillis)
