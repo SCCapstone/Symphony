@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/21/23, 3:22 PM
+ *  Created by Team Symphony on 4/22/23, 5:12 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/21/23, 2:03 PM
+ *  Last modified 4/22/23, 5:12 PM
  */
 
 package com.symphony.mrfit.ui
@@ -14,8 +14,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.applandeo.materialcalendarview.EventDay
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener
-import com.symphony.mrfit.ManualWorkoutActivity.Companion.EXTRA_TIME
 import com.symphony.mrfit.databinding.ActivityDateTimeBinding
+import com.symphony.mrfit.ui.ManualWorkoutActivity.Companion.EXTRA_TIME
 import java.util.*
 
 class DateTimeActivity : AppCompatActivity() {

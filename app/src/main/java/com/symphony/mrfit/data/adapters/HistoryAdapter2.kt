@@ -1,10 +1,10 @@
 /*
- *  Created by Team Symphony on 4/1/23, 10:04 PM
+ *  Created by Team Symphony on 4/22/23, 5:12 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 10:04 PM
+ *  Last modified 4/22/23, 5:12 PM
  */
 
-package com.symphony.mrfit.data.exercise
+package com.symphony.mrfit.data.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -74,9 +74,12 @@ class HistoryAdapter2(
 
     private fun buildString(i: Int): String {
         val milli = data[i].duration!!
-        val minutes = TimeUnit.MILLISECONDS.toMinutes(milli)
-        val seconds = TimeUnit.MILLISECONDS.toSeconds(milli)
-        val time = String.format("%02d:%02d", minutes, seconds)
+        val time = String.format(
+            "%02d:%02d",
+            TimeUnit.MILLISECONDS.toMinutes(milli),
+            TimeUnit.MILLISECONDS.toSeconds(milli) -
+                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milli))
+        )
         val date = SimpleDateFormat(
             "MMMM dd, yyyy",
             Locale.getDefault()

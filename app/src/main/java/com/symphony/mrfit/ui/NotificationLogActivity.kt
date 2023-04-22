@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 9:44 PM
+ *  Created by Team Symphony on 4/22/23, 5:12 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 9:42 PM
+ *  Last modified 4/22/23, 4:43 PM
  */
 
 package com.symphony.mrfit.ui
@@ -21,7 +21,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.symphony.mrfit.data.exercise.NotificationAdapter
+import com.symphony.mrfit.data.adapters.NotificationAdapter
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityNotificationLogBinding

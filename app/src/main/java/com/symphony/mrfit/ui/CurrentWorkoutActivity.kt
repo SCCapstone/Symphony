@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/21/23, 10:36 PM
+ *  Created by Team Symphony on 4/22/23, 5:12 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/21/23, 10:36 PM
+ *  Last modified 4/22/23, 5:12 PM
  */
 
 package com.symphony.mrfit.ui
@@ -22,9 +22,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Timestamp
 import com.symphony.mrfit.R
+import com.symphony.mrfit.data.adapters.WorkoutAdapter2
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
-import com.symphony.mrfit.data.exercise.WorkoutAdapter2
 import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory

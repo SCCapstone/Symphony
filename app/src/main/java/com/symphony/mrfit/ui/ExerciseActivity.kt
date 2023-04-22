@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/21/23, 3:22 PM
+ *  Created by Team Symphony on 4/22/23, 5:12 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/21/23, 1:31 PM
+ *  Last modified 4/22/23, 4:43 PM
  */
 
 package com.symphony.mrfit.ui
@@ -31,7 +31,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.symphony.mrfit.R
-import com.symphony.mrfit.data.exercise.ExerciseAdapter
+import com.symphony.mrfit.data.adapters.ExerciseAdapter
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
 import com.symphony.mrfit.data.model.Exercise

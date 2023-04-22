@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/20/23, 7:03 PM
+ *  Created by Team Symphony on 4/22/23, 5:12 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/20/23, 4:59 PM
+ *  Last modified 4/22/23, 4:56 PM
  */
 
 package com.symphony.mrfit.ui
@@ -19,9 +19,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.symphony.mrfit.ManualWorkoutActivity
 import com.symphony.mrfit.R
-import com.symphony.mrfit.data.exercise.HistoryAdapter2
+import com.symphony.mrfit.data.adapters.HistoryAdapter2
 import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory

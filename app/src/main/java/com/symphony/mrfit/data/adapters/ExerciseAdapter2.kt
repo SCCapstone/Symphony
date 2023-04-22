@@ -1,17 +1,16 @@
 /*
- *  Created by Team Symphony on 4/2/23, 10:27 PM
+ *  Created by Team Symphony on 4/22/23, 5:12 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 10:22 PM
+ *  Last modified 4/22/23, 4:43 PM
  */
 
-package com.symphony.mrfit.data.exercise
+package com.symphony.mrfit.data.adapters
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -22,20 +21,24 @@ import com.google.firebase.storage.ktx.storage
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.exercise.ExerciseRepository.Companion.EXERCISE_PICTURE
 import com.symphony.mrfit.data.model.Exercise
-import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_IDENTITY
 
 /**
  * Adapter for dynamically populating a card_exercise with a passed list of Exercises
  */
 
-class ExerciseAdapter (val context:Context, val data: ArrayList<Exercise>): RecyclerView.Adapter<ExerciseAdapter.ViewHolder>() {
+class ExerciseAdapter2(
+    val context: Context,
+    val data: ArrayList<Exercise>,
+    val delete: (String) -> Unit,
+    val edit: (Exercise) -> Unit
+) : RecyclerView.Adapter<ExerciseAdapter2.ViewHolder>() {
 
 
     private var storage: FirebaseStorage = Firebase.storage
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val v = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.card_exercise, viewGroup, false)
+            .inflate(R.layout.card_exercise2, viewGroup, false)
         v.setOnClickListener { }
         return ViewHolder(v)
     }
@@ -53,13 +56,16 @@ class ExerciseAdapter (val context:Context, val data: ArrayList<Exercise>): Recy
             .placeholder(R.drawable.glide_placeholder)
             .into(holder.exeImage)
 
-        holder.itemView.setOnClickListener {
-            val intent = Intent()
-            intent.putExtra(EXTRA_IDENTITY, data[i].exerciseID)
-            context as Activity
-            context.setResult(Activity.RESULT_OK, intent)
-            context.finish()
+        holder.deleteButton.setOnClickListener {
+            delete(data[i].exerciseID!!)
+            data.removeAt(i)
+            notifyItemRemoved(i)
+            notifyItemRangeChanged(i, itemCount)
+        }
 
+        holder.itemView.setOnClickListener {
+            it.clearFocus()
+            edit(data[i])
         }
 
     }
@@ -74,12 +80,14 @@ class ExerciseAdapter (val context:Context, val data: ArrayList<Exercise>): Recy
         var exeTitle: TextView
         var exeTags: TextView
         var exeDetail: TextView
+        var deleteButton: Button
 
-            init {
-                exeImage = exeView.findViewById(R.id.exerciseImage)
-                exeTitle = exeView.findViewById(R.id.exerciseNameTextView)
-                exeTags = exeView.findViewById(R.id.exerciseTagsTextView)
-                exeDetail = exeView.findViewById(R.id.exerciseDescriptionTextView)
-                }
+        init {
+            exeImage = exeView.findViewById(R.id.exerciseImage)
+            exeTitle = exeView.findViewById(R.id.exerciseNameTextView)
+            exeTags = exeView.findViewById(R.id.exerciseTagsTextView)
+            exeDetail = exeView.findViewById(R.id.exerciseDescriptionTextView)
+            deleteButton = exeView.findViewById(R.id.deleteExerciseButton)
         }
+    }
 }

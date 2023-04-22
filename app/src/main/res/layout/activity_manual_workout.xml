@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 4/20/23, 7:03 PM
+  ~  Created by Team Symphony on 4/22/23, 5:12 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/20/23, 7:03 PM
+  ~  Last modified 4/22/23, 4:56 PM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -9,7 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ManualWorkoutActivity">
+    tools:context=".ui.ManualWorkoutActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

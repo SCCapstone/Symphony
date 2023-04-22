@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/20/23, 2:11 AM
+ *  Created by Team Symphony on 4/22/23, 5:12 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/20/23, 2:08 AM
+ *  Last modified 4/22/23, 4:43 PM
  */
 
 package com.symphony.mrfit.ui
@@ -26,7 +26,7 @@ import com.applandeo.materialcalendarview.CalendarView
 import com.applandeo.materialcalendarview.EventDay
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener
 import com.symphony.mrfit.R
-import com.symphony.mrfit.data.exercise.NotificationAdapter
+import com.symphony.mrfit.data.adapters.NotificationAdapter
 import com.symphony.mrfit.data.model.Notification
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory

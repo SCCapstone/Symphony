@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/21/23, 3:22 PM
+ *  Created by Team Symphony on 4/22/23, 5:12 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/21/23, 3:17 PM
+ *  Last modified 4/22/23, 4:56 PM
  */
 
 package com.symphony.mrfit.ui
@@ -20,9 +20,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
 import com.google.firebase.auth.FirebaseAuth
-import com.symphony.mrfit.ManualWorkoutActivity
 import com.symphony.mrfit.R
-import com.symphony.mrfit.data.exercise.HistoryAdapter
+import com.symphony.mrfit.data.adapters.HistoryAdapter
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityHomeBinding

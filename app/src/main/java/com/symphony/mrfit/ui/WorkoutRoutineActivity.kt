@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/22/23, 6:21 AM
+ *  Created by Team Symphony on 4/22/23, 5:12 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/22/23, 6:05 AM
+ *  Last modified 4/22/23, 5:12 PM
  */
 
 package com.symphony.mrfit.ui
@@ -21,9 +21,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.symphony.mrfit.R
+import com.symphony.mrfit.data.adapters.WorkoutAdapter
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
-import com.symphony.mrfit.data.exercise.WorkoutAdapter
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityWorkoutRoutineBinding
@@ -49,8 +49,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
     private lateinit var passedRoutineID: String
     private var routineName: String? = null
     private var playlist: String? = null
-    private var exercises: ArrayList<String> = ArrayList()
-    private var passedList: ArrayList<String> = ArrayList()
+    private var exercises: ArrayList<String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -122,16 +121,15 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             }
             if (routine.workoutList != null) {
                 if (routine.workoutList.isNotEmpty()) {
-                    exercises = routine.workoutList
                     spinner.visibility = View.VISIBLE
-                    passedList = routine.workoutList
-                    exerciseViewModel.getWorkouts(exercises)
+                    exercises = routine.workoutList
+                    exerciseViewModel.getWorkouts(exercises!!)
                 }
             }
         })
         exerciseViewModel.workoutList.observe(this, Observer {
             val workList = it ?: return@Observer
-            workoutList.adapter = WorkoutAdapter(this, workList, passedRoutineID, passedList)
+            workoutList.adapter = WorkoutAdapter(this, workList, passedRoutineID, exercises!!)
             placeholderText.visibility = View.GONE
             workoutList.visibility = View.VISIBLE
             spinner.visibility = View.GONE
@@ -154,7 +152,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             val intent = Intent(this, CurrentWorkoutActivity::class.java)
             intent.putExtra(EXTRA_STRING, routineName)
             intent.putExtra(EXTRA_ROUTINE, passedRoutineID)
-            intent.putExtra(EXTRA_LIST, passedList)
+            intent.putExtra(EXTRA_LIST, exercises)
             startActivity(intent)
         }
 
@@ -164,7 +162,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
             intent.putExtra(EXTRA_ROUTINE, passedRoutineID)
             intent.putExtra(EXTRA_IDENTITY, NEW_ID)
             intent.putExtra(WorkoutTemplateActivity.EXTRA_STRING, getText(R.string.new_exercise))
-            intent.putExtra(WorkoutTemplateActivity.EXTRA_LIST, passedList)
+            intent.putExtra(WorkoutTemplateActivity.EXTRA_LIST, exercises)
             startActivity(intent)
         }
 
