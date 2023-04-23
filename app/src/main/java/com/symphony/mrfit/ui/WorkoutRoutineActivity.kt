@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/22/23, 5:12 PM
+ *  Created by Team Symphony on 4/23/23, 3:14 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/22/23, 5:12 PM
+ *  Last modified 4/23/23, 3:14 PM
  */
 
 package com.symphony.mrfit.ui
@@ -49,7 +49,7 @@ class WorkoutRoutineActivity : AppCompatActivity() {
     private lateinit var passedRoutineID: String
     private var routineName: String? = null
     private var playlist: String? = null
-    private var exercises: ArrayList<String>? = null
+    private var exercises: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,16 +120,19 @@ class WorkoutRoutineActivity : AppCompatActivity() {
                 routinePlaylist.setText(BLANK)
             }
             if (routine.workoutList != null) {
-                if (routine.workoutList.isNotEmpty()) {
+                if (routine.workoutList.isEmpty()) {
+                    exercises = routine.workoutList
+                    placeholderText.visibility = View.VISIBLE
+                } else {
                     spinner.visibility = View.VISIBLE
                     exercises = routine.workoutList
-                    exerciseViewModel.getWorkouts(exercises!!)
+                    exerciseViewModel.getWorkouts(exercises)
                 }
             }
         })
         exerciseViewModel.workoutList.observe(this, Observer {
             val workList = it ?: return@Observer
-            workoutList.adapter = WorkoutAdapter(this, workList, passedRoutineID, exercises!!)
+            workoutList.adapter = WorkoutAdapter(this, workList, passedRoutineID, exercises)
             placeholderText.visibility = View.GONE
             workoutList.visibility = View.VISIBLE
             spinner.visibility = View.GONE

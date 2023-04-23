@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/23/23, 3:46 AM
+ *  Created by Team Symphony on 4/23/23, 3:14 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/23/23, 3:46 AM
+ *  Last modified 4/23/23, 2:02 PM
  */
 
 package com.symphony.mrfit.ui
@@ -14,10 +14,12 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.activityScenarioRule
 import com.symphony.mrfit.R
 import org.hamcrest.CoreMatchers.not
+import org.junit.FixMethodOrder
 import org.junit.Rule
 import org.junit.Test
 
-class UserProfileActivityTest {
+@FixMethodOrder
+class YUserProfileActivityTest {
 
     @get:Rule
     var activityScenarioRule = activityScenarioRule<UserProfileActivity>()
@@ -94,12 +96,12 @@ class UserProfileActivityTest {
      */
     @Test
     fun notificationsButtonTest() {
+        Thread.sleep(500)
         Espresso.onView(withId(R.id.notificationsButton))
             .perform(click())
         Espresso.onView(withId(R.id.layout_notificationLogActivity))
             .check(matches(isDisplayed()))
         Espresso.pressBack()
-        Thread.sleep(500)
     }
 
     /**
@@ -107,12 +109,12 @@ class UserProfileActivityTest {
      */
     @Test
     fun goalsButtonTest() {
+        Thread.sleep(500)
         Espresso.onView(withId(R.id.goalsButton))
             .perform(click())
         Espresso.onView(withId(R.id.layout_goalsActivity))
             .check(matches(isDisplayed()))
         Espresso.pressBack()
-        Thread.sleep(500)
     }
 
     /**
@@ -120,12 +122,12 @@ class UserProfileActivityTest {
      */
     @Test
     fun historyButtonTest() {
+        Thread.sleep(500)
         Espresso.onView(withId(R.id.historyButton))
             .perform(click())
         Espresso.onView(withId(R.id.layout_workoutHistoryActivity))
             .check(matches(isDisplayed()))
         Espresso.pressBack()
-        Thread.sleep(500)
     }
 
     /**
@@ -133,12 +135,12 @@ class UserProfileActivityTest {
      */
     @Test
     fun exerciseButtonTest() {
+        Thread.sleep(500)
         Espresso.onView(withId(R.id.customExercisesButton))
             .perform(click())
         Espresso.onView(withId(R.id.layout_customExerciseActivity))
             .check(matches(isDisplayed()))
         Espresso.pressBack()
-        Thread.sleep(500)
     }
 
     /**
@@ -146,6 +148,7 @@ class UserProfileActivityTest {
      */
     @Test
     fun logoutButtonTest() {
+        Thread.sleep(500)
         Espresso.onView(withId(R.id.logoutButton))
             .perform(click())
         Espresso.onView(withId(R.id.layout_loginActivity))

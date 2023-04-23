@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/22/23, 6:21 AM
+ *  Created by Team Symphony on 4/23/23, 3:14 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/22/23, 6:05 AM
+ *  Last modified 4/23/23, 2:37 PM
  */
 
 package com.symphony.mrfit.ui
@@ -22,7 +22,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4ClassRunner::class)
 @LargeTest
-class CoreFunctionalityTest {
+class ZCoreFunctionalityTest {
 
     @get:Rule
     var activityScenarioRule = activityScenarioRule<MainActivity>()
@@ -81,7 +81,7 @@ class CoreFunctionalityTest {
         Thread.sleep(500)
         Espresso.onView(withId(R.id.exerciseListView))
             .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
-        Thread.sleep(500)
+        Thread.sleep(1000)
         Espresso.onView(withId(R.id.saveTemplateButton))
             .perform(click())
         Thread.sleep(1000)
@@ -91,7 +91,7 @@ class CoreFunctionalityTest {
         Thread.sleep(500)
         Espresso.onView(withId(R.id.exerciseListView))
             .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click()))
-        Thread.sleep(500)
+        Thread.sleep(1000)
         Espresso.onView(withId(R.id.saveTemplateButton))
             .perform(click())
         Thread.sleep(1000)
@@ -101,7 +101,7 @@ class CoreFunctionalityTest {
         Thread.sleep(500)
         Espresso.onView(withId(R.id.exerciseListView))
             .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(2, click()))
-        Thread.sleep(500)
+        Thread.sleep(1000)
         Espresso.onView(withId(R.id.saveTemplateButton))
             .perform(click())
         Thread.sleep(1000)

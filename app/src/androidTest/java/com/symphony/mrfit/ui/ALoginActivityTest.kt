@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/23/23, 3:46 AM
+ *  Created by Team Symphony on 4/23/23, 3:14 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/23/23, 3:46 AM
+ *  Last modified 4/23/23, 1:53 PM
  */
 
 package com.symphony.mrfit.ui
@@ -18,7 +18,7 @@ import com.symphony.mrfit.R
 import org.junit.Rule
 import org.junit.Test
 
-class LoginActivityTest {
+class ALoginActivityTest {
 
     @get:Rule
     var activityScenarioRule = activityScenarioRule<LoginActivity>()

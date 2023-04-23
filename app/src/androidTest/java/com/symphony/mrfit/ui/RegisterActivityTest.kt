@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/23/23, 3:46 AM
+ *  Created by Team Symphony on 4/23/23, 3:14 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/23/23, 3:46 AM
+ *  Last modified 4/23/23, 3:14 PM
  */
 
 package com.symphony.mrfit.ui
@@ -25,7 +25,10 @@ class RegisterActivityTest {
         onView(withId(R.id.registerEmail))
             .perform(ViewActions.typeText(REAL_EMAIL))
         onView(withId(R.id.registerPassword))
-            .perform(ViewActions.typeText(LoginActivityTest.REAL_PASS), ViewActions.closeSoftKeyboard())
+            .perform(
+                ViewActions.typeText(ALoginActivityTest.REAL_PASS),
+                ViewActions.closeSoftKeyboard()
+            )
         onView(withId(R.id.registerButton))
             .perform(ViewActions.click())
     }

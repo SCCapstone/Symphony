@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/22/23, 7:14 PM
+ *  Created by Team Symphony on 4/23/23, 3:14 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/22/23, 7:14 PM
+ *  Last modified 4/23/23, 3:14 PM
  */
 
 package com.symphony.mrfit.ui
@@ -62,16 +62,12 @@ class WorkoutTemplateActivity : AppCompatActivity() {
             this, ExerciseViewModelFactory()
         )[ExerciseViewModel::class.java]
 
-            val home = binding.BackButton
-            home.setOnClickListener {
-                val intent = Intent(this, Workout::class.java)
-                startActivity(intent)
+        val home = binding.BackButton
+        home.setOnClickListener {
+            val intent = Intent(this, Workout::class.java)
+            startActivity(intent)
 
-            }
-    }
-
-    override fun onStart() {
-        super.onStart()
+        }
 
         val storage: FirebaseStorage = Firebase.storage
 
@@ -255,7 +251,6 @@ class WorkoutTemplateActivity : AppCompatActivity() {
             }
             setResult(Activity.RESULT_OK)
         })
-
     }
 
     private fun gotoExerciseScreen() {

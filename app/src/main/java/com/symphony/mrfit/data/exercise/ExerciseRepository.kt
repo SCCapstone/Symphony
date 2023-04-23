@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/22/23, 7:14 PM
+ *  Created by Team Symphony on 4/23/23, 3:14 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/22/23, 7:09 PM
+ *  Last modified 4/23/23, 2:34 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -123,24 +123,28 @@ class ExerciseRepository {
      * Retrieve an array list of exercises belonging to the current User
      */
     suspend fun getExerciseList(): ArrayList<Exercise> {
-        val user = auth.currentUser!!
         val exeList = ArrayList<Exercise>()
-        Log.d(TAG, "Getting exercises belonging to ${user.uid}")
-        try {
-            val result = database.collection(EXERCISE_COLLECTION)
-                .whereEqualTo(OWNER_FIELD, user.uid)
-                .get()
-                .await()
+        val user = auth.currentUser
+        if (user != null) {
+            Log.d(TAG, "Getting exercises belonging to ${user.uid}")
+            try {
+                val result = database.collection(EXERCISE_COLLECTION)
+                    .whereEqualTo(OWNER_FIELD, user.uid)
+                    .get()
+                    .await()
 
-            for (document in result) {
-                Log.d(TAG, "${document.id} => ${document.data}")
-                val t = document.toObject<Exercise>()
-                exeList.add(t)
+                for (document in result) {
+                    Log.d(TAG, "${document.id} => ${document.data}")
+                    val t = document.toObject<Exercise>()
+                    exeList.add(t)
+                }
+            } catch (e: java.lang.Exception) {
+                Log.d(TAG, "Error getting documents: ", e)
             }
-        } catch (e: java.lang.Exception) {
-            Log.d(TAG, "Error getting documents: ", e)
+            return exeList
+        } else {
+            return exeList
         }
-        return exeList
     }
 
     /**

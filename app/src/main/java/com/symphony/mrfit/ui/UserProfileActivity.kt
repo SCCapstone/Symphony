@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/19/23, 7:07 PM
+ *  Created by Team Symphony on 4/23/23, 3:14 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/19/23, 7:07 PM
+ *  Last modified 4/23/23, 2:31 PM
  */
 
 package com.symphony.mrfit.ui
@@ -119,8 +119,6 @@ class UserProfileActivity : AppCompatActivity() {
                 }
             }
 
-        // Hide the screen till loading is done
-        screen.visibility = View.GONE
         spinner.visibility = View.VISIBLE
 
         // Get data of current User and populate the page
@@ -148,7 +146,6 @@ class UserProfileActivity : AppCompatActivity() {
                 weightText.text = getString(R.string.weight_value, weightText.text)
             }
 
-            screen.visibility = View.VISIBLE
             spinner.visibility = View.GONE
         })
 
