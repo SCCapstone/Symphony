@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/22/23, 5:12 PM
+ *  Created by Team Symphony on 4/23/23, 3:02 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/22/23, 4:43 PM
+ *  Last modified 4/23/23, 12:06 AM
  */
 
 package com.symphony.mrfit.data.adapters
@@ -74,7 +74,7 @@ class GoalAdapter(
     }
 
     private fun buildString(i: Int): String {
-        val format = DecimalFormat("0.#")
+        val format = DecimalFormat("0.##")
         return context.getString(
             R.string.goal_format,
             format.format(data[i].progress),

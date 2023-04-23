@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/22/23, 8:53 PM
+ *  Created by Team Symphony on 4/23/23, 3:02 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/22/23, 8:52 PM
+ *  Last modified 4/22/23, 11:42 PM
  */
 
 package com.symphony.mrfit.ui
@@ -40,7 +40,7 @@ object Helper {
     }
 
     fun humanReadableDuration(time: Long): String {
-        return if (time > ONE_HOUR) {
+        return if (time >= ONE_HOUR) {
             String.format(
                 "%02d:%02d:%02d",
                 TimeUnit.MILLISECONDS.toHours(time),

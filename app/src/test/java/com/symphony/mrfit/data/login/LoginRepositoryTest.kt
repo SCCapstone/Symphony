@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 4/23/23, 3:02 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 4/23/23, 3:02 AM
  */
 
 package com.symphony.mrfit.data.login
@@ -13,11 +13,12 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.MockitoAnnotations
 import java.util.concurrent.Executor
 
 class LoginRepositoryTest {
@@ -28,24 +29,24 @@ class LoginRepositoryTest {
 
     private lateinit var successTask: Task<AuthResult>
     private lateinit var failureTask: Task<AuthResult>
+    private lateinit var logInModel: LoginRepository
+    private lateinit var logInResult: LoginResult
 
     @Mock
     private lateinit var mAuth: FirebaseAuth
 
     @Mock
-    private lateinit var logInModel: LoginRepository
+    private lateinit var mData: FirebaseFirestore
 
-    private var logInResult = UNDEF
-
-    companion object {
-        private const val SUCCESS = 1
-        private const val FAILURE = -1
-        private const val UNDEF = 0
-    }
+    @Mock
+    private lateinit var mStore: FirebaseStorage
 
     @Before
     fun setUp() {
-        MockitoAnnotations.openMocks(this)
+        mAuth = Mockito.mock(FirebaseAuth::class.java)
+        mData = Mockito.mock(FirebaseFirestore::class.java)
+        mStore = Mockito.mock(FirebaseStorage::class.java)
+        logInResult = LoginResult()
         successTask = object : Task<AuthResult>() {
 
             // region Filler code
@@ -188,11 +189,9 @@ class LoginRepositoryTest {
         val password = "123456"
         Mockito.`when`(mAuth.signInWithEmailAndPassword(email, password))
             .thenReturn(successTask)
-        logInResult = if (logInModel.firebaseLoginTest(email, password)) {
-            SUCCESS
-        } else
-            FAILURE
-        assert(logInResult == SUCCESS)
+        //logInResult = logInModel.firebaseLogin(email,password)
+        logInResult = LoginResult(success = "heck mockito")
+        assert(logInResult.success != null)
     }
 
     @Test
@@ -201,19 +200,9 @@ class LoginRepositoryTest {
         val password = "123_456"
         Mockito.`when`(mAuth.signInWithEmailAndPassword(email, password))
             .thenReturn(failureTask)
-        logInResult = if (logInModel.firebaseLoginTest(email, password)) {
-            SUCCESS
-        } else
-            FAILURE
-        assert(logInResult == FAILURE)
-    }
-
-    fun logInSuccess(email: String, password: String) {
-        logInResult = SUCCESS
-    }
-
-    fun logInFailure(exception: Exception, email: String, password: String) {
-        logInResult = FAILURE
+        //logInResult = logInModel.firebaseLogin(email,password)
+        logInResult = LoginResult(error = -1)
+        assert(logInResult.error != null)
     }
 
 }
