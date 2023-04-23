@@ -27,7 +27,7 @@
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="100dp" />
+            android:layout_height="115dp" />
 
         <include
             android:id="@+id/exerciseCardView"
