@@ -1,22 +1,17 @@
+/*
+ *  Created by Team Symphony on 4/23/23, 3:46 AM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 4/23/23, 3:46 AM
+ */
+
 package com.symphony.mrfit.ui
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.ActivityTestRule
-import org.junit.After
 import org.junit.Assert.*
-import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.Assert.assertEquals
-
-
 
 
 @RunWith(AndroidJUnit4::class)

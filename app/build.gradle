@@ -57,7 +57,6 @@ dependencies {
 
     // Testing dependencies
     implementation 'androidx.arch.core:core-testing:2.2.0'
-    implementation 'androidx.test:monitor:1.6.1'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
