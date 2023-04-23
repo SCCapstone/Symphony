@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 4/2/23, 3:50 AM
+  ~  Created by Team Symphony on 4/21/23, 10:43 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/2/23, 1:29 AM
+  ~  Last modified 4/21/23, 10:40 PM
   -->
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -24,13 +24,13 @@ will add padding in API v21+ as well to have the same measurements with previous
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp">
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -38,13 +38,14 @@ will add padding in API v21+ as well to have the same measurements with previous
                 android:id="@+id/goalName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Goal name"
-                android:maxLength="35"/>
+                android:layout_marginBottom="2dp"
+                android:text="Goal name" />
 
             <TextView
                 android:id="@+id/goalProgress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:text="___ / 50 days" />
 
         </LinearLayout>

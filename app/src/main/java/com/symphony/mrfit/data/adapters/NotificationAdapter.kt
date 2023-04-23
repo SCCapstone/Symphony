@@ -1,10 +1,10 @@
 /*
- *  Created by Team Symphony on 4/1/23, 10:04 PM
+ *  Created by Team Symphony on 4/22/23, 8:53 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 9:50 PM
+ *  Last modified 4/22/23, 8:53 PM
  */
 
-package com.symphony.mrfit.data.exercise
+package com.symphony.mrfit.data.adapters
 
 import android.content.Context
 import android.os.Build
@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.model.Notification
 import com.symphony.mrfit.data.profile.UserRepository
-import java.text.SimpleDateFormat
+import com.symphony.mrfit.ui.Helper.humanReadableDateTime
 import java.util.*
 
 /**
@@ -47,11 +47,7 @@ class NotificationAdapter(
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
         holder.notificationMessage.text = data[i].message
         val date = data[i].date!!.toDate()
-        holder.notificationTimestamp.text = SimpleDateFormat(
-            "MMMM dd, yyyy 'at' hh:mm a",
-            Locale.getDefault()
-        )
-            .format(date)
+        holder.notificationTimestamp.text = humanReadableDateTime(date)
         // If the Notification was from before the current date
         // allow user to delete it
         if (date.before(Date())) {

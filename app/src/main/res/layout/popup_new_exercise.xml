@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Team Symphony on 4/20/23, 1:04 AM
+  ~  Created by Team Symphony on 4/21/23, 5:08 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/20/23, 1:04 AM
+  ~  Last modified 4/21/23, 5:00 PM
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_tags"
-                android:inputType="textMultiLine|text" />
+                android:inputType="textLongMessage|text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -67,7 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_description"
-                android:inputType="textLongMessage|textMultiLine|text" />
+                android:inputType="textLongMessage|text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView

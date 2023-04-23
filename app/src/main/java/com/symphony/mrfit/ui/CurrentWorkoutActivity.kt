@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/20/23, 2:11 AM
+ *  Created by Team Symphony on 4/22/23, 8:53 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/20/23, 2:11 AM
+ *  Last modified 4/22/23, 8:53 PM
  */
 
 package com.symphony.mrfit.ui
@@ -22,18 +22,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Timestamp
 import com.symphony.mrfit.R
+import com.symphony.mrfit.data.adapters.WorkoutAdapter2
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
-import com.symphony.mrfit.data.exercise.WorkoutAdapter2
 import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityCurrentWorkoutBinding
 import com.symphony.mrfit.ui.Helper.ZERO
+import com.symphony.mrfit.ui.Helper.humanReadableTime
 import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_LIST
 import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_STRING
 import com.symphony.mrfit.ui.WorkoutRoutineActivity.Companion.EXTRA_ROUTINE
-import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -134,20 +134,11 @@ class CurrentWorkoutActivity : AppCompatActivity() {
                 .inflate(R.layout.activity_post_workout, null, false)
 
             materialDialog.setView(dialogView)
-                .setTitle("Post Exercise")
 
             val text = dialogView.findViewById<TextView>(R.id.postWorkoutTime)
-            val startTime = SimpleDateFormat(
-                "'You started this workout at' hh:mm a",
-                Locale.getDefault()
-            )
-                .format(Date().time - timeSpent)
-            val endTime = SimpleDateFormat(
-                "' and finished at ' hh:mm a",
-                Locale.getDefault()
-            )
-                .format(Date())
-            var totalTime = " for a total of "
+            val startTime = humanReadableTime(Date().time - timeSpent)
+            val endTime = humanReadableTime(Date())
+            var totalTime = ""
             var hours: Long = 0
             var minutes = timeSpent / 1000 / 60
             val seconds = timeSpent / 1000 % 60
@@ -163,7 +154,7 @@ class CurrentWorkoutActivity : AppCompatActivity() {
             }
             totalTime += "$seconds seconds."
 
-            text.text = startTime + endTime + totalTime
+            text.text = getString(R.string.post_workout_message, startTime, endTime, totalTime)
 
             materialDialog.setOnCancelListener {
                 gotoHome()

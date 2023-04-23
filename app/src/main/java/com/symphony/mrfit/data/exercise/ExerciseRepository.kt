@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 2:50 PM
+ *  Created by Team Symphony on 4/22/23, 7:14 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 2:50 PM
+ *  Last modified 4/22/23, 7:09 PM
  */
 
 package com.symphony.mrfit.data.exercise
@@ -82,10 +82,41 @@ class ExerciseRepository {
 
     /**
      * Remove a specific Exercise by it's ID
+     * Also remove any workouts using that Exercise
+     * Update any routines using those workouts to alert the user
      */
     suspend fun deleteExercise(exeID: String) {
         Log.d(TAG, "Removing Exercise $exeID from Firestore")
         database.collection(EXERCISE_COLLECTION).document(exeID).delete().await()
+        val storageRef = storage.reference.child(EXERCISE_PICTURE).child(exeID)
+        storageRef.delete().await()
+
+        Log.d(TAG, "Removing Exercise $exeID from all Routines")
+        try {
+            val workList = arrayListOf<String>()
+            // Get and delete all workouts constructed from the deleted exercise
+            val result = database.collection(WORKOUT_COLLECTION)
+                .whereEqualTo("exercise", exeID)
+                .get()
+                .await()
+            for (document in result) {
+                workList.add(document.get("workoutID") as String)
+                document.reference.delete()
+            }
+            // Remove any deleted workouts from routines
+            for (workID in workList) {
+                val result2 = database.collection(ROUTINE_COLLECTION)
+                    .whereArrayContains("workoutList", workID)
+                    .get().await()
+                for (document2 in result2) {
+                    val t = document2.toObject<WorkoutRoutine>()
+                    t.workoutList!!.remove(workID)
+                    document2.reference.set(t)
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            Log.d(TAG, "Error updating routines: $e")
+        }
     }
 
     /**

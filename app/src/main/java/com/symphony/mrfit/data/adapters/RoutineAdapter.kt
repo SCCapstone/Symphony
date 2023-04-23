@@ -1,10 +1,10 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 4/22/23, 5:12 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 4/22/23, 4:43 PM
  */
 
-package com.symphony.mrfit.data.exercise
+package com.symphony.mrfit.data.adapters
 
 import android.content.Context
 import android.content.Intent

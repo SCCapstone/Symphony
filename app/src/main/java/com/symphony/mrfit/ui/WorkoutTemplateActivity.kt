@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 7:44 PM
+ *  Created by Team Symphony on 4/22/23, 7:14 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 7:41 PM
+ *  Last modified 4/22/23, 7:14 PM
  */
 
 package com.symphony.mrfit.ui
@@ -12,6 +12,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -187,6 +188,11 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         deleteButton.setOnClickListener {
             passedList!!.remove(passedWorkoutID)
             exerciseViewModel.updateRoutineWorkoutList(passedRoutineID!!, passedList)
+            Toast.makeText(
+                applicationContext,
+                "This workout has been removed from your template",
+                Toast.LENGTH_SHORT
+            ).show()
             finish()
         }
 
@@ -222,7 +228,7 @@ class WorkoutTemplateActivity : AppCompatActivity() {
                         .child(ExerciseRepository.EXERCISE_PICTURE)
                         .child(exercise.exerciseID!!)
                 )
-                .placeholder(R.drawable.cactuar)
+                .placeholder(R.drawable.glide_placeholder)
                 .into(exeCard.exerciseImage)
             exeCard.exerciseNameTextView.text = exercise.name
             exeCard.exerciseTagsTextView.text = exercise.tags.toString()

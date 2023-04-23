@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 4/2/23, 1:04 AM
+  ~  Created by Team Symphony on 4/21/23, 10:36 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/2/23, 1:01 AM
+  ~  Last modified 4/21/23, 10:27 PM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_workoutBuilderActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1"
@@ -41,10 +42,12 @@
                 android:layout_marginTop="10dp"
                 android:ems="10"
                 android:hint="@string/label_routine_name"
+                android:importantForAutofill="no"
                 android:inputType="textPersonName"
                 android:minHeight="48dp"
-                android:importantForAutofill="no"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -55,7 +58,8 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:textColorHint="@color/material_dynamic_neutral40">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/workoutPlaylistEditText"
@@ -63,7 +67,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:hint="@string/workout_playlist" />
+                        android:hint="@string/workout_playlist"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button

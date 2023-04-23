@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/1/23, 7:44 PM
+ *  Created by Team Symphony on 4/22/23, 5:12 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 7:44 PM
+ *  Last modified 4/22/23, 5:12 PM
  */
 
 package com.symphony.mrfit.ui
@@ -16,9 +16,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.symphony.mrfit.data.adapters.RoutineAdapter
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
-import com.symphony.mrfit.data.exercise.RoutineAdapter
 import com.symphony.mrfit.databinding.ActivityRoutineSelectionBinding
 import com.symphony.mrfit.ui.Helper.BLANK
 import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_IDENTITY

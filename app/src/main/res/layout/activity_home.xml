@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 4/21/23, 3:22 PM
+  ~  Created by Team Symphony on 4/21/23, 5:08 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/21/23, 3:17 PM
+  ~  Last modified 4/21/23, 4:39 PM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -48,12 +48,12 @@
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/templateNameTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:text="@string/welcome" />
+                <TextView
+                    android:id="@+id/homeWelcomeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/welcome"
+                    android:textColor="#616161" />
 
                     <TextView
                         android:id="@+id/homeNameTextView"
@@ -66,7 +66,7 @@
                 </LinearLayout>
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/settingsCog"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="5dp"

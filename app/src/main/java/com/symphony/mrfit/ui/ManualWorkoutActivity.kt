@@ -1,10 +1,10 @@
 /*
- *  Created by Team Symphony on 4/21/23, 3:22 PM
+ *  Created by Team Symphony on 4/22/23, 5:12 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/21/23, 3:22 PM
+ *  Last modified 4/22/23, 5:12 PM
  */
 
-package com.symphony.mrfit
+package com.symphony.mrfit.ui
 
 import android.app.Activity
 import android.content.ContentValues
@@ -22,14 +22,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Timestamp
+import com.symphony.mrfit.data.adapters.RoutineAdapter2
 import com.symphony.mrfit.data.exercise.ExerciseViewModel
 import com.symphony.mrfit.data.exercise.ExerciseViewModelFactory
-import com.symphony.mrfit.data.exercise.RoutineAdapter2
 import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityManualWorkoutBinding
-import com.symphony.mrfit.ui.DateTimeActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -126,12 +125,10 @@ class ManualWorkoutActivity : AppCompatActivity() {
         var selectedThing = intent.getIntExtra(SAVED_SELECTION, -999)
         var routineName = ""
         var routineID = ""
-        var selection = false
 
         fun update(name: String, id: String, num: Int) {
             routineName = name
             routineID = id
-            selection = true
             selectedThing = num
         }
 
@@ -188,7 +185,7 @@ class ManualWorkoutActivity : AppCompatActivity() {
          * The end time must not be before the start time
          */
         save.setOnClickListener {
-            if (selection) {
+            if (selectedThing >= 0) {
                 if (startTime < endTime) {
                     profileViewModel.addWorkoutToHistory(
                         History(

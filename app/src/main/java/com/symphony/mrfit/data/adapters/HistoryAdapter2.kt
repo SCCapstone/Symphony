@@ -1,10 +1,10 @@
 /*
- *  Created by Team Symphony on 4/1/23, 10:04 PM
+ *  Created by Team Symphony on 4/22/23, 8:53 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 10:04 PM
+ *  Last modified 4/22/23, 8:53 PM
  */
 
-package com.symphony.mrfit.data.exercise
+package com.symphony.mrfit.data.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -15,9 +15,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.model.History
-import java.text.SimpleDateFormat
-import java.util.*
-import java.util.concurrent.TimeUnit
+import com.symphony.mrfit.ui.Helper.humanReadableDate
+import com.symphony.mrfit.ui.Helper.humanReadableDuration
 
 /**
  * Adapter for dynamically populating a card_history with a passed list of Histories
@@ -74,14 +73,8 @@ class HistoryAdapter2(
 
     private fun buildString(i: Int): String {
         val milli = data[i].duration!!
-        val minutes = TimeUnit.MILLISECONDS.toMinutes(milli)
-        val seconds = TimeUnit.MILLISECONDS.toSeconds(milli)
-        val time = String.format("%02d:%02d", minutes, seconds)
-        val date = SimpleDateFormat(
-            "MMMM dd, yyyy",
-            Locale.getDefault()
-        )
-            .format(data[i].date!!.toDate())
+        val time = humanReadableDuration(milli)
+        val date = humanReadableDate(data[i].date!!.toDate())
         return "Exercised for $time on $date"
     }
 }

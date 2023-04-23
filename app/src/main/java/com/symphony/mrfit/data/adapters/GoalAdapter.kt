@@ -1,10 +1,10 @@
 /*
- *  Created by Team Symphony on 4/1/23, 6:27 PM
+ *  Created by Team Symphony on 4/23/23, 3:02 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/1/23, 6:27 PM
+ *  Last modified 4/23/23, 12:06 AM
  */
 
-package com.symphony.mrfit.data.exercise
+package com.symphony.mrfit.data.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -74,7 +74,7 @@ class GoalAdapter(
     }
 
     private fun buildString(i: Int): String {
-        val format = DecimalFormat("0.#")
+        val format = DecimalFormat("0.##")
         return context.getString(
             R.string.goal_format,
             format.format(data[i].progress),
