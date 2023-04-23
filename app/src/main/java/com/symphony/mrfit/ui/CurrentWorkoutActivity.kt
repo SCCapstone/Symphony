@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/22/23, 5:12 PM
+ *  Created by Team Symphony on 4/22/23, 8:53 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/22/23, 5:12 PM
+ *  Last modified 4/22/23, 8:53 PM
  */
 
 package com.symphony.mrfit.ui
@@ -30,10 +30,10 @@ import com.symphony.mrfit.data.profile.ProfileViewModel
 import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityCurrentWorkoutBinding
 import com.symphony.mrfit.ui.Helper.ZERO
+import com.symphony.mrfit.ui.Helper.humanReadableTime
 import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_LIST
 import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_STRING
 import com.symphony.mrfit.ui.WorkoutRoutineActivity.Companion.EXTRA_ROUTINE
-import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -136,17 +136,9 @@ class CurrentWorkoutActivity : AppCompatActivity() {
             materialDialog.setView(dialogView)
 
             val text = dialogView.findViewById<TextView>(R.id.postWorkoutTime)
-            val startTime = SimpleDateFormat(
-                "'You started this workout at 'hh:mm a",
-                Locale.getDefault()
-            )
-                .format(Date().time - timeSpent)
-            val endTime = SimpleDateFormat(
-                "' and finished at 'hh:mm a",
-                Locale.getDefault()
-            )
-                .format(Date())
-            var totalTime = " for a total of "
+            val startTime = humanReadableTime(Date().time - timeSpent)
+            val endTime = humanReadableTime(Date())
+            var totalTime = ""
             var hours: Long = 0
             var minutes = timeSpent / 1000 / 60
             val seconds = timeSpent / 1000 % 60
@@ -162,7 +154,7 @@ class CurrentWorkoutActivity : AppCompatActivity() {
             }
             totalTime += "$seconds seconds."
 
-            text.text = startTime + endTime + totalTime
+            text.text = getString(R.string.post_workout_message, startTime, endTime, totalTime)
 
             materialDialog.setOnCancelListener {
                 gotoHome()

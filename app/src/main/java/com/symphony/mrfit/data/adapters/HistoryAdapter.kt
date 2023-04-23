@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/22/23, 5:12 PM
+ *  Created by Team Symphony on 4/22/23, 8:53 PM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/22/23, 4:43 PM
+ *  Last modified 4/22/23, 7:45 PM
  */
 
 package com.symphony.mrfit.data.adapters
@@ -16,6 +16,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.symphony.mrfit.R
 import com.symphony.mrfit.data.model.History
+import com.symphony.mrfit.ui.Helper.humanReadableDuration
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -37,9 +38,8 @@ class HistoryAdapter (val context: Context, val data: ArrayList<History>): Recyc
         holder.historyTitle.text = data[i].name
         val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.US)
         holder.historyTimestamp.text = dateFormat.format(data[i].date!!.toDate())
-        val seconds = (data[i].duration?.div(1000))?.mod(60)
-        val minutes = (data[i].duration?.div(1000))?.div(60)
-        holder.historyDuration.text = "Exercised for $minutes:$seconds"
+        val time = humanReadableDuration(data[i].duration!!)
+        holder.historyDuration.text = "Exercised for $time"
     }
 
     override fun getItemCount(): Int {

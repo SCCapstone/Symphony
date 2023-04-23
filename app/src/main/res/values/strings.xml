@@ -1,7 +1,7 @@
 <!--
-  ~  Created by Team Symphony on 4/21/23, 3:22 PM
+  ~  Created by Team Symphony on 4/22/23, 8:53 PM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/21/23, 3:17 PM
+  ~  Last modified 4/22/23, 7:50 PM
   -->
 
 <resources>
@@ -133,6 +133,10 @@
     <string name="button_open_routine">Open this Template</string>
     <string name="button_ok">Okay</string>
     <string name="title_activity_workout_detail">WorkoutDetail</string>
+    <string name="post_workout_message">You started this workout at %s and finished at %s for a total of %s</string>
+    <string name="exercise_card_duration">Exercised for %s</string>
+    <string name="exercise_card_duration2">Exercised for %s on %s</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
