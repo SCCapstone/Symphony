@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/22/23, 5:12 PM
+ *  Created by Team Symphony on 4/24/23, 2:09 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/22/23, 4:43 PM
+ *  Last modified 4/24/23, 1:54 AM
  */
 
 package com.symphony.mrfit.ui
@@ -230,6 +230,7 @@ class GoalsActivity : AppCompatActivity() {
                         goal.goalID
                     )
                 )
+                Thread.sleep(500)
 
                 // User finished their goal, grats
                 if (newProg >= newEnd) {
@@ -255,7 +256,6 @@ class GoalsActivity : AppCompatActivity() {
          */
         fun deleteGoal(goalID: String) {
             profileViewModel.deleteGoal(goalID)
-            profileViewModel.getGoals()
         }
 
         spinner.visibility = View.VISIBLE

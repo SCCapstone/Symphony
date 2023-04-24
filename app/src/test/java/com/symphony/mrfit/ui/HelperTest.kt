@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/23/23, 3:02 AM
+ *  Created by Team Symphony on 4/24/23, 2:09 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/23/23, 3:02 AM
+ *  Last modified 4/24/23, 2:09 AM
  */
 
 package com.symphony.mrfit.ui
@@ -9,10 +9,12 @@ package com.symphony.mrfit.ui
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 import kotlin.properties.Delegates
 
 internal class HelperTest {
@@ -80,6 +82,12 @@ internal class HelperTest {
             val expected = "01:01 AM"
             assertEquals(expected, Helper.humanReadableTime(date))
         }
+
+        @Test
+        fun `calendar test`() {
+            val expected = "01:01 AM"
+            assertEquals(expected, Helper.humanReadableTime(calendar))
+        }
     }
 
     @Nested
@@ -95,6 +103,33 @@ internal class HelperTest {
             val expected = "February 01, 1999"
             assertEquals(expected, Helper.humanReadableDate(date))
         }
+
+        @Test
+        fun `calendar test`() {
+            val expected = "February 01, 1999"
+            assertEquals(expected, Helper.humanReadableDate(calendar))
+        }
+    }
+
+    @Nested
+    inner class HumanReadableShortDate {
+        @Test
+        fun `long test`() {
+            val expected = "02-01-1999"
+            assertEquals(expected, Helper.humanReadableShortDate(longTime))
+        }
+
+        @Test
+        fun `date test`() {
+            val expected = "02-01-1999"
+            assertEquals(expected, Helper.humanReadableShortDate(date))
+        }
+
+        @Test
+        fun `calendar test`() {
+            val expected = "02-01-1999"
+            assertEquals(expected, Helper.humanReadableShortDate(calendar))
+        }
     }
 
     @Nested
@@ -109,6 +144,63 @@ internal class HelperTest {
         fun `date test`() {
             val expected = "February 01, 1999 at 01:01 AM"
             assertEquals(expected, Helper.humanReadableDateTime(date))
+        }
+
+        @Test
+        fun `calendar test`() {
+            val expected = "February 01, 1999 at 01:01 AM"
+            assertEquals(expected, Helper.humanReadableDateTime(calendar))
+        }
+    }
+
+    @Nested
+    inner class SillyTests {
+        @Test
+        fun `equal add`() {
+            val expected = 5
+            assertEquals(expected, Helper.myAdd(2, 3))
+        }
+
+        @Test
+        fun `not equal add`() {
+            val unexpected = -5
+            assertNotEquals(unexpected, Helper.myAdd(2, 3))
+        }
+
+        @Test
+        fun `equal sub`() {
+            val expected = -1
+            assertEquals(expected, Helper.mySub(2, 3))
+        }
+
+        @Test
+        fun `not equal sub`() {
+            val unexpected = 1
+            assertNotEquals(unexpected, Helper.mySub(2, 3))
+        }
+
+        @Test
+        fun `equal multi`() {
+            val expected = 6
+            assertEquals(expected, Helper.myMulti(2, 3))
+        }
+
+        @Test
+        fun `not equal multi`() {
+            val unexpected = -6
+            assertNotEquals(unexpected, Helper.myMulti(2, 3))
+        }
+
+        @Test
+        fun `equal div`() {
+            val expected = 0
+            assertEquals(expected, Helper.myDiv(2, 3))
+        }
+
+        @Test
+        fun `not equal div`() {
+            val unexpected = 1
+            assertNotEquals(unexpected, Helper.myDiv(2, 3))
         }
     }
 

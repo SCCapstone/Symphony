@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/20/23, 7:03 PM
+ *  Created by Team Symphony on 4/24/23, 2:09 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/20/23, 6:13 PM
+ *  Last modified 4/24/23, 1:58 AM
  */
 
 package com.symphony.mrfit.ui
@@ -16,6 +16,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -80,6 +81,7 @@ class NotificationActivity : AppCompatActivity() {
             if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
                 // Do not allow an empty message
                 if (binding.messageET.text!!.isNotEmpty()) {
+                    binding.loadingSpinner.visibility = View.VISIBLE
                     scheduleNotification()
                 } else {
                     Toast.makeText(

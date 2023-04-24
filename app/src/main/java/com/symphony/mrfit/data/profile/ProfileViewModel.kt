@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/19/23, 7:07 PM
+ *  Created by Team Symphony on 4/24/23, 2:09 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/19/23, 6:49 PM
+ *  Last modified 4/24/23, 2:09 AM
  */
 
 package com.symphony.mrfit.data.profile
@@ -65,8 +65,9 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
     }
 
     fun addWorkoutToHistory(history: History) {
-        viewModelScope.launch {
-            userRepository.addWorkoutHistory(history)
+        runBlocking {
+            val job = launch { userRepository.addWorkoutHistory(history) }
+            job.join()
         }
     }
 
@@ -83,8 +84,9 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
     }
 
     fun addNotification(notification: Notification) {
-        viewModelScope.launch {
-            userRepository.addNotification(notification)
+        runBlocking {
+            val job = launch { userRepository.addNotification(notification) }
+            job.join()
         }
     }
 
@@ -101,8 +103,9 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
     }
 
     fun addGoal(goal: Goal) {
-        viewModelScope.launch {
-            userRepository.addGoal(goal)
+        runBlocking {
+            val job = launch { userRepository.addGoal(goal) }
+            job.join()
         }
     }
 

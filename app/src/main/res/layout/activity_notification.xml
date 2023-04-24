@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 4/7/23, 7:13 PM
+  ~  Created by Team Symphony on 4/24/23, 2:09 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 4/7/23, 6:43 PM
+  ~  Last modified 4/24/23, 2:09 AM
   -->
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_notifActivity"
     android:layout_width="match_parent"
@@ -79,7 +80,7 @@
         android:layout_gravity="center"
         android:text="Schedule Notification"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/textView7"
@@ -87,5 +88,18 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Please make sure notifications are enabled for MrFit" />
+
+    <ProgressBar
+        android:id="@+id/loadingSpinner"
+        style="@android:style/Widget.ProgressBar.Inverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
 
 </LinearLayout>

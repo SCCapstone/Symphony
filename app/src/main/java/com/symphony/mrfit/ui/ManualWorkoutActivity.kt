@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/22/23, 5:12 PM
+ *  Created by Team Symphony on 4/24/23, 2:09 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/22/23, 5:12 PM
+ *  Last modified 4/24/23, 1:49 AM
  */
 
 package com.symphony.mrfit.ui
@@ -12,6 +12,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -123,8 +124,8 @@ class ManualWorkoutActivity : AppCompatActivity() {
         val save = binding.saveManualWorkoutButton
 
         var selectedThing = intent.getIntExtra(SAVED_SELECTION, -999)
-        var routineName = ""
-        var routineID = ""
+        var routineName = intent.getStringExtra(SAVED_NAME)
+        var routineID = intent.getStringExtra(SAVED_ID)
 
         fun update(name: String, id: String, num: Int) {
             routineName = name
@@ -159,6 +160,8 @@ class ManualWorkoutActivity : AppCompatActivity() {
             intent.putExtra(SAVED_START, startTime)
             intent.putExtra(SAVED_END, endTime)
             intent.putExtra(SAVED_SELECTION, selectedThing)
+            intent.putExtra(SAVED_NAME, routineName)
+            intent.putExtra(SAVED_ID, routineID)
             intent.putExtra(TIME_DIFF, endTime - startTime)
             val picker = Intent(this, DateTimeActivity::class.java)
             picker.putExtra(EXTRA_TIME, startTime)
@@ -173,6 +176,8 @@ class ManualWorkoutActivity : AppCompatActivity() {
             intent.putExtra(SAVED_START, startTime)
             intent.putExtra(SAVED_END, endTime)
             intent.putExtra(SAVED_SELECTION, selectedThing)
+            intent.putExtra(SAVED_NAME, routineName)
+            intent.putExtra(SAVED_ID, routineID)
             intent.putExtra(TIME_DIFF, endTime - startTime)
             val picker = Intent(this, DateTimeActivity::class.java)
             picker.putExtra(EXTRA_TIME, endTime)
@@ -187,9 +192,10 @@ class ManualWorkoutActivity : AppCompatActivity() {
         save.setOnClickListener {
             if (selectedThing >= 0) {
                 if (startTime < endTime) {
+                    binding.loadingSpinner.visibility = View.VISIBLE
                     profileViewModel.addWorkoutToHistory(
                         History(
-                            routineName,
+                            routineName!!,
                             Timestamp(Date(startTime)),
                             endTime - startTime,
                             routineID
@@ -228,6 +234,8 @@ class ManualWorkoutActivity : AppCompatActivity() {
         const val SAVED_START = "saved start time"
         const val SAVED_END = "saved end time"
         const val SAVED_SELECTION = "saved selection"
+        const val SAVED_NAME = "saved name"
+        const val SAVED_ID = "saved id"
         const val TIME_DIFF = "difference between times"
         const val ONE_MINUTE = 60000
     }

@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/22/23, 6:21 AM
+ *  Created by Team Symphony on 4/24/23, 2:09 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/22/23, 6:05 AM
+ *  Last modified 4/24/23, 1:45 AM
  */
 
 package com.symphony.mrfit.data.profile
@@ -170,6 +170,8 @@ class UserRepository {
             } catch (e: java.lang.Exception) {
                 Log.d(TAG, "Error getting documents: ", e)
             }
+            historyList.sortWith(compareBy { it.date })
+            historyList.reverse()
             return historyList
         } else {
             return historyList
@@ -323,6 +325,7 @@ class UserRepository {
             } catch (e: java.lang.Exception) {
                 Log.d(TAG, "Error getting documents: ", e)
             }
+            goalList.reverse()
             return goalList
         }
     }

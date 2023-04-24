@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/23/23, 3:14 PM
+ *  Created by Team Symphony on 4/24/23, 2:09 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/23/23, 3:14 PM
+ *  Last modified 4/24/23, 12:13 AM
  */
 
 package com.symphony.mrfit.ui
@@ -48,7 +48,7 @@ class WorkoutTemplateActivity : AppCompatActivity() {
             } else if (result.resultCode == Activity.RESULT_CANCELED) {
                 // User did not pick an exercise
                 // If this was supposed to be a new exercise, finish activity to return
-                if (status == getString(R.string.picking_exercise))
+                if (intent.getBooleanExtra(SKIP_FLAG, false))
                     finish()
             }
         }
@@ -94,7 +94,7 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         // If this is a new exercise, skip past this screen
         status = intent.getStringExtra(EXTRA_STRING).toString()
         if (status == getString(R.string.new_exercise)) {
-            intent.putExtra(EXTRA_STRING, getString(R.string.picking_exercise))
+            intent.putExtra(SKIP_FLAG, true)
             gotoExerciseScreen()
         }
 
@@ -275,5 +275,6 @@ class WorkoutTemplateActivity : AppCompatActivity() {
         const val PLACEHOLDER_REPS = 0
         const val PLACEHOLDER_SETS = 0
         const val INT_NULL = -99999
+        const val SKIP_FLAG = "should immediately finish"
     }
 }

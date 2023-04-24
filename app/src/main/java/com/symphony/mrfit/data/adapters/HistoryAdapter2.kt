@@ -1,12 +1,13 @@
 /*
- *  Created by Team Symphony on 4/22/23, 8:53 PM
+ *  Created by Team Symphony on 4/24/23, 2:09 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/22/23, 8:53 PM
+ *  Last modified 4/24/23, 2:09 AM
  */
 
 package com.symphony.mrfit.data.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,6 +44,7 @@ class HistoryAdapter2(
         holder.historyProgress.text = buildString(i)
 
         holder.deleteButton.setOnClickListener {
+            Log.e("Adapter", "Accessing $i of ${data[i]}")
             delete(data[i].historyID!!)
             data.removeAt(i)
             notifyItemRemoved(i)

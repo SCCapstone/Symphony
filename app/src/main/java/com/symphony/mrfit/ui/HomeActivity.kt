@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/22/23, 5:12 PM
+ *  Created by Team Symphony on 4/24/23, 2:09 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/22/23, 4:56 PM
+ *  Last modified 4/24/23, 1:45 AM
  */
 
 package com.symphony.mrfit.ui
@@ -123,6 +123,11 @@ class HomeActivity : AppCompatActivity() {
 
         startWorkout.setOnClickListener {
             val intent = Intent(this, RoutineSelectionActivity::class.java)
+            startActivity(intent)
+        }
+
+        historyList.setOnClickListener {
+            val intent = Intent(this, WorkoutHistoryActivity::class.java)
             startActivity(intent)
         }
     }

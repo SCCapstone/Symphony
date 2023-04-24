@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/22/23, 5:12 PM
+ *  Created by Team Symphony on 4/24/23, 2:09 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/22/23, 4:43 PM
+ *  Last modified 4/24/23, 1:58 AM
  */
 
 package com.symphony.mrfit.ui
@@ -108,7 +108,6 @@ class CustomExercisesActivity : AppCompatActivity() {
      */
     private fun deleteExercise(exeID: String) {
         exerciseViewModel.deleteExercise(exeID)
-        exerciseViewModel.getExercisesByUser()
     }
 
     /**
@@ -173,6 +172,7 @@ class CustomExercisesActivity : AppCompatActivity() {
          */
         materialDialog.setPositiveButton(getString(R.string.button_save)) { dialog, _ ->
             if (name.text.isNotEmpty()) {
+                binding.loadingSpinner.visibility = View.VISIBLE
                 val newName = name.text.toString()
                 var newDesc = ""
                 if (desc.text.isNotEmpty())
