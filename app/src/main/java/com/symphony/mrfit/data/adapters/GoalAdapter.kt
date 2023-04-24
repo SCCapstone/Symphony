@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/23/23, 3:02 AM
+ *  Created by Team Symphony on 4/24/23, 3:50 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/23/23, 12:06 AM
+ *  Last modified 4/24/23, 3:49 AM
  */
 
 package com.symphony.mrfit.data.adapters

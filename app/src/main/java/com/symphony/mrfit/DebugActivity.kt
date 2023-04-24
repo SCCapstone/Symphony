@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/2/23, 3:50 AM
+ *  Created by Team Symphony on 4/24/23, 3:50 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/2/23, 1:08 AM
+ *  Last modified 4/24/23, 3:50 AM
  */
 
 package com.symphony.mrfit
@@ -10,7 +10,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.symphony.mrfit.databinding.ActivityDebugBinding
-import com.symphony.mrfit.ui.*
+import com.symphony.mrfit.ui.LoginActivity
+import com.symphony.mrfit.ui.NotificationActivity
+import com.symphony.mrfit.ui.RegisterActivity
+import com.symphony.mrfit.ui.UserProfileActivity
+import com.symphony.mrfit.ui.WorkoutRoutineActivity
 
 /**
  * Menu for instantly navigating to any page for debug and testing

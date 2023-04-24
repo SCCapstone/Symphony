@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/22/23, 8:53 PM
+ *  Created by Team Symphony on 4/24/23, 3:50 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/22/23, 8:53 PM
+ *  Last modified 4/24/23, 3:50 AM
  */
 
 package com.symphony.mrfit.ui
@@ -34,7 +34,7 @@ import com.symphony.mrfit.ui.Helper.humanReadableTime
 import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_LIST
 import com.symphony.mrfit.ui.RoutineSelectionActivity.Companion.EXTRA_STRING
 import com.symphony.mrfit.ui.WorkoutRoutineActivity.Companion.EXTRA_ROUTINE
-import java.util.*
+import java.util.Date
 
 /**
  * Screen for the user to keep track of their current Workout Routine.

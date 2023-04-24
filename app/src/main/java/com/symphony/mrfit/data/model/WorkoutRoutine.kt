@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 3/30/23, 3:45 PM
+ *  Created by Team Symphony on 4/24/23, 3:50 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 3/30/23, 1:57 PM
+ *  Last modified 4/24/23, 3:49 AM
  */
 
 package com.symphony.mrfit.data.model

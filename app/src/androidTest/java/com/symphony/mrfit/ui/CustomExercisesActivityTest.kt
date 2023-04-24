@@ -1,10 +1,10 @@
-package com.symphony.mrfit.ui
+/*
+ *  Created by Team Symphony on 4/24/23, 3:50 AM
+ *  Copyright (c) 2023 . All rights reserved.
+ *  Last modified 4/24/23, 3:50 AM
+ */
 
-import androidx.test.core.app.ApplicationProvider
-import com.symphony.mrfit.data.exercise.ExerciseViewModel
-import com.symphony.mrfit.data.model.Exercise
-import org.junit.Assert.*
-import org.junit.Before
+package com.symphony.mrfit.ui
 
 import org.junit.Test
 
@@ -14,12 +14,15 @@ class CustomExercisesActivityTest {
     @Test
     fun onCreate() {
     }
+
     @Test
     fun onStart() {
     }
+
     @Test
     fun onSupportNavigateUp() {
     }
+
     @Test
     fun deleteExercise(){
     }

@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 4/22/23, 5:12 PM
+ *  Created by Team Symphony on 4/24/23, 3:50 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/22/23, 4:56 PM
+ *  Last modified 4/24/23, 3:50 AM
  */
 
 package com.symphony.mrfit.ui
@@ -27,7 +27,7 @@ import com.symphony.mrfit.data.profile.ProfileViewModelFactory
 import com.symphony.mrfit.databinding.ActivityWorkoutHistoryBinding
 import com.symphony.mrfit.ui.WorkoutTemplateActivity.Companion.EXTRA_IDENTITY
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 
 /**
  * Screen for the User to manage their workout History
