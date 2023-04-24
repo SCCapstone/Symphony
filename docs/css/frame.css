@@ -1340,7 +1340,7 @@ ol.nested>li:before {
 
 @media screen and (min-width: 900px) {
   .flex-item-stretch {
-    flex: 1;
+    /*flex: 1;*/
   }
 
   .flex-item-stretch-2 {
