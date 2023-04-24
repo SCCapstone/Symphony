@@ -1,12 +1,13 @@
 /*
- *  Created by Team Symphony on 4/24/23, 2:09 AM
+ *  Created by Team Symphony on 4/24/23, 3:48 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 4/24/23, 2:09 AM
+ *  Last modified 4/24/23, 3:48 AM
  */
 
 package com.symphony.mrfit.data.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import com.symphony.mrfit.R
 import com.symphony.mrfit.data.model.History
 import com.symphony.mrfit.ui.Helper.humanReadableDuration
 import com.symphony.mrfit.ui.Helper.humanReadableShortDate
+import com.symphony.mrfit.ui.WorkoutHistoryActivity
 import java.util.*
 
 /**
@@ -39,6 +41,11 @@ class HistoryAdapter (val context: Context, val data: ArrayList<History>): Recyc
         holder.historyTimestamp.text = humanReadableShortDate(data[i].date!!.toDate())
         val time = humanReadableDuration(data[i].duration!!)
         holder.historyDuration.text = "Exercised for $time"
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, WorkoutHistoryActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {
