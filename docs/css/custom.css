@@ -34,7 +34,7 @@
 }
 
 #demo-video {
-  max-width: 400px;
+  max-width: 4000px;
 }
 @media screen and (min-width: 900px) {
   .flex-item-stretch-demo-video {
