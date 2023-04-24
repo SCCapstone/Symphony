@@ -1,6 +1,6 @@
 # MRFIT
 
-Description: This is a workout app that will allow users to track their progress in the gym. It will also allow users to share workouts with friends and create workout templates.
+Description: This is a workout app that will allow users to track their progress in the gym. By creating custom workout templates and exercises, a user can keep track of what they want to do when they hit the gym, and their past progress. They may also create goals to aspire towards, and notifications to keep themselves motivated.
 
 Style Guide: https://developer.android.com/kotlin/style-guide
 
@@ -10,13 +10,12 @@ If not using an IDE with a built-in emulator such as [Android Studio](https://de
 
 ## Setup
 
-Due to integration with Firebase modules, you must make and add the app to a project in the [Firebase Console].
+Due to integration with Firebase modules, if building this project you must make and add the app to a project in the [Firebase Console].
 
 The required modules include:
 * Authentication, with the following methods enabled:
   * Email/Password
   * Google
-  * Facebook
 * Storage
 * Firestore Database
 
@@ -26,13 +25,19 @@ The unit tests are in `MrFit.app.unitTest`.
 
 The behavioral tests are in `MrFit.app.androidTest`.
 
+# Creating Tests
+
+MrFit should come with the necessary tests, but if needed both tests may be built by going into *Run* > *Edit Configurations*
+
+For the unit test, create a new JUnit test, with `MrFit.app.unitTest` as its module, and `HelperTest` as its class.
+
+For the behavioral test, create a new Android Instrumented Test, with `MrFit.app.androidTest` as its module.
+
 ## Running Tests in Android Studio
 
-For both types of tests, start by going into *Run* > *Edit Configurations*
+To run the unit test, select and run the `HelperTest` configuration.
 
-For unit tests, create a new JUnit4 test. For the module select `MrFit.app.unitTest`, and then select the class of the unit test you want to run.
-
-To run behavioral tests, ![](../../AppData/Local/Temp/profilepicturev2.jpg)create a new Android Instrumented Test pointed at `MrFit.app.androidTest`, then run this new configuration.
+To fun the behavioral test, select and run the `All Behavioral Tests` configuration.
 
 # Authors
 
