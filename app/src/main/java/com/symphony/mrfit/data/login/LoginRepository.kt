@@ -1,13 +1,14 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 4/24/23, 3:50 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 4/24/23, 3:49 AM
  */
 
 package com.symphony.mrfit.data.login
 
 import android.app.Activity
 import android.content.ContentValues.TAG
+import android.net.Uri
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -85,7 +86,7 @@ class LoginRepository {
         Firebase.auth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d(TAG, "Email sent.")
+                    Log.d(TAG, "Email sent to $email")
                 }
             }
     }
@@ -101,10 +102,8 @@ class LoginRepository {
     /**
      * Say goodbye to our lovely user. Remove them from Auth and Database
      */
-    fun delete(){
+    suspend fun delete() {
         val user = firebaseAuth.currentUser!!
-
-        userRepository.removeUser()
 
         user.delete()
             .addOnCompleteListener { task ->
@@ -112,6 +111,11 @@ class LoginRepository {
                     Log.d(TAG, "User account deleted.")
                 }
             }
+            .addOnFailureListener { e ->
+                Log.d(TAG, "Account deletion failed: $e")
+            }
+
+        userRepository.removeUser()
     }
 
     /**
@@ -147,6 +151,7 @@ class LoginRepository {
     private suspend fun addNewUser(user: User) {
         Log.d(TAG, "Telling repo to add ${currentUser?.name} to the database")
         userRepository.addNewUser(user)
+        userRepository.changeProfilePicture(Uri.parse("android.resource://com.symphony.mrfit/drawable/placeholder_profile_picture"))
     }
 
     /**

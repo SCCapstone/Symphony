@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/25/23, 12:28 AM
+ *  Created by Team Symphony on 4/24/23, 3:50 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/25/23, 12:06 AM
+ *  Last modified 4/24/23, 3:49 AM
  */
 
 package com.symphony.mrfit.data.model
@@ -13,7 +13,7 @@ package com.symphony.mrfit.data.model
 data class WorkoutRoutine(
     val name: String = "",
     val ownerID: String = "",
-    val description: String? = null,
+    val playlist: String? = null,
     val workoutList: ArrayList<String>? = null,
     val routineID: String = ""
 )

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 2/26/23, 11:03 AM
+  ~  Created by Team Symphony on 4/24/23, 3:50 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 2/26/23, 11:00 AM
+  ~  Last modified 4/24/23, 3:49 AM
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,35 +26,72 @@
         android:theme="@style/Theme.MrFit"
         tools:targetApi="31">
         <activity
+            android:name=".ui.DateTimeActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity" />
+        <activity
+            android:name=".ui.ManualWorkoutActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity" />
+        <activity
+            android:name=".ui.CustomExercisesActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity" />
+        <activity
+            android:name=".ui.CalendarActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity" />
+        <activity
+            android:name=".ui.PostWorkoutActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity" />
+        <activity
+            android:name=".ui.WorkoutHistoryActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity" />
+        <activity
+            android:name=".ui.GoalsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity" />
+        <activity
+            android:name=".ui.NotificationLogActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity" />
+        <activity
             android:name=".AddStockExercises"
             android:exported="false" />
         <activity
             android:name=".ui.CurrentWorkoutActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity" />
         <activity
             android:name=".ui.RoutineSelectionActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".ui.ExerciseActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".ui.HomeActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".ui.NotificationActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -65,22 +102,17 @@
             android:enabled="true" />
 
         <activity
-            android:name=".ui.Calendar"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".ui.UserProfileActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".ui.RegisterActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -94,7 +126,8 @@
         </activity>
         <activity
             android:name=".ui.LoginActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -115,22 +148,16 @@
         <activity
             android:name=".ui.WorkoutRoutineActivity"
             android:exported="false"
+            android:parentActivityName=".ui.MainActivity"
             android:windowSoftInputMode="adjustPan">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-
-        <activity
-            android:name=".ui.StoreActivity"
-            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".ui.WorkoutTemplateActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

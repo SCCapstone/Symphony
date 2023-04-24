@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~  Created by Team Symphony on 4/24/23, 3:50 AM
+  ~  Copyright (c) 2023 . All rights reserved.
+  ~  Last modified 4/24/23, 3:49 AM
+  -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid
+        android:angle="270"
+        android:color="@color/garnet" />
+</shape>

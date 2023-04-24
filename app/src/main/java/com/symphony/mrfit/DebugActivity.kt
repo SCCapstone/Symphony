@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/24/23, 11:21 PM
+ *  Created by Team Symphony on 4/24/23, 3:50 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/24/23, 11:20 PM
+ *  Last modified 4/24/23, 3:50 AM
  */
 
 package com.symphony.mrfit
@@ -10,7 +10,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.symphony.mrfit.databinding.ActivityDebugBinding
-import com.symphony.mrfit.ui.*
+import com.symphony.mrfit.ui.LoginActivity
+import com.symphony.mrfit.ui.NotificationActivity
+import com.symphony.mrfit.ui.RegisterActivity
+import com.symphony.mrfit.ui.UserProfileActivity
+import com.symphony.mrfit.ui.WorkoutRoutineActivity
 
 /**
  * Menu for instantly navigating to any page for debug and testing
@@ -47,11 +51,6 @@ class DebugActivity : AppCompatActivity() {
 
         profile.setOnClickListener {
             val intent = Intent(this, UserProfileActivity::class.java)
-            startActivity(intent)
-        }
-
-        calendar.setOnClickListener {
-            val intent = Intent(this, Calendar::class.java)
             startActivity(intent)
         }
 

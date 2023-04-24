@@ -1,7 +1,7 @@
 <!--
-  ~  Created by Team Symphony on 2/24/23, 11:21 PM
+  ~  Created by Team Symphony on 4/24/23, 3:50 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 2/24/23, 11:20 PM
+  ~  Last modified 4/24/23, 3:49 AM
   -->
 
 <resources>
@@ -19,4 +19,13 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="Theme.MrFit.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.MrFit.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.MrFit.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

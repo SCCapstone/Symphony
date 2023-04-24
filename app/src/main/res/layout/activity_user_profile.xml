@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~  Created by Team Symphony on 2/26/23, 9:27 AM
+  ~  Created by Team Symphony on 4/24/23, 3:50 AM
   ~  Copyright (c) 2023 . All rights reserved.
-  ~  Last modified 2/26/23, 9:22 AM
+  ~  Last modified 4/24/23, 3:49 AM
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_profileActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.UserProfileActivity">
@@ -15,7 +16,9 @@
     <ScrollView
         android:id="@+id/profileScreenView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,6 +29,7 @@
                 android:id="@+id/linearLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/dropshadow_background"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -33,8 +37,9 @@
                     android:id="@+id/profilePicture"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
-                    android:layout_margin="3dp"
-                    app:srcCompat="@drawable/cactuar"
+                    android:layout_margin="6dp"
+                    android:contentDescription="@string/profile_picture"
+                    app:srcCompat="@drawable/placeholder_profile_picture"
                     tools:ignore="ImageContrastCheck" />
 
                 <TextView
@@ -42,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="@string/PLACEHOLDER_TEXT"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -62,7 +67,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="363dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:baselineAligned="false"
                     android:orientation="horizontal">
@@ -73,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        android:background="#EEEEEE"
+                        android:background="@drawable/dropshadow_background"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="5dp">
@@ -82,13 +87,15 @@
                             android:id="@+id/heightValueTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/PLACEHOLDER_NUMBER" />
+                            android:text="--"
+                            android:textColor="@color/black" />
 
                         <TextView
                             android:id="@+id/heightLabelTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
+                            android:textColor="@color/black"
                             android:text="@string/label_height" />
                     </LinearLayout>
 
@@ -98,7 +105,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        android:background="#EEEEEE"
+                        android:background="@drawable/dropshadow_background"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="5dp">
@@ -107,13 +114,15 @@
                             android:id="@+id/weightValueTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/PLACEHOLDER_NUMBER" />
+                            android:text="--"
+                            android:textColor="@color/black" />
 
                         <TextView
                             android:id="@+id/weightLabelTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
+                            android:textColor="@color/black"
                             android:text="@string/label_weight" />
                     </LinearLayout>
 
@@ -123,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        android:background="#EEEEEE"
+                        android:background="@drawable/dropshadow_background"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="5dp">
@@ -132,25 +141,28 @@
                             android:id="@+id/ageValueTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/PLACEHOLDER_NUMBER" />
+                            android:text="--"
+                            android:textColor="@color/black" />
 
                         <TextView
                             android:id="@+id/ageLabelTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
+                            android:textColor="@color/black"
                             android:text="@string/label_age" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/stuffLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="10dp"
-                    android:background="#EEEEEE"
+                    android:background="@drawable/dropshadow_background"
                     android:orientation="vertical"
                     android:padding="5dp">
 
@@ -158,7 +170,8 @@
                         android:id="@+id/accountLabelTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/user_progress_label" />
+                        android:textColor="@color/black"
+                        android:text="@string/user_stuff_label" />
 
                     <Button
                         android:id="@+id/goalsButton"
@@ -167,10 +180,10 @@
                         android:text="@string/goals_button" />
 
                     <Button
-                        android:id="@+id/achievementsButton"
+                        android:id="@+id/notificationsButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/button_achievements" />
+                        android:text="@string/button_notifications" />
 
                     <Button
                         android:id="@+id/historyButton"
@@ -179,19 +192,22 @@
                         android:text="@string/button_workout_history" />
 
                     <Button
-                        android:id="@+id/progressButton"
+                        android:id="@+id/customExercisesButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/button_workout_progress" />
+                        android:text="@string/button_custom_exercises" />
+
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/settingLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:background="#EEEEEE"
-                    android:orientation="vertical">
+                    android:background="@drawable/dropshadow_background"
+                    android:orientation="vertical"
+                    android:padding="5dp">
 
                     <TextView
                         android:id="@+id/settingsLabelTextView"
@@ -199,12 +215,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
+                        android:textColor="@color/black"
                         android:text="@string/label_settings" />
 
                     <LinearLayout
+                        android:id="@+id/notificationToggle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <ImageView
                             android:id="@+id/notificationToggleImage"
@@ -214,7 +233,7 @@
                             android:layout_weight="1"
                             app:layout_constraintDimensionRatio="1:1"
                             app:srcCompat="@android:drawable/ic_lock_silent_mode"
-                            tools:ignore="ImageContrastCheck" />
+                            tools:ignore="ContentDescription,ImageContrastCheck" />
 
                         <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/notificationsSwitch"
@@ -224,36 +243,8 @@
                             android:layout_weight="1"
                             android:checked="true"
                             android:switchMinWidth="60dp"
+                            android:textColor="@color/black"
                             android:text="@string/label_push_notifications" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/imageView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            app:srcCompat="@android:drawable/ic_menu_view"
-                            tools:ignore="ImageContrastCheck" />
-
-                        <TextView
-                            android:id="@+id/textView2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/label_profile_visibility" />
-
-                        <Spinner
-                            android:id="@+id/spinner"
-                            android:layout_width="wrap_content"
-                            android:layout_height="48dp"
-                            android:layout_weight="1"
-                            android:entries="@array/privacy_array" />
                     </LinearLayout>
 
                     <Button

@@ -1,7 +1,7 @@
 /*
- *  Created by Team Symphony on 2/25/23, 1:42 AM
+ *  Created by Team Symphony on 4/24/23, 3:50 AM
  *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 2/25/23, 1:42 AM
+ *  Last modified 4/24/23, 3:49 AM
  */
 
 package com.symphony.mrfit.data.model
@@ -15,5 +15,7 @@ import com.google.firebase.Timestamp
 data class History(
     val name: String = "",
     val date: Timestamp? = null,
-    val duration: Long? = null
+    val duration: Long? = null,
+    val routine: String? = null,
+    val historyID: String? = null
 )
